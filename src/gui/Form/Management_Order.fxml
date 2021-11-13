@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-radius: 10px;" styleClass="pnl_view" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Management_OrderController">
+   <children>
+      <Pane fx:id="pnl_Title" prefHeight="50.0" prefWidth="1300.0">
+         <children>
+            <Label layoutX="20.0" layoutY="10.0" text="Order Management" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Table2" layoutY="420.0" opacity="0.0" prefHeight="400.0">
+         <children>
+            <ScrollPane fx:id="pnl_ScrollList1" prefHeight="350.0" prefWidth="950.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+               <content>
+                  <Pane id="tex" fx:id="pnl_List1" prefHeight="400.0" prefWidth="935.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+                     <children>
+                        <GridPane fx:id="box_ListProduct1" layoutX="50.0" prefHeight="200.0" prefWidth="760.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </Pane>
+               </content>
+            </ScrollPane>
+            <Pane fx:id="pnl_Order_Info1" layoutY="360.0" prefHeight="40.0" prefWidth="950.0" style="-fx-background-color: #393939; -fx-background-radius: 10px;">
+               <children>
+                  <HBox layoutX="770.0" layoutY="5.0">
+                     <children>
+                        <Label layoutX="800.0" layoutY="5.0" text="Total :" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" layoutX="800.0" layoutY="5.0" prefHeight="30.0" prefWidth="86.0" text="0$" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <ScrollPane fx:id="pnl_ScrollList" layoutY="420.0" prefHeight="400.0" prefWidth="950.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+         <content>
+            <Pane id="tex" fx:id="pnl_List" prefHeight="400.0" prefWidth="935.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+               <children>
+                  <VBox fx:id="box_ListProduct" layoutY="5.0" prefHeight="200.0" prefWidth="930.0" spacing="10.0" styleClass="main_background3" />
+               </children></Pane>
+         </content>
+      </ScrollPane>
+      <Pane fx:id="pnl_List_Controller" layoutX="960.0" layoutY="370.0" prefHeight="450.0" prefWidth="330.0" style="-fx-background-color: #393939; -fx-background-radius: 10px;">
+         <children>
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="311.0" spacing="1.0" styleClass="pnl_view">
+               <children>
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
+               </children>
+            </HBox>
+            <VBox layoutX="21.0" layoutY="65.0" spacing="20.0">
+               <children>
+                  <JFXButton prefHeight="50.0" prefWidth="290.0" styleClass="ipad-dark-grey" text="Name">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton layoutX="21.0" layoutY="65.0" prefHeight="50.0" prefWidth="290.0" styleClass="ipad-dark-grey" text="Price">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton layoutX="31.0" layoutY="125.0" prefHeight="50.0" prefWidth="290.0" styleClass="ipad-dark-grey" text="Date">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton layoutX="28.0" layoutY="165.0" prefHeight="50.0" prefWidth="290.0" styleClass="ipad-dark-grey" text="Sale">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="50.0" prefWidth="290.0" styleClass="ipad-dark-grey" text="Purchase">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Order_Info" layoutX="10.0" layoutY="50.0" prefHeight="310.0" prefWidth="680.0" style="-fx-background-color: #393939; -fx-background-radius: 10px;">
+         <children>
+            <Separator layoutY="50.0" prefWidth="680.0" />
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/order18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="60.0" text="Order ID" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="20.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter order ID..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <Label layoutX="20.0" layoutY="10.0" text="Order Information" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="360.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter Customer ID..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <Label layoutX="385.0" layoutY="60.0" text="Customer ID" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="360.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/id16.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="140.0" text="Customer Name" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/tag16.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="360.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/calendar18.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="pnl_CreationDate" layoutX="353.0" layoutY="165.0" prefHeight="30.0" prefWidth="250.0" />
+            <Label layoutX="385.0" layoutY="140.0" text="Creation Date" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <HBox layoutX="82.0" layoutY="265.0" prefHeight="31.0" prefWidth="517.0" spacing="10.0">
+               <children>
+                  <JFXButton layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type1" text="Clear" />
+                  <JFXButton layoutX="550.0" layoutY="740.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type1" text="Add" />
+                  <JFXButton layoutX="660.0" layoutY="740.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type1" text="Update" />
+                  <JFXButton layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type2" text="Delete" />
+               </children>
+            </HBox>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/process18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="220.0" text="Status" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <HBox layoutX="137.0" layoutY="222.0" spacing="30.0">
+               <children>
+                  <JFXRadioButton layoutX="104.0" layoutY="217.0" styleClass="text_input" text="Processing" />
+                  <JFXRadioButton layoutX="114.0" layoutY="227.0" styleClass="text_input" text="Accepted" />
+                  <JFXRadioButton layoutX="124.0" layoutY="237.0" styleClass="text_input" text="Refunded" />
+               </children>
+            </HBox>
+            <Label layoutX="20.0" layoutY="165.0" prefHeight="30.0" prefWidth="200.0" text="John Doe" textFill="#fcfcfc">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_OrderDetail_Info" layoutX="700.0" layoutY="50.0" prefHeight="310.0" prefWidth="590.0" style="-fx-background-color: #393939; -fx-background-radius: 10px;">
+         <children>
+            <Separator layoutY="50.0" prefHeight="3.0" prefWidth="590.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Order Details" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/id16.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="60.0" text="Product ID" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="20.0" layoutY="85.0" prefHeight="31.0" prefWidth="250.0" promptText="Enter Category ID..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <Label layoutX="285.0" layoutY="140.0" text="Price (after sale)" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="260.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/id16.png" />
+               </image>
+            </ImageView>
+            <HBox layoutX="260.0" layoutY="165.0" prefHeight="30.0" prefWidth="150.0">
+               <children>
+                  <Label layoutX="190.0" layoutY="165.0" prefHeight="30.0" prefWidth="88.0" text="0.00$" textFill="#fcfcfc">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="200.0" layoutY="175.0" prefHeight="30.0" prefWidth="88.0" text="(-20%)" textFill="#fcfcfc">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label layoutX="45.0" layoutY="140.0" text="Product Name" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/id16.png" />
+               </image>
+            </ImageView>
+            <JFXButton layoutX="290.0" layoutY="85.0" prefHeight="31.0" prefWidth="120.0" style="-fx-background-radius: 5px;" styleClass="button_type" text="Find" />
+            <Label layoutX="20.0" layoutY="165.0" prefHeight="30.0" prefWidth="135.0" text="Minecraft" textFill="#fcfcfc">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/id16.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="220.0" text="Discount Code" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="20.0" layoutY="245.0" prefHeight="31.0" prefWidth="250.0" promptText="Enter code..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <VBox layoutX="445.0" layoutY="80.0" spacing="20.0">
+               <children>
+                  <JFXButton layoutX="110.0" layoutY="215.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type1" text="Clear" />
+                  <JFXButton layoutX="240.0" layoutY="215.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type1" text="Add" />
+                  <JFXButton layoutX="370.0" layoutY="215.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type1" text="Update" />
+                  <JFXButton layoutX="500.0" layoutY="230.0" prefHeight="30.0" prefWidth="120.0" styleClass="button_type2" text="Delete" />
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Tabs" layoutY="370.0" prefHeight="50.0" prefWidth="950.0">
+         <children>
+            <HBox layoutX="53.0" prefHeight="40.0" prefWidth="517.0" spacing="20.0">
+               <children>
+                  <JFXButton fx:id="bt1" focusTraversable="false" layoutX="200.0" layoutY="10.0" prefHeight="40.0" prefWidth="300.0" styleClass="button_type3" text="List Order" textFill="WHITE" />
+                  <JFXButton fx:id="bt2" focusTraversable="false" prefHeight="40.0" prefWidth="300.0" styleClass="button_type3" text="Order Details" textFill="WHITE" />
+               </children>
+            </HBox>
+            <TextField focusTraversable="false" layoutX="699.0" layoutY="2.0" prefHeight="40.0" prefWidth="245.0" promptText="Sreach...." style="-fx-background-color: #3a3a3a; -fx-background-radius: 10px;" styleClass="text_input">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </TextField>
+         </children>
+      </Pane>
+   </children>
+</Pane>

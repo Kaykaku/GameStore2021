@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-radius: 10px;" styleClass="main_background" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Management_NewsController">
+   <children>
+      <Pane fx:id="pnl_Title" prefHeight="50.0" prefWidth="860.0">
+         <children>
+            <Label layoutX="20.0" layoutY="10.0" text="News Management" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_List_News" layoutX="880.0" layoutY="5.0">
+         <children>
+            <HBox layoutY="50.0" prefHeight="30.0" prefWidth="408.0" spacing="1.0" styleClass="pnl_view">
+               <children>
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
+               </children>
+            </HBox>
+            <TextField focusTraversable="false" prefHeight="40.0" prefWidth="408.0" promptText="Sreach news...." style="-fx-background-color: #3a3a3a; -fx-background-radius: 10px;" styleClass="text_input">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </TextField>
+            <ScrollPane fx:id="pnl_ScrollListNews" layoutY="95.0" prefHeight="730.0" prefWidth="420.0" styleClass="main_background" stylesheets="@../../css/main.css">
+               <content>
+                  <Pane id="tex" fx:id="pnl_ListNews" prefHeight="730.0" prefWidth="405.0" styleClass="main_background" stylesheets="@../../css/main.css">
+                     <children>
+                        <VBox fx:id="Vbox_ListNews" prefHeight="200.0" prefWidth="645.0" styleClass="main_background" />
+                     </children>
+                  </Pane>
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Basic_Info" layoutX="10.0" layoutY="55.0" prefHeight="230.0" prefWidth="550.0" styleClass="pnl_view">
+         <children>
+            <Label layoutX="45.0" layoutY="150.0" text="Creation date" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="325.0" layoutY="150.0" text="View" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="325.0" layoutY="60.0" text="Creation By" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="45.0" layoutY="60.0" text="News ID" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="550.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Basic Information" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/news18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/calendar18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="300.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/eye18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="300.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/id16.png" />
+               </image>
+            </ImageView>
+            <JFXToggleButton layoutX="375.0" layoutY="134.0" prefHeight="40.0" prefWidth="45.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <Pane fx:id="pnl_CreationDate" layoutX="20.0" layoutY="185.0" prefHeight="30.0" prefWidth="220.0" />
+            <Label layoutX="325.0" layoutY="85.0" text="Admin" textFill="#b9b8b8">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="45.0" layoutY="85.0" text="1" textFill="#b9b8b8">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Image" layoutX="570.0" layoutY="55.0" prefHeight="230.0" prefWidth="300.0" styleClass="pnl_view">
+         <children>
+            <ImageView fitHeight="200.0" fitWidth="270.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../icons/add-image%20(1).png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Add_Info" layoutX="10.0" layoutY="295.0" prefHeight="230.0" prefWidth="860.0" styleClass="pnl_view">
+         <children>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="860.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="News Information" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXTextArea layoutX="20.0" layoutY="155.0" prefHeight="60.0" prefWidth="820.0" promptText="Enter description here..." styleClass="text_input" />
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/decription18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/news18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="60.0" text="Title" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="20.0" layoutY="85.0" prefHeight="31.0" prefWidth="820.0" promptText="Enter title..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <Label layoutX="45.0" layoutY="130.0" text="Description" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Content" layoutX="10.0" layoutY="535.0" prefHeight="240.0" prefWidth="860.0" styleClass="pnl_view">
+         <children>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="860.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Content" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXTextArea layoutX="20.0" layoutY="56.0" prefHeight="170.0" prefWidth="820.0" promptText="Enter content here..." styleClass="text_input" />
+         </children>
+      </Pane>
+      <HBox fx:id="hbox_Controller" layoutX="426.0" layoutY="785.0" spacing="10.0">
+         <children>
+            <JFXButton layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Clear" />
+            <JFXButton layoutX="550.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Add" />
+            <JFXButton layoutX="660.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Update" />
+            <JFXButton layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type2" text="Delete" />
+         </children>
+      </HBox>
+   </children>
+</Pane>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Button fx:id="btn_item" contentDisplay="TOP" mnemonicParsing="false" prefHeight="65.0" prefWidth="80.0" styleClass="main_item" stylesheets="@../../css/main.css" text="Button" textFill="#b9b8b8" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuItemController">
+   <graphic>
+      <ImageView fx:id="img_itemicon" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="main_item_icon">
+         <image>
+            <Image url="@../../icons/home40.png" />
+         </image>
+      </ImageView>
+   </graphic>
+   <font>
+      <Font name="Arial Bold" size="13.0" />
+   </font>
+</Button>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" styleClass="pnl_view" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WishlistController">
+   <children>
+      <Pane fx:id="pnl_Title" prefHeight="50.0" prefWidth="1300.0">
+         <children>
+            <Label layoutX="20.0" layoutY="10.0" text="Wishlist" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <ScrollPane fx:id="pnl_ScrollList" layoutY="115.0" prefHeight="605.0" prefWidth="1300.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+         <content>
+            <Pane id="tex" fx:id="pnl_List" prefHeight="605.0" prefWidth="1285.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+               <children>
+                  <VBox fx:id="vbox_ListProduct" layoutY="5.0" prefHeight="200.0" prefWidth="1280.0" spacing="10.0" styleClass="main_background3">
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding></VBox>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+      <Pane fx:id="pnl_Order_Info" layoutX="10.0" layoutY="65.0" prefHeight="40.0" prefWidth="1280.0" style="-fx-background-color: #393939; -fx-background-radius: 10px;">
+         <children>
+            <Label layoutX="40.0" layoutY="5.0" text="Name" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1010.0" layoutY="5.0" prefHeight="30.0" prefWidth="100.0" text="Sale" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="905.0" layoutY="5.0" prefHeight="30.0" prefWidth="100.0" text="Price" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1145.0" layoutY="5.0" prefHeight="30.0" prefWidth="86.0" text="Price*" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" layoutX="505.0" layoutY="5.0" prefHeight="30.0" prefWidth="120.0" text="Release date" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" layoutX="365.0" layoutY="5.0" prefHeight="30.0" prefWidth="100.0" text="Type" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Separator layoutY="50.0" prefHeight="5.0" prefWidth="1300.0" />
+      <Pane fx:id="pnl_Order_Info1" layoutX="10.0" layoutY="730.0" prefHeight="40.0" prefWidth="1280.0" style="-fx-background-color: #393939; -fx-background-radius: 10px;">
+         <children>
+            <Label layoutX="1060.0" layoutY="7.0" text="Total :" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1120.0" layoutY="5.0" prefHeight="30.0" prefWidth="86.0" text="0$" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <JFXButton layoutX="1086.0" layoutY="780.0" prefHeight="40.0" prefWidth="200.0" styleClass="button_type1" text="Payment" />
+   </children>
+</Pane>

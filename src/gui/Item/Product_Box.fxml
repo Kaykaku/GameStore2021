@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pnl_ProductBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="240.0" styleClass="product_box" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductBoxController">
+   <children>
+      <ImageView fx:id="img_App" fitHeight="210.0" fitWidth="210.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/Untitled-1.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbl_Name" layoutX="15.0" layoutY="235.0" text="Minecraft" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_Categories" layoutX="15.0" layoutY="255.0" text="Game type" textFill="#b9b8b8">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_Price" layoutX="14.0" layoutY="346.0" text="Free" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font>
+      </Label>
+      <HBox fx:id="Hbox_Star_View" layoutX="15.0" layoutY="283.0" prefHeight="20.0" prefWidth="208.0" spacing="5.0">
+         <children>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/star20.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/star20.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/star20.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/star20.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/star20.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" text="1k" textFill="#b9b8b8">
+               <font>
+                  <Font name="Arial" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</Pane>

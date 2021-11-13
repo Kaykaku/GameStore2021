@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="700.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <ImageView fx:id="img_bg1" fitHeight="700.0" fitWidth="1247.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/pacific-rim-uprising-wide-hd-wallpaper-preview.jpg" />
+         </image>
+      </ImageView>
+      <Pane prefHeight="700.0" prefWidth="623.0" styleClass="login_background1" stylesheets="@../../css/main.css">
+         <children>
+            <Label alignment="CENTER" layoutY="212.0" prefHeight="72.0" prefWidth="623.0" text="YOU WANT MOST GAME IS HERE" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Text fill="#dddddd" layoutX="107.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New adventures are ready for you to discover right behind the screen" textAlignment="CENTER" wrappingWidth="410.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <HBox layoutX="190.0" layoutY="20.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="50.0" layoutX="164.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/app_icon50.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label layoutX="221.0" layoutY="21.0" prefHeight="72.0" prefWidth="160.0" text="GAME STORE" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="261.0" layoutY="537.0" opacity="0.0" spacing="15.0">
+               <children>
+                  <Circle fx:id="btn_bg1" fill="#ffffffcc" layoutX="151.0" layoutY="478.0" radius="8.0" stroke="#ffffff00" strokeType="INSIDE" styleClass="login_circle" />
+                  <Circle fill="#ffffff66" layoutX="161.0" layoutY="488.0" radius="8.0" stroke="#ffffff00" strokeType="INSIDE" styleClass="login_circle" />
+                  <Circle fill="#ffffff66" layoutX="171.0" layoutY="498.0" radius="8.0" stroke="#ffffff00" strokeType="INSIDE" styleClass="login_circle" />
+               </children>
+            </HBox>
+            <JFXButton fx:id="btn_Change" focusTraversable="false" layoutX="157.0" layoutY="460.0" prefHeight="55.0" prefWidth="310.0" styleClass="button_type11" text="Register now">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Pane layoutX="620.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css" />
+      <Pane fx:id="pnl_Login" layoutX="620.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
+         <children>
+            <VBox layoutX="161.0" layoutY="300.0" spacing="20.0">
+               <children>
+                  <TextField focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Password" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </PasswordField>
+               </children>
+            </VBox>
+            <Label alignment="CENTER" layoutY="631.0" prefHeight="55.0" prefWidth="623.0" text="\@2021 #GAMESTORE" textFill="#dddddd">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Pane layoutX="247.0" layoutY="120.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/21-avatar-outline%20(3).gif" />
+                     </image>
+                  </ImageView>
+                  <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+               </children>
+            </Pane>
+            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="162.0" layoutY="500.0" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+              
+                        </JFXButton>
+            <JFXCheckBox checkedColor="#2467ed" focusTraversable="false" layoutX="161.0" layoutY="450.0" prefHeight="27.0" prefWidth="200.0" text="Remember me" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXCheckBox>
+            <Label fx:id="lbl_ForgotPassword" alignment="CENTER" layoutX="324.0" layoutY="570.0" prefHeight="27.0" prefWidth="138.0" styleClass="text_input2" text="Forgot password" textFill="#b7492f" underline="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_ChangePass" layoutX="1235.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
+         <children>
+            <VBox layoutX="161.0" layoutY="230.0" prefHeight="280.0" prefWidth="310.0" spacing="20.0">
+               <children>
+                  <TextField focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username or email" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <HBox prefHeight="55.0" prefWidth="211.0" spacing="10.0">
+                     <children>
+                        <TextField focusTraversable="false" prefHeight="55.0" prefWidth="145.0" promptText="Enter OTP" styleClass="text_input4">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </TextField>
+                        <JFXButton fx:id="btn_Login111" focusTraversable="false" prefHeight="55.0" prefWidth="145.0" styleClass="button_type10" text="Send OTP">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="New Password" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </PasswordField>
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Confirm New Password" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </PasswordField>
+               </children>
+            </VBox>
+            <Label alignment="CENTER" layoutY="631.0" prefHeight="55.0" prefWidth="623.0" text="\@2021 #GAMESTORE" textFill="#dddddd">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Pane layoutX="247.0" layoutY="50.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/21-avatar-outline%20(3).gif" />
+                     </image>
+                  </ImageView>
+                  <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+               </children>
+            </Pane>
+            <JFXButton fx:id="btn_Login11" focusTraversable="false" layoutX="161.0" layoutY="550.0" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Change Password">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <Button fx:id="btn_Back" focusTraversable="false" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css" text="Back" textFill="WHITE">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="button_minimize">
+                     <image>
+                        <Image url="@../../icons/arrrowleft40px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Register" layoutX="620.0" layoutY="-700.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
+         <children>
+            <VBox layoutX="161.0" layoutY="210.0" spacing="20.0">
+               <children>
+                  <TextField focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Password" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </PasswordField>
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Confirm Password" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </PasswordField>
+                  <TextField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Email" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </TextField>
+               </children>
+            </VBox>
+            <Label alignment="CENTER" layoutY="631.0" prefHeight="55.0" prefWidth="623.0" text="\@2021 #GAMESTORE" textFill="#dddddd">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Pane layoutX="247.0" layoutY="50.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/21-avatar-outline%20(3).gif" />
+                     </image>
+                  </ImageView>
+                  <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+               </children>
+            </Pane>
+            <JFXButton fx:id="btn_Login1" focusTraversable="false" layoutX="161.0" layoutY="560.0" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Register">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXCheckBox checkedColor="#2467ed" focusTraversable="false" layoutX="161.0" layoutY="510.0" prefHeight="27.0" prefWidth="200.0" text="I agree to the terms of use of #GameStore" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXCheckBox>
+         </children>
+      </Pane>
+      <HBox layoutX="1143.0">
+         <children>
+            <Button fx:id="btn_Minimize" focusTraversable="false" layoutX="1100.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="button_minimize">
+                     <image>
+                        <Image url="@../../icons/minus24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btn_Exit" focusTraversable="false" layoutX="1193.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 0px;" styleClass="button_close" stylesheets="@../../css/main.css">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/multiply24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</Pane>

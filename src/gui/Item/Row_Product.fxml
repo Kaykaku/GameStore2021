@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="380.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Row_ProductController">
+   <children>
+      <Pane fx:id="pane2" layoutX="300.0" prefHeight="100.0" prefWidth="80.0" styleClass="row_product2" stylesheets="@../../css/main.css">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="28.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/trash50.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="pane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="380.0" styleClass="row_product" stylesheets="@../../css/main.css">
+         <children>
+            <Pane fx:id="pane3" layoutX="370.0" prefHeight="100.0" prefWidth="10.0" styleClass="row_product3" />
+            <ImageView fx:id="img_Icon" fitHeight="80.0" fitWidth="80.0" layoutX="20.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/Untitled-1.png" />
+               </image>
+            </ImageView>
+            <VBox layoutX="115.0" layoutY="15.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="115.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/id16.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="115.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/price16.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/sale16.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox layoutX="139.0" layoutY="12.0" spacing="4.0">
+               <children>
+                  <Label layoutX="139.0" layoutY="14.0" text="001" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="152.0" layoutY="43.0" text="20.00$" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="154.0" layoutY="72.0" text="0%" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox layoutX="225.0" layoutY="15.0" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="248.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/tag16.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="236.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/date16v2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="227.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/size16.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox layoutX="250.0" layoutY="12.0" spacing="4.0">
+               <children>
+                  <Label layoutX="273.0" layoutY="14.0" text="Minecraft" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="261.0" layoutY="51.0" text="01/01/2010" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="252.0" layoutY="72.0" text="100.23Mb" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children></Pane>
+   </children>
+</Pane>

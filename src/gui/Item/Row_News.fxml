@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="405.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Row_NewsController">
+   <children>
+      <Pane fx:id="pane2" layoutX="335.0" prefHeight="180.0" prefWidth="60.0" styleClass="row_news2" stylesheets="@../../css/main.css">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="20.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/trash50.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="pane1" layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="380.0" styleClass="row_news" stylesheets="@../../css/main.css">
+         <children>
+            <Pane fx:id="pane3" layoutX="370.0" prefHeight="180.0" prefWidth="10.0" styleClass="row_news2" />
+            <ImageView fx:id="img_Icon" fitHeight="70.0" fitWidth="90.0" layoutX="20.0" layoutY="10.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../icons/Untitled-1.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" layoutX="124.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="242.0">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="20.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A new playable Assassin's Creed character is coming to Watch Dogs: Legion, and she looks ready to put her hidden blade to good use." wrappingWidth="336.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <HBox layoutX="130.0" layoutY="150.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="193.0" layoutY="-68.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/calendar18.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label layoutX="207.0" layoutY="-70.0" text="01/01/2010" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="20.0" layoutY="150.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="170.0" layoutY="-77.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/news18.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label layoutX="204.0" layoutY="-93.0" text="001" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="290.0" layoutY="150.0" spacing="5.0">
+               <children>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="193.0" layoutY="-68.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/eye18.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label layoutX="207.0" layoutY="-70.0" text="1002" textFill="#b9b8b8">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </children>
+</Pane>

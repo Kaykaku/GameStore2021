@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1400.0" style="-fx-background-radius: 1em;" styleClass="main_menu" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+   <children>
+      <Pane prefHeight="50.0" prefWidth="1400.0" styleClass="main_title" stylesheets="@../../css/main.css">
+         <children>
+            <Button focusTraversable="false" layoutX="1300.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="button_minimize">
+                     <image>
+                        <Image url="@../../icons/minus24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button focusTraversable="false" layoutX="1350.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_close" stylesheets="@../../css/main.css">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/multiply24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="30.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/app_icon50.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="85.0" layoutY="12.0" text="Games Store" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="992.0" layoutY="13.0" text="Admin" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="img_User_Icon_Small" fitHeight="35.0" fitWidth="35.0" layoutX="942.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/user_avatar50.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Pane fx:id="pnl_View" layoutX="90.0" layoutY="60.0" prefHeight="830.0" prefWidth="1300.0" styleClass="pnl_view" stylesheets="@../../css/main.css" />
+      <Pane fx:id="pnl_menu" layoutY="50.0" prefHeight="860.0" prefWidth="90.0" styleClass="main_menu" stylesheets="@../../css/main.css">
+         <children>
+            <VBox fx:id="vbox_menu" layoutY="10.0" prefHeight="839.0" prefWidth="90.0" spacing="10.0">
+               <padding>
+                  <Insets left="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_ManageAccount" layoutX="900.0" layoutY="55.0" opacity="0.0" prefHeight="230.0" prefWidth="400.0" styleClass="container3" stylesheets="@../../css/main.css">
+         <children>
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/avatar120.png" />
+               </image>
+            </ImageView>
+            <VBox layoutX="5.0" layoutY="130.0" prefHeight="90.0" prefWidth="390.0" spacing="5.0">
+               <children>
+                  <JFXButton fx:id="btn_AccountSettings" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="400.0" styleClass="button_type9" text="Manage account" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/account_settings50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_WishLish" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="400.0" styleClass="button_type9" text="Wishlist" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/wishlist50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <Label layoutX="105.0" layoutY="25.0" text="Admin" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="105.0" layoutY="50.0" text="admin@gmail.com" textFill="#b9b8b8" />
+            <Label layoutX="105.0" layoutY="80.0" styleClass="text_input2" text="Sign out" textFill="#b9b8b8" />
+            <Separator layoutY="120.0" prefWidth="400.0" />
+         </children>
+         <effect>
+            <InnerShadow choke="0.21" color="#0000002b" height="100.0" radius="49.5" width="100.0" />
+         </effect>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-radius: 10px;" styleClass="view_background" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane prefHeight="830.0" prefWidth="1300.0" styleClass="main_background3">
+         <content>
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1230.0" prefWidth="1285.0" styleClass="main_background4" stylesheets="@../../css/main.css">
+               <children>
+                  <Pane layoutX="150.0" layoutY="87.0" prefHeight="1060.0" prefWidth="985.0" styleClass="box_new">
+                     <children>
+                        <Text fill="WHITE" layoutX="20.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="950.0">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Text>
+                        <HBox layoutX="860.0" layoutY="145.0" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="193.0" layoutY="-68.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/eye18.png" />
+                                 </image>
+                                 <HBox.margin>
+                                    <Insets top="3.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label layoutX="207.0" layoutY="-70.0" prefHeight="27.0" prefWidth="78.0" text="1002" textFill="#b9b8b8">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="3.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="60.0" layoutY="145.0" spacing="10.0">
+                           <children>
+                              <Label layoutX="43.0" layoutY="150.0" text="Admin" textFill="#b9b8b8">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="153.0" layoutY="150.0" text="01/01/2021" textFill="#b9b8b8">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Separator layoutY="190.0" prefHeight="0.0" prefWidth="985.0" />
+                        <ImageView fitHeight="427.0" fitWidth="905.0" layoutX="40.0" layoutY="230.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../../icons/gamehubvn-watch-dogs-2-7.jpg" />
+                           </image>
+                        </ImageView>
+                        <Text fill="WHITE" layoutX="20.0" layoutY="720.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sách Phép Tối Thượng quay trở lại với phiên bản Arcane từ cập nhật 11.23" wrappingWidth="950.0">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Text>
+                        <Text fill="#b9b8b8" layoutX="20.0" layoutY="758.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chúng tôi biết rằng các bạn đang rất mong đợi sự trở lại của Sách Phép Tối Thượng sau đợt ra mắt thành công của nó vài tháng trước. Chúng tôi cũng muốn mang nó trở lại ngay sau đó! Tuy nhiên, dù cho phiên bản đầu có rất thành công, nó vẫn đặt ra nhiều thách thức và có nhiều thứ phải rút kinh nghiệm. Vì vậy, các nhà phát triển đã phải tập trung vào việc chỉnh sửa và cải tiến nó trong thời gian qua.Giờ đây, Sách Phép Tối Thượng sẽ sắp trở lại (trong bản 11.23), lợi hại hơn xưa từ 04:00 19/11/2021 cho đến 14:59 11/01/2022.Ở phiên bản Arcane lần này, sẽ có thêm những thay đổi hay ho được thêm vào! Sau đây là một vài tiêu điểm đáng chú ý:• Nhiều chiêu cuối hơn (và nhiều hơn nữa sẽ được thêm vào trong phiên bản 11.24)." wrappingWidth="950.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+                  <JFXButton fx:id="btn_Back" layoutX="20.0" layoutY="20.0" prefHeight="40.0" styleClass="button_type5">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/arrrowleft40px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+   </children>
+</Pane>

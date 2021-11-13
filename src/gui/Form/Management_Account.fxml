@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-radius: 10px;" styleClass="main_menu" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Management_AccountController">
+   <children>
+      <Pane fx:id="pnl_TItle" layoutX="-7.0" prefHeight="50.0" prefWidth="1300.0">
+         <children>
+            <Label layoutX="20.0" layoutY="10.0" text="Account Management" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Image" layoutX="10.0" layoutY="50.0" prefHeight="230.0" prefWidth="230.0" styleClass="pnl_view">
+         <children>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../icons/add-image%20(1).png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Basic_Info" layoutX="250.0" layoutY="50.0" prefHeight="230.0" prefWidth="620.0" styleClass="pnl_view">
+         <children>
+            <Label layoutX="345.0" layoutY="60.0" text="Name" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter name..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" layoutX="20.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter game ID..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <Label layoutX="45.0" layoutY="60.0" text="Account ID" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="620.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Account Information" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/id16.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="320.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/tag16.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="150.0" text="Birthday" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Pane fx:id="pnl_CreationDate" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="250.0" />
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/calendar18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="345.0" layoutY="150.0" text="Gender" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="320.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/gender18.png" />
+               </image>
+            </ImageView>
+            <JFXRadioButton layoutX="330.0" layoutY="180.0" styleClass="text_input" text="Male" />
+            <JFXRadioButton layoutX="420.0" layoutY="180.0" styleClass="text_input" text="Female" />
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Add_Info" layoutX="10.0" layoutY="290.0" prefHeight="230.0" prefWidth="590.0" styleClass="pnl_view">
+         <children>
+            <Label layoutX="20.0" layoutY="10.0" text="Additional Information" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefWidth="590.0" />
+            <Label layoutX="45.0" layoutY="60.0" text="Country" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter Publisher..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <Label layoutX="345.0" layoutY="60.0" text="Email" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXTextField id="tex" layoutX="20.0" layoutY="175.0" prefHeight="31.0" prefWidth="250.0" promptText="Enter languages..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <Label layoutX="45.0" layoutY="150.0" text="Address" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/country18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/address18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="320.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/mail18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="320.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/calendar18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="345.0" layoutY="151.0" text="Creation Date" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Pane fx:id="pnl_ReleaseDate" layoutX="320.0" layoutY="175.0" prefHeight="30.0" prefWidth="250.0" />
+            <JFXComboBox layoutX="20.0" layoutY="85.0" prefHeight="31.0" prefWidth="250.0" promptText="-Country-" styleClass="text_input" />
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Status" layoutX="610.0" layoutY="290.0" prefHeight="230.0" prefWidth="260.0" styleClass="pnl_view">
+         <children>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="260.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Status" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <JFXToggleButton layoutX="140.0" layoutY="61.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <JFXToggleButton layoutX="140.0" layoutY="111.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/block18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="45.0" layoutY="80.0" text="Active" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="45.0" layoutY="130.0" text="User/Admin" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/admin.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="21.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/comment18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="46.0" layoutY="180.0" text="Comment" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <JFXToggleButton layoutX="140.0" layoutY="161.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Login_Info" layoutX="880.0" layoutY="50.0" prefHeight="470.0" prefWidth="410.0" styleClass="pnl_view">
+         <children>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="410.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Login Information" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <HBox layoutX="15.0" layoutY="430.0" prefHeight="30.0" prefWidth="380.0" spacing="10.0">
+               <children>
+                  <JFXButton layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Clear" />
+                  <JFXButton layoutX="550.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Add" />
+                  <JFXButton layoutX="660.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Update" />
+                  <JFXButton layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type2" text="Delete" />
+               </children>
+            </HBox>
+            <VBox layoutX="35.0" layoutY="75.0" prefHeight="164.0" prefWidth="345.0" spacing="15.0">
+               <children>
+                  <TextField layoutX="98.0" layoutY="92.0" prefHeight="35.0" prefWidth="250.0" promptText="Username" styleClass="text_input1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField layoutX="98.0" layoutY="134.0" prefHeight="35.0" prefWidth="250.0" promptText="Old Password" styleClass="text_input1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField layoutX="98.0" layoutY="191.0" prefHeight="35.0" prefWidth="250.0" promptText="New Password" styleClass="text_input1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </PasswordField>
+                  <PasswordField layoutX="106.0" layoutY="235.0" prefHeight="35.0" prefWidth="250.0" promptText="Comfirm Password" styleClass="text_input1">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </PasswordField>
+               </children>
+            </VBox>
+            <Separator blendMode="DIFFERENCE" layoutY="420.0" prefHeight="3.0" prefWidth="410.0" />
+            <VBox layoutX="35.0" layoutY="297.0" prefWidth="345.0" spacing="10.0">
+               <children>
+                  <JFXButton layoutX="20.0" layoutY="360.0" prefHeight="31.0" prefWidth="345.0" styleClass="button_type1" text="Change password" />
+                  <JFXButton layoutX="20.0" layoutY="413.0" prefHeight="31.0" prefWidth="380.0" styleClass="button_type1" text="Send email" />
+                  <JFXButton prefHeight="31.0" prefWidth="380.0" styleClass="button_type1" text="Send message" />
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Table" layoutX="10.0" layoutY="530.0" prefHeight="290.0" prefWidth="965.0" styleClass="pnl_view">
+         <children>
+            <TableView layoutX="15.0" layoutY="15.0" prefHeight="265.0" prefWidth="935.0" styleClass="pnl_view">
+              <columns>
+                <TableColumn editable="false" prefWidth="95.0" resizable="false" styleClass="category_table" text="ID" />
+                <TableColumn editable="false" maxWidth="140.0" prefWidth="140.0" resizable="false" styleClass="category_table" text="NAME" />
+                  <TableColumn editable="false" maxWidth="140.0" prefWidth="140.0" resizable="false" styleClass="category_table" text="GENDER" />
+                  <TableColumn editable="false" maxWidth="140.0" prefWidth="140.0" resizable="false" styleClass="category_table" text="BIRTHDAY" />
+                  <TableColumn editable="false" maxWidth="140.0" prefWidth="140.0" resizable="false" styleClass="category_table" text="COUNTRY" />
+                  <TableColumn editable="false" maxWidth="140.0" prefWidth="140.0" resizable="false" styleClass="category_table" text="EMAIL" />
+                  <TableColumn editable="false" maxWidth="140.0" prefWidth="140.0" resizable="false" styleClass="category_table" text="CREATION DATE" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Table_Controller" layoutX="985.0" layoutY="530.0" prefHeight="290.0" prefWidth="305.0" styleClass="pnl_view">
+         <children>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="305.0" />
+            <TextField focusTraversable="false" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="285.0" promptText="Sreach games...." style="-fx-background-color: #3a3a3a; -fx-background-radius: 10px;" styleClass="text_input">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </TextField>
+            <HBox layoutX="10.0" layoutY="230.0" prefHeight="50.0" prefWidth="284.0" spacing="1.0" styleClass="pnl_view">
+               <children>
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
+               </children>
+            </HBox>
+            <VBox layoutX="10.0" layoutY="65.0" prefWidth="285.0" spacing="15.0">
+               <children>
+                  <JFXButton layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All role">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton layoutX="7.0" layoutY="100.0" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All active">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All comment">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/down18.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</Pane>
