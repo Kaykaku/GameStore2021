@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<Pane prefHeight="700.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<Pane prefHeight="700.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
    <children>
       <ImageView fx:id="img_bg1" fitHeight="700.0" fitWidth="1247.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -69,17 +64,20 @@
       <Pane layoutX="620.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css" />
       <Pane fx:id="pnl_Login" layoutX="620.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
          <children>
-            <VBox layoutX="162.0" layoutY="274.0" spacing="20.0">
+            <VBox layoutX="161.0" layoutY="300.0" spacing="20.0">
                <children>
-                  <TextField fx:id="txt_Username_Login" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Username" styleClass="text_input4">
+                  <TextField focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username" styleClass="text_input4">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                      <padding>
                         <Insets left="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </TextField>
-                  <PasswordField fx:id="txt_Password_Login" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Password" styleClass="text_input4">
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Password" styleClass="text_input4">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -94,7 +92,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Pane layoutX="248.0" layoutY="94.0">
+            <Pane layoutX="247.0" layoutY="120.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -104,33 +102,29 @@
                   <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
                </children>
             </Pane>
-            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="162.0" layoutY="477.0" onAction="#LoginAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
+            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="162.0" layoutY="500.0" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
               
                         </JFXButton>
-            <JFXCheckBox fx:id="cbo_Remember" checkedColor="#2467ed" focusTraversable="false" layoutX="162.0" layoutY="413.0" prefHeight="27.0" prefWidth="200.0" text="Remember me" textFill="WHITE">
+            <JFXCheckBox checkedColor="#2467ed" focusTraversable="false" layoutX="161.0" layoutY="450.0" prefHeight="27.0" prefWidth="200.0" text="Remember me" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXCheckBox>
-            <Label fx:id="lbl_ForgotPassword" alignment="CENTER" layoutX="324.0" layoutY="547.0" prefHeight="27.0" prefWidth="138.0" styleClass="text_input2" text="Forgot password" textFill="#b7492f" underline="true">
+            <Label fx:id="lbl_ForgotPassword" alignment="CENTER" layoutX="324.0" layoutY="570.0" prefHeight="27.0" prefWidth="138.0" styleClass="text_input2" text="Forgot password" textFill="#b7492f" underline="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_Message_Login" layoutX="162.0" layoutY="449.0" prefWidth="300.0" textFill="RED">
-               <font>
-                  <Font size="16.0" />
-               </font></Label>
          </children>
       </Pane>
       <Pane fx:id="pnl_ChangePass" layoutX="1235.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
          <children>
             <VBox layoutX="161.0" layoutY="230.0" prefHeight="280.0" prefWidth="310.0" spacing="20.0">
                <children>
-                  <TextField fx:id="txt_Username_ChangePass" focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username or email" styleClass="text_input4">
+                  <TextField focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username or email" styleClass="text_input4">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -143,7 +137,7 @@
                   </TextField>
                   <HBox prefHeight="55.0" prefWidth="211.0" spacing="10.0">
                      <children>
-                        <TextField fx:id="txt_OTP_ChangePass" focusTraversable="false" prefHeight="55.0" prefWidth="145.0" promptText="Enter OTP" styleClass="text_input4">
+                        <TextField focusTraversable="false" prefHeight="55.0" prefWidth="145.0" promptText="Enter OTP" styleClass="text_input4">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -151,14 +145,14 @@
                               <Insets left="20.0" />
                            </padding>
                         </TextField>
-                        <JFXButton fx:id="btn_SendOTP" focusTraversable="false" onAction="#SendOTPAction" prefHeight="55.0" prefWidth="145.0" styleClass="button_type10" text="Send OTP">
+                        <JFXButton fx:id="btn_Login111" focusTraversable="false" prefHeight="55.0" prefWidth="145.0" styleClass="button_type10" text="Send OTP">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </JFXButton>
                      </children>
                   </HBox>
-                  <PasswordField fx:id="txt_NewPass_ChangePass" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="New Password" styleClass="text_input4">
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="New Password" styleClass="text_input4">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -169,7 +163,7 @@
                         <Insets />
                      </VBox.margin>
                   </PasswordField>
-                  <PasswordField fx:id="txt_ComfirmPass_ChangePass" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Confirm New Password" styleClass="text_input4">
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Confirm New Password" styleClass="text_input4">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -197,7 +191,7 @@
                   <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
                </children>
             </Pane>
-            <JFXButton fx:id="btn_ChangePass" focusTraversable="false" layoutX="161.0" layoutY="550.0" onAction="#ChangePasswordAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Change Password">
+            <JFXButton fx:id="btn_Login11" focusTraversable="false" layoutX="161.0" layoutY="550.0" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Change Password">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -214,16 +208,80 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Label fx:id="lbl_Message_ChangePass" layoutX="162.0" layoutY="520.0" prefHeight="17.0" prefWidth="300.0" textFill="RED">
+         </children>
+      </Pane>
+      <Pane fx:id="pnl_Register" layoutX="620.0" layoutY="-700.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
+         <children>
+            <VBox layoutX="161.0" layoutY="210.0" spacing="20.0">
+               <children>
+                  <TextField focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Password" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </PasswordField>
+                  <PasswordField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Confirm Password" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </PasswordField>
+                  <TextField focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Email" styleClass="text_input4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </TextField>
+               </children>
+            </VBox>
+            <Label alignment="CENTER" layoutY="631.0" prefHeight="55.0" prefWidth="623.0" text="\@2021 #GAMESTORE" textFill="#dddddd">
                <font>
-                  <Font size="16.0" />
+                  <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblCountDown" layoutX="477.0" layoutY="308.0" prefHeight="50.0" prefWidth="42.0" textFill="RED">
+            <Pane layoutX="247.0" layoutY="50.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/21-avatar-outline%20(3).gif" />
+                     </image>
+                  </ImageView>
+                  <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
+               </children>
+            </Pane>
+            <JFXButton fx:id="btn_Login1" focusTraversable="false" layoutX="161.0" layoutY="560.0" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Register">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
-            </Label>
+            </JFXButton>
+            <JFXCheckBox checkedColor="#2467ed" focusTraversable="false" layoutX="161.0" layoutY="510.0" prefHeight="27.0" prefWidth="200.0" text="I agree to the terms of use of #GameStore" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXCheckBox>
          </children>
       </Pane>
       <HBox layoutX="1143.0">
@@ -248,84 +306,5 @@
             </Button>
          </children>
       </HBox>
-      <Pane fx:id="pnl_Register" layoutX="620.0" layoutY="700.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
-         <children>
-            <VBox layoutX="151.0" layoutY="214.0" spacing="20.0">
-               <children>
-                  <TextField fx:id="txt_Username_Register" focusTraversable="false" layoutX="142.0" layoutY="201.0" prefHeight="55.0" prefWidth="300.0" promptText="Username" styleClass="text_input4">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </TextField>
-                  <TextField fx:id="txt_Email_Register" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Email" styleClass="text_input4">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                  </TextField>
-                  <PasswordField fx:id="txt_Password_Register" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Password" styleClass="text_input4">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                  </PasswordField>
-                  <PasswordField fx:id="txt_ComfirmPassword_Register" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Comfirm Password" styleClass="text_input4">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                  </PasswordField>
-               </children>
-            </VBox>
-            <Label alignment="CENTER" layoutY="631.0" prefHeight="55.0" prefWidth="623.0" text="\@2021 #GAMESTORE" textFill="#dddddd">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Pane layoutX="237.0" layoutY="54.0">
-               <children>
-                  <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/21-avatar-outline%20(3).gif" />
-                     </image>
-                  </ImageView>
-                  <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
-               </children>
-            </Pane>
-            <JFXButton fx:id="btn_Register" focusTraversable="false" layoutX="164.0" layoutY="571.0" onAction="#RegisterAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Register">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </JFXButton>
-            <JFXCheckBox fx:id="cbo_Agree" checkedColor="#2467ed" focusTraversable="false" layoutX="151.0" layoutY="505.0" prefHeight="27.0" prefWidth="200.0" text="I agree to the terms of use of #GameStore" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXCheckBox>
-            <Label fx:id="lbl_Message_Register" layoutX="161.0" layoutY="542.0" prefHeight="17.0" prefWidth="308.0" textFill="RED">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
    </children>
 </Pane>
