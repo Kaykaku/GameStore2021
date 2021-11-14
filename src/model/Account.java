@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class Account {
     int AccountId, Role;
-    String Name, Email, Address, Country;
+    String Name, Email, Address, Country, Username, Password;
     Date BirthDay, CreationDate;
     boolean Gender, Active, Comment;
     byte[] Image;
@@ -21,13 +21,15 @@ public class Account {
     public Account() {
     }
 
-    public Account(int AccountId, int Role, String Name, String Email, String Address, String Country, Date BirthDay, Date CreationDate, boolean Gender, boolean Active, boolean Comment, byte[] Image) {
+    public Account(int AccountId, int Role, String Name, String Email, String Address, String Country, String Username, String Password, Date BirthDay, Date CreationDate, boolean Gender, boolean Active, boolean Comment, byte[] Image) {
         this.AccountId = AccountId;
         this.Role = Role;
         this.Name = Name;
         this.Email = Email;
         this.Address = Address;
         this.Country = Country;
+        this.Username = Username;
+        this.Password = Password;
         this.BirthDay = BirthDay;
         this.CreationDate = CreationDate;
         this.Gender = Gender;
@@ -84,6 +86,22 @@ public class Account {
         this.Country = Country;
     }
 
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String Username) {
+        this.Username = Username;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
+
     public Date getBirthDay() {
         return BirthDay;
     }
@@ -131,8 +149,7 @@ public class Account {
     public void setImage(byte[] Image) {
         this.Image = Image;
     }
-            
 
-
+    
 
 }
