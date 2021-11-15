@@ -24,7 +24,7 @@ public class Validation {
     public static String validationPersonName(JFXTextField textField) {
         String err = "";
         if (!textField.getText().trim().isEmpty() && !textField.getText().trim().matches("[\\D]{3,}")) {
-            err = "Name must be at least 3 characters and contain no numbers !\n";
+            err = "NAME must be at least 3 characters and contain no numbers !\n";
         }
         return err;
     }
@@ -32,7 +32,7 @@ public class Validation {
     public static String validationEmail(JFXTextField textField) {
         String err = "";
         if (!textField.getText().trim().isEmpty() && !textField.getText().trim().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
-            err = "Email must be in the correct format!\n";
+            err = "EMAIL must be in the correct format!\n";
         }
         return err;
     }
@@ -40,7 +40,7 @@ public class Validation {
     public static String validationBirthDay(JFXDatePicker datePicker) {
         String err = "";
         if (datePicker.getValue() == null) {
-            err = "BirthDay cannot be empty!\n";
+            err = "BIRTHDAY cannot be empty!\n";
         } else {
             LocalDate birth = datePicker.getValue();
             LocalDate now = LocalDate.now();
@@ -56,36 +56,36 @@ public class Validation {
         String err = "";
         Account ac = new AccountDAO().selectByUser(textField.getText().trim());
         if (textField.getText().trim().isEmpty()) {
-            err = "UserName cannot be empty!\n";
+            err = "USERNAME cannot be empty!\n";
         } else if (!textField.getText().trim().matches("[\\w]{3,}")) {
-            err = "UserName must be at least 3 characters and contain no space !\n";
+            err = "USERNAME must be at least 3 characters and contain no space !\n";
         } else if ( ac != null) {
-            err = "UserName already exist !\n";
+            err = "USERNAME already exist !\n";
         }
         return err;
     }
     public static String validationPassword(PasswordField textField) {
         String err = "";
         if (textField.getText().trim().isEmpty()) {
-            err = "Password cannot be empty!\n";
+            err = "PASSWORD cannot be empty!\n";
         } else if (!textField.getText().trim().matches("[\\w]{4,}")) {
-            err = "Password must be at least 4 characters and contain no space !\n";
+            err = "PASSWORD must be at least 4 characters and contain no space !\n";
         } 
         return err;
     }
     public static String validationConfirmPassword(PasswordField textField,PasswordField textField1) {
         String err = "";
         if (textField.getText().trim().isEmpty()) {
-            err = "Confirmpasword cannot be empty!\n";
+            err = "CONFIRMPASSWORD cannot be empty!\n";
         } else if (!textField.getText().trim().matches("[\\w]{4,}")) {
-            err = "Password and confirmpasword are not matched !\n";
+            err = "PASSWORD and CONFIRMPASSWORD are not matched !\n";
         } 
         return err;
     }
     public static String validationImage(File file) {
         String err = "";
         if (file==null) {
-            err = "Image have been chose\n";
+            err = "IMAGE have been chose\n";
         }
         return err;
     }
