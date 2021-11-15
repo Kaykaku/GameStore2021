@@ -11,6 +11,7 @@ import DAO.AccountDAO;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -45,6 +46,8 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.input.MouseEvent;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -52,8 +55,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import static until.Dialog.CheckEmpty;
-import static until.Dialog.Messages;
 
 /**
  * FXML Controller class
@@ -213,20 +214,20 @@ public class LoginController implements Initializable {
             }
         });
         txt_Username_Login.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (CheckEmpty(txt_Username_Login)) {
-                Messages(lbl_Message_Login, "Username cannot be empty!");
+            if (txt_Username_Login.getText().isEmpty()) {
+                lbl_Message_Login.setText("Username cannot be empty!");
                 txt_Username_Login.getStyleClass().add("txt_Incorrect");
             } else {
-                Messages(lbl_Message_Login, "");
+                lbl_Message_Login.setText("");
                 txt_Username_Login.getStyleClass().add("txt_Correct");
             }
         });
         txt_Password_Login.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (CheckEmpty(txt_Password_Login)) {
-                Messages(lbl_Message_Login, "Password cannot be empty!");
+            if (txt_Password_Login.getText().isEmpty()) {
+                lbl_Message_Login.setText("Password cannot be empty!");
                 txt_Password_Login.getStyleClass().add("txt_Incorrect");
             } else {
-                Messages(lbl_Message_Login, "");
+                lbl_Message_Login.setText("");
                 txt_Password_Login.getStyleClass().add("txt_Correct");
             }
         });
@@ -265,27 +266,27 @@ public class LoginController implements Initializable {
             }
         });
         txt_Username_ChangePass.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (CheckEmpty(txt_Username_ChangePass)) {
+            if (txt_Username_ChangePass.getText().isEmpty()) {
                 txt_Username_ChangePass.getStyleClass().add("txt_Incorrect");
-                Messages(lbl_Message_ChangePass, "Username cannot be empty!");
+                lbl_Message_ChangePass.setText("Username cannot be empty!");
             } else {
-                Messages(lbl_Message_ChangePass, "");
+                lbl_Message_ChangePass.setText("");
                 txt_Username_ChangePass.getStyleClass().add("txt_Correct");
             }
         });
         txt_OTP_ChangePass.focusedProperty().addListener((o, oldVal, newVal) -> {
             String digit = txt_OTP_ChangePass.getText().trim();
 
-            if (CheckEmpty(txt_OTP_ChangePass)) {
-                Messages(lbl_Message_ChangePass, "Code OTP cannot be empty!");
+            if (txt_OTP_ChangePass.getText().isEmpty()) {
+                lbl_Message_ChangePass.setText("Code OTP cannot be empty!");
                 txt_OTP_ChangePass.getStyleClass().add("txt_Incorrect");
             } else {
                 for (char time : digit.toCharArray()) {
                     if (Character.isDigit(time)) {
                         txt_OTP_ChangePass.getStyleClass().add("txt_Correct");
-                        Messages(lbl_Message_ChangePass, "");
+                        lbl_Message_ChangePass.setText("");
                     } else {
-                        Messages(lbl_Message_ChangePass, "Code OTP only number");
+                        lbl_Message_ChangePass.setText("Code OTP only number");
                         txt_OTP_ChangePass.getStyleClass().add("txt_Incorrect");
                         break;
                     }
@@ -293,25 +294,25 @@ public class LoginController implements Initializable {
             }
         });
         txt_NewPass_ChangePass.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (CheckEmpty(txt_NewPass_ChangePass)) {
+            if (txt_NewPass_ChangePass.getText().isEmpty()) {
                 txt_NewPass_ChangePass.getStyleClass().add("txt_Incorrect");
-                Messages(lbl_Message_ChangePass, "New password cannot be empty!");
+                lbl_Message_ChangePass.setText("New password cannot be empty!");
             } else {
-                Messages(lbl_Message_ChangePass, "");
+                lbl_Message_ChangePass.setText("");
                 txt_NewPass_ChangePass.getStyleClass().add("txt_Correct");
             }
         });
         txt_ComfirmPass_ChangePass.focusedProperty().addListener((o, oldVal, newVal) -> {
 
-            if (CheckEmpty(txt_ComfirmPass_ChangePass)) {
+            if (txt_ComfirmPass_ChangePass.getText().isEmpty()) {
                 txt_ComfirmPass_ChangePass.getStyleClass().add("txt_Incorrect");
-                Messages(lbl_Message_ChangePass, "Comfirm password cannot be empty!");
+                lbl_Message_ChangePass.setText("Comfirm password cannot be empty!");
             } else {
                 if (txt_ComfirmPass_ChangePass.getText().equals(txt_NewPass_ChangePass.getText())) {
-                    Messages(lbl_Message_ChangePass, "");
+                    lbl_Message_ChangePass.setText("");
                     txt_ComfirmPass_ChangePass.getStyleClass().add("txt_Correct");
                 } else {
-                    Messages(lbl_Message_ChangePass, "Password differently!");
+                    lbl_Message_ChangePass.setText("Password differently!");
                     txt_ComfirmPass_ChangePass.getStyleClass().add("txt_Incorrect");
                 }
             }
@@ -351,44 +352,44 @@ public class LoginController implements Initializable {
             }
         });
         txt_Username_Register.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (CheckEmpty(txt_Username_Register)) {
+            if (txt_Username_Register.getText().isEmpty()) {
                 txt_Username_Register.getStyleClass().add("txt_Incorrect");
-                Messages(lbl_Message_Register, "Username cannot be empty!");
+                lbl_Message_Register.setText("Username cannot be empty!");
             } else {
-                Messages(lbl_Message_Register, "");
+                lbl_Message_Register.setText("");
                 txt_Username_Register.getStyleClass().add("txt_Correct");
             }
         });
         txt_Email_Register.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (CheckEmpty(txt_Email_Register)) {
+            if (txt_Email_Register.getText().isEmpty()) {
                 txt_Email_Register.getStyleClass().add("txt_Incorrect");
-                Messages(lbl_Message_Register, "Email cannot be empty!");
+                lbl_Message_Register.setText("Email cannot be empty!");
             } else {
-                Messages(lbl_Message_Register, "");
+                lbl_Message_Register.setText("");
                 txt_Email_Register.getStyleClass().add("txt_Correct");
 
             }
         });
         txt_Password_Register.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (CheckEmpty(txt_Password_Register)) {
+            if (txt_Password_Register.getText().isEmpty()) {
                 txt_Password_Register.getStyleClass().add("txt_Incorrect");
-                Messages(lbl_Message_Register, "Password cannot be empty!");
+                lbl_Message_Register.setText("Password cannot be empty!");
             } else {
-                Messages(lbl_Message_Register, "");
+                lbl_Message_Register.setText("");
                 txt_Password_Register.getStyleClass().add("txt_Correct");
             }
         });
         txt_ComfirmPassword_Register.focusedProperty().addListener((o, oldVal, newVal) -> {
 
-            if (CheckEmpty(txt_ComfirmPassword_Register)) {
+            if (txt_ComfirmPassword_Register.getText().isEmpty()) {
                 txt_ComfirmPassword_Register.getStyleClass().add("txt_Incorrect");
-                Messages(lbl_Message_Register, "Comfirm password cannot be empty!");
+                lbl_Message_Register.setText("Comfirm password cannot be empty!");
             } else {
                 if (txt_ComfirmPassword_Register.getText().equals(txt_Password_Register.getText())) {
-                    Messages(lbl_Message_Register, "");
+                    lbl_Message_Register.setText("");
                     txt_ComfirmPassword_Register.getStyleClass().add("txt_Correct");
                 } else {
-                    Messages(lbl_Message_Register, "Password differently!");
+                    lbl_Message_Register.setText("Password differently!");
                     txt_ComfirmPassword_Register.getStyleClass().add("txt_Incorrect");
                 }
             }
@@ -407,7 +408,7 @@ public class LoginController implements Initializable {
             txt_Username_Login.requestFocus();
             txt_Username_Login.getStyleClass().add("txt_Incorrect");
             txt_Password_Login.getStyleClass().add("txt_Incorrect");
-            Messages(lbl_Message_Login, "Username and password cannot be empty!");
+            lbl_Message_Login.setText("Username and password cannot be empty!");
 
         } else if (usename.isEmpty() || password.isEmpty()) {
             if (usename.isEmpty()) {
@@ -418,9 +419,9 @@ public class LoginController implements Initializable {
 
         } else {
             if (account == null) {
-                Messages(lbl_Message_Login, "Fail username!");
+                lbl_Message_Login.setText("Fail username!");
             } else if (!password.equals(account.getPassword())) {
-                Messages(lbl_Message_Login, "Fail password!");
+                lbl_Message_Login.setText("Fail password!");
             } else {
                 if (cbo_Remember.isSelected()) {
                     preferences.put("username", usename);
@@ -456,15 +457,15 @@ public class LoginController implements Initializable {
         if (!txt_Username_ChangePass.getText().isEmpty()) {
 
             if (account == null) {
-                Messages(lbl_Message_ChangePass, "Cannot find username!");
+                lbl_Message_ChangePass.setText("Cannot find username!");
             } else {
                 String send = account.getEmail();
                 System.out.println(send);
                 if (send != null) {
                     Random random = new Random();
                     otp = (int) Math.floor(((Math.random() * 899999) + 100000));
-                    final String username = "gamexstore.st@gmail.com";
-                    final String password = "GamexStore.ST123";
+                    final String username = "thanhlmps18795@fpt.edu.vn ";
+                    final String password = "0987654321Thanh";
 
                     Properties prop = new Properties();
                     prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -542,7 +543,7 @@ public class LoginController implements Initializable {
             txt_OTP_ChangePass.getStyleClass().add("txt_Incorrect");
             txt_NewPass_ChangePass.getStyleClass().add("txt_Incorrect");
             txt_ComfirmPass_ChangePass.getStyleClass().add("txt_Incorrect");
-            Messages(lbl_Message_ChangePass, "Cannot not Empty!");
+            lbl_Message_ChangePass.setText("Cannot not Empty!");
         } else if (username.isEmpty() || otpCode.isEmpty() || password.isEmpty() || password1.isEmpty()) {
             if (username.isEmpty()) {
                 txt_Username_ChangePass.requestFocus();
@@ -554,18 +555,18 @@ public class LoginController implements Initializable {
                 txt_ComfirmPass_ChangePass.requestFocus();
             }
         } else {
-            Messages(lbl_Message_ChangePass, "");
+            lbl_Message_ChangePass.setText("");
             txt_Username_ChangePass.getStyleClass().add("txt_Correct");
             txt_NewPass_ChangePass.getStyleClass().add("txt_Correct");
             txt_ComfirmPass_ChangePass.getStyleClass().add("txt_Correct");
             if (check = true) {
                 if (count == -1) {
-                    Messages(lbl_Message_ChangePass, "Code OTP too time!");
+                    lbl_Message_ChangePass.setText("Code OTP too time!");
                     txt_OTP_ChangePass.getStyleClass().add("txt_Incorrect");
                     txt_OTP_ChangePass.requestFocus();
                 } else {
                     if (Integer.parseInt(otpCode) == otp) {
-                        Messages(lbl_Message_ChangePass, "");
+                        lbl_Message_ChangePass.setText("");
                         txt_OTP_ChangePass.getStyleClass().add("txt_Correct");
                         AccountDAO dao = new AccountDAO();
                         Account account = new Account();
@@ -581,7 +582,7 @@ public class LoginController implements Initializable {
                         }
 
                     } else {
-                        Messages(lbl_Message_ChangePass, "Code OTP incorrect!");
+                        lbl_Message_ChangePass.setText("Code OTP incorrect!");
                         txt_OTP_ChangePass.getStyleClass().add("txt_Incorrect");
                         txt_OTP_ChangePass.requestFocus();
                     }
@@ -605,7 +606,7 @@ public class LoginController implements Initializable {
             txt_Email_Register.getStyleClass().add("txt_Incorrect");
             txt_Password_Register.getStyleClass().add("txt_Incorrect");
             txt_ComfirmPassword_Register.getStyleClass().add("txt_Incorrect");
-            Messages(lbl_Message_Register, "Cannot not Empty!");
+            lbl_Message_Register.setText("Cannot not Empty!");
         } else if (username.isEmpty() || email.isEmpty() || password.isEmpty() || password1.isEmpty() || !cbo_Agree.isSelected()) {
             if (username.isEmpty()) {
                 txt_Username_Register.requestFocus();
@@ -616,14 +617,14 @@ public class LoginController implements Initializable {
             } else if (password1.isEmpty()) {
                 txt_ComfirmPassword_Register.requestFocus();
             } else if (!cbo_Agree.isSelected()) {
-                Messages(lbl_Message_Register, "Click agee with us!");
+                lbl_Message_Register.setText("Click agee with us!");
             }
         } else {
             if (matcher.find()) {
-                Messages(lbl_Message_Register, "");
+                lbl_Message_Register.setText("");
                 txt_Email_Register.getStyleClass().add("txt_Correct");
                 if (password1.equals(password)) {
-                    Messages(lbl_Message_Register, "");
+                    lbl_Message_Register.setText("");
                     txt_ComfirmPassword_Register.getStyleClass().add("txt_Correct");
                     AccountDAO dao = new AccountDAO();
                     Account account = new Account();
@@ -633,9 +634,9 @@ public class LoginController implements Initializable {
                             txt_Email_Register.getStyleClass().add("txt_Correct");
                             if (password.length() < 5) {
                                 txt_Password_Register.getStyleClass().add("txt_Incorrect");
-                                Messages(lbl_Message_Register, "Password much length more than 5!");
+                                lbl_Message_Register.setText("Password much length more than 5!");
                             } else {
-                                Messages(lbl_Message_Register, "");
+                                lbl_Message_Register.setText("");
                                 txt_Password_Register.getStyleClass().add("txt_Correct");
 
                                 account.setUserName(username);
@@ -654,23 +655,23 @@ public class LoginController implements Initializable {
                             }
 
                         } else {
-                            Messages(lbl_Message_Register, "Email already taken!");
+                            lbl_Message_Register.setText("Email already taken!");
                             txt_Email_Register.getStyleClass().add("txt_Incorrect");
                         }
 
                     } else {
-                        Messages(lbl_Message_Register, "Username already taken!");
+                        lbl_Message_Register.setText("Username already taken!");
                         txt_Username_Register.getStyleClass().add("txt_Incorrect");
                         txt_Username_Register.requestFocus();
                     }
 
                 } else {
-                    Messages(lbl_Message_Register, "Password differently!");
+                    lbl_Message_Register.setText("Password differently!");
                     txt_ComfirmPassword_Register.getStyleClass().add("txt_Incorrect");
                 }
 
             } else {
-                Messages(lbl_Message_Register, "Email is invalid!");
+                lbl_Message_Register.setText("Email is invalid!");
                 txt_Email_Register.getStyleClass().add("txt_Incorrect");
             }
 
