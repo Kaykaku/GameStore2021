@@ -465,3 +465,9 @@
     -fx-background-color: gray;;
 }
 */
+.txt_Incorrect{
+    -fx-border-color: red;
+}
+.txt_Correct{
+    -fx-border-color: #fff;
+}
