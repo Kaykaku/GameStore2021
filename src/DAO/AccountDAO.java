@@ -18,15 +18,12 @@ import until.Connect_Jdbc;
  */
 public class AccountDAO extends DAO<Account, String> {
 
-    private final String insert_sql = "insert into Accounts(Name, BirthDay, Gender, Image, Email, Address, Coutry, CreationDate, Username, Password, Active, Role, Comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private final String update_sql = "update Accounts set Name = ?, BirthDay = ?, Gender = ?, Image = ?, Email = ?, Address = ?, Coutry = ?, CreationDate = ?, Username = ?, Password = ?, Active = ?, Role = ?, Comment = ? where AccountId = ?";
-    private final String delete_sql = "delete from Accounts where AccountId = ?";
-    private final String select_all_sql = "select * from Accounts";
-    private final String select_By_ID_sql = "select * from Accounts where Username = ?";
-    private final String select_By_Name = "select * from Accounts where Name like ?";
-    private final String insert_Register = "INSERT Accounts (Username, Email, [Password]) VALUES (?, ?, ?)";
-    private final String update_Register = "update Accounts set Password = ? where Username = ?";
-    private final String select_By_Email = "select * from Accounts where Email = ?";
+    private final String insert_sql = "insert into Account(AccountId, Name, BirthDay, Gender, Image, Email, Address, Coutry, CreationDate, Active, Role, Comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String update_sql = "update Account set Name = ?, BirthDay = ?, Gender = ?, Image = ?, Email = ?, Address = ?, Coutry = ?, CreationDate = ?, Active = ?, Role = ?, Comment = ? where AccountId = ?";
+    private final String delete_sql = "delete from Account where AccountId = ?";
+    private final String select_all_sql = "select * from Account";
+    private final String select_By_ID_sql = "select * from Account where AccountId = ?";
+    private final String select_By_Name = "select * from Account where Name like ?";
 
     @Override
     public void insert(Account entity) {
@@ -77,7 +74,7 @@ public class AccountDAO extends DAO<Account, String> {
                 account.setName(resultSet.getString("Name"));
                 account.setBirthDay(resultSet.getDate("BirthDay"));
                 account.setGender(resultSet.getBoolean("Gender"));
-                Blob blob = resultSet.getBlob("Image");
+                Blob blob = resultSet.getBlob("Hinh");
                 if (blob != null) {
                     account.setImage(blob.getBytes(1, (int) blob.length()));
                 }
@@ -85,8 +82,6 @@ public class AccountDAO extends DAO<Account, String> {
                 account.setAddress(resultSet.getString("Address"));
                 account.setCountry(resultSet.getString("Country"));
                 account.setCreationDate(resultSet.getDate("CreationDate"));
-                account.setUsername(resultSet.getString("Username"));
-                account.setPassword(resultSet.getString("Password"));
                 account.setActive(resultSet.getBoolean("Active"));
                 account.setRole(resultSet.getInt("Role"));
                 account.setComment(resultSet.getBoolean("Comment"));
@@ -100,19 +95,4 @@ public class AccountDAO extends DAO<Account, String> {
         return list;
     }
 
-    public void insert_Register(Account entity) {
-        Connect_Jdbc.update(insert_Register, entity.getUsername(), entity.getEmail(), entity.getPassword());
-    }
-
-    public void update_Register(Account entity) {
-        Connect_Jdbc.update(update_Register, entity.getPassword(), entity.getUsername());
-    }
-
-    public Account selectByEmail(String keys) {
-        List<Account> list = this.selectBySql(select_By_Email, keys);
-        if (list.isEmpty()) {
-            return null;
-        }
-        return list.get(0);
-    }
 }
