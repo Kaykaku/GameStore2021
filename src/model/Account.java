@@ -18,12 +18,12 @@ public class Account {
     private Date birthDay;
     private boolean gender;
     private byte[] image=null;
-    private String email;
+    private String Email;
     private String address;
     private String country;
     private Date creationDate;
-    private String userName;
-    private String password;
+    private String Username;
+    private String Password;
     private boolean active;
     private int role;
     private boolean comment;
@@ -31,23 +31,22 @@ public class Account {
     public Account() {
     }
 
-    public Account(int accountId, String name, Date birthDay, boolean gender, byte[] image, String email, String address, String country, Date creationDate, String userName, String password, boolean active, int role, boolean comment) {
+    public Account(int accountId, String name, Date birthDay, boolean gender, String Email, String address, String country, Date creationDate, String UserName, String Password, boolean active, int role, boolean comment) {
         this.accountId = accountId;
         this.name = name;
         this.birthDay = birthDay;
         this.gender = gender;
-        this.image = image;
-        this.email = email;
+        this.Email = Email;
         this.address = address;
         this.country = country;
         this.creationDate = creationDate;
-        this.userName = userName;
-        this.password = password;
+        this.Username = UserName;
+        this.Password = Password;
         this.active = active;
         this.role = role;
         this.comment = comment;
     }
-    
+
     public int getAccountId() {
         return accountId;
     }
@@ -89,11 +88,11 @@ public class Account {
     }
 
     public String getEmail() {
-        return email;
+        return Email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
 
     public String getAddress() {
@@ -116,24 +115,24 @@ public class Account {
         return creationDate;
     }
 
-    public void setCreationDate(Date creattionDate) {
-        this.creationDate = creattionDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getUserName() {
-        return userName;
+        return Username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String UserName) {
+        this.Username = UserName;
     }
 
     public String getPassword() {
-        return password;
+        return Password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
 
     public boolean isActive() {
@@ -159,5 +158,5 @@ public class Account {
     public void setComment(boolean comment) {
         this.comment = comment;
     }
-    
+
 }
