@@ -26,19 +26,22 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String select_By_ID_sql = "select * from Accounts where AccountId = ?";
     private final String select_By_User_sql = "select * from Accounts where UserName = ?";
     private final String select_By_KeyWord = "select * from Accounts where AccountId like ? or Name like ? or UserName like ? ";
+    private final String update_Register = "update Accounts set Password = ? where Username = ?";
+    private final String select_By_Email = "select * from Accounts where Email = ?";
+    private final String insert_Register = "INSERT Accounts (Username, Email, [Password]) VALUES (?, ?, ?)";
 
     @Override
     public void insert(Account entity) {
         Connect_Jdbc.update(insert_sql, entity.getName(), entity.getBirthDay(), entity.isGender(),
-                entity.getImage(), entity.getEmail(), entity.getAddress(), entity.getCountry(),entity.getCreationDate()
-                ,entity.getUserName(),entity.getPassword(),entity.isActive(), entity.getRole(), entity.isComment());
+                entity.getImage(), entity.getEmail(), entity.getAddress(), entity.getCountry(), entity.getCreationDate(),
+                entity.getUserName(), entity.getPassword(), entity.isActive(), entity.getRole(), entity.isComment());
     }
 
     @Override
     public void update(Account entity) {
         Connect_Jdbc.update(update_sql, entity.getName(), entity.getBirthDay(), entity.isGender(), entity.getImage(),
-                entity.getEmail(), entity.getAddress(), entity.getCountry(),entity.getCreationDate(),entity.getUserName(),entity.getPassword(),
-                 entity.isActive(), entity.getRole(), entity.isComment(), entity.getAccountId());
+                entity.getEmail(), entity.getAddress(), entity.getCountry(), entity.getCreationDate(), entity.getUserName(), entity.getPassword(),
+                entity.isActive(), entity.getRole(), entity.isComment(), entity.getAccountId());
     }
 
     @Override
@@ -63,7 +66,7 @@ public class AccountDAO extends DAO<Account, Integer> {
     @Override
     public List<Account> selectByKeyWord(String keys) {
         keys = "%" + keys + "%";
-        return this.selectBySql(select_By_KeyWord,keys,keys,keys );
+        return this.selectBySql(select_By_KeyWord, keys, keys, keys);
 
     }
 
@@ -78,7 +81,7 @@ public class AccountDAO extends DAO<Account, Integer> {
                 entity.setName(resultSet.getString("Name"));
                 entity.setBirthDay(resultSet.getDate("BirthDay"));
                 entity.setGender(resultSet.getBoolean("Gender"));
-                entity.setImage(resultSet.getBytes("Image"));              
+                entity.setImage(resultSet.getBytes("Image"));
                 entity.setEmail(resultSet.getString("Email"));
                 entity.setAddress(resultSet.getString("Address"));
                 entity.setCountry(resultSet.getString("Country"));
@@ -97,8 +100,25 @@ public class AccountDAO extends DAO<Account, Integer> {
         }
         return list;
     }
+
     public Account selectByUser(String keys) {
         List<Account> list = this.selectBySql(select_By_User_sql, keys);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public void insert_Register(Account entity) {
+        Connect_Jdbc.update(insert_Register, entity.getUserName(), entity.getEmail(), entity.getPassword());
+    }
+
+    public void update_Register(Account entity) {
+        Connect_Jdbc.update(update_Register, entity.getPassword(), entity.getUserName());
+    }
+
+    public Account selectByEmail(String keys) {
+        List<Account> list = this.selectBySql(select_By_Email, keys);
         if (list.isEmpty()) {
             return null;
         }
