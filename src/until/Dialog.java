@@ -7,8 +7,6 @@ package until;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 /**
  *
@@ -25,12 +23,5 @@ public class Dialog {
         alert.setContentText(content);
 
         alert.showAndWait();
-    }
-    public static void Messages(Label name, String error){
-        name.setText(error);
-    }
-    
-    public static boolean CheckEmpty(TextField name){
-        return name.getText().isEmpty();
     }
 }
