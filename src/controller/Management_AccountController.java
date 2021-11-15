@@ -218,7 +218,7 @@ public class Management_AccountController implements Initializable {
         ProcessDate.converter(datePicker_Birthday);
         ProcessDate.converter(datePicker_CreationDate);
 
-        //pnl_CreationDate.setDisable(true);
+        pnl_CreationDate.setDisable(true);
     }
 
     void fillCboCountry() {
@@ -421,6 +421,10 @@ public class Management_AccountController implements Initializable {
                 edit();
             }
         });
+        txt_Search.setOnKeyReleased(evt->{
+            fillTable();
+            if(listAccounts.size()>0)setForm(listAccounts.get(0));
+                });
         rdo_Male.setOnAction(evt->{
             setAvatar();
         });
