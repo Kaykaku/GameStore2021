@@ -9,36 +9,40 @@ import java.sql.ResultSet;
 import model.Account;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Blob;
 import until.Connect_Jdbc;
 
 /**
  *
  * @author leminhthanh
  */
-public class AccountDAO extends DAO<Account, String> {
+public class AccountDAO extends DAO<Account, Integer> {
 
-    private final String insert_sql = "insert into Account(AccountId, Name, BirthDay, Gender, Image, Email, Address, Coutry, CreationDate, Active, Role, Comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private final String update_sql = "update Account set Name = ?, BirthDay = ?, Gender = ?, Image = ?, Email = ?, Address = ?, Coutry = ?, CreationDate = ?, Active = ?, Role = ?, Comment = ? where AccountId = ?";
-    private final String delete_sql = "delete from Account where AccountId = ?";
-    private final String select_all_sql = "select * from Account";
-    private final String select_By_ID_sql = "select * from Account where AccountId = ?";
-    private final String select_By_Name = "select * from Account where Name like ?";
+    private final String insert_sql = "insert into Accounts(Name, BirthDay, Gender, Image, Email, Address, Country, CreationDate,UserName,"
+            + "Password, Active, Role, Comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+    private final String update_sql = "update Accounts set Name = ?, BirthDay = ?, Gender = ?, Image = ?, Email = ?, Address = ?, "
+            + "Country = ?, CreationDate = ?,UserName =?,Password=?, Active = ?, Role = ?, Comment = ? where AccountId = ?";
+    private final String delete_sql = "delete from Accounts where AccountId = ?";
+    private final String select_all_sql = "select * from Accounts";
+    private final String select_By_ID_sql = "select * from Accounts where AccountId = ?";
+    private final String select_By_User_sql = "select * from Accounts where UserName = ?";
+    private final String select_By_KeyWord = "select * from Accounts where AccountId like ? or Name like ? or UserName like ? ";
 
     @Override
     public void insert(Account entity) {
-        Connect_Jdbc.update(insert_sql, entity.getAccountId(), entity.getName(), entity.getBirthDay(), entity.isGender(), entity.getImage(), entity.getEmail(), entity.getAddress(), entity.getCountry(),
-                entity.getCreationDate(), entity.isActive(), entity.getRole(), entity.isComment());
+        Connect_Jdbc.update(insert_sql, entity.getName(), entity.getBirthDay(), entity.isGender(),
+                entity.getImage(), entity.getEmail(), entity.getAddress(), entity.getCountry(),entity.getCreationDate()
+                ,entity.getUserName(),entity.getPassword(),entity.isActive(), entity.getRole(), entity.isComment());
     }
 
     @Override
     public void update(Account entity) {
-        Connect_Jdbc.update(update_sql, entity.getName(), entity.getBirthDay(), entity.isGender(), entity.getImage(), entity.getEmail(), entity.getAddress(), entity.getCountry(),
-                entity.getCreationDate(), entity.isActive(), entity.getRole(), entity.isComment(), entity.getAccountId());
+        Connect_Jdbc.update(update_sql, entity.getName(), entity.getBirthDay(), entity.isGender(), entity.getImage(),
+                entity.getEmail(), entity.getAddress(), entity.getCountry(),entity.getCreationDate(),entity.getUserName(),entity.getPassword(),
+                 entity.isActive(), entity.getRole(), entity.isComment(), entity.getAccountId());
     }
 
     @Override
-    public void delete(String key) {
+    public void delete(Integer key) {
         Connect_Jdbc.update(delete_sql, key);
     }
 
@@ -48,7 +52,7 @@ public class AccountDAO extends DAO<Account, String> {
     }
 
     @Override
-    public Account selectByID(String keys) {
+    public Account selectByID(Integer keys) {
         List<Account> list = this.selectBySql(select_By_ID_sql, keys);
         if (list.isEmpty()) {
             return null;
@@ -58,7 +62,8 @@ public class AccountDAO extends DAO<Account, String> {
 
     @Override
     public List<Account> selectByKeyWord(String keys) {
-        return this.selectBySql(select_By_Name, "%" + keys + "%");
+        keys = "%" + keys + "%";
+        return this.selectBySql(select_By_KeyWord,keys,keys,keys );
 
     }
 
@@ -68,31 +73,36 @@ public class AccountDAO extends DAO<Account, String> {
         try {
             ResultSet resultSet = Connect_Jdbc.query(sql, args);
             while (resultSet.next()) {
-                Account account = new Account();
+                Account entity = new Account();
+                entity.setAccountId(resultSet.getInt("AccountID"));
+                entity.setName(resultSet.getString("Name"));
+                entity.setBirthDay(resultSet.getDate("BirthDay"));
+                entity.setGender(resultSet.getBoolean("Gender"));
+                entity.setImage(resultSet.getBytes("Image"));              
+                entity.setEmail(resultSet.getString("Email"));
+                entity.setAddress(resultSet.getString("Address"));
+                entity.setCountry(resultSet.getString("Country"));
+                entity.setCreationDate(resultSet.getDate("CreationDate"));
+                entity.setUserName(resultSet.getString("UserName"));
+                entity.setPassword(resultSet.getString("Password"));
+                entity.setActive(resultSet.getBoolean("Active"));
+                entity.setRole(resultSet.getInt("Role"));
+                entity.setComment(resultSet.getBoolean("Comment"));
 
-                account.setAccountId(resultSet.getInt("AccountID"));
-                account.setName(resultSet.getString("Name"));
-                account.setBirthDay(resultSet.getDate("BirthDay"));
-                account.setGender(resultSet.getBoolean("Gender"));
-                Blob blob = resultSet.getBlob("Hinh");
-                if (blob != null) {
-                    account.setImage(blob.getBytes(1, (int) blob.length()));
-                }
-                account.setEmail(resultSet.getString("Email"));
-                account.setAddress(resultSet.getString("Address"));
-                account.setCountry(resultSet.getString("Country"));
-                account.setCreationDate(resultSet.getDate("CreationDate"));
-                account.setActive(resultSet.getBoolean("Active"));
-                account.setRole(resultSet.getInt("Role"));
-                account.setComment(resultSet.getBoolean("Comment"));
-
-                list.add(account);
+                list.add(entity);
             }
             resultSet.getStatement().getConnection().close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
+    }
+    public Account selectByUser(String keys) {
+        List<Account> list = this.selectBySql(select_By_User_sql, keys);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
 }

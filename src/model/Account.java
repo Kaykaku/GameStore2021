@@ -6,133 +6,158 @@
 package model;
 
 import java.util.Date;
+import javafx.scene.image.Image;
 
 /**
  *
  * @author leminhthanh
  */
 public class Account {
-    int AccountId, Role;
-    String Name, Email, Address, Country;
-    Date BirthDay, CreationDate;
-    boolean Gender, Active, Comment;
-    byte[] Image;
+    private int accountId ;
+    private String name ;
+    private Date birthDay;
+    private boolean gender;
+    private byte[] image=null;
+    private String email;
+    private String address;
+    private String country;
+    private Date creationDate;
+    private String userName;
+    private String password;
+    private boolean active;
+    private int role;
+    private boolean comment;
 
     public Account() {
     }
 
-    public Account(int AccountId, int Role, String Name, String Email, String Address, String Country, Date BirthDay, Date CreationDate, boolean Gender, boolean Active, boolean Comment, byte[] Image) {
-        this.AccountId = AccountId;
-        this.Role = Role;
-        this.Name = Name;
-        this.Email = Email;
-        this.Address = Address;
-        this.Country = Country;
-        this.BirthDay = BirthDay;
-        this.CreationDate = CreationDate;
-        this.Gender = Gender;
-        this.Active = Active;
-        this.Comment = Comment;
-        this.Image = Image;
+    public Account(int accountId, String name, Date birthDay, boolean gender, byte[] image, String email, String address, String country, Date creationDate, String userName, String password, boolean active, int role, boolean comment) {
+        this.accountId = accountId;
+        this.name = name;
+        this.birthDay = birthDay;
+        this.gender = gender;
+        this.image = image;
+        this.email = email;
+        this.address = address;
+        this.country = country;
+        this.creationDate = creationDate;
+        this.userName = userName;
+        this.password = password;
+        this.active = active;
+        this.role = role;
+        this.comment = comment;
     }
-
+    
     public int getAccountId() {
-        return AccountId;
+        return accountId;
     }
 
-    public void setAccountId(int AccountId) {
-        this.AccountId = AccountId;
-    }
-
-    public int getRole() {
-        return Role;
-    }
-
-    public void setRole(int Role) {
-        this.Role = Role;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String Email) {
-        this.Email = Email;
-    }
-
-    public String getAddress() {
-        return Address;
-    }
-
-    public void setAddress(String Address) {
-        this.Address = Address;
-    }
-
-    public String getCountry() {
-        return Country;
-    }
-
-    public void setCountry(String Country) {
-        this.Country = Country;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getBirthDay() {
-        return BirthDay;
+        return birthDay;
     }
 
-    public void setBirthDay(Date BirthDay) {
-        this.BirthDay = BirthDay;
-    }
-
-    public Date getCreationDate() {
-        return CreationDate;
-    }
-
-    public void setCreationDate(Date CreationDate) {
-        this.CreationDate = CreationDate;
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
     }
 
     public boolean isGender() {
-        return Gender;
+        return gender;
     }
 
-    public void setGender(boolean Gender) {
-        this.Gender = Gender;
-    }
-
-    public boolean isActive() {
-        return Active;
-    }
-
-    public void setActive(boolean Active) {
-        this.Active = Active;
-    }
-
-    public boolean isComment() {
-        return Comment;
-    }
-
-    public void setComment(boolean Comment) {
-        this.Comment = Comment;
+    public void setGender(boolean gender) {
+        this.gender = gender;
     }
 
     public byte[] getImage() {
-        return Image;
+        return image;
     }
 
-    public void setImage(byte[] Image) {
-        this.Image = Image;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
-            
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creattionDate) {
+        this.creationDate = creattionDate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public boolean isComment() {
+        return comment;
+    }
+
+    public void setComment(boolean comment) {
+        this.comment = comment;
+    }
+    
 }
