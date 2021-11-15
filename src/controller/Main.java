@@ -23,8 +23,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource(FORM_ACCOUNT));
-//        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Login.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource(FORM_ACCOUNT));
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Login.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
 
         Scene scene = new Scene(root);
