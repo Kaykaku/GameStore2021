@@ -10,31 +10,31 @@ package model;
  * @author NguyenHuan
  */
 public class AppType {
-     int ApplicationID;
-     int CategoryId;
+     int applicationID;
+     int categoryId;
 
     public AppType() {
     }
 
-    public AppType(int ApplicationID, int CategoryId) {
-        this.ApplicationID = ApplicationID;
-        this.CategoryId = CategoryId;
+    public AppType(int applicationID, int categoryId) {
+        this.applicationID = applicationID;
+        this.categoryId = categoryId;
     }
 
     public int getApplicationID() {
-        return ApplicationID;
+        return applicationID;
     }
 
-    public void setApplicationID(int ApplicationID) {
-        this.ApplicationID = ApplicationID;
+    public void setApplicationID(int applicationID) {
+        this.applicationID = applicationID;
     }
 
     public int getCategoryId() {
-        return CategoryId;
+        return categoryId;
     }
 
-    public void setCategoryId(int CategoryId) {
-        this.CategoryId = CategoryId;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
      
 }

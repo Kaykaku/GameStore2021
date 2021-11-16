@@ -85,7 +85,6 @@ public class MainController implements Initializable {
         Value.WIDTH_VIEW = pnl_View.getPrefWidth();
         Value.HEIGHT_VIEW = pnl_View.getPrefHeight();
         drawMenuItems();
-        drawPanelView(EMPTY);
 
         controller[0].setStyle("-fx-background-color: #454545;");
         controller[0].setItemInfo("", ListItems.get(0)[1].toString() + "selected.png");

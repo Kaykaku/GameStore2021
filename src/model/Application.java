@@ -12,163 +12,167 @@ import java.sql.Date;
  * @author NguyenHuan
  */
 public class Application {
-    int ApplicationID;
-    String Name;
-    float Price,Size;
-    int Type;
-    String Image;
-    String Developer,Publisher;
-    Date ReleaseDay,CreationDate;
-    String Languages;
-    float Sale;
-    String Description;
-    int Active,EnableBuy;
+
+    private int applicationID;
+    private String name;
+    private float price, size;
+    private int type;
+    private byte[] appImage, appIcon;
+    private String developer, publisher;
+    private Date releaseDay, creationDate;
+    private String languages;
+    private float sale;
+    private String description;
+    private boolean active, enableBuy;
 
     public Application() {
     }
 
-    public Application(int ApplicationID, String Name, float Price, float Size,int Type, String Image, String Developer, String Publisher, Date ReleaseDay, Date CreationDate, String Languages, float Sale, String Description, int Active, int EnableBuy) {
-        this.ApplicationID = ApplicationID;
-        this.Name = Name;
-        this.Price = Price;
-        this.Size = Size;
-        this.Type = Type;
-        this.Image = Image;
-        this.Developer = Developer;
-        this.Publisher = Publisher;
-        this.ReleaseDay = ReleaseDay;
-        this.CreationDate = CreationDate;
-        this.Languages = Languages;
-        this.Sale = Sale;
-        this.Description = Description;
-        this.Active = Active;
-        this.EnableBuy = EnableBuy;
-    }
-
-    public int getType() {
-        return Type;
-    }
-
-    public void setType(int Type) {
-        this.Type = Type;
+    public Application(int applicationID, String name, float price, float size, int type, byte[] appImage, byte[] appIcon, String developer, String publisher, Date releaseDay, Date creationDate, String languages, float sale, String description, boolean active, boolean enableBuy) {
+        this.applicationID = applicationID;
+        this.name = name;
+        this.price = price;
+        this.size = size;
+        this.type = type;
+        this.appImage = appImage;
+        this.appIcon = appIcon;
+        this.developer = developer;
+        this.publisher = publisher;
+        this.releaseDay = releaseDay;
+        this.creationDate = creationDate;
+        this.languages = languages;
+        this.sale = sale;
+        this.description = description;
+        this.active = active;
+        this.enableBuy = enableBuy;
     }
 
     public int getApplicationID() {
-        return ApplicationID;
+        return applicationID;
     }
 
-    public void setApplicationID(int ApplicationID) {
-        this.ApplicationID = ApplicationID;
+    public void setApplicationID(int applicationID) {
+        this.applicationID = applicationID;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getPrice() {
-        return Price;
+        return price;
     }
 
-    public void setPrice(float Price) {
-        this.Price = Price;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public float getSize() {
-        return Size;
+        return size;
     }
 
-    public void setSize(float Size) {
-        this.Size = Size;
+    public void setSize(float size) {
+        this.size = size;
     }
 
-    public String getImage() {
-        return Image;
+    public int getType() {
+        return type;
     }
 
-    public void setImage(String Image) {
-        this.Image = Image;
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public byte[] getAppImage() {
+        return appImage;
+    }
+
+    public void setAppImage(byte[] appImage) {
+        this.appImage = appImage;
+    }
+
+    public byte[] getAppIcon() {
+        return appIcon;
+    }
+
+    public void setAppIcon(byte[] appIcon) {
+        this.appIcon = appIcon;
     }
 
     public String getDeveloper() {
-        return Developer;
+        return developer;
     }
 
-    public void setDeveloper(String Developer) {
-        this.Developer = Developer;
+    public void setDeveloper(String developer) {
+        this.developer = developer;
     }
 
     public String getPublisher() {
-        return Publisher;
+        return publisher;
     }
 
-    public void setPublisher(String Publisher) {
-        this.Publisher = Publisher;
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public Date getReleaseDay() {
-        return ReleaseDay;
+        return releaseDay;
     }
 
-    public void setReleaseDay(Date ReleaseDay) {
-        this.ReleaseDay = ReleaseDay;
+    public void setReleaseDay(Date releaseDay) {
+        this.releaseDay = releaseDay;
     }
 
     public Date getCreationDate() {
-        return CreationDate;
+        return creationDate;
     }
 
-    public void setCreationDate(Date CreationDate) {
-        this.CreationDate = CreationDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getLanguages() {
-        return Languages;
+        return languages;
     }
 
-    public void setLanguages(String Languages) {
-        this.Languages = Languages;
+    public void setLanguages(String languages) {
+        this.languages = languages;
     }
 
     public float getSale() {
-        return Sale;
+        return sale;
     }
 
-    public void setSale(float Sale) {
-        this.Sale = Sale;
+    public void setSale(float sale) {
+        this.sale = sale;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getActive() {
-        return Active;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setActive(int Active) {
-        this.Active = Active;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-    public int getEnableBuy() {
-        return EnableBuy;
+    public boolean isEnableBuy() {
+        return enableBuy;
     }
 
-    public void setEnableBuy(int EnableBuy) {
-        this.EnableBuy = EnableBuy;
+    public void setEnableBuy(boolean enableBuy) {
+        this.enableBuy = enableBuy;
     }
 
-    @Override
-    public String toString() {
-        return "Application{" + "ApplicationID=" + ApplicationID + ", Name=" + Name + ", Price=" + Price + ", Size=" + Size + ", Type=" + Type + ", Image=" + Image + ", Developer=" + Developer + ", Publisher=" + Publisher + ", ReleaseDay=" + ReleaseDay + ", CreationDate=" + CreationDate + ", Languages=" + Languages + ", Sale=" + Sale + ", Description=" + Description + ", Active=" + Active + ", EnableBuy=" + EnableBuy + '}';
-    }
-    
-    
 }

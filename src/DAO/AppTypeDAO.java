@@ -31,8 +31,7 @@ public class AppTypeDAO extends DAO<AppType, Integer>{
 
     @Override
     public void delete(Integer key) {
-       String sql = "delete * from App_Type where ApplicatonID = ?";
-       Connect_Jdbc.update(sql);
+       
     }
 
     @Override
@@ -43,8 +42,7 @@ public class AppTypeDAO extends DAO<AppType, Integer>{
 
     @Override
     public AppType selectByID(Integer keys) {
-       String sql= "select * from App_Type where ApplicatonID=?";
-       return selectBySql(sql,keys).isEmpty()? null:selectBySql(sql,keys).get(0);
+       return  null;
     }
 
     @Override
@@ -72,5 +70,20 @@ public class AppTypeDAO extends DAO<AppType, Integer>{
         }
         return list;
     }
-    
+    public boolean isContainAppType(AppType entity) {
+       String sql= "Select * from App_Type where ApplicatonID = ? and CategoryId=?";
+       return selectBySql(sql,entity.getApplicationID(),entity.getCategoryId()).size()>0;
+    }
+    public List<AppType> selectByApplicationId(Integer keys) {
+       String sql= "select * from App_Type where ApplicatonID=?";
+       return selectBySql(sql,keys);
+    }
+    public List<AppType> selectByCategoryId(Integer keys) {
+       String sql= "select * from App_Type where CategoryId=?";
+       return selectBySql(sql,keys);
+    }
+    public void delete(AppType entity) {
+       String sql = "delete from App_Type where ApplicatonID = ? and CategoryId=? ";
+       Connect_Jdbc.update(sql,entity.getApplicationID(),entity.getCategoryId());
+    }
 }

@@ -13,56 +13,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane prefHeight="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane prefHeight="700.0" prefWidth="1247.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="700.0" fitWidth="1247.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../icons/pacific-rim-uprising-wide-hd-wallpaper-preview.jpg" />
          </image>
       </ImageView>
-      <Pane prefHeight="700.0" prefWidth="623.0" styleClass="login_background1" stylesheets="@../../css/main.css">
-         <children>
-            <Label alignment="CENTER" layoutY="212.0" prefHeight="72.0" prefWidth="623.0" text="YOU WANT MOST GAME IS HERE" textFill="WHITE">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Text fill="#dddddd" layoutX="107.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New adventures are ready for you to discover right behind the screen" textAlignment="CENTER" wrappingWidth="410.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <HBox layoutX="190.0" layoutY="20.0" spacing="10.0">
-               <children>
-                  <ImageView fitHeight="150.0" fitWidth="50.0" layoutX="164.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/app_icon50.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label layoutX="221.0" layoutY="21.0" prefHeight="72.0" prefWidth="160.0" text="GAME STORE" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox layoutX="261.0" layoutY="537.0" spacing="15.0">
-               <children>
-                  <Circle fill="#ffffffcc" layoutX="151.0" layoutY="478.0" radius="8.0" stroke="#ffffff00" strokeType="INSIDE" styleClass="login_circle" />
-                  <Circle fill="#ffffff66" layoutX="161.0" layoutY="488.0" radius="8.0" stroke="#ffffff00" strokeType="INSIDE" styleClass="login_circle" />
-                  <Circle fill="#ffffff66" layoutX="171.0" layoutY="498.0" radius="8.0" stroke="#ffffff00" strokeType="INSIDE" styleClass="login_circle" />
-               </children>
-            </HBox>
-            <JFXButton layoutX="166.0" layoutY="439.0" prefHeight="55.0" prefWidth="310.0" styleClass="button_type11" text="Register now">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </Pane>
       <Pane layoutX="620.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
          <children>
             <VBox layoutX="161.0" layoutY="283.0" spacing="20.0">
@@ -93,9 +50,6 @@
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
                   </JFXButton>
                </children>
             </VBox>

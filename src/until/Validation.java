@@ -6,6 +6,7 @@
 package until;
 
 import DAO.AccountDAO;
+import DAO.CategoryDAO;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.time.Period;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.Account;
+import model.Category;
 
 /**
  *
@@ -86,6 +88,14 @@ public class Validation {
         String err = "";
         if (file==null) {
             err = "IMAGE have been chose\n";
+        }
+        return err;
+    }
+    
+    public static String validationCategoryName(JFXTextField textField) {
+        String err = "";
+        if (textField.getText().trim().length()<2) {
+            err = "CATERORY must be at least 2 characters\n";
         }
         return err;
     }

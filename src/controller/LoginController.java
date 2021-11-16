@@ -11,7 +11,6 @@ import DAO.AccountDAO;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -46,8 +45,6 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.input.MouseEvent;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -171,7 +168,7 @@ public class LoginController implements Initializable {
                 MoveLeft ani = new MoveLeft(img_bg1, pnl_Login.getPrefWidth());
                 ani.play();
                 btn_Change.setText("Login now");
-                new SlideOutDown(pnl_Login).playOnFinished(new SlideOutUp(pnl_Register)).play();
+                new SlideOutUp(pnl_Login).playOnFinished(new SlideOutDown(pnl_Register)).play();
             } else {
                 MoveRight ani = new MoveRight(img_bg1, pnl_Login.getPrefWidth());
                 ani.play();

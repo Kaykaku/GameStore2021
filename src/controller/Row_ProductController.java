@@ -13,10 +13,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import model.Application;
+import until.ProcessDate;
+import until.ProcessImage;
 
 /**
  * FXML Controller class
@@ -26,13 +31,34 @@ import javafx.scene.paint.Color;
 public class Row_ProductController implements Initializable {
 
     @FXML
-    private Pane pane1;
+    private Pane pnl_Row;
+
     @FXML
-    private ImageView img_Icon;
+    private Pane pnl_MenuHide;
+
     @FXML
-    private Pane pane2;
+    private Label lbl_Size;
+
     @FXML
-    private Pane pane3;
+    private Pane pnl_MenuShow;
+
+    @FXML
+    private Label lbl_Id;
+
+    @FXML
+    private Label lbl_Name;
+
+    @FXML
+    private ImageView img_IconApp;
+
+    @FXML
+    private Label lbl_Price;
+
+    @FXML
+    private Label lbl_Sale;
+
+    @FXML
+    private Label lbl_RealeaseDate;
     /**
      * Initializes the controller class.
      */
@@ -40,23 +66,34 @@ public class Row_ProductController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        RoundedImageView.RoundedImage(img_Icon, 10);
-        img_Icon.setEffect(new DropShadow(5, Color.BLACK));
-        pane1.setOnMouseEntered(evt -> {
-            new GrowUp(pane1, 1.02).play();
+        RoundedImageView.RoundedImage(img_IconApp, 10);
+        img_IconApp.setEffect(new DropShadow(5, Color.BLACK));
+        pnl_Row.setOnMouseEntered(evt -> {
+            new GrowUp(pnl_Row, 1.02).play();
         });
-        pane1.setOnMouseExited(evt -> {
-            pane1.setScaleX(1);
-            pane1.setScaleY(1);
+        pnl_Row.setOnMouseExited(evt -> {
+            pnl_Row.setScaleX(1);
+            pnl_Row.setScaleY(1);
         });
-        pane3.setOnMouseClicked(evt -> {
+        pnl_MenuShow.setOnMouseClicked(evt -> {
             if (!isShowOption) {
-                new MoveLeft(pane1, pane2.getPrefWidth() - 10).play();
+                new MoveLeft(pnl_Row, pnl_MenuShow.getPrefWidth() - 10).play();
             } else {
-                new MoveRight(pane1, pane2.getPrefWidth() - 10).play();
+                new MoveRight(pnl_Row, pnl_MenuShow.getPrefWidth() - 10).play();
             }
             isShowOption = !isShowOption;
         });
     }
-
+    void setAppInfo(Application entity){
+        lbl_Id.setText(entity.getApplicationID()+"");
+        lbl_Name.setText(entity.getName());
+        lbl_Price.setText(entity.getPrice()==0?"Free":entity.getPrice()+"$");
+        lbl_RealeaseDate.setText(ProcessDate.toString(entity.getReleaseDay()));
+        lbl_Sale.setText(entity.getSale()+"%");
+        lbl_Size.setText(entity.getSize()+"Mb");
+        if (entity.getAppIcon()!=null) {
+            img_IconApp.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+            RoundedImageView.RoundedImage(img_IconApp, 10);
+        }
+    }
 }

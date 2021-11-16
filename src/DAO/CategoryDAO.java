@@ -31,7 +31,7 @@ public class CategoryDAO extends DAO<Category, Integer> {
 
     @Override
     public void delete(Integer key) {
-        String sql = "delete * from Categories where CategoryId = ?";
+        String sql = "delete from Categories where CategoryId = ?";
         Connect_Jdbc.update(sql, key);
     }
 
@@ -73,5 +73,9 @@ public class CategoryDAO extends DAO<Category, Integer> {
         }
         return list;
     }
-
+    public Category selectByName(String keys) {
+       String sql= "select * from Categories where Name like ?";
+       keys= "%"+keys+"%";
+       return selectBySql(sql,keys).isEmpty()? null:selectBySql(sql,keys).get(0);
+    }
 }

@@ -20,20 +20,20 @@ public class ApplicationDAO extends DAO<Application, Integer> {
     @Override
     public void insert(Application entity) {
         String sql = "insert into Applicatons (Name,Price,Size,Type,Image,Developer,Publisher,ReleaseDay,CreationDate,Languages,Sale,Description,Active,EnableBuy) "
-                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getImage(),entity.getDeveloper()
+                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getAppIcon(),entity.getAppImage(),entity.getDeveloper()
                 ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale()
-                ,entity.getDescription(),entity.getActive(),entity.getEnableBuy());
+                ,entity.getDescription(),entity.isActive(),entity.isEnableBuy());
 
     }
 
     @Override
     public void update(Application entity) {
-        String sql = "update Applicatons set Name=?,Price=?,Size=?,Type=?,Image=?,Developer=?,Publisher=?,ReleaseDay=?,CreationDate=?,Languages=?,Sale=?,Description=?,Active=?,EnableBuy=?"
+        String sql = "update Applicatons set Name=?,Price=?,Size=?,Type=?,AppIcon=?,AppImage=?,Developer=?,Publisher=?,ReleaseDay=?,CreationDate=?,Languages=?,Sale=?,Description=?,Active=?,EnableBuy=?"
                 + " WHERE ApplicatonId=? " ;
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getImage(),entity.getDeveloper()
+        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getAppIcon(),entity.getAppImage(),entity.getDeveloper()
                 ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale()
-                ,entity.getDescription(),entity.getActive(),entity.getEnableBuy(),entity.getApplicationID());
+                ,entity.getDescription(),entity.isActive(),entity.isEnableBuy(),entity.getApplicationID());
     }
 
     @Override
@@ -56,9 +56,9 @@ public class ApplicationDAO extends DAO<Application, Integer> {
 
     @Override
     public List<Application> selectByKeyWord(String keys) {
-       String sql= "SELECT * FROM Applicatons where Name like ?";
+       String sql= "SELECT * FROM Applicatons where Name like ? or ApplicatonId like ?";
        keys= "%"+keys+"%";
-       return selectBySql(sql,keys);
+       return selectBySql(sql,keys,keys);
     }
 
     @Override
@@ -69,22 +69,23 @@ public class ApplicationDAO extends DAO<Application, Integer> {
 //Name,Price,Size,Image,Developer,Publisher,ReleaseDay,CreationDate,Languages,Sale,Description,Active,EnableBuy
                 rs = Connect_Jdbc.query(sql, args);
                 while (rs.next()) {
-                    Application ap = new Application();
-                    ap.setApplicationID(rs.getInt("ApplicatonId"));
-                    ap.setName(rs.getString("Name"));
-                    ap.setPrice(rs.getFloat("Price"));
-                    ap.setSize(rs.getFloat("Size"));
-                    ap.setImage(rs.getString("Image"));
-                    ap.setDeveloper(rs.getString("Developer"));
-                    ap.setPublisher(rs.getString("Publisher"));
-                    ap.setReleaseDay(rs.getDate("ReleaseDay"));
-                    ap.setCreationDate(rs.getDate("CreationDate"));
-                    ap.setLanguages(rs.getString("Languages"));
-                    ap.setSale(rs.getFloat("Sale"));
-                    ap.setDescription(rs.getString("Description"));
-                    ap.setActive(rs.getInt("Active"));
-                    ap.setEnableBuy(rs.getInt("EnableBuy"));
-                    list.add(ap);
+                    Application entity = new Application();
+                    entity.setApplicationID(rs.getInt("ApplicatonId"));
+                    entity.setName(rs.getString("Name"));
+                    entity.setPrice(rs.getFloat("Price"));
+                    entity.setSize(rs.getFloat("Size"));
+                    entity.setAppIcon(rs.getBytes("AppIcon"));
+                    entity.setAppImage(rs.getBytes("AppImage"));
+                    entity.setDeveloper(rs.getString("Developer"));
+                    entity.setPublisher(rs.getString("Publisher"));
+                    entity.setReleaseDay(rs.getDate("ReleaseDay"));
+                    entity.setCreationDate(rs.getDate("CreationDate"));
+                    entity.setLanguages(rs.getString("Languages"));
+                    entity.setSale(rs.getFloat("Sale"));
+                    entity.setDescription(rs.getString("Description"));
+                    entity.setActive(rs.getBoolean("Active"));
+                    entity.setEnableBuy(rs.getBoolean("EnableBuy"));
+                    list.add(entity);
                 }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,5 +93,9 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         }
         return list;
     }
-
+    public void setImage(Application e) {
+       String sql= "update Applicatons set AppIcon = ? where ApplicatonId =?";
+       //keys= "%"+keys+"%";
+       Connect_Jdbc.update(sql,e.getAppIcon(),e.getApplicationID());
+    }
 }

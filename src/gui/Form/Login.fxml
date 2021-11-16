@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import javafx.geometry.Insets?>
@@ -226,29 +234,7 @@
             </Label>
          </children>
       </Pane>
-      <HBox layoutX="1143.0">
-         <children>
-            <Button fx:id="btn_Minimize" focusTraversable="false" layoutX="1100.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css">
-               <graphic>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="button_minimize">
-                     <image>
-                        <Image url="@../../icons/minus24.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="btn_Exit" focusTraversable="false" layoutX="1193.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 0px;" styleClass="button_close" stylesheets="@../../css/main.css">
-               <graphic>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/multiply24.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </HBox>
-      <Pane fx:id="pnl_Register" layoutX="620.0" layoutY="700.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
+      <Pane fx:id="pnl_Register" layoutX="620.0" layoutY="-700.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
          <children>
             <VBox layoutX="151.0" layoutY="214.0" spacing="20.0">
                <children>
@@ -327,5 +313,27 @@
             </Label>
          </children>
       </Pane>
+      <HBox layoutX="1143.0">
+         <children>
+            <Button fx:id="btn_Minimize" focusTraversable="false" layoutX="1100.0" layoutY="10.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="button_minimize">
+                     <image>
+                        <Image url="@../../icons/minus24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btn_Exit" focusTraversable="false" layoutX="1193.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 0px;" styleClass="button_close" stylesheets="@../../css/main.css">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/multiply24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </Pane>

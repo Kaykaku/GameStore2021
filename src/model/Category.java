@@ -5,47 +5,51 @@
  */
 package model;
 
+import DAO.AppTypeDAO;
+
 /**
  *
  * @author NguyenHuan
  */
 public class Category {
-    int CategoryId;
-    String Name;
-    String Color;
-
+    int categoryId;
+    String name;
+    String color;
+    
     public Category() {
     }
 
-    public Category(int CategoryId, String Name, String Color) {
-        this.CategoryId = CategoryId;
-        this.Name = Name;
-        this.Color = Color;
+    public Category(int categoryId, String name, String color) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.color = color;
     }
 
     public int getCategoryId() {
-        return CategoryId;
+        return categoryId;
     }
 
-    public void setCategoryId(int CategoryId) {
-        this.CategoryId = CategoryId;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getColor() {
-        return Color;
+        return color;
     }
 
-    public void setColor(String Color) {
-        this.Color = Color;
+    public void setColor(String color) {
+        this.color = color;
     }
-    
+    public  int getAppCount(){
+        return new AppTypeDAO().selectByCategoryId(categoryId).size();
+    }
     
 }

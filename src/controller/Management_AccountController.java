@@ -17,7 +17,6 @@ import com.jfoenix.controls.JFXToggleButton;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +25,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -43,7 +41,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 import model.Account;
 import until.Dialog;
 import until.ProcessDate;
@@ -183,7 +180,7 @@ public class Management_AccountController implements Initializable {
     private JFXDatePicker datePicker_CreationDate;
     private JFXDatePicker datePicker_Birthday;
     AccountDAO accountDAO = new AccountDAO();
-    List<Account> listAccounts;
+    List<Account> listAccounts = new ArrayList<>();
     boolean isEdit = false;
     int index = -1;
     File avatarFile=null;
@@ -232,7 +229,6 @@ public class Management_AccountController implements Initializable {
     }
 
     void fillTable() {
-        listAccounts = new ArrayList<>();
         listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
 
         ObservableList<Account> list = FXCollections.observableArrayList(listAccounts);
@@ -240,7 +236,7 @@ public class Management_AccountController implements Initializable {
         col_ID.setCellValueFactory(new PropertyValueFactory<>("accountId"));
         col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        col_Gender.setCellFactory(new Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>>() {
+        Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>> callbackBoo =new Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>>() {
             @Override
             public TableCell<Account, Boolean> call(TableColumn<Account, Boolean> param) {
                 return new TableCell<Account, Boolean>() {
@@ -255,9 +251,8 @@ public class Management_AccountController implements Initializable {
                     }
                 };
             }
-        });
-        col_Birthday.setCellValueFactory(new PropertyValueFactory<>("birthDay"));
-        col_Birthday.setCellFactory(new Callback<TableColumn<Account, Date>, TableCell<Account, Date>>() {
+        };
+        Callback<TableColumn<Account, Date>, TableCell<Account, Date>> callbackDate = new Callback<TableColumn<Account, Date>, TableCell<Account, Date>>() {
             @Override
             public TableCell<Account, Date> call(TableColumn<Account, Date> param) {
                 return new TableCell<Account, Date>() {
@@ -272,25 +267,13 @@ public class Management_AccountController implements Initializable {
                     }
                 };
             }
-        });
+        };
+        col_Gender.setCellFactory(callbackBoo);
+        col_Birthday.setCellValueFactory(new PropertyValueFactory<>("birthDay"));
+        col_Birthday.setCellFactory(callbackDate);
         col_Country.setCellValueFactory(new PropertyValueFactory<>("country"));
         col_CreationDate.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
-        col_CreationDate.setCellFactory(new Callback<TableColumn<Account, Date>, TableCell<Account, Date>>() {
-            @Override
-            public TableCell<Account, Date> call(TableColumn<Account, Date> param) {
-                return new TableCell<Account, Date>() {
-                    @Override
-                    protected void updateItem(Date item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(ProcessDate.toString(item));
-                        }
-                    }
-                };
-            }
-        });
+        col_CreationDate.setCellFactory(callbackDate);
         col_Email.setCellValueFactory(new PropertyValueFactory<>("email"));
         col_Username.setCellValueFactory(new PropertyValueFactory<>("userName"));
 
