@@ -13,12 +13,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import model.News;
+import until.ProcessDate;
+import until.ProcessImage;
 
 /**
  * FXML Controller class
@@ -30,14 +36,30 @@ public class Row_NewsController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @FXML
-    private Pane pane1;
+     @FXML
+    private Label lbl_CreationDate;
+
     @FXML
     private ImageView img_Icon;
+
+    @FXML
+    private Text lbl_Content;
+
+    @FXML
+    private Label lbl_Views;
+
+    @FXML
+    private Text lbl_Title;
+
+    @FXML
+    private Label lbl_NewsID;
+    @FXML
+    private Pane pane1;
     @FXML
     private Pane pane2;
     @FXML
     private Pane pane3;
+    
     private boolean isShowOption = false;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,5 +81,16 @@ public class Row_NewsController implements Initializable {
             isShowOption = !isShowOption;
         });
     }    
+     void setNewsInfor(News entity){
+        lbl_Title.setText(entity.getTitle()+"");
+        lbl_Content.setText(entity.getContents());
+        lbl_NewsID.setText(""+entity.getNewsID());
+        lbl_Views.setText(""+entity.getViews());
+        lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));
+        if (entity.getImage()!=null) {
+            img_Icon.setImage(new Image(ProcessImage.toFile(entity.getImage(), "appIcon.png").toURI().toString()));
+            RoundedImageView.RoundedImage(img_Icon, 10);
+        }
+    }
     
 }

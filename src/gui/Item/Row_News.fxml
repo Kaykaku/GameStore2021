@@ -29,12 +29,12 @@
                   <Image url="@../../icons/Untitled-1.png" />
                </image>
             </ImageView>
-            <Text fill="WHITE" layoutX="124.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="242.0">
+            <Text fx:id="lbl_Title" fill="WHITE" layoutX="124.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="242.0">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="20.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A new playable Assassin's Creed character is coming to Watch Dogs: Legion, and she looks ready to put her hidden blade to good use." wrappingWidth="336.0">
+            <Text fx:id="lbl_Content" fill="WHITE" layoutX="20.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A new playable Assassin's Creed character is coming to Watch Dogs: Legion, and she looks ready to put her hidden blade to good use." wrappingWidth="336.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -49,7 +49,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label layoutX="207.0" layoutY="-70.0" text="01/01/2010" textFill="#b9b8b8">
+                  <Label fx:id="lbl_CreationDate" layoutX="207.0" layoutY="-70.0" text="01/01/2010" textFill="#b9b8b8">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -66,7 +66,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label layoutX="204.0" layoutY="-93.0" text="001" textFill="#b9b8b8">
+                  <Label fx:id="lbl_NewsID" layoutX="204.0" layoutY="-93.0" text="001" textFill="#b9b8b8">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -83,7 +83,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label layoutX="207.0" layoutY="-70.0" text="1002" textFill="#b9b8b8">
+                  <Label fx:id="lbl_Views" layoutX="207.0" layoutY="-70.0" text="1002" textFill="#b9b8b8">
                      <font>
                         <Font size="16.0" />
                      </font>

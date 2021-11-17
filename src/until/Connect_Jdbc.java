@@ -65,8 +65,8 @@ public class Connect_Jdbc {
                 stsm.getConnection().close();
             }
         } catch (SQLException e) {
-            throw new RuntimeException();
+            e.printStackTrace();
         }
-        
+       return -1;
     }
 }

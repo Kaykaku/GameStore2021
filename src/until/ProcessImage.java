@@ -12,7 +12,7 @@ import java.nio.file.Files;
 
 /**
  *
- * @author Admin
+ * @author Admin 
  */
 public class ProcessImage {
 
