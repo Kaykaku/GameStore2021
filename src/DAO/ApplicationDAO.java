@@ -15,30 +15,31 @@ import until.Connect_Jdbc;
  *
  * @author NguyenHuan
  */
+//
+//
 public class ApplicationDAO extends DAO<Application, Integer> {
 
     @Override
     public void insert(Application entity) {
-        String sql = "insert into Applicatons (Name,Price,Size,Type,Image,Developer,Publisher,ReleaseDay,CreationDate,Languages,Sale,Description,Active,EnableBuy) "
-                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getAppIcon(),entity.getAppImage(),entity.getDeveloper()
-                ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale()
-                ,entity.getDescription(),entity.isActive(),entity.isEnableBuy());
+        String sql = "insert into Applicatons (Name,Price,Size,AppImage,AppIcon,Developer,Publisher,ReleaseDay,CreationDate,Languages,Sale,Description,Active,EnableBuy) "
+                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getAppImage(),entity.getAppIcon(),entity.getDeveloper()
+                ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale(),entity.getDescription(),entity.isActive(),entity.isEnableBuy());
 
     }
 
     @Override
     public void update(Application entity) {
-        String sql = "update Applicatons set Name=?,Price=?,Size=?,Type=?,AppIcon=?,AppImage=?,Developer=?,Publisher=?,ReleaseDay=?,CreationDate=?,Languages=?,Sale=?,Description=?,Active=?,EnableBuy=?"
+        String sql = "update Applicatons set Name=?,Price=?,Size=?,AppImage=?, AppIcon=?,Developer=?,Publisher=?,ReleaseDay=?,CreationDate=?,Languages=?,Sale=?,Description=?,Active=?,EnableBuy=?"
                 + " WHERE ApplicatonId=? " ;
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getAppIcon(),entity.getAppImage(),entity.getDeveloper()
+        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getAppImage(),entity.getAppIcon(),entity.getDeveloper()
                 ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale()
                 ,entity.getDescription(),entity.isActive(),entity.isEnableBuy(),entity.getApplicationID());
     }
 
     @Override
     public void delete(Integer key) {
-        String spl ="delete * from Applicatons where = ApplicatonId=? ";
+        String spl ="delete from Applicatons where ApplicatonId=? ";
         Connect_Jdbc.update(spl, key);
     }
 
