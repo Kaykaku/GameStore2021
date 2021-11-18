@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pnl_Row" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="380.0" styleClass="row_product" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Row_OrderDetailController">
+   <children>
+      <Pane fx:id="pnl_MenuHide" layoutX="370.0" prefHeight="100.0" prefWidth="10.0" styleClass="row_product3" />
+      <ImageView fx:id="img_IconApp" fitHeight="80.0" fitWidth="80.0" layoutX="20.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/Untitled-1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="115.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/id16.png" />
+         </image>
+      </ImageView>
+      <HBox layoutX="250.0" layoutY="60.0">
+         <children>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="269.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/price50.png" />
+               </image>
+               <HBox.margin>
+                  <Insets top="1.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label fx:id="lbl_Price" alignment="CENTER_RIGHT" layoutX="220.0" layoutY="60.0" prefWidth="80.0" text="20.00$" textFill="#f38064">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="lbl_Id" layoutX="139.0" layoutY="38.0" text="001" textFill="#b9b8b8">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="115.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/tag16.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lbl_Name" layoutX="140.0" layoutY="12.0" prefHeight="25.0" prefWidth="220.0" text="Minecraft" textFill="#b9b8b8">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <HBox layoutX="141.0" layoutY="60.0">
+         <children>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="141.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/sale50.png" />
+               </image>
+               <HBox.margin>
+                  <Insets top="4.0" />
+               </HBox.margin>
+            </ImageView>
+            <Label fx:id="lbl_Sale" alignment="CENTER_RIGHT" layoutX="180.0" layoutY="60.0" prefHeight="32.0" prefWidth="65.0" text="10%" textFill="#25e8ee">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="lbl_Code" layoutX="222.0" layoutY="38.0" text="None" textFill="#b9b8b8">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="198.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../icons/code18.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="btn_Delete" layoutX="360.0" layoutY="-10.0" opacity="0.0" prefHeight="10.0" prefWidth="10.0" style="-fx-background-radius: 25px;" styleClass="button_type7">
+         <graphic>
+            <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/multiply24.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</Pane>

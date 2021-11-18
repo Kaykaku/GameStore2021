@@ -19,13 +19,13 @@ public class AppTypeDAO extends DAO<AppType, Integer>{
 
     @Override
     public void insert(AppType entity) {
-        String sql = "insert into App_Type (ApplicatonId,CategoryId) values (?,?)";
+        String sql = "insert into App_Type (ApplicationId,CategoryId) values (?,?)";
         Connect_Jdbc.update(sql, entity.getApplicationID(),entity.getCategoryId());
     }
 
     @Override
     public void update(AppType entity) {
-       String sql = "update App_Type set CategoryId =? where ApplicatonId=? ";
+       String sql = "update App_Type set CategoryId =? where ApplicationId=? ";
        Connect_Jdbc.update(sql, entity.getCategoryId(),entity.getApplicationID());
     }
 
@@ -60,7 +60,7 @@ public class AppTypeDAO extends DAO<AppType, Integer>{
             rs = Connect_Jdbc.query(sql, args);
             while (rs.next()) {                
                 AppType apt = new AppType();
-                apt.setApplicationID(rs.getInt("ApplicatonId"));
+                apt.setApplicationID(rs.getInt("ApplicationId"));
                 apt.setCategoryId(rs.getInt("CategoryId"));
                 list.add(apt);
             }
@@ -71,11 +71,11 @@ public class AppTypeDAO extends DAO<AppType, Integer>{
         return list;
     }
     public boolean isContainAppType(AppType entity) {
-       String sql= "Select * from App_Type where ApplicatonID = ? and CategoryId=?";
+       String sql= "Select * from App_Type where ApplicationID = ? and CategoryId=?";
        return selectBySql(sql,entity.getApplicationID(),entity.getCategoryId()).size()>0;
     }
     public List<AppType> selectByApplicationId(Integer keys) {
-       String sql= "select * from App_Type where ApplicatonID=?";
+       String sql= "select * from App_Type where ApplicationID=?";
        return selectBySql(sql,keys);
     }
     public List<AppType> selectByCategoryId(Integer keys) {
@@ -83,7 +83,7 @@ public class AppTypeDAO extends DAO<AppType, Integer>{
        return selectBySql(sql,keys);
     }
     public void delete(AppType entity) {
-       String sql = "delete from App_Type where ApplicatonID = ? and CategoryId=? ";
+       String sql = "delete from App_Type where ApplicationID = ? and CategoryId=? ";
        Connect_Jdbc.update(sql,entity.getApplicationID(),entity.getCategoryId());
     }
 }

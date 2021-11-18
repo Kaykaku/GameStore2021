@@ -34,5 +34,8 @@ public class Value {
     public static final String FORM_LIBRARY  ="/gui/Form/Library.fxml";
     public static final String FORM_USER_INFORMATION  ="/gui/Form/User_Information.fxml";
     
+    public static final String ROW_ORDER  ="/gui/Item/Row_Order.fxml";
+    public static final String ROW_PRODUCT  ="/gui/Item/Row_Product.fxml";
+    public static final String ROW_ORDERDETAIL  ="/gui/Item/Row_OrderDetail.fxml";
     public static Pane PNL_VIEW ;
 }

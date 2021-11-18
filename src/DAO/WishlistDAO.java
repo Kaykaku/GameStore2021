@@ -17,8 +17,8 @@ import until.Connect_Jdbc;
  */
 public class WishlistDAO extends DAO<Wishlist, String> {
 
-    private String insert_sql = "insert into Wishlists(ApplicatonId, AccountId) values (?, ?)";
-    private String update_sql = "update Wishlists set ApplicatonId = ?, AccountId = ? where AccountId = ?";
+    private String insert_sql = "insert into Wishlists(ApplicaitonId, AccountId) values (?, ?)";
+    private String update_sql = "update Wishlists set ApplicationId = ?, AccountId = ? where AccountId = ?";
     private String delete_sql = "delete from Wishlists where AccountId = ?";
     private String select_all_sql = "select * from Wishlists";
     private String select_By_ID_sql = "select * from Wishlists where AccountId = ?";
@@ -69,7 +69,7 @@ public class WishlistDAO extends DAO<Wishlist, String> {
                 Wishlist wishlists = new Wishlist();
 
                 wishlists.setAccountId(resultSet.getInt("AccountID"));
-                wishlists.setApplicatonId(resultSet.getInt("ApplicatonId"));
+                wishlists.setApplicatonId(resultSet.getInt("ApplicationId"));
 
                 list.add(wishlists);
             }

@@ -5,6 +5,7 @@
  */
 package controller;
 
+import Animation.PulseShort;
 import Animation.RoundedImageView;
 import DAO.AppTypeDAO;
 import DAO.ApplicationDAO;
@@ -21,6 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -51,6 +53,7 @@ import model.Category;
 import until.Dialog;
 import until.ProcessImage;
 import until.Validation;
+import until.Value;
 
 /**
  * FXML Controller class
@@ -177,12 +180,29 @@ public class Management_CategoryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fillCboCategory();
-        fillTableCategories();
-        fillListApp();
+        fillDataOnBackground();
+        displayFormAnimation();
         setEvent();
         updateStatus();
-        displayFormAnimation();
+        
+    }
+
+    void fillDataOnBackground() {
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                }
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        fillCboCategory();
+                        fillTableCategories();
+                        fillListApp();
+                    }
+                });
+            }
+        }.start();
     }
 
     void fillCboCategory() {
@@ -199,12 +219,12 @@ public class Management_CategoryController implements Initializable {
     void fillTableCategories() {
         listCategories = categoryDAO.selectByKeyWord(txt_SearchCategory.getText().trim());
         ObservableList<Category> list = FXCollections.observableArrayList(listCategories);
-        
+
         col_ID.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
         col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_Color.setCellValueFactory(new PropertyValueFactory<>("color"));
         col_AppCount.setCellValueFactory(new PropertyValueFactory<>("appCount"));
-        
+
         Callback<TableColumn<Category, String>, TableCell<Category, String>> callbackBoo = new Callback<TableColumn<Category, String>, TableCell<Category, String>>() {
             @Override
             public TableCell<Category, String> call(TableColumn<Category, String> param) {
@@ -231,40 +251,36 @@ public class Management_CategoryController implements Initializable {
     void fillListApp() {
         listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim());
         btn_AddCategory.setDisable(true);
-        
+
         try {
-            Pane paneP = (Pane) FXMLLoader.load(getClass().getResource("/gui/Item/Row_Product.fxml"));
+            Pane paneP = (Pane) FXMLLoader.load(getClass().getResource(Value.ROW_PRODUCT));
             double height = (paneP.getPrefHeight() + vbox_ListProduct.getSpacing()) * listApplications.size();
             vbox_ListProduct.setPrefSize(paneP.getPrefWidth(), height);
             pnl_List.setPrefHeight(height > pnl_ScrollList.getPrefHeight() ? height : pnl_ScrollList.getPrefHeight());
-            
+
             vbox_ListProduct.getChildren().clear();
             Pane[] nodes = new Pane[listApplications.size()];
             Row_ProductController[] controllers = new Row_ProductController[listApplications.size()];
-            
+
             for (int i = 0; i < listApplications.size(); i++) {
                 final int h = i;
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/gui/Item/Row_Product.fxml"));
+                loader.setLocation(getClass().getResource(Value.ROW_PRODUCT));
                 nodes[h] = (Pane) loader.load();
                 controllers[h] = loader.getController();
-                
+
                 vbox_ListProduct.getChildren().add(nodes[h]);
                 controllers[h].setAppInfo(listApplications.get(h));
-                
-                nodes[h].setOnMouseClicked(evt -> {
-                    setFormApp(listApplications.get(h));
-                    btn_AddCategory.setDisable(false);
-                });
 
                 nodes[h].setOnMouseClicked(evt -> {
                     setFormApp(listApplications.get(h));
                     btn_AddCategory.setDisable(false);
-                });
-                
-                nodes[h].setOnMouseClicked(evt -> {
-                    setFormApp(listApplications.get(h));
-                    btn_AddCategory.setDisable(false);
+                    for (Row_ProductController controller : controllers) {
+                        controller.setSelected(false);
+                    }
+                    controllers[h].setSelected(true);
+                    new PulseShort(pnl_Image_Product).play();
+                    new PulseShort(pnl_App_Info).play();
                 });
             }
         } catch (Exception e) {
@@ -278,11 +294,10 @@ public class Management_CategoryController implements Initializable {
             img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
             RoundedImageView.RoundedImage(img_AppIcon, 32);
         }
-        
-        
+
         List<AppType> list = appTypeDAO.selectByApplicationId(entity.getApplicationID());
-        lbl_CategoryCount.setText(list.size()+"");
-        
+        lbl_CategoryCount.setText(list.size() + "");
+
         pnl_Container.getChildren().clear();
         double width = 0, x = 10;
         for (AppType appType : list) {
@@ -290,7 +305,7 @@ public class Management_CategoryController implements Initializable {
             Label label = new Label(ca.getName());
             label.setStyle("-fx-background-radius : 10px; -fx-text-fill : white; -fx-background-color : " + ca.getColor());
             pnl_Container.getChildren().add(label);
-            
+
             label.setLayoutX(x + width);
             label.setLayoutY(10);
             label.setPadding(new Insets(2, 10, 2, 10));
@@ -398,7 +413,7 @@ public class Management_CategoryController implements Initializable {
         appTypeDAO.insert(entity);
         fillTableCategories();
         clearForm();
-        
+
     }
 
     void update() {
@@ -452,6 +467,7 @@ public class Management_CategoryController implements Initializable {
             if (event.getClickCount() == 2) {
                 index = tbl_Categories.getSelectionModel().getSelectedIndex();
                 edit();
+                new PulseShort(pnl_Basic_Info).play();
             }
         });
         txt_SearchCategory.setOnKeyReleased(evt -> {

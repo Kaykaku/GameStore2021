@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class OrderDetail {
     private int orderID;
-    private int ApplicatonId;
+    private int applicationId;
     private double price;
     private double sale;
     private String discountCode;
@@ -21,9 +21,9 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderID, int ApplicatonId, double price, double sale, String discountCode) {
+    public OrderDetail(int orderID, int applicationId, double price, double sale, String discountCode) {
         this.orderID = orderID;
-        this.ApplicatonId = ApplicatonId;
+        this.applicationId = applicationId;
         this.price = price;
         this.sale = sale;
         this.discountCode = discountCode;
@@ -37,12 +37,12 @@ public class OrderDetail {
         this.orderID = orderID;
     }
 
-    public int getApplicatonId() {
-        return ApplicatonId;
+    public int getApplicationId() {
+        return applicationId;
     }
 
-    public void setApplicatonId(int ApplicatonId) {
-        this.ApplicatonId = ApplicatonId;
+    public void setApplicationId(int applicationId) {
+        this.applicationId = applicationId;
     }
 
     public double getPrice() {
@@ -67,9 +67,6 @@ public class OrderDetail {
 
     public void setDiscountCode(String discountCode) {
         this.discountCode = discountCode;
-    }
-    
-    
-    
+    }    
     
 }

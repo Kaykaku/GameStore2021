@@ -14,11 +14,11 @@ import until.Connect_Jdbc;
  * @author TUẤN KIỆT
  */
 public class ApplicatonViewDAO extends DAO<ApplicationView, Integer > {
-    final String INSERT_SQL ="INSERT into ApplicatonViews(ApplicatonViewId,RatingDate,Rate,Views,ApplicatonId,AccountId) values (?,?,?,?,?,?)";
-    final String UPDATE_SQL ="UPDATE  ApplicatonViews  SET    RatingDate=?,  Rate=?,  Views=?,  ApplicatonId=?, AccountId=? WHERE ApplicatonViewId=?";
-    final String DELETE_SQL ="DELETE FROM ApplicatonViews WHERE ApplicatonViewId=?";
-    String SELECT_ALL_SQL = "SELECT * FROM ApplicatonViews";
-    String SELECT_BY_ID_SQL ="SELECT * FROM ApplicatonViews where ApplicatonViewId=?";
+    final String INSERT_SQL ="INSERT into ApplicationViews(ApplicationViewId,RatingDate,Rate,Views,ApplicatonId,AccountId) values (?,?,?,?,?,?)";
+    final String UPDATE_SQL ="UPDATE  ApplicationViews  SET    RatingDate=?,  Rate=?,  Views=?,  ApplicatonId=?, AccountId=? WHERE ApplicationViewId=?";
+    final String DELETE_SQL ="DELETE FROM ApplicationViews WHERE ApplicationViewId=?";
+    String SELECT_ALL_SQL = "SELECT * FROM ApplicationViews";
+    String SELECT_BY_ID_SQL ="SELECT * FROM ApplicationViews where ApplicationViewId=?";
     String SELECT_BY_NAME ="select * from Account where Name Like?";
 
     /**

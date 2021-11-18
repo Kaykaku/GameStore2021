@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -183,22 +184,37 @@ public class Management_AccountController implements Initializable {
     List<Account> listAccounts = new ArrayList<>();
     boolean isEdit = false;
     int index = -1;
-    File avatarFile=null;
+    File avatarFile = null;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        displayFormAnimation();
         drawDatePicker();
         setGroupButton();
-        fillCboCountry();
-        fillTable();
         setEvent();
         setAvatar();
         updateStatus();
-        displayFormAnimation();
+        fillDataOnBackground();
+    }
+
+    void fillDataOnBackground() {
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                }
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        fillCboCountry();
+                        fillTable();
+                    }
+                });
+            }
+        }.start();
     }
 
     void drawDatePicker() {
@@ -236,7 +252,7 @@ public class Management_AccountController implements Initializable {
         col_ID.setCellValueFactory(new PropertyValueFactory<>("accountId"));
         col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>> callbackBoo =new Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>>() {
+        Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>> callbackBoo = new Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>>() {
             @Override
             public TableCell<Account, Boolean> call(TableColumn<Account, Boolean> param) {
                 return new TableCell<Account, Boolean>() {
@@ -280,59 +296,66 @@ public class Management_AccountController implements Initializable {
         tbl_Accounts.getItems().removeAll();
         tbl_Accounts.setItems(list);
     }
-    void setGroupButton(){
+
+    void setGroupButton() {
         ToggleGroup grbutton = new ToggleGroup();
         rdo_Male.setSelectedColor(Color.valueOf("#4a84f8"));
         rdo_Female.setSelectedColor(Color.valueOf("#4a84f8"));
         rdo_Female.setToggleGroup(grbutton);
         rdo_Male.setToggleGroup(grbutton);
     }
-    void setAvatar(){      
-        if(avatarFile !=null){
+
+    void setAvatar() {
+        if (avatarFile != null) {
             img_Avatar.setImage(new Image(avatarFile.toURI().toString()));
-        }else{
-            
-            img_Avatar.setImage(new Image(new File(rdo_Female.isSelected()?"src/icons/female256.png":"src/icons/male256.png").toURI().toString()));
+        } else {
+
+            img_Avatar.setImage(new Image(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png").toURI().toString()));
         }
         RoundedImageView.RoundedImage(img_Avatar, 200);
     }
-    void setForm(Account entity){
-        lbl_ID.setText(isEdit?entity.getAccountId()+"":"Editing");
-        txt_Name.setText(isEdit?entity.getName():"");
-        datePicker_Birthday.setValue(isEdit?ProcessDate.toLocalDate(entity.getBirthDay()):null);
-        datePicker_CreationDate.setValue(isEdit?ProcessDate.toLocalDate(entity.getCreationDate()):LocalDate.now());
-        rdo_Male.setSelected(isEdit?!entity.isGender():true);
-        rdo_Female.setSelected(isEdit?entity.isGender():false);
-        cbo_Country.getSelectionModel().select(isEdit?entity.getCountry():"");
-        txt_Email.setText(isEdit?entity.getEmail():"");
-        txt_Address.setText(isEdit?entity.getAddress():"");
-        txt_UserName.setText(isEdit?entity.getUserName():"");
-        tog_Active.setSelected(isEdit?entity.isActive():false);
-        tog_Role.setSelected(isEdit?entity.getRole()==1:false);
-        tog_Comment.setSelected(isEdit?entity.isComment():false);
-        if(entity.getImage()!=null)avatarFile = ProcessImage.toFile(entity.getImage(), "avatar.png");
+
+    void setForm(Account entity) {
+        lbl_ID.setText(isEdit ? entity.getAccountId() + "" : "Editing");
+        txt_Name.setText(isEdit ? entity.getName() : "");
+        datePicker_Birthday.setValue(isEdit ? ProcessDate.toLocalDate(entity.getBirthDay()) : null);
+        datePicker_CreationDate.setValue(isEdit ? ProcessDate.toLocalDate(entity.getCreationDate()) : LocalDate.now());
+        rdo_Male.setSelected(isEdit ? !entity.isGender() : true);
+        rdo_Female.setSelected(isEdit ? entity.isGender() : false);
+        cbo_Country.getSelectionModel().select(isEdit ? entity.getCountry() : "");
+        txt_Email.setText(isEdit ? entity.getEmail() : "");
+        txt_Address.setText(isEdit ? entity.getAddress() : "");
+        txt_UserName.setText(isEdit ? entity.getUserName().toUpperCase() : "");
+        tog_Active.setSelected(isEdit ? entity.isActive() : false);
+        tog_Role.setSelected(isEdit ? entity.getRole() == 1 : false);
+        tog_Comment.setSelected(isEdit ? entity.isComment() : false);
+        if (entity.getImage() != null) {
+            avatarFile = ProcessImage.toFile(entity.getImage(), "avatar.png");
+        }
         setAvatar();
     }
-    void updateStatus(){
+
+    void updateStatus() {
         txt_UserName.setEditable(isEdit);
         btn_Add.setDisable(isEdit);
         btn_Delete.setDisable(!isEdit);
         btn_Update.setDisable(!isEdit);
     }
-    Account getForm(){
-        String err="";
-        err +=Validation.validationPersonName(txt_Name);
-        err +=Validation.validationEmail(txt_Email);
-        err +=Validation.validationBirthDay(datePicker_Birthday);
-        if(!isEdit){
-            err+= Validation.validationUserName(txt_UserName);
-            err+= Validation.validationPassword(txt_NewPassword);
-            err+=Validation.validationConfirmPassword(txt_NewPassword, txt_ConfirmPassword);
+
+    Account getForm() {
+        String err = "";
+        err += Validation.validationPersonName(txt_Name);
+        err += Validation.validationEmail(txt_Email);
+        err += Validation.validationBirthDay(datePicker_Birthday);
+        if (!isEdit) {
+            err += Validation.validationUserName(txt_UserName);
+            err += Validation.validationPassword(txt_NewPassword);
+            err += Validation.validationConfirmPassword(txt_NewPassword, txt_ConfirmPassword);
         }
-        
-        if(err.isEmpty()){
+
+        if (err.isEmpty()) {
             Account entity = new Account();
-            entity.setAccountId(isEdit?Integer.valueOf(lbl_ID.getText()):-1);
+            entity.setAccountId(isEdit ? Integer.valueOf(lbl_ID.getText()) : -1);
             entity.setName(txt_Name.getText().trim());
             entity.setBirthDay(ProcessDate.toDate(datePicker_Birthday.getValue()));
             entity.setCreationDate(ProcessDate.toDate(datePicker_CreationDate.getValue()));
@@ -341,83 +364,93 @@ public class Management_AccountController implements Initializable {
             entity.setEmail(txt_Email.getText().trim());
             entity.setActive(tog_Active.isSelected());
             entity.setComment(tog_Comment.isSelected());
-            entity.setRole(tog_Role.isSelected()?1:2);
+            entity.setRole(tog_Role.isSelected() ? 1 : 2);
             entity.setUserName(txt_UserName.getText().trim());
-            entity.setPassword(isEdit?accountDAO.selectByID(entity.getAccountId()).getPassword():txt_NewPassword.getText().trim());
+            entity.setPassword(isEdit ? accountDAO.selectByID(entity.getAccountId()).getPassword() : txt_NewPassword.getText().trim());
             entity.setAddress(txt_Address.getText().trim());
-            entity.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected()?"src/icons/female256.png":"src/icons/male256.png")));
-            if(avatarFile!=null)entity.setImage(ProcessImage.toBytes(avatarFile));
+            entity.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png")));
+            if (avatarFile != null) {
+                entity.setImage(ProcessImage.toBytes(avatarFile));
+            }
             return entity;
         }
         Dialog.showMessageDialog("Wrong data", err);
         return null;
     }
-    void clearForm(){
-        index=-1;
-        isEdit=false;
-        avatarFile=null;
+
+    void clearForm() {
+        index = -1;
+        isEdit = false;
+        avatarFile = null;
         setForm(new Account());
         updateStatus();
     }
-    void edit(){
-        isEdit=true;
-        avatarFile=null;
-        index=tbl_Accounts.getSelectionModel().getSelectedIndex();
-        int id =(int) col_ID.getCellObservableValue(index).getValue();
+
+    void edit() {
+        isEdit = true;
+        avatarFile = null;
+        index = tbl_Accounts.getSelectionModel().getSelectedIndex();
+        int id = (int) col_ID.getCellObservableValue(index).getValue();
         Account entity = accountDAO.selectByID(id);
         setForm(entity);
         updateStatus();
     }
-    void insert(){
+
+    void insert() {
         Account entity = getForm();
-        if (entity==null) {
+        if (entity == null) {
             return;
         }
         accountDAO.insert(entity);
         fillTable();
         clearForm();
-        
+
     }
-    void update(){
+
+    void update() {
         Account entity = getForm();
-        if (entity==null) {
+        if (entity == null) {
             return;
         }
         accountDAO.update(entity);
         fillTable();
         clearForm();
-        
+
     }
-    void delete(){
+
+    void delete() {
         Account entity = getForm();
-        if (entity==null) {
+        if (entity == null) {
             return;
         }
         accountDAO.delete(entity.getAccountId());
         fillTable();
         clearForm();
-        
+
     }
-    void setEvent(){
+
+    void setEvent() {
         tbl_Accounts.setOnMouseClicked((event) -> {
-            if(event.getClickCount()==2){
+            if (event.getClickCount() == 2) {
                 edit();
             }
         });
-        txt_Search.setOnKeyReleased(evt->{
+        txt_Search.setOnKeyReleased(evt -> {
             fillTable();
-            if(listAccounts.size()>0)setForm(listAccounts.get(0));
-                });
-        rdo_Male.setOnAction(evt->{
+            if (listAccounts.size() > 0) {
+                setForm(listAccounts.get(0));
+            }
+        });
+        rdo_Male.setOnAction(evt -> {
             setAvatar();
         });
-        rdo_Female.setOnAction(evt->{
+        rdo_Female.setOnAction(evt -> {
             setAvatar();
         });
         img_Avatar.setOnMouseClicked((evt) -> {
             FileChooser fileChooser = new FileChooser();
             avatarFile = fileChooser.showOpenDialog(((Node) (evt.getSource())).getScene().getWindow());
-            if(avatarFile!=null){
+            if (avatarFile != null) {
                 setAvatar();
             }
         });
@@ -434,6 +467,7 @@ public class Management_AccountController implements Initializable {
             delete();
         });
     }
+
     void displayFormAnimation() {
         new FadeInDown(pnl_Basic_Info).play();
         new FadeInLeftBig(pnl_TItle).play();

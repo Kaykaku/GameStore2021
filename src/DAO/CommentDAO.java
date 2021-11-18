@@ -16,8 +16,8 @@ import until.Connect_Jdbc;
  * @author TUẤN KIỆT
  */
 public class CommentDAO extends DAO<Comment, Object > {
-    final String INSERT_SQL ="insert into Comments (CommentsID, CreationDate, Title, Description , ApplicatonViewId ) values (?,?,?,?,?)";
-    final String UPDATE_SQL ="UPDATE  Comments  SET    CreationDate=?,  Title=?,  Description=?,  ApplicatonViewId=? WHERE CommentsID=? ";
+    final String INSERT_SQL ="insert into Comments (CommentsID, CreationDate, Title, Description , ApplicationViewId ) values (?,?,?,?,?)";
+    final String UPDATE_SQL ="UPDATE  Comments  SET    CreationDate=?,  Title=?,  Description=?,  ApplicationViewId=? WHERE CommentsID=? ";
     final String DELETE_SQL ="DELETE FROM Comments WHERE CommentsID=?";
     String SELECT_ALL_SQL = "SELECT * FROM Comments";
     String SELECT_BY_ID_SQL ="SELECT * FROM Comments where CommentsID=?";

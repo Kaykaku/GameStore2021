@@ -6,7 +6,6 @@
 package until;
 
 import DAO.AccountDAO;
-import DAO.CategoryDAO;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
@@ -15,7 +14,6 @@ import java.time.Period;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.Account;
-import model.Category;
 
 /**
  *
@@ -56,47 +54,69 @@ public class Validation {
 
     public static String validationUserName(TextField textField) {
         String err = "";
-        Account ac = new AccountDAO().selectByUser(textField.getText().trim());
-        if (textField.getText().trim().isEmpty()) {
+        Account ac=null;
+        boolean flag =textField.getText().trim().isEmpty();
+        if(!flag) ac = new AccountDAO().selectByUser(textField.getText().trim());
+        if (flag) {
             err = "USERNAME cannot be empty!\n";
         } else if (!textField.getText().trim().matches("[\\w]{3,}")) {
             err = "USERNAME must be at least 3 characters and contain no space !\n";
-        } else if ( ac != null) {
+        } else if (ac != null) {
             err = "USERNAME already exist !\n";
         }
         return err;
     }
+
     public static String validationPassword(PasswordField textField) {
         String err = "";
         if (textField.getText().trim().isEmpty()) {
             err = "PASSWORD cannot be empty!\n";
         } else if (!textField.getText().trim().matches("[\\w]{4,}")) {
             err = "PASSWORD must be at least 4 characters and contain no space !\n";
-        } 
+        }
         return err;
     }
-    public static String validationConfirmPassword(PasswordField textField,PasswordField textField1) {
+
+    public static String validationConfirmPassword(PasswordField textField, PasswordField textField1) {
         String err = "";
         if (textField.getText().trim().isEmpty()) {
             err = "CONFIRMPASSWORD cannot be empty!\n";
         } else if (!textField.getText().trim().matches("[\\w]{4,}")) {
             err = "PASSWORD and CONFIRMPASSWORD are not matched !\n";
-        } 
+        }
         return err;
     }
+
     public static String validationImage(File file) {
         String err = "";
-        if (file==null) {
+        if (file == null) {
             err = "IMAGE have been chose\n";
         }
         return err;
     }
-    
+
     public static String validationCategoryName(JFXTextField textField) {
         String err = "";
-        if (textField.getText().trim().length()<2) {
+        if (textField.getText().trim().length() < 2) {
             err = "CATERORY must be at least 2 characters\n";
         }
+        return err;
+    }
+
+    public static String validationAccountID(TextField textField) {
+        String err = "";
+        try {
+            Account ac=null;
+            boolean flag =textField.getText().trim().isEmpty();
+            if(!flag) ac = new AccountDAO().selectByID(Integer.parseInt(textField.getText().trim()));
+            if (flag) {
+                err = "ACCOUNT ID cannot be empty!\n";
+            } else if (ac == null) {
+                err = "USERNAME does not exist !\n";
+            }
+        } catch (Exception e) {
+        }
+
         return err;
     }
 }

@@ -19,38 +19,39 @@ public class OrderDAO extends DAO<Order,Integer>{
 
     @Override
     public void insert(Order entity) {
-        String sql= "INSERT  INTO  Order  (CreationDate,  Status,  AccountId) VALUES  (?,  ?,  ?)";
+        String sql= "INSERT  INTO  Orders  (CreationDate,  Status,  AccountId) VALUES  (?,  ?,  ?)";
         Connect_Jdbc.update(sql, entity.getCreationDate(),entity.getStatus(),entity.getAccountId());
     }
 
     @Override
     public void update(Order entity) {
-        String sql= "UPDATE  Order  SET  CreationDate=?,  Status=?,  AccountId=?  WHERE  OrderId=?";
+        String sql= "UPDATE  Orders  SET  CreationDate=?,  Status=?,  AccountId=?  WHERE  OrderId=?";
         Connect_Jdbc.update(sql, entity.getCreationDate(),entity.getStatus(),entity.getAccountId(),entity.getOrderID());
     }
 
     @Override
     public void delete(Integer key) {
-        String sql= "DELETE FROM Order WHERE OrderId=?";
+        String sql= "DELETE FROM Orders WHERE OrderId=?";
         Connect_Jdbc.update(sql, key);
     }
 
     @Override
     public List<Order> selectAll() {
-        String sql= "SELESELECT * FROM Order";
+        String sql= "SELECT * FROM Orders";
         return selectBySql(sql);
     }
 
     @Override
     public Order selectByID(Integer keys) {
-        String sql= "SELECT * FROM Order WHERE OrderId=?";
+        String sql= "SELECT * FROM Orders WHERE OrderId=?";
         return selectBySql(sql,keys).isEmpty() ? null:selectBySql(sql,keys).get(0);
     }
 
     @Override
     public List<Order> selectByKeyWord(String keys) {
-        String sql= "SELECT * FROM Order WHERE OrderId like ? or AccountId like ?";
-        return selectBySql(sql,keys);
+        String sql= "SELECT * FROM Orders WHERE OrderId like ? or AccountId like ?";
+        keys= "%"+keys+"%";
+        return selectBySql(sql,keys,keys);
     }
 
     @Override

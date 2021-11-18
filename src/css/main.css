@@ -209,6 +209,10 @@
     -fx-background-color: #272727;
     -fx-background-radius: 10px;
 }
+.pnl_box{
+    -fx-background-color: #393939;
+    -fx-background-radius: 10px;
+}
 .view_background{
     -fx-background-color: #272727;
 }
@@ -269,12 +273,14 @@
 }
 .button_type3{
     -fx-background-color: #3a3a3a;
+    -fx-text-fill : #ffffff;
 }
 .button_type3:hover{
     -fx-background-color: linear-gradient( to left,#27272700,gray,#27272700);
+    -fx-text-fill : #ffffff;
 }
 .button_type3:disabled{
-    -fx-background-color: linear-gradient( to left,#27272700,gray,#27272700);
+    -fx-background-color: linear-gradient( to left,#185FEE,gray,#185FEE);
     -fx-text-fill : #ffffff;
 }
 .button_type4{
