@@ -12,32 +12,68 @@ import java.util.Date;
  * @author leminhthanh
  */
 public class News {
-    int NewsId, AccountId;
+    int NewsID;
+    String name;
+    int AccountId;
+    int Views;
     Date CreationDate;
     String Title, Description, Contents;
     byte[] Image;
-
+    
     public News() {
     }
 
-    public News(int NewsId, int AccountId, Date CreationDate, String Title, String Description, String Contents, byte[] Image) {
-        this.NewsId = NewsId;
+    public News(String name) {
+        this.name = name;
+    }
+    
+    public News(int Views, Date CreationDate, String Title, String Description) {
+        this.Views = Views;
+        this.CreationDate = CreationDate;
+        this.Title = Title;
+        this.Description = Description;
+    }
+    
+    public News(int NewsID, int AccountId) {
+        this.NewsID = NewsID;
         this.AccountId = AccountId;
+    }
+
+    public News(int NewsID, Date CreationDate, String Title, String Description, String Contents,byte[] Image,int AccountId) {
+        this.NewsID = this.NewsID;
         this.CreationDate = CreationDate;
         this.Title = Title;
         this.Description = Description;
         this.Contents = Contents;
         this.Image = Image;
+        this.AccountId = AccountId;
+    }   
+
+    public String getName() {
+        return name;
     }
 
-    public int getNewsId() {
-        return NewsId;
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public int getViews() {
+        return Views;
     }
 
-    public void setNewsId(int NewsId) {
-        this.NewsId = NewsId;
+    public void setViews(int Views) {
+        this.Views = Views;
     }
 
+    public int getNewsID() {
+        return NewsID;
+    }
+
+    public void setNewsID(int NewsID) {
+        this.NewsID = NewsID;
+    }
+
+    
     public int getAccountId() {
         return AccountId;
     }
@@ -85,6 +121,10 @@ public class News {
     public void setImage(byte[] Image) {
         this.Image = Image;
     }
+
+
+   
+    
 
 
 	

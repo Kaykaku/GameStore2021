@@ -81,5 +81,7 @@ public class ProcessDate {
     public static LocalDate toLocalDate(Date date) {
         return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     }
-
+    public static Date now() {
+        return new Date();
+    }
 }

@@ -15,6 +15,8 @@ import until.Connect_Jdbc;
  *
  * @author NguyenHuan
  */
+//
+//
 public class ApplicationDAO extends DAO<Application, Integer> {
 
     @Override

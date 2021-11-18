@@ -15,7 +15,7 @@
    <children>
       <Pane fx:id="pnl_List_Product" layoutX="880.0" layoutY="5.0">
          <children>
-            <TextField focusTraversable="false" prefHeight="40.0" prefWidth="408.0" promptText="Sreach games...." style="-fx-background-color: #3a3a3a; -fx-background-radius: 10px;" styleClass="text_input">
+            <TextField fx:id="txt_SreachApp" focusTraversable="false" prefHeight="40.0" prefWidth="408.0" promptText="Sreach games...." style="-fx-background-color: #3a3a3a; -fx-background-radius: 10px;" styleClass="text_input">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -24,7 +24,7 @@
                <content>
                   <Pane id="tex" fx:id="pnl_List" prefHeight="730.0" prefWidth="405.0" styleClass="main_background" stylesheets="@../../css/main.css">
                      <children>
-                        <VBox fx:id="box_ListProduct" layoutY="6.0" prefHeight="200.0" prefWidth="405.0" spacing="10.0" styleClass="main_background">
+                        <VBox fx:id="box_ListProduct" layoutY="3.0" prefHeight="170.0" prefWidth="408.0" spacing="10.0" styleClass="main_background">
                            <padding>
                               <Insets left="10.0" right="10.0" />
                            </padding></VBox>
@@ -53,12 +53,12 @@
       </Pane>
       <Pane fx:id="pnl_Image" layoutX="10.0" layoutY="50.0" prefHeight="290.0" prefWidth="300.0" styleClass="pnl_view">
          <children>
-            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="15.0" layoutY="170.0" pickOnBounds="true">
+            <ImageView fx:id="Img_Icon" fitHeight="100.0" fitWidth="100.0" layoutX="15.0" layoutY="170.0" onMouseClicked="#handleImageIcon" pickOnBounds="true">
                <image>
                   <Image url="@../../icons/add-image%20(1).png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="270.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true">
+            <ImageView fx:id="Img_Game" fitHeight="150.0" fitWidth="270.0" layoutX="15.0" layoutY="15.0" onMouseClicked="#handleImageGame" pickOnBounds="true">
                <image>
                   <Image url="@../../icons/add-image%20(1).png" />
                </image>
@@ -77,8 +77,8 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter price" styleClass="text_input" stylesheets="@../../css/main.css" />
-            <JFXTextField id="tex" layoutX="300.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enten approximate size..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Price" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter price" styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Size" layoutX="300.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enten approximate size..." styleClass="text_input" stylesheets="@../../css/main.css" />
             <Label layoutX="325.0" layoutY="150.0" text="Approximate Size" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -89,7 +89,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" layoutX="300.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter name..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Name" layoutX="300.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter name..." styleClass="text_input" stylesheets="@../../css/main.css" />
             <Label layoutX="45.0" layoutY="60.0" text="Game ID" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -121,7 +121,7 @@
                   <Image url="@../../icons/tag16.png" />
                </image>
             </ImageView>
-            <Label layoutX="20.0" layoutY="85.0" text="Game ID" textFill="#b9b8b8">
+            <Label fx:id="lbl_GameID" layoutX="20.0" layoutY="85.0" text="Game ID" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
                </font>
@@ -185,8 +185,8 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" layoutX="20.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Developer..." styleClass="text_input" stylesheets="@../../css/main.css" />
-            <JFXTextField id="tex" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Publisher..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Developed" layoutX="20.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Developer..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Published" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Publisher..." styleClass="text_input" stylesheets="@../../css/main.css" />
             <Label layoutX="345.0" layoutY="60.0" text="Published By" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -210,8 +210,8 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" layoutX="320.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enten % sale..." styleClass="text_input" stylesheets="@../../css/main.css" />
-            <JFXTextField id="tex" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter languages..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Sale" layoutX="320.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enten % sale..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Languages" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter languages..." styleClass="text_input" stylesheets="@../../css/main.css" />
             <Label layoutX="45.0" layoutY="150.0" text="Supported languages" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -256,7 +256,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXTextArea layoutX="20.0" layoutY="56.0" prefHeight="130.0" prefWidth="550.0" promptText="Enter description here..." styleClass="text_input" />
+            <JFXTextArea fx:id="txt_Description" layoutX="20.0" layoutY="56.0" prefHeight="130.0" prefWidth="550.0" promptText="Enter description here..." styleClass="text_input" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Status" layoutX="610.0" layoutY="580.0" prefHeight="200.0" prefWidth="260.0" styleClass="pnl_view">
@@ -268,7 +268,7 @@
                </font>
             </Label>
             <JFXToggleButton layoutX="140.0" layoutY="98.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
-            <JFXToggleButton layoutX="140.0" layoutY="147.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <JFXToggleButton fx:id="tog_EnableBuy" layoutX="140.0" layoutY="147.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../icons/eye18.png" />
@@ -299,17 +299,17 @@
                   <Image url="@../../icons/apps40hover.png" />
                </image>
             </ImageView>
-            <JFXToggleButton layoutX="140.0" layoutY="48.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <JFXToggleButton fx:id="tog_Active" layoutX="140.0" layoutY="48.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Controller" layoutX="440.0" layoutY="790.0">
          <children>
             <HBox fx:id="hbox_Controller" spacing="10.0">
                <children>
-                  <JFXButton fx:id="btn_clear" layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Clear" />
-                  <JFXButton layoutX="550.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Add" />
-                  <JFXButton layoutX="660.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Update" />
-                  <JFXButton layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type2" text="Delete" />
+                  <JFXButton fx:id="btn_clear" layoutX="440.0" layoutY="740.0" onAction="#handleButtonClearAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Clear" />
+                  <JFXButton fx:id="btn_Add" layoutX="550.0" layoutY="740.0" onAction="#handleButtonAddAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Add" />
+                  <JFXButton fx:id="btn_Update" layoutX="660.0" layoutY="740.0" onAction="#handleButtonUpdateAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Update" />
+                  <JFXButton fx:id="btn_delete" layoutX="770.0" layoutY="740.0" onAction="#handleButtonDeleteAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type2" text="Delete" />
                </children>
             </HBox>
          </children>
