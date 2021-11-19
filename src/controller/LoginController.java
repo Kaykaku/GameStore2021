@@ -194,16 +194,11 @@ public class LoginController implements Initializable {
         btn_Exit.setOnMouseClicked((event) -> {
             System.exit(0);
         });
-
+        
         //input login
-        txt_Username_Login.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_Password_Login.requestFocus();
-                }
-            }
-        });
+        setOnKeyPressedEvent(txt_Username_Login, txt_Password_Login);
+        
+
         txt_Password_Login.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -434,7 +429,17 @@ public class LoginController implements Initializable {
         );
 
     }
-
+    void setOnKeyPressedEvent(TextField currentTextField,TextField nextTextField){
+        currentTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    nextTextField.requestFocus();
+                }
+            }
+        });
+    }
+    
     @FXML
     private void LoginAction(ActionEvent event) {
         String usename = txt_Username_Login.getText();
@@ -484,7 +489,7 @@ public class LoginController implements Initializable {
                             .getName()).log(Level.SEVERE, null, ex);
                 }
 
-                Auth.user = account;
+                Auth.USER = account;
             }
         }
 
@@ -705,10 +710,12 @@ public class LoginController implements Initializable {
                     if (count == -1) {
                         btn_SendOTP.setDisable(false);
                         timer.cancel();
-                        lblCountDown.setText("");
+                        btn_SendOTP.setText("Send OTP");
+//                        lblCountDown.setText("");
                         check = false;
                     } else {
-                        lblCountDown.setText(Integer.toString(count));
+//                        lblCountDown.setText(Integer.toString(count));
+                            btn_SendOTP.setText("Send OTP("+count+")");
                         count--;
                         btn_SendOTP.setDisable(true);
                     }

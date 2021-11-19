@@ -29,7 +29,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
@@ -45,7 +44,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import model.AppType;
 import model.Application;
@@ -506,16 +504,6 @@ public class Management_CategoryController implements Initializable {
         });
         btn_Last.setOnMouseClicked((event) -> {
             last();
-        });
-
-        img_AppIcon.setOnMouseClicked((evt) -> {
-            File f = new FileChooser().showOpenDialog(((Node) (evt.getSource())).getScene().getWindow());
-            if (f != null) {
-                model.Application a = new model.Application();
-                a.setAppIcon(ProcessImage.toBytes(f));
-                a.setApplicationID(Integer.valueOf(lbl_AppID.getText()));
-                new ApplicationDAO().setImage(a);
-            }
         });
 
         btn_AddCategory.setOnMouseClicked((evt) -> {

@@ -327,7 +327,7 @@ public class Management_ProductController implements Initializable {
         txt_Published.setText(entity.getPublisher());
         datePicker_CreationDate.setValue(ProcessDate.toLocalDate(ProcessDate.now()));
         datePicker_ReleaseDay.setValue(null);
-        txt_Languages.setText(entity.getLanguages());
+        txt_Languages.setText(entity==null?"":entity.getLanguages());
         txt_Sale.setText(entity.getSale() + "");
         txt_Description.setText("");
         tog_Active.setSelected(false);

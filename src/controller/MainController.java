@@ -20,8 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import until.Value;
 import static until.Value.*;
+import until.Variable;
 
 /**
  *
@@ -56,8 +56,8 @@ public class MainController implements Initializable {
     private boolean isUser =false;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        PNL_VIEW = pnl_View;
+    public void initialize(URL url, ResourceBundle rb) {     
+        Variable.PNL_VIEW = pnl_View;
         ListView = new ArrayList<>();
         ListView.add(FORM_HOME);
         ListView.add(FORM_HOME_APPS);
@@ -82,8 +82,8 @@ public class MainController implements Initializable {
         ListItems.add(new Object[]{"Statistics", "statistics40"});
         ListItems.add(new Object[]{"Library", "library40"});
 
-        Value.WIDTH_VIEW = pnl_View.getPrefWidth();
-        Value.HEIGHT_VIEW = pnl_View.getPrefHeight();
+        Variable.WIDTH_VIEW = pnl_View.getPrefWidth();
+        Variable.HEIGHT_VIEW = pnl_View.getPrefHeight();
         drawMenuItems();
 
         controller[0].setStyle("-fx-background-color: #454545;");

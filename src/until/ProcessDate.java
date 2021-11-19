@@ -38,6 +38,10 @@ public class ProcessDate {
         formater.applyPattern(date_patern);
         return formater.format(date);
     }
+    public static String toString(Date date,String patern) {
+        formater.applyPattern(patern);
+        return formater.format(date);
+    }
 
     public static Date addDays(Date date, long days) {
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);

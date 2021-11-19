@@ -15,12 +15,13 @@ import until.Connect_Jdbc;
  *
  * @author TUẤN KIỆT
  */
-public class CommentDAO extends DAO<Comment, Object > {
-    final String INSERT_SQL ="insert into Comments (CommentsID, CreationDate, Title, Description , ApplicationViewId ) values (?,?,?,?,?)";
-    final String UPDATE_SQL ="UPDATE  Comments  SET    CreationDate=?,  Title=?,  Description=?,  ApplicationViewId=? WHERE CommentsID=? ";
-    final String DELETE_SQL ="DELETE FROM Comments WHERE CommentsID=?";
+public class CommentDAO extends DAO<Comment, Integer > {
+    final String INSERT_SQL ="insert into Comments ( CreationDate, Title, Description , ApplicationViewId ) values (?,?,?,?)";
+    final String UPDATE_SQL ="UPDATE  Comments  SET    CreationDate=?,  Title=?,  Description=?,  ApplicationViewId=? WHERE CommentID=? ";
+    final String DELETE_SQL ="DELETE FROM Comments WHERE CommentID=?";
     String SELECT_ALL_SQL = "SELECT * FROM Comments";
-    String SELECT_BY_ID_SQL ="SELECT * FROM Comments where CommentsID=?";
+    String SELECT_BY_ID_SQL ="SELECT * FROM Comments where CommentID=?";
+    String SELECT_BY_ID_APPID ="SELECT * FROM Comments where ApplicationViewId in (select ApplicationViewId from ApplicationViews where ApplicationId =?)";
     String SELECT_BY_NAME ="select * from Account where Name Like?";
     
     public static void main(String[] args) {
@@ -29,7 +30,7 @@ public class CommentDAO extends DAO<Comment, Object > {
 
     @Override
     public void insert(Comment entity) {
-        Connect_Jdbc.update(INSERT_SQL, entity.getCommentsID(),entity.getCreationDate(),entity.getTitle(),entity.getDescription(), entity.getApplicatonViewId());
+        Connect_Jdbc.update(INSERT_SQL,entity.getCreationDate(),entity.getTitle(),entity.getDescription(), entity.getApplicatonViewId());
     }
 
     @Override
@@ -38,8 +39,8 @@ public class CommentDAO extends DAO<Comment, Object > {
     }
 
     @Override
-    public void delete(Object key) {
-        Connect_Jdbc.update(UPDATE_SQL, key);
+    public void delete(Integer key) {
+        Connect_Jdbc.update(DELETE_SQL, key);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class CommentDAO extends DAO<Comment, Object > {
     }
 
     @Override
-    public Comment selectByID(Object keys) {
+    public Comment selectByID(Integer keys) {
         List <Comment> list = this.selectBySql(SELECT_BY_ID_SQL, keys); 
         if (list.isEmpty()) {
             return null;
@@ -68,11 +69,11 @@ public class CommentDAO extends DAO<Comment, Object > {
             ResultSet rs =  Connect_Jdbc.query(sql, args);
             while (rs.next() ){
                 Comment entity = new Comment();
-                entity.setCommentsID(rs.getInt("CommentsID"));
+                entity.setCommentsID(rs.getInt("CommentID"));
                 entity.setCreationDate(rs.getDate("CreationDate"));
                 entity.setTitle(rs.getString("Title"));
                 entity.setDescription(rs.getString("Description"));
-                entity.setApplicatonViewId(rs.getInt("ApplicatonId"));
+                entity.setApplicatonViewId(rs.getInt("ApplicationViewId"));
                 list.add(entity);
                
             }
@@ -82,5 +83,7 @@ public class CommentDAO extends DAO<Comment, Object > {
         return list;
      
     }
-    
+    public List<Comment> selectByAppId(Integer keys) {
+        return this.selectBySql(SELECT_BY_ID_APPID,keys);
+    }
 }

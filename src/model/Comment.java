@@ -12,65 +12,63 @@ import java.util.Date;
  * @author TUẤN KIỆT
  */
 public class Comment {
-    private int CommentsID  ;
-    private java.util.Date CreationDate ;
-    private String Title  ;
-    private String Description ;
-    private int	ApplicatonViewId ;
+    private int commentsID  ;
+    private java.util.Date creationDate ;
+    private String title  ;
+    private String description ;
+    private int	applicatonViewId ;
 
     public Comment() {
     }
 
-    public Comment(int CommentsID, Date CreationDate, String Title, String Description, int ApplicatonViewId) {
-        this.CommentsID = CommentsID;
-        this.CreationDate = CreationDate;
-        this.Title = Title;
-        this.Description = Description;
-        this.ApplicatonViewId = ApplicatonViewId;
+    public Comment(int commentsID, Date creationDate, String title, String description, int applicatonViewId) {
+        this.commentsID = commentsID;
+        this.creationDate = creationDate;
+        this.title = title;
+        this.description = description;
+        this.applicatonViewId = applicatonViewId;
     }
 
     public int getCommentsID() {
-        return CommentsID;
+        return commentsID;
     }
 
-    public void setCommentsID(int CommentsID) {
-        this.CommentsID = CommentsID;
+    public void setCommentsID(int commentsID) {
+        this.commentsID = commentsID;
     }
 
     public Date getCreationDate() {
-        return CreationDate;
+        return creationDate;
     }
 
-    public void setCreationDate(Date CreationDate) {
-        this.CreationDate = CreationDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
-    public void setTitle(String Title) {
-        this.Title = Title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getApplicatonViewId() {
-        return ApplicatonViewId;
+        return applicatonViewId;
     }
 
-    public void setApplicatonViewId(int ApplicatonViewId) {
-        this.ApplicatonViewId = ApplicatonViewId;
+    public void setApplicatonViewId(int applicatonViewId) {
+        this.applicatonViewId = applicatonViewId;
     }
+
     
-    public int toSting(){
-        return this.CommentsID;
-    }
     
 }

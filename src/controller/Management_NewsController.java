@@ -13,27 +13,21 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -49,7 +43,7 @@ import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
 import model.Account;
 import model.News;
-import static until.Auth.user;
+import static until.Auth.USER;
 import until.Catch_Errors;
 import until.Dialog;
 import until.ProcessImage;
@@ -146,7 +140,7 @@ public class Management_NewsController implements Initializable {
                 //error
                 lbl_ImageError.setVisible(false);
                 //Set form last index
-                lbl_AccountId.setText(user.getName());
+                lbl_AccountId.setText(USER.getName());
                 // 
                 datePicker.setDisable(true);
                 datePicker.setDefaultColor(Paint.valueOf("lightblue"));
@@ -261,7 +255,7 @@ public class Management_NewsController implements Initializable {
         model.setDescription(txt_Description.getText()); 
         model.setContents(txt_Content.getText());
         model.setImage(path);
-        model.setAccountId(user.getAccountId());
+        model.setAccountId(USER.getAccountId());
         return model;
     }
     void setNews(News entity) {

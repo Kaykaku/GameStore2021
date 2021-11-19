@@ -12,6 +12,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.Period;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Account;
 
@@ -21,7 +22,7 @@ import model.Account;
  */
 public class Validation {
 
-    public static String validationPersonName(JFXTextField textField) {
+    public static String validationPersonName(TextField textField) {
         String err = "";
         if (!textField.getText().trim().isEmpty() && !textField.getText().trim().matches("[\\D]{3,}")) {
             err = "NAME must be at least 3 characters and contain no numbers !\n";
@@ -29,7 +30,7 @@ public class Validation {
         return err;
     }
 
-    public static String validationEmail(JFXTextField textField) {
+    public static String validationEmail(TextField textField) {
         String err = "";
         if (!textField.getText().trim().isEmpty() && !textField.getText().trim().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
             err = "EMAIL must be in the correct format!\n";
@@ -95,7 +96,7 @@ public class Validation {
         return err;
     }
 
-    public static String validationCategoryName(JFXTextField textField) {
+    public static String validationCategoryName(TextField textField) {
         String err = "";
         if (textField.getText().trim().length() < 2) {
             err = "CATERORY must be at least 2 characters\n";
@@ -117,6 +118,32 @@ public class Validation {
         } catch (Exception e) {
         }
 
+        return err;
+    }
+    public static String validationJFXTextFieldLength(TextField textField,String name,int... ints ) {
+        String err = "";
+        if (textField.getText().trim().isEmpty()) {
+            err = name+" cannot be empty!\n";
+        } else if (textField.getText().trim().length()< ints[0]) {
+            err = name+" must be at least "+ints[0]+" letters \n";
+        }else if(ints.length>1){
+            if(textField.getText().trim().length()< ints[0] ||textField.getText().trim().length()> ints[1]){
+                err = name+" must be from "+ints[0]+" to "+ints[1]+" letters\n";
+            }
+        }
+        return err;
+    }
+    public static String validationJFXTextFieldLength(TextArea textField,String name,int... ints ) {
+        String err = "";
+        if (textField.getText().trim().isEmpty()) {
+            err = name+" cannot be empty!\n";
+        } else if (textField.getText().trim().length()< ints[0]) {
+            err = name+" must be at least "+ints[0]+" letters \n";
+        }else if(ints.length>1){
+            if(textField.getText().trim().length()< ints[0] ||textField.getText().trim().length()> ints[1]){
+                err = name+" must be from "+ints[0]+" to "+ints[1]+" letters\n";
+            }
+        }
         return err;
     }
 }

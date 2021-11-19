@@ -21,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import static until.Value.*;
+import static until.Variable.PNL_VIEW;
 
 /**
  * FXML Controller class

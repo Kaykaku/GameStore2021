@@ -11,12 +11,7 @@ import javafx.scene.layout.Pane;
  *
  * @author Admin
  */
-public class Value {
-    public static double WIDTH_VIEW = 0;
-    public static double HEIGHT_VIEW = 0;
-    public static double WIDTH_PRODUCT_LIST = 0;
-    public static double HEIGHT_PRODUCT_LIST = 0;
-    
+public class Value {   
     public static final String EMPTY  ="/gui/Form/empty.fxml";
     public static final String FORM_PRODUCT_LIST  ="/gui/Form/ProductList.fxml";
     public static final String FORM_ACCOUNT  ="/gui/Form/Management_Account.fxml";
@@ -36,6 +31,14 @@ public class Value {
     
     public static final String ROW_ORDER  ="/gui/Item/Row_Order.fxml";
     public static final String ROW_PRODUCT  ="/gui/Item/Row_Product.fxml";
+    public static final String PRODUCT_BOX_SHORT  ="/gui/Item/Product_Box_Short.fxml";
     public static final String ROW_ORDERDETAIL  ="/gui/Item/Row_OrderDetail.fxml";
-    public static Pane PNL_VIEW ;
+    public static final String ROW_COMMENT  ="/gui/Item/Row_Comment.fxml";
+
+    public static final String STAR_FILL  ="src/icons/star_yellow32.png";
+    public static final String STAR_REGULAR  ="src/icons/starnotfill50.png";
+    
+    public static final String WSTAR_FILL  ="src/icons/starWhiteFill50.png";
+    public static final String WSTAR_REGULAR  ="src/icons/starWhiteRegular50.png";
+    public static final String WSTAR_HALF  ="src/icons/starWhiteHalfFill50.png";
 }

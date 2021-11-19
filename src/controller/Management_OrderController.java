@@ -358,12 +358,12 @@ public class Management_OrderController implements Initializable {
                 nodes[h].setOnMousePressed(evt -> {
 
                     pnl_Management_Order.getChildren().add(nodes[h]);
-                    nodes[h].setLayoutX(evt.getSceneX());
-                    nodes[h].setLayoutY(evt.getSceneY());
+                    nodes[h].setLayoutX(evt.getSceneX()-90);
+                    nodes[h].setLayoutY(evt.getSceneY()-60);
                 });
                 nodes[h].setOnMouseDragged(evt -> {
-                    nodes[h].setLayoutX(evt.getSceneX());
-                    nodes[h].setLayoutY(evt.getSceneY());
+                    nodes[h].setLayoutX(evt.getSceneX()-90);
+                    nodes[h].setLayoutY(evt.getSceneY()-60);
                 });
                 nodes[h].setOnMouseReleased(evt -> {
                     pnl_Management_Order.getChildren().remove(nodes[h]);

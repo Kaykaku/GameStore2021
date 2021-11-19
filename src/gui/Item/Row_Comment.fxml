@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="100.0" prefWidth="680.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Row_CommentController">
+   <children>
+      <Pane fx:id="pnl_Row" layoutX="60.0" prefHeight="100.0" prefWidth="610.0" style="-fx-background-color: #2d2d2d; -fx-background-radius: 10px;">
+         <children>
+            <HBox layoutX="10.0" layoutY="62.0">
+               <children>
+                  <Label fx:id="lbl_CommentDate" alignment="CENTER" layoutX="98.0" layoutY="17.0" prefHeight="27.0" prefWidth="100.0" text="12/12/2021" textFill="#b9b8b8">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
+                  </Label>
+                  <HBox layoutX="208.0" layoutY="20.0" spacing="5.0">
+                     <children>
+                        <ImageView fx:id="img_1Star" fitHeight="20.0" fitWidth="20.0" layoutX="271.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/star_yellow32.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="img_2Star" fitHeight="20.0" fitWidth="20.0" layoutX="319.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/star_yellow32.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="img_3Star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/star_yellow32.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="img_4Star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/star_yellow32.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="img_5Star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/star_yellow32.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="-10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="5.0" prefHeight="35.0" prefWidth="590.0">
+               <children>
+                  <Label fx:id="lbl_UserName" layoutX="10.0" layoutY="10.0" text="User" textFill="#b9b8b8">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="lbl_Title" layoutX="60.0" layoutY="5.0" prefHeight="35.0" text="Awsome , I love it" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <Label fx:id="lbl_Description" layoutX="10.0" layoutY="35.0" prefHeight="35.0" prefWidth="590.0" text="This is great app,This is great app,This is great app,This is great app" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <ImageView fx:id="img_Avatar" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../icons/user_avatar50.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="btn_Delete" layoutX="640.0" layoutY="-10.0" opacity="0.0" prefHeight="10.0" prefWidth="10.0" style="-fx-background-radius: 25px;" styleClass="button_type7">
+         <graphic>
+            <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/multiply24.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</Pane>

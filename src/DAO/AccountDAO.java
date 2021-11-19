@@ -29,7 +29,8 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String update_Register = "update Accounts set Password = ? where Username = ?";
     private final String select_By_Email = "select * from Accounts where Email = ?";
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password]) VALUES (?, ?, ?)";
-
+    private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
+    
     @Override
     public void insert(Account entity) {
         Connect_Jdbc.update(insert_sql, entity.getName(), entity.getBirthDay(), entity.isGender(),
@@ -124,5 +125,11 @@ public class AccountDAO extends DAO<Account, Integer> {
         }
         return list.get(0);
     }
-
+    public Account selectByAppViewID(Integer keys) {
+        List<Account> list = this.selectBySql(select_By_AppView, keys);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
 }

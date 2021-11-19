@@ -15,13 +15,14 @@ import until.Connect_Jdbc;
  *
  * @author leminhthanh
  */
-public class WishlistDAO extends DAO<Wishlist, String> {
+public class WishlistDAO extends DAO<Wishlist, Integer> {
 
     private String insert_sql = "insert into Wishlists(ApplicaitonId, AccountId) values (?, ?)";
     private String update_sql = "update Wishlists set ApplicationId = ?, AccountId = ? where AccountId = ?";
     private String delete_sql = "delete from Wishlists where AccountId = ?";
     private String select_all_sql = "select * from Wishlists";
     private String select_By_ID_sql = "select * from Wishlists where AccountId = ?";
+    private String select_By_App_Acc = "select * from Wishlists where AccountId = ? and ApplicationId=?";
 //    private String select_By_Name = "select * from Wishlist where Name like ?";
 
     @Override
@@ -32,11 +33,11 @@ public class WishlistDAO extends DAO<Wishlist, String> {
 
     @Override
     public void update(Wishlist entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connect_Jdbc.update(update_sql, entity.getApplicatonId(), entity.getAccountId());
     }
 
     @Override
-    public void delete(String key) {
+    public void delete(Integer key) {
         Connect_Jdbc.update(delete_sql, key);
     }
 
@@ -47,7 +48,7 @@ public class WishlistDAO extends DAO<Wishlist, String> {
     }
 
     @Override
-    public Wishlist selectByID(String keys) {
+    public Wishlist selectByID(Integer keys) {
         List<Wishlist> list = this.selectBySql(select_By_ID_sql, keys);
         if (list.isEmpty()) {
             return null;
@@ -79,5 +80,11 @@ public class WishlistDAO extends DAO<Wishlist, String> {
         }
         return list;
     }
-
+    public Wishlist selectByAccountApplicationID(Integer accountID,Integer applicationID) {
+        List<Wishlist> list = this.selectBySql(select_By_App_Acc, applicationID,accountID);
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
 }

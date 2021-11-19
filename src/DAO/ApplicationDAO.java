@@ -97,15 +97,26 @@ public class ApplicationDAO extends DAO<Application, Integer> {
     }
     public List<Application> selectNonPurchaseApplications(Integer accountID,String keyword) {
        String sql= "select * from Applications where (ApplicationId not in " 
-               +" (select ApplicationId from Orders a join OrderDetails b on a.OrderID =b.OrderID where a.AccountId=?)) "
+               +" (select ApplicationId from Orders a join OrderDetails b on a.OrderID =b.OrderID where a.AccountId=? and Status = 1)) "
                +"and (ApplicationId like ? or Name like ?)";
        keyword = "%"+keyword+"%";
        return selectBySql(sql,accountID,keyword,keyword);
     }
     
-    public void setImage(Application e) {
-       String sql= "update Applicatons set AppIcon = ? where ApplicationId =?";
-       //keys= "%"+keys+"%";
-       Connect_Jdbc.update(sql,e.getAppIcon(),e.getApplicationID());
+    public List<Application> selectPurchaseApplications(Integer accountID,String keyword) {
+       String sql= "select * from Applications where (ApplicationId in " 
+               +" (select ApplicationId from Orders a join OrderDetails b on a.OrderID =b.OrderID where a.AccountId=? and Status = 1)) "
+               +"and (ApplicationId like ? or Name like ?)";
+       keyword = "%"+keyword+"%";
+       return selectBySql(sql,accountID,keyword,keyword);
+    }
+    
+    public boolean isPurchaseApplication(Integer accountID,Integer applicationId){
+        for (Application application : selectPurchaseApplications(accountID, "")) {
+            if(application.getApplicationID()==applicationId){
+                return true;
+            }
+        }
+        return false;
     }
 }

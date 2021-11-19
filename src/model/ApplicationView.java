@@ -12,74 +12,73 @@ import java.util.Date;
  * @author TUẤN KIỆT
  */
 public class ApplicationView {
-    private int ApplicatonViewId ;
-    private java.util.Date   RatingDate ;
-    private int Rate  ;
-    private int Views  ;
-    private int ApplicatonId  ;
-    private int AccountId ; 
+    private int applicatonViewId ;
+    private java.util.Date   ratingDate ;
+    private int rate  ;
+    private int views  ;
+    private int applicatonId  ;
+    private int accountId ; 
 
     public ApplicationView() {
     }
 
-    public ApplicationView(int ApplicatonViewId, Date RatingDate, int Rate, int Views, int ApplicatonId, int AccountId) {
-        this.ApplicatonViewId = ApplicatonViewId;
-        this.RatingDate = RatingDate;
-        this.Rate = Rate;
-        this.Views = Views;
-        this.ApplicatonId = ApplicatonId;
-        this.AccountId = AccountId;
+    public ApplicationView(int applicatonViewId, Date ratingDate, int rate, int views, int applicatonId, int accountId) {
+        this.applicatonViewId = applicatonViewId;
+        this.ratingDate = ratingDate;
+        this.rate = rate;
+        this.views = views;
+        this.applicatonId = applicatonId;
+        this.accountId = accountId;
     }
 
     public int getApplicatonViewId() {
-        return ApplicatonViewId;
+        return applicatonViewId;
     }
 
-    public void setApplicatonViewId(int ApplicatonViewId) {
-        this.ApplicatonViewId = ApplicatonViewId;
+    public void setApplicatonViewId(int applicatonViewId) {
+        this.applicatonViewId = applicatonViewId;
     }
 
     public Date getRatingDate() {
-        return RatingDate;
+        return ratingDate;
     }
 
-    public void setRatingDate(Date RatingDate) {
-        this.RatingDate = RatingDate;
+    public void setRatingDate(Date ratingDate) {
+        this.ratingDate = ratingDate;
     }
 
     public int getRate() {
-        return Rate;
+        return rate;
     }
 
-    public void setRate(int Rate) {
-        this.Rate = Rate;
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
     public int getViews() {
-        return Views;
+        return views;
     }
 
-    public void setViews(int Views) {
-        this.Views = Views;
+    public void setViews(int views) {
+        this.views = views;
     }
 
     public int getApplicatonId() {
-        return ApplicatonId;
+        return applicatonId;
     }
 
-    public void setApplicatonId(int ApplicatonId) {
-        this.ApplicatonId = ApplicatonId;
+    public void setApplicatonId(int applicatonId) {
+        this.applicatonId = applicatonId;
     }
 
     public int getAccountId() {
-        return AccountId;
+        return accountId;
     }
 
-    public void setAccountId(int AccountId) {
-        this.AccountId = AccountId;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
-    public int toSting() {
-        return this.AccountId;
-    }
+
+    
     
 }

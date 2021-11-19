@@ -119,6 +119,16 @@
 .table-row-cell:even:selected{
     -fx-background-color: gray;
 }
+.text-area1{
+    -fx-text-fill: white ;
+}
+.text-area1 .scroll-pane{
+      -fx-background-color: #393939;
+}
+.text-area1 .content{
+      -fx-background-color: #393939;
+      -fx-text-fill: white ;
+}
 
 .img_gradient{
     -fx-background-color: linear-gradient( to bottom,transparent ,#27272766,#272727);

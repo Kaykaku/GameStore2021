@@ -17,6 +17,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import static until.Value.*;
+import static until.Variable.HEIGHT_VIEW;
+import static until.Variable.WIDTH_VIEW;
 
 /**
  * FXML Controller class

@@ -15,7 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import until.Value;
-import static until.Value.PNL_VIEW;
+import static until.Variable.PNL_VIEW;
 
 /**
  * FXML Controller class
