@@ -13,21 +13,27 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -215,6 +221,8 @@ public class Management_NewsController implements Initializable {
         if (entity.getImage()!= null) {
             new_Image.setImage(new Image(ProcessImage.toFile(entity.getImage(), "appIcon.png").toURI().toString()));
             RoundedImageView.RoundedImage(new_Image, 32);
+        }else{
+            new_Image.setImage(image);
         }
     }
     void enable_BtnUpdate(){
@@ -330,8 +338,8 @@ public class Management_NewsController implements Initializable {
                         if (Catch_Errors.check_Text(txt_Title)
                         && Catch_Errors.check_TextArea(txt_Description)
                         && Catch_Errors.check_TextArea(txt_Content)) {
-                        this.insert();
-                        this.clear();
+                            this.insert();
+                            this.clear();
                 }}}
        
     @FXML
@@ -349,8 +357,8 @@ public class Management_NewsController implements Initializable {
                         if (Catch_Errors.check_Text(txt_Title)
                         && Catch_Errors.check_TextArea(txt_Description)
                         && Catch_Errors.check_TextArea(txt_Content)) {
-                        this.update();
-                        this.clear();
+                            this.update();
+                            this.clear();
                 }}
     @FXML
     private void handleButtonDeleteAction(ActionEvent event) {

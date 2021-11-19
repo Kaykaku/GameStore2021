@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import java.sql.*;
 import model.Application;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -15,32 +16,29 @@ import until.Connect_Jdbc;
  *
  * @author NguyenHuan
  */
-//
-//
 public class ApplicationDAO extends DAO<Application, Integer> {
 
     @Override
     public void insert(Application entity) {
-        String sql = "insert into Applications (Name,Price,Size,Type,Image,Developer,Publisher,ReleaseDay,CreationDate,Languages,Sale,Description,Active,EnableBuy) "
-                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getAppIcon(),entity.getAppImage(),entity.getDeveloper()
-                ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale()
-                ,entity.getDescription(),entity.isActive(),entity.isEnableBuy());
+        String sql = "insert into Applications (Name,Price,Size,AppImage,AppIcon,Developer,Publisher,ReleaseDay,CreationDate,Languages,Sale,Description,Active,EnableBuy) "
+                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getAppImage(),entity.getAppIcon(),entity.getDeveloper()
+                ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale(),entity.getDescription(),entity.isActive(),entity.isEnableBuy());
 
     }
 
     @Override
     public void update(Application entity) {
-        String sql = "update Applications set Name=?,Price=?,Size=?,Type=?,AppIcon=?,AppImage=?,Developer=?,Publisher=?,ReleaseDay=?,CreationDate=?,Languages=?,Sale=?,Description=?,Active=?,EnableBuy=?"
+        String sql = "update Applications set Name=?,Price=?,Size=?,AppImage=?, AppIcon=?,Developer=?,Publisher=?,ReleaseDay=?,CreationDate=?,Languages=?,Sale=?,Description=?,Active=?,EnableBuy=?"
                 + " WHERE ApplicationId=? " ;
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getType(),entity.getAppIcon(),entity.getAppImage(),entity.getDeveloper()
+        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(),entity.getSize(),entity.getAppImage(),entity.getAppIcon(),entity.getDeveloper()
                 ,entity.getPublisher(),entity.getReleaseDay(),entity.getCreationDate(),entity.getLanguages(),entity.getSale()
                 ,entity.getDescription(),entity.isActive(),entity.isEnableBuy(),entity.getApplicationID());
     }
 
     @Override
     public void delete(Integer key) {
-        String spl ="delete * from Applications where = ApplicationId=? ";
+        String spl ="delete from Applications where ApplicationId=? ";
         Connect_Jdbc.update(spl, key);
     }
 
@@ -119,4 +117,97 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         }
         return false;
     }
+
+    public List<Integer> selectYears() {
+        List<Integer> list = new ArrayList<>();
+        try {
+            ResultSet rs = null;
+            try {
+                rs = Connect_Jdbc.query("select distinct year(ReleaseDay) from Applications order by year(ReleaseDay) desc");
+                while (rs.next()) {
+                    int year = rs.getInt(1);
+                    list.add(year);
+                }
+            } finally {
+                rs.getStatement().getConnection().close();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public List<Application> getReleaseDay_SearchByYear(int year) {
+        List<Application> list = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String sql = "{call sp_ReleaseDay_SearchByYear (?)}";
+            rs = Connect_Jdbc.query(sql, year);
+
+            While(rs, list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public List<Application> getReleaseDay_ThisWeek() {
+        List<Application> list = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String sql = "{call sp_ReleaseDay_ThisWeek}";
+            rs = Connect_Jdbc.query(sql);
+
+            While(rs, list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public List<Application> getReleaseDay_ThisMonth() {
+        List<Application> list = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String sql = "{call sp_ReleaseDay_ThisMonth}";
+            rs = Connect_Jdbc.query(sql);
+
+            While(rs, list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public List<Application> getReleaseDay_ThisYear() {
+        List<Application> list = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            String sql = "{call sp_ReleaseDay_ThisYear}";
+            rs = Connect_Jdbc.query(sql);
+
+            While(rs, list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    private void While(ResultSet rs, List<Application> list) throws SQLException {
+        while (rs.next()) {
+            Application entity = new Application();
+            
+            entity.setName(rs.getString("Name"));
+            entity.setPrice(rs.getFloat("Price"));
+            entity.setAppIcon(rs.getBytes("AppIcon"));
+            entity.setPublisher(rs.getString("Publisher"));
+            
+            list.add(entity);
+        }
+    }
+
 }

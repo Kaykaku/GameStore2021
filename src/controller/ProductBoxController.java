@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,7 +20,11 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import model.Application;
+import until.ProcessDate;
+import until.ProcessImage;
 import static until.Value.*;
 import static until.Variable.PNL_VIEW;
 
@@ -51,7 +56,7 @@ public class ProductBoxController implements Initializable {
     @FXML
     private Pane pnl_ProductBox;
     @FXML
-    private Pane pnl_Row_Order;
+    private Label lbl_Rate;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,6 +81,17 @@ public class ProductBoxController implements Initializable {
                 //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+    }
+
+    public void setAppInfo(Application entity) {
+        lbl_Categories.setText(entity.getPublisher());
+        lbl_Name.setText(entity.getName());
+        lbl_Price.setText(entity.getPrice() == 0 ? "Free" : entity.getPrice() + "$");
+
+        if (entity.getAppIcon() != null) {
+            img_App.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+            RoundedImageView.RoundedImage(img_App, 10);
+        }
     }
 
 }

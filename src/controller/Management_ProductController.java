@@ -7,6 +7,7 @@ package controller;
 
 import Animation.RoundedImageView;
 import DAO.ApplicationDAO;
+import DAO.CategoryDAO;
 import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import animatefx.animation.*;
@@ -14,21 +15,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -41,12 +36,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
-import javax.imageio.ImageIO;
 import model.Application;
 import until.Catch_Errors;
 import until.Dialog;
 import until.ProcessDate;
-import static until.ProcessDate.now;
 import until.ProcessImage;
 
 /**
@@ -163,67 +156,79 @@ public class Management_ProductController implements Initializable {
 
     ApplicationDAO applicationDAO = new ApplicationDAO();
     List<Application> listApplications = new ArrayList<>();
+    CategoryDAO categoryDao = new CategoryDAO();
     JFXDatePicker datePicker_CreationDate = new JFXDatePicker();
     JFXDatePicker datePicker_ReleaseDay = new JFXDatePicker();
-    FileChooser fileChooser = new FileChooser();
     Image image = new Image("icons/add-image (1).png");
-    byte[] pathImage, pathIcon;
     boolean isEdit = false;
+    File avatarIcon;
+    File avatarImage;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.showDatePicker();
         this.EventSearch();
         this.fillListApplication();
-        
+        this.displayFormAnimation();
+        btn_Update.setDisable(true);
+        btn_delete.setDisable(true);
+        ProcessDate.converter(datePicker_CreationDate);
+        ProcessDate.converter(datePicker_ReleaseDay);
 
     }
 
-    void fillListApplication() {
+    private void fillListApplication() {
         listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim());
 
-        
         try {
             Pane paneP = (Pane) FXMLLoader.load(getClass().getResource("/gui/Item/Row_Product.fxml"));
             double height = (paneP.getPrefHeight() + box_ListProduct.getSpacing()) * listApplications.size();
             box_ListProduct.setPrefSize(paneP.getPrefWidth(), height);
             pnl_List.setPrefHeight(height > pnl_ScrollList.getPrefHeight() ? height : pnl_ScrollList.getPrefHeight());
-            
+
             box_ListProduct.getChildren().clear();
             Pane[] nodes = new Pane[listApplications.size()];
             Row_ProductController[] controllers = new Row_ProductController[listApplications.size()];
-            
+
             for (int i = 0; i < listApplications.size(); i++) {
                 final int h = i;
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/gui/Item/Row_Product.fxml"));
                 nodes[h] = (Pane) loader.load();
                 controllers[h] = loader.getController();
-                
+
                 box_ListProduct.getChildren().add(nodes[h]);
                 controllers[h].setAppInfo(listApplications.get(h));
-                
+
                 nodes[h].setOnMouseClicked(evt -> {
                     setFormApp(listApplications.get(h));
-                    btn_Add.setDisable(false);
+                    btn_Add.setDisable(true);
+                    btn_Update.setDisable(false);
+                    btn_delete.setDisable(false);
                 });
 
                 nodes[h].setOnMouseClicked(evt -> {
                     setFormApp(listApplications.get(h));
-                    btn_Add.setDisable(false);
+                    btn_Add.setDisable(true);
+                    btn_Update.setDisable(false);
+                    btn_delete.setDisable(false);
                 });
-                
+
                 nodes[h].setOnMouseClicked(evt -> {
                     setFormApp(listApplications.get(h));
-                    btn_Add.setDisable(false);
+                    btn_Add.setDisable(true);
+                    btn_Update.setDisable(false);
+                    btn_delete.setDisable(false);
+                    
                 });
             }
         } catch (Exception e) {
-        
+
         }
     }
 
     private void showDatePicker() {
-         datePicker_CreationDate.setValue(ProcessDate.toLocalDate(ProcessDate.now()));
+        datePicker_CreationDate.setValue(ProcessDate.toLocalDate(ProcessDate.now()));
         datePicker_CreationDate.setEditable(false);
         datePicker_CreationDate.setDefaultColor(Paint.valueOf("lightblue"));
         datePicker_ReleaseDay.setDefaultColor(Paint.valueOf("lightblue"));
@@ -233,53 +238,37 @@ public class Management_ProductController implements Initializable {
         pnl_ReleaseDate.getChildren().add(datePicker_ReleaseDay);
     }
 
-    private void ChooseImageICon() throws IOException {
-        fileChooser.setTitle("Choose Picture");
-        fileChooser.getExtensionFilters().clear();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("icons", "*.png", "*.jpg"));
-        File file = fileChooser.showOpenDialog(null);
-        BufferedImage bif = ImageIO.read(file);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(bif, "png", bos);
-        byte[] data = bos.toByteArray();
-        pathIcon = data;
-        if (file != null) {
-            Img_Icon.setImage(new Image(file.toURI().toString()));
-            System.out.println(file);
+    private void setAvatarIcon() {
+        if (avatarIcon != null) {
+            Img_Icon.setImage(new Image(avatarIcon.toURI().toString()));
         } else {
-            System.out.println("Can't open dialog!");
+            Img_Icon.setImage(new Image(new File("icons/add-image (1).png").toURI().toString()));
         }
+        RoundedImageView.RoundedImage(Img_Icon, 200);
     }
 
-    private void ChooseImageGame() throws IOException {
-        fileChooser.setTitle("Choose Picture");
-        fileChooser.getExtensionFilters().clear();;
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("icons", "*.png", "*.jpg"));
-        File file = fileChooser.showOpenDialog(null);
-        BufferedImage bif = ImageIO.read(file);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(bif, "png", bos);
-        byte[] data = bos.toByteArray();
-        pathImage = data;
-        if (file != null) {
-            Img_Game.setImage(new Image(file.toURI().toString()));
+    private void setAvatarImage() {
+        if (avatarImage != null) {
+            Img_Game.setImage(new Image(avatarImage.toURI().toString()));
         } else {
-            Dialog.showMessageDialog(null, "Can't open dialog!");
+            Img_Game.setImage(new Image(new File("icons/add-image (1).png").toURI().toString()));
         }
+        RoundedImageView.RoundedImage(Img_Game, 32);
     }
+
     public void setFormApp(Application entity) {
         lbl_GameID.setText(entity.getApplicationID() + "");
         txt_Name.setText(entity.getName());
         txt_Price.setText(entity.getPrice() + "");
         txt_Size.setText(entity.getSize() + "");
-        if (entity.getAppImage()!= null) {
-            Img_Game.setImage(new Image(ProcessImage.toFile(entity.getAppImage(), "appIcon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(Img_Game, 32);
+        if (entity.getAppImage() != null) {
+            avatarImage = ProcessImage.toFile(entity.getAppImage(), "avatar.png");
         }
-         if (entity.getAppIcon() != null) {
-            Img_Icon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(Img_Icon, 32);
+        setAvatarImage();
+        if (entity.getAppIcon() != null) {
+            avatarIcon = ProcessImage.toFile(entity.getAppIcon(), "avatar.png");
         }
+        setAvatarIcon();
         txt_Developed.setText(entity.getDeveloper());
         txt_Published.setText(entity.getPublisher());
         datePicker_CreationDate.setValue(ProcessDate.toLocalDate(entity.getCreationDate()));
@@ -291,13 +280,20 @@ public class Management_ProductController implements Initializable {
         tog_EnableBuy.setSelected(entity.isEnableBuy());
     }
     int s;
-    Application getForm() {
+
+    private Application getForm() {
         Application App = new Application();
         App.setName(txt_Name.getText().trim());
         App.setPrice(Float.parseFloat(txt_Price.getText()));
         App.setSize(Float.parseFloat(txt_Size.getText()));
-        App.setAppImage(pathImage);
-        App.setAppIcon(pathIcon);
+        App.setAppImage(ProcessImage.toBytes(new File("/icons/add-image (1).png")));
+        if (avatarImage != null) {
+            App.setAppImage(ProcessImage.toBytes(avatarImage));
+        }
+        App.setAppIcon(ProcessImage.toBytes(new File("/icons/add-image (1).png")));
+        if (avatarIcon != null) {
+            App.setAppIcon(ProcessImage.toBytes(avatarIcon));
+        }
         App.setDeveloper(txt_Developed.getText());
         App.setPublisher(txt_Published.getText());
         App.setCreationDate(ProcessDate.toDate((datePicker_CreationDate.getValue())));
@@ -306,28 +302,28 @@ public class Management_ProductController implements Initializable {
         App.setSale(Float.parseFloat(txt_Sale.getText()));
         App.setDescription(txt_Description.getText());
         App.setActive(tog_Active.isSelected());
-        App.setActive(tog_EnableBuy.isSelected());
-        if(lbl_GameID.getText().equalsIgnoreCase("Game ID")==false){
+        App.setEnableBuy(tog_EnableBuy.isSelected());
+        if (lbl_GameID.getText().equals("Game ID") == false) {
             App.setApplicationID(Integer.parseInt(lbl_GameID.getText()));
-        }
-        else{
+        } else {
             App.setApplicationID(s);
         }
         return App;
 
     }
-    void setApplication(Application entity) {
-        lbl_GameID.setText(entity.getApplicationID()+ "");
-        txt_Name.setText(entity.getName());
-        txt_Price.setText(entity.getPrice() + "");
-        txt_Size.setText(entity.getSize() + "");
+
+    private void setApplication(Application entity) {
+        lbl_GameID.setText("Game ID");
+        txt_Name.setText(isEdit ? entity.getName() : "");
+        txt_Price.setText(isEdit ? entity.getPrice() + "" : "");
+        txt_Size.setText(isEdit ? entity.getSize() + "" : "");
         Img_Game.setImage(image);
         Img_Icon.setImage(image);
         txt_Developed.setText(entity.getDeveloper());
         txt_Published.setText(entity.getPublisher());
         datePicker_CreationDate.setValue(ProcessDate.toLocalDate(ProcessDate.now()));
         datePicker_ReleaseDay.setValue(null);
-        txt_Languages.setText(entity==null?"":entity.getLanguages());
+        txt_Languages.setText(entity.getLanguages());
         txt_Sale.setText(entity.getSale() + "");
         txt_Description.setText("");
         tog_Active.setSelected(false);
@@ -339,6 +335,7 @@ public class Management_ProductController implements Initializable {
         try {
             applicationDAO.insert(App);
             fillListApplication();
+            this.Clear();
             Dialog.showMessageDialog("Notice", "Inserted Successful!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -350,9 +347,10 @@ public class Management_ProductController implements Initializable {
         try {
             applicationDAO.update(App);
             fillListApplication();
+            this.Clear();
             Dialog.showMessageDialog("Notice", "Updated Successful!");
         } catch (Exception e) {
-           
+
         }
     }
 
@@ -361,14 +359,17 @@ public class Management_ProductController implements Initializable {
         try {
             applicationDAO.delete(ID);
             fillListApplication();
+            this.Clear();
         } catch (Exception e) {
         }
 
     }
 
     private void Clear() {
+        btn_Add.setDisable(false);
+        btn_Update.setDisable(true);
+        btn_delete.setDisable(true);
         this.setApplication(new Application());
-        lbl_GameID.setText("Game ID");
     }
 
     private void EventSearch() {
@@ -381,20 +382,20 @@ public class Management_ProductController implements Initializable {
     }
 
     @FXML
-    private void handleImageGame(MouseEvent e) {
-        try {
-            this.ChooseImageGame();
-        } catch (IOException ex) {
-            Logger.getLogger(Management_ProductController.class.getName()).log(Level.SEVERE, null, ex);
+    private void handleImageGame(MouseEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        avatarImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+        if (avatarImage != null) {
+            setAvatarImage();
         }
     }
 
     @FXML
     private void handleImageIcon(MouseEvent event) {
-        try {
-            this.ChooseImageICon();
-        } catch (IOException ex) {
-            Logger.getLogger(Management_ProductController.class.getName()).log(Level.SEVERE, null, ex);
+        FileChooser fileChooser = new FileChooser();
+        avatarIcon = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+        if (avatarIcon != null) {
+            setAvatarIcon();
         }
     }
 
@@ -405,48 +406,49 @@ public class Management_ProductController implements Initializable {
 
     @FXML
     private void handleButtonAddAction(ActionEvent event) {
-        if(Catch_Errors.check_Name(txt_Name)
-          && Catch_Errors.check_Float(txt_Price)
-          && Catch_Errors.check_Float(txt_Size)
-          && Catch_Errors.check_Float(txt_Sale)){
-            if(Catch_Errors.check_Name(txt_Developed)
-          && Catch_Errors.check_Name(txt_Languages)
-          && Catch_Errors.check_Name(txt_Published)){
-                if(Catch_Errors.check_TextArea(txt_Description)){
+        if (Catch_Errors.validationImageProduct(avatarImage)
+                && Catch_Errors.validationImageProduct(avatarIcon)
+                && Catch_Errors.check_TextProduct(txt_Name)
+                && Catch_Errors.check_FloatProduct(txt_Price)
+                && Catch_Errors.check_FloatProduct(txt_Size)) {
+            if (Catch_Errors.check_TextProduct(txt_Developed)
+                    && Catch_Errors.check_Languages(txt_Languages)
+                    && Catch_Errors.check_TextProduct(txt_Published)) {
+                if (Catch_Errors.check_FloatProduct(txt_Sale)
+                        && Catch_Errors.validationReleaseDay(datePicker_ReleaseDay)
+                        && Catch_Errors.check_TextAreaProduct(txt_Description)) {
                     this.insert();
-                    this.Clear();
                 }
             }
-        
+
         }
     }
 
     @FXML
     private void handleButtonUpdateAction(ActionEvent event) {
-        if(Catch_Errors.check_Name(txt_Name)
-          && Catch_Errors.check_Float(txt_Price)
-          && Catch_Errors.check_Float(txt_Size)
-          && Catch_Errors.check_Float(txt_Sale)){
-            if(Catch_Errors.check_Name(txt_Developed)
-          && Catch_Errors.check_Name(txt_Languages)
-          && Catch_Errors.check_Name(txt_Published)){
-                if(Catch_Errors.check_TextArea(txt_Description)){
+        if (Catch_Errors.check_TextProduct(txt_Name)
+                && Catch_Errors.check_FloatProduct(txt_Price)
+                && Catch_Errors.check_FloatProduct(txt_Size)) {
+            if (Catch_Errors.check_TextProduct(txt_Developed)
+                    && Catch_Errors.check_TextProduct(txt_Published)
+                    && Catch_Errors.check_Languages(txt_Languages)
+                    && Catch_Errors.check_FloatProduct(txt_Sale)
+                    && Catch_Errors.validationReleaseDay(datePicker_ReleaseDay)) {
+                if (Catch_Errors.check_TextAreaProduct(txt_Description)) {
                     this.Update();
-                    this.Clear();
                 }
             }
-        
+
         }
     }
 
     @FXML
     private void handleButtonDeleteAction(ActionEvent event) {
-        try{
-        this.Delete();}
-        catch(Exception e){
+        try {
+            this.Delete();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        this.Clear();
     }
 
     private void displayFormAnimation() {
