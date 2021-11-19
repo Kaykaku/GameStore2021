@@ -224,6 +224,9 @@
     -fx-background-color: #ffffff22;
     -fx-background-radius: 10px;
 }
+.product_box_Icon{
+    -fx-background-radius: 32px;
+}
 .rating_out{
     -fx-background-color: #E7710088;
     -fx-background-radius: 10px;
