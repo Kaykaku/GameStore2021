@@ -221,6 +221,8 @@ public class Management_NewsController implements Initializable {
         if (entity.getImage()!= null) {
             new_Image.setImage(new Image(ProcessImage.toFile(entity.getImage(), "appIcon.png").toURI().toString()));
             RoundedImageView.RoundedImage(new_Image, 32);
+        }else{
+            new_Image.setImage(image);
         }
     }
     void enable_BtnUpdate(){
@@ -336,8 +338,8 @@ public class Management_NewsController implements Initializable {
                         if (Catch_Errors.check_Text(txt_Title)
                         && Catch_Errors.check_TextArea(txt_Description)
                         && Catch_Errors.check_TextArea(txt_Content)) {
-                        this.insert();
-                        this.clear();
+                            this.insert();
+                            this.clear();
                 }}}
        
     @FXML
@@ -355,8 +357,8 @@ public class Management_NewsController implements Initializable {
                         if (Catch_Errors.check_Text(txt_Title)
                         && Catch_Errors.check_TextArea(txt_Description)
                         && Catch_Errors.check_TextArea(txt_Content)) {
-                        this.update();
-                        this.clear();
+                            this.update();
+                            this.clear();
                 }}
     @FXML
     private void handleButtonDeleteAction(ActionEvent event) {
