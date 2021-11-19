@@ -17,10 +17,10 @@ import javafx.scene.control.Label;
  */
 public class Catch_Errors {
     public static boolean check_Text(JFXTextField txt) {
-        if (txt.getText().trim().length() > 10 && txt.getText().trim().length() < 100 || txt.getText().isEmpty()==false) {
+        if (txt.getText().trim().length() >= 10 && txt.getText().trim().length() < 100 ) {
             return true;
         } else {
-            Dialog.showMessageDialog("Lỗi!","Vui lòng nhập vào chữ cái hợp lệ từ 10 đến 100 kí tự! ");
+            Dialog.showMessageDialog("Error!","Please "+txt.getPromptText()+" from 10 to 100 characters!");
             txt.requestFocus();
             return false;
         }
@@ -28,20 +28,20 @@ public class Catch_Errors {
     }
 
     public static boolean check_TextArea(JFXTextArea txt) {
-        if (txt.getText().trim().length() > 10 && txt.getText().trim().length() < 300 || txt.getText().isEmpty()==false) {
+        if (txt.getText().trim().length() >= 10 && txt.getText().trim().length() < 300 ) {
             return true;
         } else {
-            Dialog.showMessageDialog("Lỗi!","Vui lòng nhập vào chữ cái hợp lệ từ 10 đến 300 kí tự! ");
+            Dialog.showMessageDialog("Error!","Please "+txt.getPromptText()+" from 10 to 300 characters!");
             txt.requestFocus();
             return false;
         }
     }
     
      public static boolean check_Name(JFXTextField txt) {
-        if (txt.getText().trim().length() > 5 && txt.getText().trim().length() < 30 || txt.getText().isEmpty()==false) {
+        if (txt.getText().trim().length() >= 5 && txt.getText().trim().length() < 30 ) {
             return true;
         } else {
-            Dialog.showMessageDialog("Lỗi!","Vui lòng nhập vào chữ cái hợp lệ từ 5 đến 30 kí tự! ");
+            Dialog.showMessageDialog("Error!","Please "+txt.getPromptText()+" from 5 to 30 characters!");
             txt.requestFocus();
             return false;
         }
@@ -50,15 +50,15 @@ public class Catch_Errors {
      public static boolean check_Float(JFXTextField txt) {
         try {
             float hp = Float.parseFloat(txt.getText());
-            if ((hp >= 0)||hp==-1) {
+            if ((hp >= 0)) {
                 return true;
             } else {
-                Dialog.showMessageDialog("Lỗi!","Vui lòng nhập vào giá lớn hơn 0! ");
+                Dialog.showMessageDialog("Error!","Please enter a number that greater than 0!");
                 txt.requestFocus();
                 return false;
             }
         } catch (NumberFormatException e) {
-            Dialog.showMessageDialog("Lỗi", " Phải là số thực!");
+            Dialog.showMessageDialog("Error!","You must type a real number!");
             txt.requestFocus();
             return false;
         }
@@ -115,7 +115,7 @@ public class Catch_Errors {
                 return false;
             }
         } catch (NumberFormatException e) {
-            Dialog.showMessageDialog("Wrong data", " Must be number!");
+            Dialog.showMessageDialog("Wrong data", " You must type a real number!");
             txt.requestFocus();
             return false;
         }
@@ -123,7 +123,7 @@ public class Catch_Errors {
      public static Boolean validationImageProduct(File file) {
         if (file==null) {
            Dialog.showMessageDialog("Wrong data","Image haven't been chosen");
-             return false;
+           return false;
         }
         return true;
     }
