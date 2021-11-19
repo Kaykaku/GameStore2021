@@ -19,7 +19,7 @@ public class Connect_Jdbc {
     static String driver ="com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static String dburl="jdbc:sqlserver://localhost:1433;databaseName=GameStore";
     static String user="sa";
-    static String pass="reallyStrongPwd123";
+    static String pass="";
     static {
         try {
             Class.forName(driver);
