@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package controller;
+
 import Animation.MoveLeft;
 import Animation.MoveRight;
 import DAO.AccountDAO;
@@ -179,6 +180,7 @@ public class LoginController implements Initializable {
                 new SlideInUp(pnl_Register).playOnFinished(new SlideInDown(pnl_Login)).play();
             }
             isRegisterForm = !isRegisterForm;
+            SetEmpty();
         });
 
         lbl_ForgotPassword.setOnMouseClicked((evt) -> {
@@ -186,86 +188,58 @@ public class LoginController implements Initializable {
                 new SlideOutRight(pnl_Login).playOnFinished(new SlideOutLeft(pnl_ChangePass)).play();
                 isChangePassForm = !isChangePassForm;
             }
+            SetEmpty();
         });
         btn_Back.setOnMouseClicked((evt) -> {
             new SlideInLeft(pnl_ChangePass).playOnFinished(new SlideInRight(pnl_Login)).play();
             isChangePassForm = !isChangePassForm;
+            SetEmpty();
         });
         btn_Exit.setOnMouseClicked((event) -> {
             System.exit(0);
         });
-        
-        //input login
-        setOnKeyPressedEvent(txt_Username_Login, txt_Password_Login);
-        
 
-        txt_Password_Login.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_Username_Login.requestFocus();
-                }
-            }
-        });
+        //input login
+        setOnKeyPressed(txt_Username_Login, txt_Password_Login);
+        setOnKeyPressed(txt_Password_Login, txt_Password_Login);
+
         txt_Username_Login.setOnKeyReleased(event -> {
             if (txt_Username_Login.getText().isEmpty()) {
-                lbl_Message_Login.setText("Username cannot be empty!");
+                Messages(lbl_Message_Login, "Username cannot be empty!");
                 Incorrect(txt_Username_Login);
             } else {
-                lbl_Message_Login.setText("");
+                Messages(lbl_Message_Login, "");
                 Correct(txt_Username_Login);
             }
         });
         txt_Password_Login.setOnKeyReleased(event -> {
             if (txt_Password_Login.getText().isEmpty()) {
-                lbl_Message_Login.setText("Password cannot be empty!");
+                Messages(lbl_Message_Login, "Password cannot be empty!");
                 Incorrect(txt_Password_Login);
             } else {
-                lbl_Message_Login.setText("");
-                Correct(txt_Password_Login);
+                if (txt_Password_Login.getText().length() > 5) {
+                    Messages(lbl_Message_Login, "");
+                    Correct(txt_Password_Login);
+                } else {
+                    Messages(lbl_Message_Login, "Password much length more than 5!");
+                    Incorrect(txt_Password_Login);
+                }
             }
         });
 
         //input Change Password
-        txt_Username_ChangePass.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_OTP_ChangePass.requestFocus();
-                }
-            }
-        });
-        txt_OTP_ChangePass.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_NewPass_ChangePass.requestFocus();
-                }
-            }
-        });
-        txt_NewPass_ChangePass.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_ComfirmPass_ChangePass.requestFocus();
-                }
-            }
-        });
-        txt_ComfirmPass_ChangePass.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_Username_ChangePass.requestFocus();
-                }
-            }
-        });
+        setOnKeyPressed(txt_Username_ChangePass, txt_OTP_ChangePass);
+        setOnKeyPressed(txt_OTP_ChangePass, txt_NewPass_ChangePass);
+        setOnKeyPressed(txt_NewPass_ChangePass, txt_ComfirmPass_ChangePass);
+        setOnKeyPressed(txt_ComfirmPass_ChangePass, txt_Username_ChangePass);
+
         txt_Username_ChangePass.setOnKeyReleased(event -> {
             if (txt_Username_ChangePass.getText().isEmpty()) {
                 Incorrect(txt_Username_ChangePass);
                 btn_SendOTP.setDisable(true);
-                lbl_Message_ChangePass.setText("Username cannot be empty!");
+                Messages(lbl_Message_ChangePass, "Username cannot be empty!");
             } else {
-                lbl_Message_ChangePass.setText("");
+                Messages(lbl_Message_ChangePass, "");
                 Correct(txt_Username_ChangePass);
                 btn_SendOTP.setDisable(false);
             }
@@ -274,11 +248,11 @@ public class LoginController implements Initializable {
             String digit = txt_OTP_ChangePass.getText().trim();
 
             if (txt_OTP_ChangePass.getText().isEmpty()) {
-                lbl_Message_ChangePass.setText("Code OTP cannot be empty!");
+                Messages(lbl_Message_ChangePass, "Code OTP cannot be empty!");
                 Incorrect(txt_OTP_ChangePass);
             } else {
                 Correct(txt_OTP_ChangePass);
-                lbl_Message_ChangePass.setText("");
+                Messages(lbl_Message_ChangePass, "");
             }
         });
         txt_OTP_ChangePass.textProperty()
@@ -290,10 +264,10 @@ public class LoginController implements Initializable {
                         if (!newValue.matches("\\d*")) {
                             txt_OTP_ChangePass.setText(newValue.replaceAll("[^\\d]", ""));
                             Incorrect(txt_OTP_ChangePass);
-                            lbl_Message_ChangePass.setText("OTP only digit!");
+                            Messages(lbl_Message_ChangePass, "OTP only digit!");
                         } else {
                             Correct(txt_OTP_ChangePass);
-                            lbl_Message_ChangePass.setText("");
+                            Messages(lbl_Message_ChangePass, "");
                         }
                     }
                 }
@@ -301,23 +275,28 @@ public class LoginController implements Initializable {
         txt_NewPass_ChangePass.setOnKeyReleased(event -> {
             if (txt_NewPass_ChangePass.getText().isEmpty()) {
                 Incorrect(txt_NewPass_ChangePass);
-                lbl_Message_ChangePass.setText("New password cannot be empty!");
+                Messages(lbl_Message_ChangePass, "New password cannot be empty!");
             } else {
-                lbl_Message_ChangePass.setText("");
-                Correct(txt_NewPass_ChangePass);
+                if (txt_NewPass_ChangePass.getText().length() > 5) {
+                    Messages(lbl_Message_ChangePass, "");
+                    Correct(txt_NewPass_ChangePass);
+                } else {
+                    Incorrect(txt_NewPass_ChangePass);
+                    Messages(lbl_Message_ChangePass, "Password much length more than 5!");
+                }
             }
         }
         );
         txt_ComfirmPass_ChangePass.setOnKeyReleased(event -> {
             if (txt_ComfirmPass_ChangePass.getText().isEmpty()) {
                 Incorrect(txt_ComfirmPass_ChangePass);
-                lbl_Message_ChangePass.setText("Comfirm password cannot be empty!");
+                Messages(lbl_Message_ChangePass, "Comfirm password cannot be empty!");
             } else {
                 if (txt_ComfirmPass_ChangePass.getText().equals(txt_NewPass_ChangePass.getText())) {
-                    lbl_Message_ChangePass.setText("");
+                    Messages(lbl_Message_ChangePass, "");
                     Correct(txt_ComfirmPass_ChangePass);
                 } else {
-                    lbl_Message_ChangePass.setText("Password differently!");
+                    Messages(lbl_Message_ChangePass, "Password differently!");
                     Incorrect(txt_ComfirmPass_ChangePass);
                 }
             }
@@ -325,56 +304,17 @@ public class LoginController implements Initializable {
         );
 
         //input Register
-        txt_Username_Register.setOnKeyPressed(
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event
-            ) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_Email_Register.requestFocus();
-                }
-            }
-        }
-        );
-        txt_Email_Register.setOnKeyPressed(
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event
-            ) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_Password_Register.requestFocus();
-                }
-            }
-        }
-        );
-        txt_Password_Register.setOnKeyPressed(
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event
-            ) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_ComfirmPassword_Register.requestFocus();
-                }
-            }
-        }
-        );
-        txt_ComfirmPassword_Register.setOnKeyPressed(
-                new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event
-            ) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    txt_Username_Register.requestFocus();
-                }
-            }
-        }
-        );
+        setOnKeyPressed(txt_Username_Register, txt_Email_Register);
+        setOnKeyPressed(txt_Email_Register, txt_Password_Register);
+        setOnKeyPressed(txt_Password_Register, txt_ComfirmPassword_Register);
+        setOnKeyPressed(txt_ComfirmPassword_Register, txt_Username_Register);
+
         txt_Username_Register.setOnKeyReleased(event -> {
             if (txt_Username_Register.getText().isEmpty()) {
                 Incorrect(txt_Username_Register);
-                lbl_Message_Register.setText("Username cannot be empty!");
+                Messages(lbl_Message_Register, "Username cannot be empty!");
             } else {
-                lbl_Message_Register.setText("");
+                Messages(lbl_Message_Register, "");
                 Correct(txt_Username_Register);
             }
         }
@@ -384,17 +324,17 @@ public class LoginController implements Initializable {
             String email = txt_Email_Register.getText();
             if (email.isEmpty()) {
                 Incorrect(txt_Email_Register);
-                lbl_Message_Register.setText("Email cannot be empty!");
+                Messages(lbl_Message_Register, "Email cannot be empty!");
             } else {
 
                 String regex = "^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$";
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(email);
                 if (!matcher.matches()) {
-                    lbl_Message_Register.setText("Email is invalid!");
+                    Messages(lbl_Message_Register, "Email is invalid!");
 
                 } else {
-                    lbl_Message_Register.setText("");
+                    Messages(lbl_Message_Register, "");
                     Correct(txt_Email_Register);
                 }
 
@@ -405,23 +345,28 @@ public class LoginController implements Initializable {
         txt_Password_Register.setOnKeyReleased(event -> {
             if (txt_Password_Register.getText().isEmpty()) {
                 Incorrect(txt_Password_Register);
-                lbl_Message_Register.setText("Password cannot be empty!");
+                Messages(lbl_Message_Register, "Password cannot be empty!");
             } else {
-                lbl_Message_Register.setText("");
-                Correct(txt_Password_Register);
+                if (txt_Password_Register.getText().length() > 5) {
+                    Messages(lbl_Message_Register, "");
+                    Correct(txt_Password_Register);
+                } else {
+                    Incorrect(txt_Password_Register);
+                    Messages(lbl_Message_Register, "Password much length more than 5!");
+                }
             }
         }
         );
         txt_ComfirmPassword_Register.setOnKeyReleased(event -> {
             if (txt_ComfirmPassword_Register.getText().isEmpty()) {
                 Incorrect(txt_ComfirmPassword_Register);
-                lbl_Message_Register.setText("Comfirm password cannot be empty!");
+                Messages(lbl_Message_Register, "Comfirm password cannot be empty!");
             } else {
                 if (txt_ComfirmPassword_Register.getText().equals(txt_Password_Register.getText())) {
-                    lbl_Message_Register.setText("");
+                    Messages(lbl_Message_Register, "");
                     Correct(txt_ComfirmPassword_Register);
                 } else {
-                    lbl_Message_Register.setText("Password differently!");
+                    Messages(lbl_Message_Register, "Password differently!");
                     Incorrect(txt_ComfirmPassword_Register);
                 }
             }
@@ -429,17 +374,7 @@ public class LoginController implements Initializable {
         );
 
     }
-    void setOnKeyPressedEvent(TextField currentTextField,TextField nextTextField){
-        currentTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    nextTextField.requestFocus();
-                }
-            }
-        });
-    }
-    
+
     @FXML
     private void LoginAction(ActionEvent event) {
         String usename = txt_Username_Login.getText();
@@ -451,7 +386,7 @@ public class LoginController implements Initializable {
             txt_Username_Login.requestFocus();
             Incorrect(txt_Username_Login);
             Incorrect(txt_Password_Login);
-            lbl_Message_Login.setText("Username and password cannot be empty!");
+            Messages(lbl_Message_Login, "Username and password cannot be empty!");
 
         } else if (usename.isEmpty() || password.isEmpty()) {
             if (usename.isEmpty()) {
@@ -461,10 +396,10 @@ public class LoginController implements Initializable {
             }
         } else {
             if (account == null) {
-                lbl_Message_Login.setText("Fail username!");
+                Messages(lbl_Message_Login, "Fail username!");
                 Incorrect(txt_Username_Login);
             } else if (!password.equals(account.getPassword())) {
-                lbl_Message_Login.setText("Fail password!");
+                Messages(lbl_Message_Login, "Fail password!");
                 Incorrect(txt_Password_Login);
             } else {
                 if (cbo_Remember.isSelected()) {
@@ -501,12 +436,12 @@ public class LoginController implements Initializable {
         AccountDAO dao = new AccountDAO();
         Account account = dao.selectByUser(txt_Username_ChangePass.getText());
         if (account == null) {
-            lbl_Message_ChangePass.setText("Cannot find username!");
+            Messages(lbl_Message_ChangePass, "Cannot find username!");
         } else {
             String send = account.getEmail();
             System.out.println(send);
             if (send != null) {
-                
+
                 Session session = SendMail();
 
                 try {
@@ -537,7 +472,7 @@ public class LoginController implements Initializable {
             Incorrect(txt_OTP_ChangePass);
             Incorrect(txt_NewPass_ChangePass);
             Incorrect(txt_ComfirmPass_ChangePass);
-            lbl_Message_ChangePass.setText("Cannot not Empty!");
+            Messages(lbl_Message_ChangePass, "Cannot not Empty!");
         } else if (username.isEmpty() || otpCode.isEmpty() || password.isEmpty() || password1.isEmpty()) {
             if (username.isEmpty()) {
                 txt_Username_ChangePass.requestFocus();
@@ -549,18 +484,18 @@ public class LoginController implements Initializable {
                 txt_ComfirmPass_ChangePass.requestFocus();
             }
         } else {
-            lbl_Message_ChangePass.setText("");
+            Messages(lbl_Message_ChangePass, "");
             Correct(txt_Username_ChangePass);
             Correct(txt_NewPass_ChangePass);
             Correct(txt_ComfirmPass_ChangePass);
             if (check = true) {
                 if (count == -1) {
-                    lbl_Message_ChangePass.setText("Code OTP too time!");
+                    Messages(lbl_Message_ChangePass, "Code OTP too time!");
                     Incorrect(txt_OTP_ChangePass);
                     txt_OTP_ChangePass.requestFocus();
                 } else {
                     if (Integer.parseInt(otpCode) == otp) {
-                        lbl_Message_ChangePass.setText("");
+                        Messages(lbl_Message_ChangePass, "");
                         Correct(txt_OTP_ChangePass);
                         AccountDAO dao = new AccountDAO();
                         Account account = new Account();
@@ -570,10 +505,7 @@ public class LoginController implements Initializable {
 
                         dao.update_Register(account);
 
-                        txt_Username_ChangePass.setText("");
-                        txt_OTP_ChangePass.setText("");
-                        txt_NewPass_ChangePass.setText("");
-                        txt_ComfirmPass_ChangePass.setText("");
+                        SetEmpty();
 
                         if (isChangePassForm) {
                             new SlideInLeft(pnl_ChangePass).playOnFinished(new SlideInRight(pnl_Login)).play();
@@ -581,7 +513,7 @@ public class LoginController implements Initializable {
                         }
 
                     } else {
-                        lbl_Message_ChangePass.setText("Code OTP incorrect!");
+                        Messages(lbl_Message_ChangePass, "Code OTP incorrect!");
                         Incorrect(txt_OTP_ChangePass);
                         txt_OTP_ChangePass.requestFocus();
                     }
@@ -603,7 +535,7 @@ public class LoginController implements Initializable {
             Incorrect(txt_Email_Register);
             Incorrect(txt_Password_Register);
             Incorrect(txt_ComfirmPassword_Register);
-            lbl_Message_Register.setText("Cannot not Empty!");
+            Messages(lbl_Message_Register, "Cannot not Empty!");
         } else if (username.isEmpty() || email.isEmpty() || password.isEmpty() || password1.isEmpty() || !cbo_Agree.isSelected()) {
             if (username.isEmpty()) {
                 txt_Username_Register.requestFocus();
@@ -614,11 +546,11 @@ public class LoginController implements Initializable {
             } else if (password1.isEmpty()) {
                 txt_ComfirmPassword_Register.requestFocus();
             } else if (!cbo_Agree.isSelected()) {
-                lbl_Message_Register.setText("Click agee with us!");
+                Messages(lbl_Message_Register, "Click agee with us!");
             }
         } else {
             if (password1.equals(password)) {
-                lbl_Message_Register.setText("");
+                Messages(lbl_Message_Register, "");
                 Correct(txt_ComfirmPassword_Register);
                 AccountDAO dao = new AccountDAO();
                 Account account = new Account();
@@ -628,9 +560,9 @@ public class LoginController implements Initializable {
                         Correct(txt_Email_Register);
                         if (password.length() < 5) {
                             Incorrect(txt_Password_Register);
-                            lbl_Message_Register.setText("Password much length more than 5!");
+                            Messages(lbl_Message_Register, "Password much length more than 5!");
                         } else {
-                            lbl_Message_Register.setText("");
+                            Messages(lbl_Message_Register, "");
                             Correct(txt_Password_Register);
 
                             account.setUserName(username);
@@ -639,10 +571,7 @@ public class LoginController implements Initializable {
                             dao.insert_Register(account);
 
                             System.out.println("Register success!");
-                            txt_Username_Register.setText("");
-                            txt_Email_Register.setText("");
-                            txt_Password_Register.setText("");
-                            txt_ComfirmPassword_Register.setText("");
+                            SetEmpty();
 
                             MoveRight ani = new MoveRight(img_bg1, pnl_Login.getPrefWidth());
                             ani.play();
@@ -653,24 +582,24 @@ public class LoginController implements Initializable {
                         }
 
                     } else {
-                        lbl_Message_Register.setText("Email already taken!");
+                        Messages(lbl_Message_Register, "Email already taken!");
                         Incorrect(txt_Email_Register);
                     }
 
                 } else {
-                    lbl_Message_Register.setText("Username already taken!");
+                    Messages(lbl_Message_Register, "Username already taken!");
                     Incorrect(txt_Username_Register);
                     txt_Username_Register.requestFocus();
                 }
 
             } else {
-                lbl_Message_Register.setText("Password differently!");
+                Messages(lbl_Message_Register, "Password differently!");
                 Incorrect(txt_ComfirmPassword_Register);
             }
         }
 
     }
-    
+
     private Message SendMailContent(Session session, String send) throws MessagingException {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("thanhlmps18795@fpt.edu.vn "));
@@ -711,11 +640,10 @@ public class LoginController implements Initializable {
                         btn_SendOTP.setDisable(false);
                         timer.cancel();
                         btn_SendOTP.setText("Send OTP");
-//                        lblCountDown.setText("");
+                        otp = otp + 9999;
                         check = false;
                     } else {
-//                        lblCountDown.setText(Integer.toString(count));
-                            btn_SendOTP.setText("Send OTP("+count+")");
+                        btn_SendOTP.setText("Send OTP " + count);
                         count--;
                         btn_SendOTP.setDisable(true);
                     }
@@ -723,6 +651,34 @@ public class LoginController implements Initializable {
             }
         }, 1000, 1000);
 
+    }
+
+    private void setOnKeyPressed(TextField textField1, TextField textField2) {
+        textField1.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    textField2.requestFocus();
+                }
+            }
+        });
+    }
+
+    private void SetEmpty() {
+        txt_Username_Login.setText("");
+        txt_Password_Login.setText("");
+        txt_Username_ChangePass.setText("");
+        txt_OTP_ChangePass.setText("");
+        txt_ComfirmPass_ChangePass.setText("");
+        txt_NewPass_ChangePass.setText("");
+        txt_Username_Register.setText("");
+        txt_Email_Register.setText("");
+        txt_ComfirmPassword_Register.setText("");
+        txt_Password_Register.setText("");
+    }
+
+    private void Messages(Label label, String string) {
+        label.setText(string);
     }
 
     public void Incorrect(TextField name) {
