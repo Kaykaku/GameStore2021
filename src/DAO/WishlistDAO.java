@@ -17,9 +17,9 @@ import until.Connect_Jdbc;
  */
 public class WishlistDAO extends DAO<Wishlist, Integer> {
 
-    private String insert_sql = "insert into Wishlists(ApplicaitonId, AccountId) values (?, ?)";
+    private String insert_sql = "insert into Wishlists( ApplicationId,AccountId) values (?, ?)";
     private String update_sql = "update Wishlists set ApplicationId = ?, AccountId = ? where AccountId = ?";
-    private String delete_sql = "delete from Wishlists where AccountId = ?";
+    private String delete_sql = "delete from Wishlists where AccountId = ? and ApplicationId = ?";
     private String select_all_sql = "select * from Wishlists";
     private String select_By_ID_sql = "select * from Wishlists where AccountId = ?";
     private String select_By_App_Acc = "select * from Wishlists where AccountId = ? and ApplicationId=?";
@@ -27,7 +27,7 @@ public class WishlistDAO extends DAO<Wishlist, Integer> {
 
     @Override
     public void insert(Wishlist entity) {
-        Connect_Jdbc.update(insert_sql, entity.getApplicatonId(), entity.getAccountId());
+        Connect_Jdbc.update(insert_sql,  entity.getApplicatonId(),entity.getAccountId());
 
     }
 
@@ -81,10 +81,13 @@ public class WishlistDAO extends DAO<Wishlist, Integer> {
         return list;
     }
     public Wishlist selectByAccountApplicationID(Integer accountID,Integer applicationID) {
-        List<Wishlist> list = this.selectBySql(select_By_App_Acc, applicationID,accountID);
+        List<Wishlist> list = this.selectBySql(select_By_App_Acc,accountID, applicationID);
         if (list.isEmpty()) {
             return null;
         }
         return list.get(0);
+    }
+    public void delete(Integer accountID,Integer applicationID) {
+        Connect_Jdbc.update(delete_sql, accountID,applicationID);
     }
 }

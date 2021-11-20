@@ -11,11 +11,14 @@ import DAO.ApplicationViewDAO;
 import DAO.CategoryDAO;
 import DAO.StatisticsDAO;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +31,8 @@ import model.ApplicationView;
 import until.ProcessImage;
 import until.ProcessString;
 import until.Value;
+import static until.Value.FORM_DISPLAY_PRODUCT;
+import static until.Variable.PNL_VIEW;
 
 /**
  * FXML Controller class
@@ -80,6 +85,18 @@ public class Product_Box_ShortController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         lbl_AppName.setText(ProcessString.cutString(lbl_AppName.getText(), 20));
         RoundedImageView.RoundedImage(img_AppIcon, 32);
+        pnl_ProductBox_Short.setOnMouseClicked(evt -> {
+            //PNL_VIEW.getChildren().clear();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(FORM_DISPLAY_PRODUCT));
+                Node node = (Node) loader.load();
+                DisplayProductController controller = loader.getController();
+                controller.setInformation(application);
+                PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
     void setInfo(Application entity) {
@@ -124,20 +141,16 @@ public class Product_Box_ShortController implements Initializable {
         img_3star.setImage(starNot);
         img_4star.setImage(starNot);
         img_5star.setImage(starNot);
-        if(rate>0.4){
-            img_1star.setImage(starHalf);
-        }
-        else if(rate>1.4){
-            img_2star.setImage(starHalf);
-        }
-        else if(rate>2.4){
-            img_3star.setImage(starHalf);
-        }
-        else if(rate>3.4){
-            img_4star.setImage(starHalf);
-        }
-        else if(rate>4.4){
+        if (rate >= 4.4) {
             img_5star.setImage(starHalf);
+        } else if (rate >= 3.4) {
+            img_4star.setImage(starHalf);
+        } else if (rate >= 2.4) {
+            img_3star.setImage(starHalf);
+        } else if (rate >= 1.4) {
+            img_2star.setImage(starHalf);
+        } else if (rate >= 0.4) {
+            img_1star.setImage(starHalf);
         }
         switch ((int)rate) {
             case 5:

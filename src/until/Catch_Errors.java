@@ -28,10 +28,10 @@ public class Catch_Errors {
     }
 
     public static boolean check_TextArea(JFXTextArea txt) {
-        if (txt.getText().trim().length() >= 10 && txt.getText().trim().length() < 300 ) {
+        if (txt.getText().trim().length() >= 10 && txt.getText().trim().length() < 4000 ) {
             return true;
         } else {
-            Dialog.showMessageDialog("Error!","Please "+txt.getPromptText()+" from 10 to 300 characters!");
+            Dialog.showMessageDialog("Error!","Please "+txt.getPromptText()+" from 10 to 4000 characters!");
             txt.requestFocus();
             return false;
         }

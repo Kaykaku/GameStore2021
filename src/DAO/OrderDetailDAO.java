@@ -8,7 +8,6 @@ package DAO;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import model.Order;
 import model.OrderDetail;
 import until.Connect_Jdbc;
 

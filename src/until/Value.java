@@ -28,12 +28,15 @@ public class Value {
     public static final String FORM_HOME_GAMES  ="/gui/Form/Home_Games.fxml";
     public static final String FORM_LIBRARY  ="/gui/Form/Library.fxml";
     public static final String FORM_USER_INFORMATION  ="/gui/Form/User_Information.fxml";
+    public static final String FORM_LOGIN  ="/gui/Form/Login.fxml";
     
     public static final String ROW_ORDER  ="/gui/Item/Row_Order.fxml";
     public static final String ROW_PRODUCT  ="/gui/Item/Row_Product.fxml";
     public static final String PRODUCT_BOX_SHORT  ="/gui/Item/Product_Box_Short.fxml";
+    public static final String PRODUCT_BOX  ="/gui/Item/Product_Box.fxml";
     public static final String ROW_ORDERDETAIL  ="/gui/Item/Row_OrderDetail.fxml";
     public static final String ROW_COMMENT  ="/gui/Item/Row_Comment.fxml";
+    public static final String LIBRARY_BOX  ="/gui/Item/Library_Product_Box.fxml";
 
     public static final String STAR_FILL  ="src/icons/star_yellow32.png";
     public static final String STAR_REGULAR  ="src/icons/starnotfill50.png";

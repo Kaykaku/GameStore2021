@@ -7,6 +7,7 @@ package DAO;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Order;
 import until.Connect_Jdbc;
@@ -78,6 +79,14 @@ public class OrderDAO extends DAO<Order,Integer>{
         return list;
     }
 
-    
+    public Order selectByAccountAppID(Integer acccountID,Integer AppID) {
+        String sql= "SELECT * FROM Orders a inner join OrderDetails b on a.OrderID = b.OrderID WHERE a.AccountId=? and ApplicationId =?";
+        return selectBySql(sql,acccountID,AppID).isEmpty() ? null:selectBySql(sql,acccountID,AppID).get(0);
+    }
+    public Order selectByLastOrder(Integer acccountID) {
+        String sql= "SELECT * FROM Orders  WHERE AccountId=?";
+        List<Order> list = selectBySql(sql,acccountID);
+        return list.isEmpty() ? null:list.get(list.size()-1);
+    }
     
 }

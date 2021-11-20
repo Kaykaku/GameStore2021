@@ -5,6 +5,8 @@
  */
 package controller;
 
+import Animation.RoundedImageView;
+import DAO.AccountDAO;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
@@ -12,14 +14,28 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import model.Account;
+import until.Auth;
+import until.ProcessImage;
+import until.Value;
 import static until.Value.*;
 import until.Variable;
 
@@ -30,77 +46,159 @@ import until.Variable;
 public class MainController implements Initializable {
 
     @FXML
-    private VBox vbox_menu;
+    private ImageView img_User_Icon_Small;
+
+    @FXML
+    private Label lbl_UserName_Hide;
+
+    @FXML
+    private ImageView img_User_Icon_Medium;
 
     @FXML
     private Pane pnl_View;
 
     @FXML
-    private Pane pnl_ManageAccount;
-    
+    private Label lbl_UserName;
+
     @FXML
-    private ImageView img_User_Icon_Small;
-    
+    private VBox vbox_menu;
+
+    @FXML
+    private Pane pnl_ManageAccount;
+
+    @FXML
+    private Button btn_Minimize;
+
+    @FXML
+    private Label lbl_Email_Hide;
+
+    @FXML
+    private VBox vbox_menuHide;
+
+    @FXML
+    private Button btn_Exit;
+
     @FXML
     private JFXButton btn_WishLish;
-    
+
+    @FXML
+    private Pane pnl_menu;
+
     @FXML
     private JFXButton btn_AccountSettings;
-    
+
+    @FXML
+    private Label lbl_SignOut;
+
     boolean isShowManageAccount = false;
     private boolean[] isSelected;
     int menu = 7;
     ArrayList<String> ListView;
     ArrayList<Object[]> ListItems;
     MenuItemController[] controller;
-    private boolean isUser =false;
+    private boolean isUser = false;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {     
+    public void initialize(URL url, ResourceBundle rb) {
         Variable.PNL_VIEW = pnl_View;
-        ListView = new ArrayList<>();
-        ListView.add(FORM_HOME);
-        ListView.add(FORM_HOME_APPS);
-        ListView.add(FORM_HOME_GAMES);
-        ListView.add(FORM_ACCOUNT);
-        ListView.add(FORM_CATEGORY);
-        ListView.add(FORM_PRODUCT);
-        ListView.add(FORM_ORDER);
-        ListView.add(FORM_NEWS);
-        ListView.add(FORM_STATISTICS);
-        ListView.add(FORM_LIBRARY);
-
-        ListItems = new ArrayList<>();
-        ListItems.add(new Object[]{"Home", "home40"});
-        ListItems.add(new Object[]{"Apps", "apps40"});
-        ListItems.add(new Object[]{"Games", "games40"});
-        ListItems.add(new Object[]{"Accounts", "accounts40"});
-        ListItems.add(new Object[]{"Category", "categories40"});
-        ListItems.add(new Object[]{"Products", "products40"});
-        ListItems.add(new Object[]{"Orders", "orders40"});
-        ListItems.add(new Object[]{"News", "news40"});
-        ListItems.add(new Object[]{"Statistics", "statistics40"});
-        ListItems.add(new Object[]{"Library", "library40"});
-
         Variable.WIDTH_VIEW = pnl_View.getPrefWidth();
         Variable.HEIGHT_VIEW = pnl_View.getPrefHeight();
+
+        loadRoleItems();
         drawMenuItems();
+        loadUserInfo();
 
         controller[0].setStyle("-fx-background-color: #454545;");
         controller[0].setItemInfo("", ListItems.get(0)[1].toString() + "selected.png");
         drawPanelView(ListView.get(0));
-        
-        img_User_Icon_Small.setOnMouseClicked(evt->{
+
+        img_User_Icon_Small.setOnMouseClicked(evt -> {
             showManageAccount();
         });
-        btn_AccountSettings.setOnMouseClicked(evt->{
+        btn_AccountSettings.setOnMouseClicked(evt -> {
             drawPanelView(FORM_USER_INFORMATION);
             showManageAccount();
         });
-        btn_WishLish.setOnMouseClicked(evt->{
+        btn_WishLish.setOnMouseClicked(evt -> {
             drawPanelView(FORM_WISHLISH);
             showManageAccount();
         });
+        btn_Exit.setOnMouseClicked(evt ->{
+            System.exit(0);
+        });
+        btn_Minimize.setOnMouseClicked(evt ->{
+            
+        });
+        lbl_SignOut.setOnMouseClicked(evt ->{
+            signOut(evt);
+        });
+    }
+    void signOut(MouseEvent evt){
+                try {
+                    ((Node) (evt.getSource())).getScene().getWindow().hide();
+                    Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
+                    Stage stage = new Stage();
+                    stage.initStyle(StageStyle.UNDECORATED);
+                    stage.setScene(new Scene(root));
+                    stage.show();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(LoginController.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
+
+                Auth.USER = null;
+    }
+    void loadRoleItems() {
+        if (Auth.USER == null) {
+            Auth.USER = new AccountDAO().selectByID(1);
+        }
+        pnl_ManageAccount.setTranslateX(0);
+        ListView = new ArrayList<>();
+        ListItems = new ArrayList<>();
+
+        ListView.add(FORM_HOME);
+        ListItems.add(new Object[]{"Home", "home40"});
+        
+        if (!Auth.isManager()) {
+            ListView.add(FORM_HOME_APPS);
+            ListView.add(FORM_HOME_GAMES);
+            ListView.add(FORM_LIBRARY);
+            ListItems.add(new Object[]{"Apps", "apps40"});
+            ListItems.add(new Object[]{"Games", "games40"});
+            ListItems.add(new Object[]{"Library", "library40"});
+            
+        }
+        if (Auth.isAdmin()) {
+            ListView.add(FORM_ACCOUNT);
+            ListItems.add(new Object[]{"Accounts", "accounts40"});
+        }
+        if (Auth.isManager()) {
+            ListView.add(FORM_CATEGORY);
+            ListView.add(FORM_PRODUCT);
+            ListView.add(FORM_ORDER);
+            ListView.add(FORM_NEWS);
+            ListView.add(FORM_STATISTICS);
+            ListItems.add(new Object[]{"Category", "categories40"});
+            ListItems.add(new Object[]{"Products", "products40"});
+            ListItems.add(new Object[]{"Orders", "orders40"});
+            ListItems.add(new Object[]{"News", "news40"});
+            ListItems.add(new Object[]{"Statistics", "statistics40"});
+            vbox_menuHide.getChildren().remove(vbox_menuHide.getChildren().size()-1);
+            pnl_ManageAccount.setPrefHeight(pnl_ManageAccount.getPrefHeight()-btn_WishLish.getPrefHeight()-10);
+        }
+    }
+
+    void loadUserInfo() {
+        if (Auth.USER.getImage() != null) {
+            img_User_Icon_Small.setImage( new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
+            img_User_Icon_Medium.setImage( new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
+            RoundedImageView.RoundedImage(img_User_Icon_Small, 35);
+            RoundedImageView.RoundedImage(img_User_Icon_Medium, img_User_Icon_Medium.getFitWidth());
+        }
+        lbl_UserName.setText(Auth.USER.getUserName());
+        lbl_UserName_Hide.setText(Auth.USER.getName());
+        lbl_Email_Hide.setText(Auth.USER.getEmail());
     }
 
     private void drawMenuItems() {
@@ -178,15 +276,7 @@ public class MainController implements Initializable {
         } else {
             new FlipOutX(pnl_ManageAccount).play();
         }
-        isShowManageAccount=!isShowManageAccount;
-    }
-
-    public double getWidth_view() {
-        return pnl_View.getPrefWidth();
-    }
-
-    public double getHeight_view() {
-        return pnl_View.getPrefHeight();
+        isShowManageAccount = !isShowManageAccount;
     }
 
 }

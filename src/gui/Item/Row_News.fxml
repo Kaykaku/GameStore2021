@@ -29,12 +29,12 @@
                   <Image url="@../../icons/Untitled-1.png" />
                </image>
             </ImageView>
-            <Text fx:id="lbl_Title" fill="WHITE" layoutX="124.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="242.0">
+            <Text fx:id="lbl_Title" fill="WHITE" layoutX="124.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="242.0">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Text>
-            <Text fx:id="lbl_Content" fill="WHITE" layoutX="20.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A new playable Assassin's Creed character is coming to Watch Dogs: Legion, and she looks ready to put her hidden blade to good use." wrappingWidth="336.0">
+            <Text fx:id="lbl_Content" fill="WHITE" layoutX="20.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="336.0">
                <font>
                   <Font size="16.0" />
                </font>

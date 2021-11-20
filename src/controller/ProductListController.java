@@ -9,7 +9,6 @@ import DAO.ApplicationDAO;
 import animatefx.animation.SlideOutLeft;
 import animatefx.animation.SlideOutRight;
 import com.jfoenix.controls.JFXButton;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import model.Application;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -32,7 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import static until.Value.*;
+import until.Value;
 import static until.Variable.HEIGHT_VIEW;
 import static until.Variable.WIDTH_VIEW;
 
@@ -96,7 +94,7 @@ public class ProductListController implements Initializable {
         try {
 
             listApplications = applicationDAO.selectAll();
-            Product_Box(listApplications);
+            fillProduct_Box(listApplications);
 
             pane.setOnScroll((event) -> {
                 if (pnl_ScrollList.getVvalue() > 0.37) {
@@ -137,7 +135,7 @@ public class ProductListController implements Initializable {
         
         txt_SreachApp.setOnAction(event ->{
             listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim());
-            Product_Box(listApplications);
+            fillProduct_Box(listApplications);
         });
         
         //Lỗi logic 
@@ -146,30 +144,31 @@ public class ProductListController implements Initializable {
 
             System.out.println(year);
             listApplications = applicationDAO.getReleaseDay_SearchByYear(year);
-            Product_Box(listApplications);
+            fillProduct_Box(listApplications);
         });
 
         btn_Week_ReleaseDay.setOnAction((event) -> {
             listApplications = applicationDAO.getReleaseDay_ThisWeek();
-            Product_Box(listApplications);
+            fillProduct_Box(listApplications);
         });
 
         btn_Month_ReleaseDay.setOnAction((event) -> {
             listApplications = applicationDAO.getReleaseDay_ThisMonth();
-            Product_Box(listApplications);
+            fillProduct_Box(listApplications);
         });
 
         btn_Year_ReleaseDay.setOnAction((event) -> {
             listApplications = applicationDAO.getReleaseDay_ThisYear();
-            Product_Box(listApplications);
+            fillProduct_Box(listApplications);
         });
     }
 
-    private void Product_Box(List<Application> listApplications) {
+    private void fillProduct_Box(List<Application> listApplications) {
         double col = listApplications.size() / 4;
+        
         try {
             pnl_ScrollList.setPrefSize(WIDTH_VIEW, HEIGHT_VIEW);
-            Pane product = (Pane) FXMLLoader.load(getClass().getResource("/gui/Item/Product_Box.fxml"));
+            Pane product = (Pane) FXMLLoader.load(getClass().getResource(Value.PRODUCT_BOX));
             list.getChildren().clear();
             list.setHgap(space);
             list.setVgap(space);
@@ -179,18 +178,19 @@ public class ProductListController implements Initializable {
             list.setLayoutX(list.getLayoutX() + (WIDTH_VIEW - list.getPrefWidth()) / 2);
             ProductBoxController[] controllers = new ProductBoxController[listApplications.size()];
             Node[] nodes = new Node[listApplications.size()];
+            int jump=0;
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < col; j++) {
-                    final int h = i * 4 + j;
+                    final int h = jump;
+                    jump++;
 
                     FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("/gui/Item/Product_Box.fxml"));
+                    loader.setLocation(getClass().getResource(Value.PRODUCT_BOX));
                     nodes[h] = (Pane) loader.load();
                     controllers[h] = loader.getController();
 
                     controllers[h].setAppInfo(listApplications.get(h));
                     list.add(nodes[h], i, j);
-
                 }
             }
         } catch (Exception e) {

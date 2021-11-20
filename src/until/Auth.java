@@ -15,7 +15,7 @@ public class Auth {
     public static Account USER = null;
     
     public static boolean isManager(){
-        return USER.getRole()==1 ||USER.getRole()==0;
+        return USER.getRole()==1 || USER.getRole()==0;
     }
     public static boolean isAdmin(){
         return USER.getRole()==0;

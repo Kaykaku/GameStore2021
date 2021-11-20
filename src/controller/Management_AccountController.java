@@ -431,7 +431,7 @@ public class Management_AccountController implements Initializable {
 
     void setEvent() {
         tbl_Accounts.setOnMouseClicked((event) -> {
-            if (event.getClickCount() == 2) {
+            if (event.getClickCount() == 1) {
                 edit();
             }
         });

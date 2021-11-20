@@ -110,7 +110,7 @@ public class ApplicationDAO extends DAO<Application, Integer> {
     }
     
     public boolean isPurchaseApplication(Integer accountID,Integer applicationId){
-        for (Application application : selectPurchaseApplications(accountID, "")) {
+        for (Application application : selectPurchaseApplications(accountID, "")) {      
             if(application.getApplicationID()==applicationId){
                 return true;
             }

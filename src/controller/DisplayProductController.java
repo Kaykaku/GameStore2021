@@ -13,6 +13,8 @@ import DAO.ApplicationDAO;
 import DAO.ApplicationViewDAO;
 import DAO.CategoryDAO;
 import DAO.CommentDAO;
+import DAO.OrderDAO;
+import DAO.OrderDetailDAO;
 import DAO.StatisticsDAO;
 import DAO.WishlistDAO;
 import com.jfoenix.controls.JFXButton;
@@ -47,6 +49,8 @@ import model.Application;
 import model.ApplicationView;
 import model.Category;
 import model.Comment;
+import model.Order;
+import model.OrderDetail;
 import model.Wishlist;
 import until.Auth;
 import until.Dialog;
@@ -224,6 +228,7 @@ public class DisplayProductController implements Initializable {
 
     int ratings = 0, views = 0;
     double averageRating = 0;
+    boolean isAdded =false;
     List<Object[]> listStarRatings;
 
     @Override
@@ -242,26 +247,29 @@ public class DisplayProductController implements Initializable {
         this.app = entity;
         LoadAppView();
         calculateAverageRating();
+        loadBasicInfo();
         loadAppCategories(); 
         loadStatus();
         fillListComments();
         fillListRandomApps();
         setEvent();
 
-        lbl_AppName.setText(entity.getName());
-        lbl_AppDeveloper.setText(entity.getDeveloper());
-        btn_Buy.setText("Get " + entity.getPrice() + "$");
+    }
+    void loadBasicInfo(){
+        lbl_AppName.setText(app.getName());
+        lbl_AppDeveloper.setText(app.getDeveloper());
+        btn_Buy.setText("Get " + app.getPrice() + "$");
 
-        if (entity.getAppIcon() != null) {
-            img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));          
+        if (app.getAppIcon() != null) {
+            img_AppIcon.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));          
         }
 
-        if (entity.getAppImage() != null) {
-            img_AppImage.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appImage.png").toURI().toString()));           
+        if (app.getAppImage() != null) {
+            img_AppImage.setImage(new Image(ProcessImage.toFile(app.getAppImage(), "appImage.png").toURI().toString()));           
         }
         RoundedImageView.RoundedImage(img_AppIcon, 32);
         RoundedImageView.RoundedImage(img_AppImage, 32);
-        text_Description.setText(entity.getDescription());
+        text_Description.setText(app.getDescription());
 
         lbl_Developer.setText(app.getDeveloper());
         lbl_Languages.setText(app.getLanguages());
@@ -269,15 +277,41 @@ public class DisplayProductController implements Initializable {
         lbl_ReleaseDate.setText(ProcessDate.toString(app.getReleaseDay()));
         lbl_Sale.setText((int) app.getSale() + "%");
         lbl_Size.setText(app.getSize() + "MB");
-
     }
-
     void setEvent() {
         btn_Back.setOnMouseClicked((evt) -> {
-            PNL_VIEW.getChildren().remove(1);
+            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size()-1);
         });
         btn_Comment.setOnMouseClicked((evt) -> {
             actionComment();
+        });
+        btn_AddWishList.setOnMouseClicked((evt) -> {
+            if(!isAdded){
+                new WishlistDAO().insert(new Wishlist( Auth.USER.getAccountId(),app.getApplicationID()));
+                
+            }else{
+                 new WishlistDAO().delete(Auth.USER.getAccountId(),app.getApplicationID());
+            }
+            loadStatus();
+        });
+        btn_Buy.setOnMouseClicked((evt) -> {
+            Order order = new Order();
+            Date date = new Date();
+            String sdate = ProcessDate.toString(date);
+            date = ProcessDate.toDate(sdate);
+            
+            order.setAccountId(Auth.USER.getAccountId());
+            order.setCreationDate(date);
+            order.setStatus(1);
+            new OrderDAO().insert(order);
+            order = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
+            OrderDetail orde = new OrderDetail();
+            orde.setOrderID(order.getOrderID());
+            orde.setApplicationId(app.getApplicationID());
+            orde.setPrice(app.getPrice());
+            orde.setSale(app.getSale());
+            new OrderDetailDAO().insert(orde);
+            loadStatus();
         });
     }
 
@@ -415,12 +449,17 @@ public class DisplayProductController implements Initializable {
         } else {
             Wishlist w = new WishlistDAO().selectByAccountApplicationID(Auth.USER.getAccountId(), app.getApplicationID());
             if (w == null) {
+                isAdded =false;
                 btn_AddWishList.setText("Add to wishlist");
             } else {
+                isAdded=true;
                 btn_AddWishList.setText("Remove form wishlist");
             }
-            if (!new ApplicationDAO().isPurchaseApplication(Auth.USER.getAccountId(), app.getApplicationID())) {
+            if (new ApplicationDAO().isPurchaseApplication(Auth.USER.getAccountId(), app.getApplicationID())) {
                 btn_Buy.setText("Owned");
+                btn_AddWishList.setText("Owned");
+                btn_AddWishList.setDisable(true);
+                btn_Buy.setDisable(true);
             }
         }
     }
@@ -517,7 +556,7 @@ public class DisplayProductController implements Initializable {
                 controllers[h] = loader.getController();
 
                 hbox_ScrollRandom.getChildren().add(nodes[h]);
-                controllers[h].setInfo(listApps.get(i));
+                controllers[h].setInfo((Application)set.toArray()[i]);
                 
             }
         } catch (Exception e) {

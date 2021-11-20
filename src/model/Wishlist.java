@@ -15,7 +15,7 @@ public class Wishlist {
     public Wishlist() {
     }
 
-    public Wishlist(int ApplicatonId, int AccountId) {
+    public Wishlist( int AccountId,int ApplicatonId) {
         this.ApplicatonId = ApplicatonId;
         this.AccountId = AccountId;
     }

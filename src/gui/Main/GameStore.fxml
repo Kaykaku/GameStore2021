@@ -15,7 +15,7 @@
    <children>
       <Pane prefHeight="50.0" prefWidth="1400.0" styleClass="main_title" stylesheets="@../../css/main.css">
          <children>
-            <Button focusTraversable="false" layoutX="1300.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css">
+            <Button fx:id="btn_Minimize" focusTraversable="false" layoutX="1300.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" styleClass="button_minimize">
                      <image>
@@ -24,7 +24,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button focusTraversable="false" layoutX="1350.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_close" stylesheets="@../../css/main.css">
+            <Button fx:id="btn_Exit" focusTraversable="false" layoutX="1350.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_close" stylesheets="@../../css/main.css">
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -43,7 +43,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="992.0" layoutY="13.0" text="Admin" textFill="WHITE">
+            <Label fx:id="lbl_UserName" layoutX="992.0" layoutY="13.0" text="Admin" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -66,12 +66,12 @@
       </Pane>
       <Pane fx:id="pnl_ManageAccount" layoutX="900.0" layoutY="55.0" opacity="0.0" prefHeight="230.0" prefWidth="400.0" styleClass="container3" stylesheets="@../../css/main.css">
          <children>
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_User_Icon_Medium" fitHeight="70.0" fitWidth="70.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../icons/avatar120.png" />
                </image>
             </ImageView>
-            <VBox layoutX="5.0" layoutY="130.0" prefHeight="90.0" prefWidth="390.0" spacing="5.0">
+            <VBox fx:id="vbox_menuHide" layoutX="5.0" layoutY="130.0" prefHeight="90.0" prefWidth="390.0" spacing="5.0">
                <children>
                   <JFXButton fx:id="btn_AccountSettings" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="400.0" styleClass="button_type9" text="Manage account" textFill="WHITE">
                      <font>
@@ -99,13 +99,13 @@
                   </JFXButton>
                </children>
             </VBox>
-            <Label layoutX="105.0" layoutY="25.0" text="Admin" textFill="WHITE">
+            <Label fx:id="lbl_UserName_Hide" layoutX="105.0" layoutY="25.0" text="Admin" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="105.0" layoutY="50.0" text="admin@gmail.com" textFill="#b9b8b8" />
-            <Label layoutX="105.0" layoutY="80.0" styleClass="text_input2" text="Sign out" textFill="#b9b8b8" />
+            <Label fx:id="lbl_Email_Hide" layoutX="105.0" layoutY="50.0" text="admin@gmail.com" textFill="#b9b8b8" />
+            <Label fx:id="lbl_SignOut" layoutX="105.0" layoutY="80.0" styleClass="text_input2" text="Sign out" textFill="#b9b8b8" />
             <Separator layoutY="120.0" prefWidth="400.0" />
          </children>
          <effect>

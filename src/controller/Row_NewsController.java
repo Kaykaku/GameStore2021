@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 import model.News;
 import until.ProcessDate;
 import until.ProcessImage;
+import until.ProcessString;
 
 /**
  * FXML Controller class
@@ -82,8 +83,8 @@ public class Row_NewsController implements Initializable {
         });
     }    
      void setNewsInfor(News entity){
-        lbl_Title.setText(entity.getTitle()+"");
-        lbl_Content.setText(entity.getContents());
+        lbl_Title.setText(ProcessString.cutString(entity.getTitle(),100));
+        lbl_Content.setText(ProcessString.cutString(entity.getDescription(),130));
         lbl_NewsID.setText(""+entity.getNewsID());
         lbl_Views.setText(""+entity.getViews());
         lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));

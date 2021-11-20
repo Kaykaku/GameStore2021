@@ -11,7 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import until.Value;
 
 /**
  *
@@ -24,8 +23,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 //        Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_DISPLAY_PRODUCT));
-//        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Login.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Login.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
 
         Scene scene = new Scene(root);
 

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -7,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pnl_ProductBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="240.0" styleClass="product_box" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductBoxController">
+<Pane fx:id="pnl_ProductBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="240.0" styleClass="product_box" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductBoxController">
    <children>
       <ImageView fx:id="img_App" fitHeight="210.0" fitWidth="210.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" styleClass="product_box_Icon">
          <image>
@@ -29,34 +34,34 @@
             <Font name="Arial Bold" size="17.0" />
          </font>
       </Label>
-      <HBox fx:id="Hbox_Star_View" layoutX="15.0" layoutY="283.0" prefHeight="20.0" prefWidth="208.0" spacing="5.0">
+      <HBox fx:id="Hbox_Star_View" layoutX="15.0" layoutY="285.0" prefHeight="20.0" prefWidth="130.0" spacing="2.0">
          <children>
-            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_1star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/star20.png" />
+                  <Image url="@../../icons/starWhiteFill50.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_2star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/star20.png" />
+                  <Image url="@../../icons/starWhiteFill50.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_3star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/star20.png" />
+                  <Image url="@../../icons/starWhiteFill50.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_4star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/star20.png" />
+                  <Image url="@../../icons/starWhiteRegular50.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_5star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/star20.png" />
+                  <Image url="@../../icons/starWhiteRegular50.png" />
                </image>
             </ImageView>
-            <Label fx:id="lbl_Rate" alignment="CENTER" text="1k" textFill="#b9b8b8">
+            <Label fx:id="lbl_Views" alignment="CENTER" text="1k" textFill="#b9b8b8">
                <font>
                   <Font name="Arial" size="16.0" />
                </font>

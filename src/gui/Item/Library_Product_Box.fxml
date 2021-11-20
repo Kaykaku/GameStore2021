@@ -9,26 +9,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="300.0" styleClass="box_library" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="300.0" styleClass="box_library" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Library_Product_BoxController">
    <children>
-      <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true">
+      <ImageView fx:id="img_AppImage" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true">
          <image>
             <Image url="@../../icons/gamehubvn-watch-dogs-2-7.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="20.0" layoutY="315.0" prefHeight="27.0" prefWidth="118.0" styleClass="box_library_text" text="Watch Dogs 2">
+      <Label fx:id="lbl_AppName" layoutX="20.0" layoutY="315.0" prefHeight="27.0" prefWidth="265.0" styleClass="box_library_text" text="Watch Dogs 2">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Pane prefHeight="300.0" prefWidth="300.0" styleClass="box_library1">
          <children>
-            <JFXButton layoutX="75.0" layoutY="150.0" prefHeight="40.0" prefWidth="150.0" styleClass="button_type8" stylesheets="@../../css/main.css" text="View details">
+            <JFXButton fx:id="btn_ViewDetails" layoutX="75.0" layoutY="150.0" prefHeight="40.0" prefWidth="150.0" styleClass="button_type8" stylesheets="@../../css/main.css" text="View details">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </JFXButton>
-            <Label alignment="CENTER" layoutY="200.0" prefHeight="30.0" prefWidth="300.0" text="Purchased since 01/01/2021" textFill="WHITE">
+            <Label fx:id="lbl_DatePurchased" alignment="CENTER" layoutY="200.0" prefHeight="30.0" prefWidth="300.0" text="Purchased since 01/01/2021" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
