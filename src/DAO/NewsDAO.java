@@ -24,13 +24,12 @@ import until.Connect_Jdbc;
  */
 public class NewsDAO extends DAO<News, String> {
 
-    private final String insert_sql = "insert into News(CreationDate,Title, Description, Contents,Image,AccountId) values (?,?,?,?,?,?)";
-    private final String update_sql = "update News set CreationDate = ?, Title = ?, Description = ?, Contents = ?, Image = ?, AccountId = ? where NewsId = ?";
+    private final String insert_sql = "insert into News(CreationDate,Title, Description, Contents,Image,EnableView,AccountId) values (?,?,?,?,?,?,?)";
+    private final String update_sql = "update News set CreationDate = ?, Title = ?, Description = ?, Contents = ?, Image = ?,EnableView =?, AccountId = ? where NewsId = ?";
     private final String delete_sql = "delete from News where NewsId = ?";
     private final String select_all_sql = "select * from News";
     private final String select_By_ID_sql = "select * from News where NewsId = ?";
     private final String select_By_Name = "select * from News where Title like ?";
-    
 
     @Override
     public void insert(News entity) {
@@ -40,25 +39,10 @@ public class NewsDAO extends DAO<News, String> {
                  entity.getDescription(),
                  entity.getContents(),
                  entity.getImage(),
-                entity.getAccountId());
+                 entity.isToggle_Views(),
+                 entity.getAccountId());
     }
-    public List<News> getLastNewsID() {
-        String get_NewsID = "SELECT NewsId,AccountId FROM  News WHERE NewsId = (SELECT MAX(NewsId)  FROM News)";
-        List<News> list = new ArrayList<>();
-        try {
-            ResultSet resultSet = Connect_Jdbc.query(get_NewsID);
-            while (resultSet.next()) {
-                int NewsID = resultSet.getInt("NewsId");
-                int AccountId = resultSet.getInt("AccountId");
-                News news = new News(NewsID,AccountId);
-                list.add(news);
-            }
-            resultSet.getStatement().getConnection().close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
+    
     @Override
     public void update(News entity) {
         Connect_Jdbc.update(update_sql,
@@ -67,8 +51,9 @@ public class NewsDAO extends DAO<News, String> {
                  entity.getDescription(),
                  entity.getContents(),
                  entity.getImage(),
-                entity.getAccountId(),
-                entity.getNewsID());
+                 entity.isToggle_Views(),
+                 entity.getAccountId(),
+                 entity.getNewsID());
     }
 
     @Override
@@ -94,7 +79,7 @@ public class NewsDAO extends DAO<News, String> {
     public List<News> selectByKeyWord(String keys) {
         return this.selectBySql(select_By_Name, "%" + keys + "%");
     }
- 
+    
 
     @Override
     public List<News> selectBySql(String sql, Object... args) {
@@ -110,6 +95,7 @@ public class NewsDAO extends DAO<News, String> {
                 news.setContents(resultSet.getString("Contents"));
                 news.setImage(resultSet.getBytes("Image"));
                 news.setAccountId(resultSet.getInt("AccountId"));
+                news.setToggle_Views(resultSet.getBoolean("EnableView"));
                 news.setViews(resultSet.getInt("Views"));
                 list.add(news);
             }
@@ -119,5 +105,21 @@ public class NewsDAO extends DAO<News, String> {
         }
         return list;
     }
-
+    public List<News> getLastNewsID() {
+            String get_NewsID = "SELECT NewsId,AccountId FROM  News WHERE NewsId = (SELECT MAX(NewsId)  FROM News)";
+            List<News> list = new ArrayList<>();
+            try {
+                ResultSet resultSet = Connect_Jdbc.query(get_NewsID);
+                while (resultSet.next()) {
+                    int NewsID = resultSet.getInt("NewsId");
+                    int AccountId = resultSet.getInt("AccountId");
+                    News news = new News(NewsID,AccountId);
+                    list.add(news);
+                }
+                resultSet.getStatement().getConnection().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return list;
+        }
 }
