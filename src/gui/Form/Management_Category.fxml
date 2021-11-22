@@ -22,7 +22,7 @@
             <HBox layoutY="50.0" prefHeight="30.0" prefWidth="408.0" spacing="1.0" styleClass="pnl_view">
                <children>
                   <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
-                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
+                  <JFXButton fx:id="btn_PDFAccount" prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
                   <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
                   <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
                </children>
@@ -189,7 +189,7 @@
             <HBox layoutX="290.0" layoutY="10.0" prefHeight="30.0" prefWidth="280.0" spacing="1.0" styleClass="pnl_view">
                <children>
                   <JFXButton prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
-                  <JFXButton prefHeight="30.0" prefWidth="100.0" styleClass="button_type" text="PDF" />
+                  <JFXButton fx:id="btn_PDFCategory" prefHeight="30.0" prefWidth="100.0" styleClass="button_type" text="PDF" />
                   <JFXButton prefHeight="30.0" prefWidth="100.0" styleClass="button_type" text="Excel" />
                   <JFXButton prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
                </children>

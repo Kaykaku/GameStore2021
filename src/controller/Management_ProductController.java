@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +41,7 @@ import javafx.stage.FileChooser;
 import model.Application;
 import until.Catch_Errors;
 import until.Dialog;
+import until.ExportPDF;
 import until.ProcessDate;
 import until.ProcessImage;
 
@@ -154,6 +157,9 @@ public class Management_ProductController implements Initializable {
     @FXML
     private Pane pnl_ReleaseDate;
 
+    @FXML
+    private JFXButton btn_DPFProduct;
+
     ApplicationDAO applicationDAO = new ApplicationDAO();
     List<Application> listApplications = new ArrayList<>();
     CategoryDAO categoryDao = new CategoryDAO();
@@ -163,11 +169,12 @@ public class Management_ProductController implements Initializable {
     boolean isEdit = false;
     File avatarIcon;
     File avatarImage;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.showDatePicker();
         this.EventSearch();
+        this.ExportPDFProduct();
         this.fillListApplication();
         this.displayFormAnimation();
         btn_Update.setDisable(true);
@@ -219,7 +226,7 @@ public class Management_ProductController implements Initializable {
                     btn_Add.setDisable(true);
                     btn_Update.setDisable(false);
                     btn_delete.setDisable(false);
-                    
+
                 });
             }
         } catch (Exception e) {
@@ -381,6 +388,17 @@ public class Management_ProductController implements Initializable {
         });
     }
 
+    private void ExportPDFProduct() {
+        btn_DPFProduct.setOnAction(evt -> {
+            try {
+                ExportPDF.exportPDFProduct();
+                Dialog.showMessageDialog(null, "File save successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
     @FXML
     private void handleImageGame(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -464,5 +482,9 @@ public class Management_ProductController implements Initializable {
         GlowText ani = new GlowText(lbl_OnSale, Color.WHITE, Color.RED);
         ani.setCycleCount(Integer.MAX_VALUE);
         ani.play();
+    }
+
+    private Object ExportPDF() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

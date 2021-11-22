@@ -17,6 +17,7 @@ public class News {
     int AccountId;
     int Views;
     Date CreationDate;
+    boolean toggle_Views;
     String Title, Description, Contents;
     byte[] Image;
     
@@ -39,13 +40,14 @@ public class News {
         this.AccountId = AccountId;
     }
 
-    public News(int NewsID, Date CreationDate, String Title, String Description, String Contents,byte[] Image,int AccountId) {
+    public News(int NewsID, Date CreationDate, String Title, String Description, String Contents,byte[] Image,boolean toggle_Views,int AccountId) {
         this.NewsID = this.NewsID;
         this.CreationDate = CreationDate;
         this.Title = Title;
         this.Description = Description;
         this.Contents = Contents;
         this.Image = Image;
+        this.toggle_Views = toggle_Views;
         this.AccountId = AccountId;
     }   
 
@@ -122,10 +124,14 @@ public class News {
         this.Image = Image;
     }
 
+    public boolean isToggle_Views() {
+        return toggle_Views;
+    }
 
-   
+    public void setToggle_Views(boolean toggle_Views) {
+        this.toggle_Views = toggle_Views;
+    }
     
-
 
 	
 }

@@ -49,6 +49,7 @@ import model.AppType;
 import model.Application;
 import model.Category;
 import until.Dialog;
+import until.ExportPDF;
 import until.ProcessImage;
 import until.Validation;
 import until.Value;
@@ -166,7 +167,8 @@ public class Management_CategoryController implements Initializable {
     private JFXButton btn_Next;
     @FXML
     private JFXButton btn_Last;
-
+    @FXML
+    private JFXButton btn_PDFCategory;
     CategoryDAO categoryDAO = new CategoryDAO();
     ApplicationDAO applicationDAO = new ApplicationDAO();
     AppTypeDAO appTypeDAO = new AppTypeDAO();
@@ -181,8 +183,9 @@ public class Management_CategoryController implements Initializable {
         fillDataOnBackground();
         displayFormAnimation();
         setEvent();
+        ExportPDFCaategory();
         updateStatus();
-        
+
     }
 
     void fillDataOnBackground() {
@@ -458,6 +461,17 @@ public class Management_CategoryController implements Initializable {
     void last() {
         index = listCategories.size() - 1;
         edit();
+    }
+
+    private void ExportPDFCaategory() {
+        btn_PDFCategory.setOnAction(evt -> {
+            try {
+                ExportPDF.exportPDFCategory();
+                Dialog.showMessageDialog(null, "File save successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     void setEvent() {

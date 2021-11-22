@@ -44,6 +44,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import model.Account;
 import until.Dialog;
+import until.ExportPDF;
 import until.ProcessDate;
 import until.ProcessImage;
 import until.Validation;
@@ -177,6 +178,10 @@ public class Management_AccountController implements Initializable {
 
     @FXML
     private JFXComboBox<String> cbo_Country;
+    
+    
+    @FXML
+    private JFXButton btn_PDFAccount;
 
     private JFXDatePicker datePicker_CreationDate;
     private JFXDatePicker datePicker_Birthday;
@@ -195,6 +200,7 @@ public class Management_AccountController implements Initializable {
         drawDatePicker();
         setGroupButton();
         setEvent();
+        ExportPDFAccount();
         setAvatar();
         updateStatus();
         fillDataOnBackground();
@@ -427,6 +433,16 @@ public class Management_AccountController implements Initializable {
         fillTable();
         clearForm();
 
+    }
+     private void ExportPDFAccount() {
+        btn_PDFAccount.setOnAction(evt -> {
+            try {
+                ExportPDF.exportPDFAccount();
+                Dialog.showMessageDialog(null, "File save successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     void setEvent() {
