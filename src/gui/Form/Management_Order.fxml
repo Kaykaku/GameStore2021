@@ -179,7 +179,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_AppCode" layoutX="20.0" layoutY="245.0" prefHeight="31.0" prefWidth="175.0" promptText="Enter code..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_AppCode" disable="true" layoutX="20.0" layoutY="245.0" prefHeight="31.0" prefWidth="175.0" promptText="not yet" styleClass="text_input" stylesheets="@../../css/main.css" />
             <VBox layoutX="445.0" layoutY="80.0" spacing="20.0">
                <children>
                   <JFXButton fx:id="btn_OrderDetail_Update" layoutX="370.0" layoutY="215.0" prefHeight="30.0" prefWidth="120.0" styleClass="glass-grey" text="Update" />

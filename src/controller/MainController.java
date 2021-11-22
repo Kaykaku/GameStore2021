@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,7 +31,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Account;
 import until.Auth;
 import until.ProcessImage;
 import until.Value;
@@ -110,17 +108,19 @@ public class MainController implements Initializable {
 
         controller[0].setStyle("-fx-background-color: #454545;");
         controller[0].setItemInfo("", ListItems.get(0)[1].toString() + "selected.png");
-        drawPanelView(ListView.get(0));
+        drawPanelView(ListView.get(0),true);
 
         img_User_Icon_Small.setOnMouseClicked(evt -> {
             showManageAccount();
         });
         btn_AccountSettings.setOnMouseClicked(evt -> {
-            drawPanelView(FORM_USER_INFORMATION);
+            if(!Variable.IS_ACCOUNT_INFORMATION_OPEN)drawPanelView(FORM_USER_INFORMATION,false);
+            Variable.IS_ACCOUNT_INFORMATION_OPEN=true;        
             showManageAccount();
         });
         btn_WishLish.setOnMouseClicked(evt -> {
-            drawPanelView(FORM_WISHLISH);
+            if(!Variable.IS_WISHLIST_OPEN)drawPanelView(FORM_WISHLISH,false);
+            Variable.IS_WISHLIST_OPEN=true;
             showManageAccount();
         });
         btn_Exit.setOnMouseClicked(evt ->{
@@ -160,12 +160,13 @@ public class MainController implements Initializable {
         ListView.add(FORM_HOME);
         ListItems.add(new Object[]{"Home", "home40"});
         
-        if (!Auth.isManager()) {
-            ListView.add(FORM_HOME_APPS);
+        if (!Auth.isManager()) {            
             ListView.add(FORM_HOME_GAMES);
+            ListView.add(FORM_HOME_APPS);
             ListView.add(FORM_LIBRARY);
-            ListItems.add(new Object[]{"Apps", "apps40"});
+            
             ListItems.add(new Object[]{"Games", "games40"});
+            ListItems.add(new Object[]{"Apps", "apps40"});
             ListItems.add(new Object[]{"Library", "library40"});
             
         }
@@ -247,7 +248,7 @@ public class MainController implements Initializable {
                         controller[h].setItemInfo("", ItemsIcon + "selected.png");
                         new BounceIn(menuItems[h]).play();
                         //showManagement();
-                        drawPanelView(ListView.get(h));
+                        drawPanelView(ListView.get(h),true);
                         controller[h].setStyle("-fx-background-color: #454545;");
                     }
 
@@ -258,13 +259,23 @@ public class MainController implements Initializable {
         }
     }
 
-    void drawPanelView(String formView) {
-        pnl_View.getChildren().clear();
+    void drawPanelView(String formView,boolean clear) {
+        if(clear)pnl_View.getChildren().clear();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(formView));
+            
+            if(formView.equals(Value.FORM_HOME)){               
+                Variable.HOME_PAGE=0;
+            }else if(formView.equals(Value.FORM_HOME_GAMES)){
+                loader = new FXMLLoader(getClass().getResource(FORM_HOME));
+                Variable.HOME_PAGE=1;
+            }else if(formView.equals(Value.FORM_HOME_APPS)){
+                loader = new FXMLLoader(getClass().getResource(FORM_HOME));
+                Variable.HOME_PAGE=2;
+            }
             Node node = (Node) loader.load();
-
             pnl_View.getChildren().add(node);
+            
         } catch (IOException ex) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }

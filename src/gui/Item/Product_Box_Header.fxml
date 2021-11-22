@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane fx:id="pnl_Box" prefHeight="164.0" prefWidth="294.0" styleClass="box_header" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Product_Box_HeaderController">
+   <children>
+      <Pane layoutX="7.0" layoutY="7.0" maxHeight="150.0" maxWidth="280.0" prefHeight="150.0" prefWidth="280.0">
+         <children>
+            <ImageView fx:id="img_Image" fitHeight="150.0" fitWidth="280.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../icons/Hinh-Nen-Among-Us-Pc-1.jpg" />
+               </image>
+            </ImageView>
+            <Pane fx:id="pnl_Blur" opacity="0.0" prefHeight="150.0" prefWidth="280.0" styleClass="box_header_in" stylesheets="@../../css/main.css">
+               <children>
+                  <Text fx:id="lbl_Title" fill="WHITE" layoutX="10.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This is a text" wrappingWidth="150.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Pane>
+      <Pane fx:id="pnl_Bar" layoutX="140.0" layoutY="147.0" opacity="0.0" prefHeight="7.0" prefWidth="10.0" style="-fx-background-color: #ffffffdd; -fx-background-radius: 1px;" />
+   </children>
+</Pane>

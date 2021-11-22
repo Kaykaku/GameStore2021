@@ -9,38 +9,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="pane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="380.0" styleClass="box_new" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="pnl_BoxNews" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="380.0" styleClass="box_new" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.News_BoxController">
    <children>
-      <ImageView fx:id="img_Icon" fitHeight="150.0" fitWidth="340.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true">
+      <ImageView fx:id="img_Image" fitHeight="150.0" fitWidth="340.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true">
          <image>
             <Image url="@../../icons/minecraft.jpg" />
          </image>
       </ImageView>
-      <Text fill="WHITE" layoutX="22.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="336.0">
+      <Text fx:id="lbl_Title" fill="WHITE" layoutX="22.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="336.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="22.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A new playable Assassin's Creed character is coming to Watch Dogs: Legion, and she looks ready to put her hidden blade to good use." wrappingWidth="336.0">
+      <Text fx:id="lbl_Description" fill="WHITE" layoutX="22.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A new playable Assassin's Creed character is coming to Watch Dogs: Legion, and she looks ready to put her hidden blade to good use." wrappingWidth="336.0">
          <font>
             <Font size="16.0" />
          </font>
       </Text>
-      <HBox layoutX="20.0" layoutY="310.0" spacing="10.0">
+      <HBox layoutX="20.0" layoutY="315.0" spacing="10.0">
          <children>
-            <Label layoutX="43.0" layoutY="150.0" text="Admin" textFill="#b9b8b8">
+            <Label fx:id="lbl_Author" layoutX="43.0" layoutY="150.0" text="Admin" textFill="#b9b8b8">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="153.0" layoutY="150.0" text="01/01/2010" textFill="#b9b8b8">
+            <Label fx:id="lbl_CreationDay" layoutX="153.0" layoutY="150.0" text="01/01/2010" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <HBox layoutX="300.0" layoutY="310.0" spacing="5.0">
+      <HBox layoutX="300.0" layoutY="315.0" spacing="5.0">
          <children>
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="193.0" layoutY="-68.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -50,7 +50,7 @@
                   <Insets top="3.0" />
                </HBox.margin>
             </ImageView>
-            <Label layoutX="207.0" layoutY="-70.0" text="1002" textFill="#b9b8b8">
+            <Label fx:id="lbl_Views" layoutX="207.0" layoutY="-70.0" text="1002" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
                </font>

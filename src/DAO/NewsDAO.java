@@ -30,7 +30,7 @@ public class NewsDAO extends DAO<News, String> {
     private final String select_all_sql = "select * from News";
     private final String select_By_ID_sql = "select * from News where NewsId = ?";
     private final String select_By_Name = "select * from News where Title like ?";
-    
+    private final String select_By_Date = "select * from News where EnableView=1 order by CreationDate desc";
 
     @Override
     public void insert(News entity) {
@@ -119,5 +119,7 @@ public class NewsDAO extends DAO<News, String> {
         }
         return list;
     }
-
+    public List<News> selectByDate() {
+        return this.selectBySql(select_By_Date);
+    }
 }

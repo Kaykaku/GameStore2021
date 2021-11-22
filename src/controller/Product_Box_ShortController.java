@@ -5,6 +5,7 @@
  */
 package controller;
 
+import Animation.BoxHoverAni;
 import Animation.RoundedImageView;
 import DAO.AppTypeDAO;
 import DAO.ApplicationViewDAO;
@@ -15,15 +16,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.AppType;
 import model.Application;
@@ -76,11 +80,14 @@ public class Product_Box_ShortController implements Initializable {
 
     @FXML
     private ImageView img_1star;
-
+    @FXML
+    private Label lbl_CategoriesCount;
     /**
      * Initializes the controller class.
      */
     Application application;
+    CategoryDAO categoryDAO = new CategoryDAO();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lbl_AppName.setText(ProcessString.cutString(lbl_AppName.getText(), 20));
@@ -97,22 +104,41 @@ public class Product_Box_ShortController implements Initializable {
                 //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        pnl_ProductBox_Short.setOnMouseEntered(evt -> {
+            new BoxHoverAni(pnl_ProductBox_Short).play();
+            pnl_ProductBox_Short.setEffect(new DropShadow(5, Color.BLACK));
+        });
+        pnl_ProductBox_Short.setOnMouseExited(evt -> {
+            pnl_ProductBox_Short.setTranslateY(0);
+            pnl_ProductBox_Short.setEffect(new DropShadow(0, Color.BLACK));
+        });
     }
 
     void setInfo(Application entity) {
-        application=entity;
-        lbl_AppName.setText(ProcessString.cutString(entity.getName(), 20));
-        List<AppType> listAppTypes = new AppTypeDAO().selectByApplicationId(entity.getApplicationID());
-        lbl_Categories.setText(listAppTypes.size() > 1 ? new CategoryDAO().selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
-        lbl_Categories.setText(lbl_Categories.getText() + " " + (listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : ""));
-        lbl_Price.setText(entity.getPrice() == 0 ? "Free" : entity.getPrice() + "$");
+        Platform.runLater(() -> {
+            application = entity;
+            lbl_AppName.setText(ProcessString.cutString(entity.getName(), 30));
+            List<AppType> listAppTypes = new AppTypeDAO().selectByApplicationId(entity.getApplicationID());
+            lbl_Categories.setText(listAppTypes.size() > 1 ? categoryDAO.selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
+            lbl_CategoriesCount.setText(listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : "");
+            lbl_Price.setText(entity.getPrice() == 0 ? "Free" : entity.getPrice() + "$");
+            
+            if (entity.getAppIcon() != null) {
+                img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "icon.png").toURI().toString()));
+                RoundedImageView.RoundedImage(img_AppIcon, 32);
+            }
+            calculateAverageRating();
+        });
 
-        if(entity.getAppIcon()!=null){
-            img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "icon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(img_AppIcon, 32);
-        }
-        calculateAverageRating();
-        
+    }
+
+    void setCategory(int cate) {
+        Platform.runLater(() -> {
+            if (cate == -1) {
+                return;
+            }
+            lbl_Categories.setText(categoryDAO.selectByID(cate).getName());
+        });
     }
 
     void calculateAverageRating() {
@@ -127,12 +153,14 @@ public class Product_Box_ShortController implements Initializable {
             }
             views += (int) listObject[1];
         }
-        lbl_Views.setText(views+"");
+        lbl_Views.setText(views + "");
         loadStar(ratings);
         averageRating = (double) Math.round(averageRating / ratings * 10) / 10;
         loadStar(averageRating);
     }
-    void loadStar(double rate) {
+
+    void loadStar(double rate
+    ) {
         Image starFill = new Image(new File(Value.WSTAR_FILL).toURI().toString());
         Image starNot = new Image(new File(Value.WSTAR_REGULAR).toURI().toString());
         Image starHalf = new Image(new File(Value.WSTAR_HALF).toURI().toString());
@@ -152,7 +180,7 @@ public class Product_Box_ShortController implements Initializable {
         } else if (rate >= 0.4) {
             img_1star.setImage(starHalf);
         }
-        switch ((int)rate) {
+        switch ((int) rate) {
             case 5:
                 img_5star.setImage(starFill);
             case 4:

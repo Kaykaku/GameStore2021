@@ -21,7 +21,10 @@ import DAO.CategoryDAO;
 import DAO.StatisticsDAO;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -33,6 +36,7 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.Value;
 import static until.Value.*;
+import until.Variable;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -86,7 +90,11 @@ public class ProductBoxController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         RoundedImageView.RoundedImage(img_App, 10);
-        img_App.setEffect(new DropShadow(5, Color.BLACK));
+        setEvent();
+
+    }
+
+    void setEvent() {
         pnl_ProductBox.setOnMouseEntered(evt -> {
             new BoxHoverAni(pnl_ProductBox).play();
             pnl_ProductBox.setEffect(new DropShadow(5, Color.BLACK));
@@ -110,6 +118,7 @@ public class ProductBoxController implements Initializable {
     }
 
     public void setAppInfo(Application entity) {
+
         application = entity;
         List<AppType> listAppTypes = new AppTypeDAO().selectByApplicationId(entity.getApplicationID());
         lbl_Categories.setText(listAppTypes.size() > 1 ? new CategoryDAO().selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
@@ -119,9 +128,11 @@ public class ProductBoxController implements Initializable {
 
         if (entity.getAppIcon() != null) {
             img_App.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(img_App, 10);
+            RoundedImageView.RoundedImage(img_App, 32);
+            img_App.setEffect(new DropShadow(5, Color.BLACK));
         }
         calculateAverageRating();
+
     }
 
     void calculateAverageRating() {
@@ -140,6 +151,10 @@ public class ProductBoxController implements Initializable {
         loadStar(ratings);
         averageRating = (double) Math.round(averageRating / ratings * 10) / 10;
         loadStar(averageRating);
+        
+        Variable.END = Instant.now();
+            Variable.TIMEELAPSED = Duration.between(Variable.START, Variable.END);
+            System.out.println(Variable.TIMEELAPSED.toMillis());
     }
 
     void loadStar(double rate) {

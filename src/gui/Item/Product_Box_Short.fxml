@@ -13,21 +13,30 @@
    <children>
       <ImageView fx:id="img_AppIcon" fitHeight="120.0" fitWidth="120.0" layoutX="35.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../icons/Untitled-1.png" />
+            <Image url="@../../icons/refresh120.png" />
          </image>
       </ImageView>
-      <VBox layoutX="25.0" layoutY="220.0" prefHeight="81.0" prefWidth="140.0" spacing="4.0">
+      <VBox layoutX="25.0" layoutY="200.0" prefHeight="81.0" prefWidth="140.0" spacing="4.0">
          <children>
-            <Text fx:id="lbl_AppName" fill="WHITE" layoutX="15.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minecraft" wrappingWidth="156.0">
+            <Text fx:id="lbl_AppName" fill="WHITE" layoutX="15.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load appname" wrappingWidth="156.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Label fx:id="lbl_Categories" layoutX="15.0" layoutY="255.0" prefHeight="20.0" prefWidth="140.0" text="Game type" textFill="#b9b8b8">
-               <font>
-                  <Font name="Arial" size="16.0" />
-               </font>
-            </Label>
+            <HBox>
+               <children>
+                  <Label fx:id="lbl_Categories" layoutX="15.0" layoutY="255.0" maxWidth="230.0" minWidth="-Infinity" prefHeight="20.0" text="Loading category..." textFill="#b9b8b8">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_CategoriesCount" prefHeight="20.0" prefWidth="140.0" text="+1" textFill="#b9b8b8">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <HBox fx:id="Hbox_Star_View" layoutX="25.0" layoutY="280.0" prefHeight="20.0" prefWidth="130.0" spacing="2.0">
                <children>
                   <ImageView fx:id="img_1star" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -55,7 +64,7 @@
                         <Image url="@../../icons/starWhiteRegular50.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="lbl_Views" alignment="CENTER" text="1k" textFill="#b9b8b8">
+                  <Label fx:id="lbl_Views" alignment="CENTER" text="..." textFill="#b9b8b8">
                      <font>
                         <Font name="Arial" size="16.0" />
                      </font>
@@ -67,7 +76,7 @@
             </HBox>
          </children>
       </VBox>
-      <Label fx:id="lbl_Price" layoutX="25.0" layoutY="345.0" text="Free" textFill="WHITE">
+      <Label fx:id="lbl_Price" layoutX="25.0" layoutY="345.0" text="Loading price" textFill="WHITE">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>

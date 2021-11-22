@@ -9,6 +9,8 @@ import Animation.BoxHoverMoveBack;
 import DAO.AccountDAO;
 import DAO.OrderDetailDAO;
 import java.net.URL;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -21,6 +23,7 @@ import javafx.scene.paint.Color;
 import model.Order;
 import model.OrderDetail;
 import until.ProcessDate;
+import until.Variable;
 
 /**
  * FXML Controller class
@@ -71,23 +74,28 @@ public class Row_OrderController implements Initializable {
             List<OrderDetail> list = new OrderDetailDAO().selectByOrderID(entity.getOrderID());
             double total = 0;
             for (OrderDetail orderDetail : list) {
-                total = orderDetail.getPrice()*(100-orderDetail.getSale());
+                total = orderDetail.getPrice() * (100 - orderDetail.getSale());
             }
-            total =(double) Math.round(total)/100;
-            
+            total = (double) Math.round(total) / 100;
+
             lbl_ID.setText(entity.getOrderID() + "");
             lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));
-            lbl_NameCustomer.setText(entity.getAccountId()+"-"+new AccountDAO().selectByID(entity.getAccountId()).getName());
+            lbl_NameCustomer.setText(entity.getAccountId() + "-" + new AccountDAO().selectByID(entity.getAccountId()).getName());
             lbl_Quantity.setText(list.size() + " Apps");
             lbl_Total.setText(total + "$");
             String status = entity.getStatus() == 0 ? "Processing" : entity.getStatus() == 1 ? "Accepted" : "Refunded";
             lblStatus.setText(status);
+
+            Variable.END = Instant.now();
+            Variable.TIMEELAPSED = Duration.between(Variable.START, Variable.END);
+            System.out.println(Variable.TIMEELAPSED.toMillis());
         });
     }
-    void setSelected(boolean isSelected){
-        if(isSelected){
+
+    void setSelected(boolean isSelected) {
+        if (isSelected) {
             pnl_Row_Order.setStyle("-fx-background-color: #185FEE ;");
-        }else{
+        } else {
             pnl_Row_Order.setStyle("-fx-background-color: #2f2f2f ;");
         }
     }

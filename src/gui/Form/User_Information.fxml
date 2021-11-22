@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -10,43 +11,80 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" styleClass="container1" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" styleClass="container1" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.User_InformationController">
    <children>
-      <Pane layoutX="10.0" layoutY="10.0" prefHeight="810.0" prefWidth="490.0" styleClass="user_info" stylesheets="@../../css/main.css">
+      <Pane fx:id="pnl_LoginInfo" layoutX="10.0" layoutY="10.0" prefHeight="810.0" prefWidth="490.0" styleClass="user_info" stylesheets="@../../css/main.css">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="170.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/avatar120.png" />
-               </image>
-            </ImageView>
-            <VBox layoutX="70.0" layoutY="320.0" prefHeight="210.0" prefWidth="350.0" spacing="25.0">
+            <VBox layoutX="70.0" layoutY="350.0" prefHeight="330.0" prefWidth="350.0" spacing="20.0">
                <children>
-                  <TextField layoutX="98.0" layoutY="92.0" prefHeight="40.0" prefWidth="250.0" promptText="Username" styleClass="text_input3">
+                  <TextField fx:id="txt_Username" layoutX="98.0" layoutY="92.0" prefHeight="45.0" prefWidth="250.0" promptText="Username" styleClass="text_input3">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <PasswordField layoutX="98.0" layoutY="134.0" prefHeight="40.0" prefWidth="250.0" promptText="Old Password" styleClass="text_input3">
+                  <PasswordField fx:id="txt_OldPassword" layoutX="98.0" layoutY="134.0" prefHeight="45.0" prefWidth="250.0" promptText="Old Password" styleClass="text_input3">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </PasswordField>
-                  <PasswordField layoutX="98.0" layoutY="191.0" prefHeight="40.0" prefWidth="250.0" promptText="New Password" styleClass="text_input3">
+                  <PasswordField fx:id="txt_NewPassword" layoutX="98.0" layoutY="191.0" prefHeight="45.0" prefWidth="250.0" promptText="New Password" styleClass="text_input3">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </PasswordField>
-                  <PasswordField layoutX="106.0" layoutY="235.0" prefHeight="40.0" prefWidth="250.0" promptText="Comfirm Password" styleClass="text_input3">
+                  <PasswordField fx:id="txt_ComfirmPassword" layoutX="106.0" layoutY="235.0" prefHeight="45.0" prefWidth="250.0" promptText="Comfirm Password" styleClass="text_input3">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </PasswordField>
+                  <JFXButton fx:id="btnChangepass" prefHeight="45.0" prefWidth="350.0" styleClass="button_type6" text="Change password">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </VBox>
-            <JFXButton layoutX="70.0" layoutY="600.0" prefHeight="40.0" prefWidth="350.0" styleClass="button_type6" text="Change password">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font></JFXButton>
+            <HBox layoutX="170.0" layoutY="289.0">
+               <children>
+                  <Button fx:id="btn_Camera" layoutX="275.0" layoutY="268.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="50.0" style="-fx-background-radius: 9 0 0 9,8 0 0 8,5,4,3;" styleClass="light-grey">
+                     <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/camera50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btn_ChosePicture" layoutX="341.0" layoutY="268.0" mnemonicParsing="false" prefWidth="50.0" style="-fx-background-radius: 0,0,5,4,3;" styleClass="light-grey">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/picture50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btn_ClearAvatar" mnemonicParsing="false" prefWidth="50.0" style="-fx-background-radius: 0 9 9 0,0 8 8 0,5,4,3;" styleClass="light-grey">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/clear50.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <Pane fx:id="pnl_Image" layoutX="130.0" layoutY="50.0" prefHeight="230.0" prefWidth="230.0">
+               <children>
+                  <Circle fill="#c9c9c9" layoutX="115.0" layoutY="115.0" radius="100.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="5.0" />
+                  <ImageView fx:id="img_Avatar" fitHeight="200.0" fitWidth="200.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../icons/male256.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children></Pane>
       <Pane fx:id="pnl_Add_Info" layoutX="510.0" layoutY="250.0" prefHeight="230.0" prefWidth="775.0" styleClass="user_info">
          <children>
@@ -61,7 +99,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" layoutX="400.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter Publisher..." styleClass="text_input" stylesheets="@../../css/main.css">
+            <JFXTextField id="tex" fx:id="txt_Email" layoutX="400.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter email..." styleClass="text_input" stylesheets="@../../css/main.css">
                <font>
                   <Font size="18.0" />
                </font>
@@ -71,7 +109,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" layoutX="30.0" layoutY="175.0" prefHeight="31.0" prefWidth="250.0" promptText="Enter languages..." styleClass="text_input" stylesheets="@../../css/main.css">
+            <JFXTextField id="tex" fx:id="txt_Address" layoutX="30.0" layoutY="175.0" prefHeight="31.0" prefWidth="250.0" promptText="Enter Address..." styleClass="text_input" stylesheets="@../../css/main.css">
                <font>
                   <Font size="18.0" />
                </font>
@@ -106,12 +144,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXComboBox layoutX="30.0" layoutY="85.0" prefHeight="40.0" prefWidth="250.0" promptText="-Country-" styleClass="text_input" />
-            <Label layoutX="425.0" layoutY="185.0" text="01/01/2021" textFill="WHITE">
+            <Label fx:id="lbl_CreationDate" layoutX="425.0" layoutY="185.0" text="01/01/2021" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
+            <JFXComboBox fx:id="cbo_Country" layoutX="30.0" layoutY="89.0" prefHeight="40.0" prefWidth="250.0" promptText="-Country-" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Basic_Info" layoutX="510.0" layoutY="10.0" prefHeight="230.0" prefWidth="775.0" styleClass="user_info">
@@ -121,12 +159,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" layoutX="400.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter name..." styleClass="text_input" stylesheets="@../../css/main.css">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField id="tex" layoutX="30.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter game ID..." styleClass="text_input" stylesheets="@../../css/main.css">
+            <JFXTextField id="tex" fx:id="txt_Name" layoutX="400.0" layoutY="85.0" prefHeight="21.0" prefWidth="250.0" promptText="Enter name..." styleClass="text_input" stylesheets="@../../css/main.css">
                <font>
                   <Font size="18.0" />
                </font>
@@ -157,7 +190,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Pane fx:id="pnl_CreationDate" layoutX="30.0" layoutY="175.0" prefHeight="30.0" prefWidth="250.0" />
+            <Pane fx:id="pnl_BirthDay" layoutX="30.0" layoutY="175.0" prefHeight="40.0" prefWidth="250.0" />
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="30.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../icons/calendar18.png" />
@@ -173,18 +206,23 @@
                   <Image url="@../../icons/gender18.png" />
                </image>
             </ImageView>
-            <JFXRadioButton layoutX="410.0" layoutY="180.0" styleClass="text_input" text="Male" />
-            <JFXRadioButton layoutX="500.0" layoutY="180.0" styleClass="text_input" text="Female" />
+            <JFXRadioButton fx:id="rdo_Male" layoutX="410.0" layoutY="180.0" styleClass="text_input" text="Male" />
+            <JFXRadioButton fx:id="rdo_Female" layoutX="500.0" layoutY="180.0" styleClass="text_input" text="Female" />
+            <Label fx:id="lbl_Accountid" layoutX="52.0" layoutY="91.0" text="Account ID" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
-      <Pane fx:id="pnl_Add_Info1" layoutX="510.0" layoutY="490.0" prefHeight="330.0" prefWidth="300.0" styleClass="user_info">
+      <Pane fx:id="pnl_Statistics" layoutX="510.0" layoutY="490.0" prefHeight="330.0" prefWidth="438.0" styleClass="user_info">
          <children>
             <Label layoutX="30.0" layoutY="10.0" text="Statistics" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="300.0" />
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="438.0" />
             <Label layoutX="45.0" layoutY="60.0" text="Apps purchased" textFill="#b9b8b8">
                <font>
                   <Font size="18.0" />
@@ -195,7 +233,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="45.0" layoutY="150.0" text="App views" textFill="#b9b8b8">
+            <Label layoutX="45.0" layoutY="150.0" text="Total orders" textFill="#b9b8b8">
                <font>
                   <Font size="18.0" />
                </font>
@@ -207,7 +245,7 @@
             </ImageView>
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/eye18.png" />
+                  <Image url="@../../icons/order18.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
@@ -215,46 +253,103 @@
                   <Image url="@../../icons/price16.png" />
                </image>
             </ImageView>
-            <Label layoutX="45.0" layoutY="95.0" text="12" textFill="WHITE">
+            <Label fx:id="lbl_AppPurchased" layoutX="45.0" layoutY="95.0" text="Loading..." textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="45.0" layoutY="275.0" text="\$1323.23" textFill="WHITE">
+            <Label fx:id="lbl_AmountPaid" layoutX="45.0" layoutY="275.0" text="Loading..." textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="45.0" layoutY="185.0" text="102" textFill="WHITE">
+            <Label fx:id="lbl_TotalOders" layoutX="45.0" layoutY="185.0" text="Loading..." textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_Comments" layoutX="267.0" layoutY="185.0" text="Loading..." textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_Ratings" layoutX="267.0" layoutY="275.0" text="Loading..." textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_AppViews" layoutX="267.0" layoutY="95.0" text="Loading..." textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="242.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/star20.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="242.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/comment18.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="242.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/eye18.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="267.0" layoutY="150.0" text="Comments" textFill="#b9b8b8">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="267.0" layoutY="240.0" text="Ratings" textFill="#b9b8b8">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="267.0" layoutY="60.0" text="App views" textFill="#b9b8b8">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <VBox layoutX="830.0" layoutY="510.0" prefHeight="300.0" prefWidth="450.0" spacing="15.0">
+      <VBox fx:id="vbox_Controller" layoutX="970.0" layoutY="510.0" prefHeight="300.0" prefWidth="310.0" spacing="15.0">
          <children>
-            <JFXButton layoutX="831.0" layoutY="490.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Contact admin">
+            <JFXButton fx:id="btn_Update" layoutX="831.0" layoutY="595.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Update infomation">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="831.0" layoutY="595.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Wishlish">
+            <JFXButton fx:id="btn_Contact" layoutX="831.0" layoutY="490.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Contact admin">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="831.0" layoutY="700.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Library">
+            <JFXButton fx:id="btn_AboutUs" layoutX="831.0" layoutY="700.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="About Us">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Log out">
+            <JFXButton fx:id="btn_SignOut" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Sign out">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
          </children>
       </VBox>
+      <JFXButton fx:id="btn_Back" layoutX="30.0" layoutY="30.0" prefHeight="40.0" styleClass="button_type5">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/arrrowleft40px.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
    </children>
 </Pane>

@@ -40,6 +40,7 @@ import until.Dialog;
 import until.ProcessDate;
 import until.Validation;
 import until.Value;
+import until.Variable;
 
 /**
  * FXML Controller class
@@ -191,13 +192,9 @@ public class Management_OrderController implements Initializable {
     boolean isOrderDetailEdit = false;
     int orderIndex = -1, detailIndex = -1;
 
-    Instant end;
-    Instant start;
-    Duration timeElapsed;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        start = Instant.now();
+        Variable.START = Instant.now();
         displayFormAnimation();
         setGroupButton();
         setEvent();
@@ -217,9 +214,6 @@ public class Management_OrderController implements Initializable {
                 Platform.runLater(new Runnable() {
                     public void run() {
                         fillListOrders();
-                        end = Instant.now();
-                        timeElapsed = Duration.between(start, end);
-                        System.out.println(timeElapsed.toMillis());
                     }
                 });
             }

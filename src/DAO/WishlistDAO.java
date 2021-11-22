@@ -90,4 +90,8 @@ public class WishlistDAO extends DAO<Wishlist, Integer> {
     public void delete(Integer accountID,Integer applicationID) {
         Connect_Jdbc.update(delete_sql, accountID,applicationID);
     }
+    public List<Wishlist> selectByAccountID(Integer accountId) {
+        List<Wishlist> list = this.selectBySql(select_By_ID_sql, accountId);
+        return list;
+    }
 }

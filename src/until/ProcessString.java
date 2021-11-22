@@ -11,7 +11,7 @@ package until;
  */
 public class ProcessString {
     public static String cutString(String text , int limit){
-        text =text.length()>limit-2? text.substring(0, limit)+"...":text;
+        text =text.length()>limit? text.substring(0, limit-2)+"...":text;
         return text;
     }
 }

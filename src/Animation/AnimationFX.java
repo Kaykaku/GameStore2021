@@ -93,7 +93,9 @@ public abstract class AnimationFX {
     public void play() {
         timeline.play();
     }
-
+    public void pause() {
+        timeline.pause();
+    }
     /**
      * Stop the animation
      *

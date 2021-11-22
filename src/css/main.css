@@ -2,6 +2,9 @@
 .scroll-pane{
     -fx-background-color: #272727;
 }
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
     -fx-background-color : #000000aa;
@@ -176,6 +179,18 @@
 }
 .container2{
     -fx-background-color: linear-gradient( to right top,#1D3111,#3F2E4B,#4F7226);
+    -fx-background-radius: 12px;
+}
+.container4{
+    -fx-background-color: linear-gradient( to right bottom,#69351F,#867324);
+    -fx-background-radius: 12px;
+}
+.container5{
+    -fx-background-color: linear-gradient( to right bottom,#000000,#3F2E4B,#906D5E);
+    -fx-background-radius: 12px;
+}
+.container6{
+    -fx-background-color: linear-gradient( to right bottom,#1D3111,#3F2E4B,#4F7226);
     -fx-background-radius: 12px;
 }
 .container3{
@@ -424,7 +439,39 @@
     -fx-text-fill: white;
     -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
 }
-.ipad-dark-grey Text {
+.light-grey {
+    -fx-background-color: 
+        linear-gradient(#979797 0%, #dcd8dc 25%, #c8c7c8 75%, #8a8a8a 100%),
+        linear-gradient(#fdf4fd, #c5c5c5),
+        linear-gradient(#626162 0%, #949594 20%, #cbcacb 80%, #dbdbdb 100%),
+        linear-gradient(#757575 0%, #949594 20%, #cbcacb 80%, #d9d9d9 100%),
+        linear-gradient(white 0%, white 50%, white 51%, white 100%);
+    -fx-background-insets: 0,0,3,5,6;
+    -fx-background-radius: 9,8,5,4,3;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
+}
+.light-grey:pressed {
+    -fx-background-color: 
+        linear-gradient(#979797 0%, #dcd8dc 25%, #c8c7c8 75%, #8a8a8a 100%),
+        linear-gradient(#fdf4fd, #c5c5c5),
+        linear-gradient(#626162 0%, #949594 20%, #cbcacb 80%, #dbdbdb 100%),
+        linear-gradient(#757575 0%, #949594 20%, #cbcacb 80%, #d9d9d9 100%),
+        linear-gradient(white 0%, lightgray 50%, lightgray 51%, gray 100%);
+    -fx-background-insets: 0,0,3,5,6;
+    -fx-background-radius: 9,8,5,4,3;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
+}
+.light-grey Text {
     -fx-effect: dropshadow( one-pass-box , black , 0, 0.0 , 0 , -1 );
 }
 /*Text iput*/
@@ -594,4 +641,28 @@
 }
 .txt_Correct{
     -fx-border-color: #fff;
+}
+.box_header{
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: transparent;
+    -fx-border-width:7px;
+}
+.box_header:hover{
+    -fx-border-color: #F38064;
+}
+.box_header_in {
+    -fx-background-color: #000000aa;
+    -fx-background-radius: 18px;
+    -fx-opacity:0;
+}
+.box_header_in:hover {
+    -fx-opacity:1;
+}
+.box_header_in  > *{
+    -fx-opacity:0;
+}
+
+.box_header_in:hover > *{
+    -fx-opacity:1;
 }

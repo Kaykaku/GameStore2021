@@ -39,4 +39,10 @@ public class StatisticsDAO {
         String[] col ={"star","turns"};
         return this.getListOfArray(sql, col, applicationID);
     }
+    public Object[] getAccountStatistics(int accountID){
+        String sql="{CALL sp_AccountStatictis(?)}";
+        String[] col ={"Application Views","Total Orders","Ratings","Comments","App Purchased","Amount Paid"};       
+        List<Object[]> list= this.getListOfArray(sql, col, accountID);
+        return  list.size()>0?list.get(0):null;
+    }
 }

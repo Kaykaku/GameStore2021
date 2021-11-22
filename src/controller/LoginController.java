@@ -411,6 +411,7 @@ public class LoginController implements Initializable {
                 }
 
                 System.out.println("Login success!");
+                Auth.USER = account;
                 try {
                     ((Node) (event.getSource())).getScene().getWindow().hide();
                     Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
@@ -423,8 +424,6 @@ public class LoginController implements Initializable {
                     Logger.getLogger(LoginController.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
-
-                Auth.USER = account;
             }
         }
 

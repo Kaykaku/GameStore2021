@@ -128,7 +128,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="pnl_Category" layoutX="320.0" layoutY="290.0" prefHeight="50.0" prefWidth="550.0" styleClass="pnl_view">
+      <Pane fx:id="pnl_Category" layoutX="320.0" layoutY="290.0" prefHeight="70.0" prefWidth="550.0" styleClass="pnl_view">
          <children>
             <Label layoutX="127.0" layoutY="14.0" text="3" textFill="#b9b8b8">
                <font>

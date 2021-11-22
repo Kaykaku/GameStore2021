@@ -16,7 +16,7 @@ public class Application {
     private int applicationID;
     private String name;
     private float price, size;
-    private int type;
+    private boolean type;
     private byte[] appImage, appIcon;
     private String developer, publisher;
     private Date releaseDay, creationDate;
@@ -28,7 +28,7 @@ public class Application {
     public Application() {
     }
 
-    public Application(int applicationID, String name, float price, float size, int type, byte[] appImage, byte[] appIcon, String developer, String publisher, Date releaseDay, Date creationDate, String languages, float sale, String description, boolean active, boolean enableBuy) {
+    public Application(int applicationID, String name, float price, float size, boolean type, byte[] appImage, byte[] appIcon, String developer, String publisher, Date releaseDay, Date creationDate, String languages, float sale, String description, boolean active, boolean enableBuy) {
         this.applicationID = applicationID;
         this.name = name;
         this.price = price;
@@ -79,11 +79,11 @@ public class Application {
         this.size = size;
     }
 
-    public int getType() {
+    public boolean isType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(boolean type) {
         this.type = type;
     }
 

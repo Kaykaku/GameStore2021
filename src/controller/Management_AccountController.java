@@ -236,11 +236,11 @@ public class Management_AccountController implements Initializable {
 
     void fillCboCountry() {
         List<String> list = new ArrayList<>();
-        list.add("VietNam");
+        list.add("Vietnam");
         list.add("China");
         list.add("America");
         list.add("England");
-
+        list.add("Japan");
         cbo_Country.setItems(FXCollections.observableArrayList(list));
     }
 
@@ -317,8 +317,8 @@ public class Management_AccountController implements Initializable {
 
     void setForm(Account entity) {
         lbl_ID.setText(isEdit ? entity.getAccountId() + "" : "Editing");
-        txt_Name.setText(isEdit ? entity.getName() : "");
-        datePicker_Birthday.setValue(isEdit ? ProcessDate.toLocalDate(entity.getBirthDay()) : null);
+        txt_Name.setText(isEdit && entity.getName()!=null ? entity.getName() : "");
+        datePicker_Birthday.setValue(isEdit && entity.getBirthDay()!=null? ProcessDate.toLocalDate(entity.getBirthDay()) : null);
         datePicker_CreationDate.setValue(isEdit ? ProcessDate.toLocalDate(entity.getCreationDate()) : LocalDate.now());
         rdo_Male.setSelected(isEdit ? !entity.isGender() : true);
         rdo_Female.setSelected(isEdit ? entity.isGender() : false);
@@ -367,7 +367,7 @@ public class Management_AccountController implements Initializable {
             entity.setRole(tog_Role.isSelected() ? 1 : 2);
             entity.setUserName(txt_UserName.getText().trim());
             entity.setPassword(isEdit ? accountDAO.selectByID(entity.getAccountId()).getPassword() : txt_NewPassword.getText().trim());
-            entity.setAddress(txt_Address.getText().trim());
+            entity.setAddress(txt_Address.getText()!=null?txt_Address.getText().trim():"");
             entity.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png")));
             if (avatarFile != null) {
                 entity.setImage(ProcessImage.toBytes(avatarFile));

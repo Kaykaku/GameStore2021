@@ -5,6 +5,8 @@
  */
 package until;
 
+import java.time.Duration;
+import java.time.Instant;
 import javafx.scene.layout.Pane;
 
 /**
@@ -18,4 +20,11 @@ public class Variable {
     public static double WIDTH_PRODUCT_LIST = 0;
     public static double HEIGHT_PRODUCT_LIST = 0;
     public static Pane PNL_VIEW;
+    public static int HOME_PAGE=0;
+    public static boolean IS_ACCOUNT_INFORMATION_OPEN=false;
+    public static boolean IS_WISHLIST_OPEN=false;
+    
+    public static Instant END;
+    public static Instant START;
+    public static Duration TIMEELAPSED;
 }

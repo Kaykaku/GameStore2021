@@ -27,7 +27,7 @@
             <Circle fill="#c9c9c9" layoutX="115.0" layoutY="115.0" radius="100.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="5.0" />
             <ImageView fx:id="img_Avatar" fitHeight="200.0" fitWidth="200.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../../../../../Downloads/hairstyle.png" />
+                  <Image url="@../../icons/male256.png" />
                </image>
             </ImageView>
          </children>
