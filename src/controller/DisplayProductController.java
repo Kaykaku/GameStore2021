@@ -23,15 +23,19 @@ import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -58,6 +62,7 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.Validation;
 import until.Value;
+import static until.Value.Pay;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -186,7 +191,7 @@ public class DisplayProductController implements Initializable {
 
     @FXML
     private Label lbl_CommentCount;
-            
+
     @FXML
     private ImageView img_2Star;
 
@@ -195,10 +200,10 @@ public class DisplayProductController implements Initializable {
 
     @FXML
     private HBox hbox_Star;
-    
+
     @FXML
     private HBox hbox_ScrollRandom;
-    
+
     @FXML
     private ScrollPane pnl_ScrollRandom;
 
@@ -228,7 +233,7 @@ public class DisplayProductController implements Initializable {
 
     int ratings = 0, views = 0;
     double averageRating = 0;
-    boolean isAdded =false;
+    boolean isAdded = false;
     List<Object[]> listStarRatings;
 
     @Override
@@ -248,24 +253,25 @@ public class DisplayProductController implements Initializable {
         LoadAppView();
         calculateAverageRating();
         loadBasicInfo();
-        loadAppCategories(); 
+        loadAppCategories();
         loadStatus();
         fillListComments();
         fillListRandomApps();
         setEvent();
 
     }
-    void loadBasicInfo(){
+
+    void loadBasicInfo() {
         lbl_AppName.setText(app.getName());
         lbl_AppDeveloper.setText(app.getDeveloper());
         btn_Buy.setText("Get " + app.getPrice() + "$");
 
         if (app.getAppIcon() != null) {
-            img_AppIcon.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));          
+            img_AppIcon.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));
         }
 
         if (app.getAppImage() != null) {
-            img_AppImage.setImage(new Image(ProcessImage.toFile(app.getAppImage(), "appImage.png").toURI().toString()));           
+            img_AppImage.setImage(new Image(ProcessImage.toFile(app.getAppImage(), "appImage.png").toURI().toString()));
         }
         RoundedImageView.RoundedImage(img_AppIcon, 32);
         RoundedImageView.RoundedImage(img_AppImage, 32);
@@ -278,40 +284,34 @@ public class DisplayProductController implements Initializable {
         lbl_Sale.setText((int) app.getSale() + "%");
         lbl_Size.setText(app.getSize() + "MB");
     }
+
     void setEvent() {
         btn_Back.setOnMouseClicked((evt) -> {
-            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size()-1);
+            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
         });
         btn_Comment.setOnMouseClicked((evt) -> {
             actionComment();
         });
         btn_AddWishList.setOnMouseClicked((evt) -> {
-            if(!isAdded){
-                new WishlistDAO().insert(new Wishlist( Auth.USER.getAccountId(),app.getApplicationID()));
-                
-            }else{
-                 new WishlistDAO().delete(Auth.USER.getAccountId(),app.getApplicationID());
+            if (!isAdded) {
+                new WishlistDAO().insert(new Wishlist(Auth.USER.getAccountId(), app.getApplicationID()));
+
+            } else {
+                new WishlistDAO().delete(Auth.USER.getAccountId(), app.getApplicationID());
             }
             loadStatus();
         });
         btn_Buy.setOnMouseClicked((evt) -> {
-            Order order = new Order();
-            Date date = new Date();
-            String sdate = ProcessDate.toString(date);
-            date = ProcessDate.toDate(sdate);
-            
-            order.setAccountId(Auth.USER.getAccountId());
-            order.setCreationDate(date);
-            order.setStatus(1);
-            new OrderDAO().insert(order);
-            order = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
-            OrderDetail orde = new OrderDetail();
-            orde.setOrderID(order.getOrderID());
-            orde.setApplicationId(app.getApplicationID());
-            orde.setPrice(app.getPrice());
-            orde.setSale(app.getSale());
-            new OrderDetailDAO().insert(orde);
-            loadStatus();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Pay));
+            Node node;
+            try {
+                node = (Node) loader.load();
+                PayController controller = loader.getController();
+                controller.setInformation(app);
+                PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
@@ -449,10 +449,10 @@ public class DisplayProductController implements Initializable {
         } else {
             Wishlist w = new WishlistDAO().selectByAccountApplicationID(Auth.USER.getAccountId(), app.getApplicationID());
             if (w == null) {
-                isAdded =false;
+                isAdded = false;
                 btn_AddWishList.setText("Add to wishlist");
             } else {
-                isAdded=true;
+                isAdded = true;
                 btn_AddWishList.setText("Remove form wishlist");
             }
             if (new ApplicationDAO().isPurchaseApplication(Auth.USER.getAccountId(), app.getApplicationID())) {
@@ -465,9 +465,9 @@ public class DisplayProductController implements Initializable {
     }
 
     void fillListComments() {
-        CommentDAO dao =new CommentDAO();
+        CommentDAO dao = new CommentDAO();
         List<Comment> listComment = dao.selectByAppId(app.getApplicationID());
-        lbl_CommentCount.setText(listComment.size()+" Comments");
+        lbl_CommentCount.setText(listComment.size() + " Comments");
         try {
             Pane paneP = (Pane) FXMLLoader.load(getClass().getResource(Value.ROW_COMMENT));
             double height = (paneP.getPrefHeight() + vbox_ListComment.getSpacing()) * listComment.size();
@@ -488,7 +488,7 @@ public class DisplayProductController implements Initializable {
                 vbox_ListComment.getChildren().add(nodes[h]);
                 controllers[h].setInfo(listComment.get(h));
                 if (listComment.get(h).getApplicatonViewId() == appView.getApplicatonViewId() || Auth.isManager()) {
-                    Button button_delete =controllers[h].getButtonDelete();
+                    Button button_delete = controllers[h].getButtonDelete();
                     PulseShort ani = new PulseShort(nodes[h]);
                     ani.setCycleCount(Integer.MAX_VALUE);
                     nodes[h].setOnMouseEntered(evt -> {
@@ -531,24 +531,25 @@ public class DisplayProductController implements Initializable {
         }
         Dialog.showMessageDialog("Wrong data", err);
     }
+
     void fillListRandomApps() {
         List<Application> listApps = new ApplicationDAO().selectAll();
         HashSet<Application> set = new HashSet<>();
-        while(set.size()!=4){
-            int i =(int) (Math.random() * (listApps.size()-1));
+        while (set.size() != 4) {
+            int i = (int) (Math.random() * (listApps.size() - 1));
             set.add(listApps.get(i));
         }
-        
+
         try {
             Pane paneP = (Pane) FXMLLoader.load(getClass().getResource(Value.PRODUCT_BOX_SHORT));
-            double width = (paneP.getPrefWidth()+ hbox_ScrollRandom.getSpacing()) * set.size();
-            hbox_ScrollRandom.setPrefSize(width,paneP.getPrefHeight()+5);
+            double width = (paneP.getPrefWidth() + hbox_ScrollRandom.getSpacing()) * set.size();
+            hbox_ScrollRandom.setPrefSize(width, paneP.getPrefHeight() + 5);
 
             hbox_ScrollRandom.getChildren().clear();
             Pane[] nodes = new Pane[set.size()];
             Product_Box_ShortController[] controllers = new Product_Box_ShortController[set.size()];
             for (int i = 0; i < set.size(); i++) {
-                
+
                 final int h = i;
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource(Value.PRODUCT_BOX_SHORT));
@@ -556,8 +557,8 @@ public class DisplayProductController implements Initializable {
                 controllers[h] = loader.getController();
 
                 hbox_ScrollRandom.getChildren().add(nodes[h]);
-                controllers[h].setInfo((Application)set.toArray()[i]);
-                
+                controllers[h].setInfo((Application) set.toArray()[i]);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
