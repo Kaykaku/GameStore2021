@@ -246,14 +246,14 @@
          <children>
             <TableView fx:id="tbl_Accounts" layoutX="15.0" layoutY="15.0" prefHeight="265.0" prefWidth="935.0" styleClass="pnl_view">
               <columns>
-                <TableColumn fx:id="col_ID" editable="false" prefWidth="60.0" resizable="false" styleClass="category_table" text="ID" />
+                <TableColumn fx:id="col_ID" editable="false" prefWidth="50.0" resizable="false" styleClass="category_table" text="ID" />
                 <TableColumn fx:id="col_Name" editable="false" maxWidth="169.0" prefWidth="169.0" resizable="false" styleClass="category_table" text="NAME" />
                   <TableColumn fx:id="col_Gender" editable="false" maxWidth="140.0" resizable="false" styleClass="category_table" text="GENDER" />
-                  <TableColumn fx:id="col_Birthday" editable="false" maxWidth="140.0" prefWidth="100.0" resizable="false" styleClass="category_table" text="BIRTHDAY" />
+                  <TableColumn fx:id="col_Birthday" editable="false" maxWidth="140.0" prefWidth="90.0" resizable="false" styleClass="category_table" text="BIRTHDAY" />
                   <TableColumn fx:id="col_Country" editable="false" maxWidth="140.0" prefWidth="100.0" resizable="false" styleClass="category_table" text="COUNTRY" />
                   <TableColumn fx:id="col_Email" editable="false" maxWidth="180.0" prefWidth="180.0" resizable="false" styleClass="category_table" text="EMAIL" />
-                  <TableColumn fx:id="col_CreationDate" editable="false" maxWidth="140.0" prefWidth="100.0" resizable="false" styleClass="category_table" text="CREATION" />
-                  <TableColumn fx:id="col_Username" editable="false" maxWidth="140.0" prefWidth="130.0" resizable="false" styleClass="category_table" text="USERNAME" />
+                  <TableColumn fx:id="col_CreationDate" editable="false" maxWidth="140.0" prefWidth="90.0" resizable="false" styleClass="category_table" text="CREATION" />
+                  <TableColumn fx:id="col_Username" editable="false" maxWidth="160.0" prefWidth="200.0" resizable="false" styleClass="category_table" text="USERNAME" />
               </columns>
             </TableView>
          </children>

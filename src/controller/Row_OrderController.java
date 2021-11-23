@@ -74,7 +74,7 @@ public class Row_OrderController implements Initializable {
             List<OrderDetail> list = new OrderDetailDAO().selectByOrderID(entity.getOrderID());
             double total = 0;
             for (OrderDetail orderDetail : list) {
-                total = orderDetail.getPrice() * (100 - orderDetail.getSale());
+                total += orderDetail.getPrice() * (100 - orderDetail.getSale());
             }
             total = (double) Math.round(total) / 100;
 

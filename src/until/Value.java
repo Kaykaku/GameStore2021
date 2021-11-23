@@ -29,6 +29,7 @@ public class Value {
     public static final String FORM_LIBRARY  ="/gui/Form/Library.fxml";
     public static final String FORM_USER_INFORMATION  ="/gui/Form/User_Information.fxml";
     public static final String FORM_LOGIN  ="/gui/Form/Login.fxml";
+    public static final String Pay  ="/gui/Form/Pay.fxml";
     
     public static final String ROW_ORDER  ="/gui/Item/Row_Order.fxml";
     public static final String ROW_PRODUCT  ="/gui/Item/Row_Product.fxml";

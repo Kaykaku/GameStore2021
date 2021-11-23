@@ -13,7 +13,7 @@
    <children>
       <ImageView fx:id="img_Image" fitHeight="150.0" fitWidth="340.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true">
          <image>
-            <Image url="@../../icons/minecraft.jpg" />
+            <Image url="@../../icons/image120.png" />
          </image>
       </ImageView>
       <Text fx:id="lbl_Title" fill="WHITE" layoutX="22.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Watch Dog: Legion's Assassin's Creed Crossover Trailer Features Lots Of Stabbing" wrappingWidth="336.0">

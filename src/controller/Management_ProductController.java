@@ -39,8 +39,10 @@ import javafx.stage.FileChooser;
 import model.Application;
 import until.Catch_Errors;
 import until.Dialog;
+import until.ExportPDF;
 import until.ProcessDate;
 import until.ProcessImage;
+import until.Value;
 
 /**
  * FXML Controller class
@@ -154,6 +156,9 @@ public class Management_ProductController implements Initializable {
     @FXML
     private Pane pnl_ReleaseDate;
 
+    @FXML
+    private JFXButton btn_DPFProduct;
+
     ApplicationDAO applicationDAO = new ApplicationDAO();
     List<Application> listApplications = new ArrayList<>();
     CategoryDAO categoryDao = new CategoryDAO();
@@ -163,11 +168,12 @@ public class Management_ProductController implements Initializable {
     boolean isEdit = false;
     File avatarIcon;
     File avatarImage;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.showDatePicker();
         this.EventSearch();
+        this.ExportPDFProduct();
         this.fillListApplication();
         this.displayFormAnimation();
         btn_Update.setDisable(true);
@@ -181,7 +187,7 @@ public class Management_ProductController implements Initializable {
         listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim());
 
         try {
-            Pane paneP = (Pane) FXMLLoader.load(getClass().getResource("/gui/Item/Row_Product.fxml"));
+            Pane paneP = (Pane) FXMLLoader.load(getClass().getResource(Value.ROW_PRODUCT));
             double height = (paneP.getPrefHeight() + box_ListProduct.getSpacing()) * listApplications.size();
             box_ListProduct.setPrefSize(paneP.getPrefWidth(), height);
             pnl_List.setPrefHeight(height > pnl_ScrollList.getPrefHeight() ? height : pnl_ScrollList.getPrefHeight());
@@ -193,7 +199,7 @@ public class Management_ProductController implements Initializable {
             for (int i = 0; i < listApplications.size(); i++) {
                 final int h = i;
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/gui/Item/Row_Product.fxml"));
+                loader.setLocation(getClass().getResource(Value.ROW_PRODUCT));
                 nodes[h] = (Pane) loader.load();
                 controllers[h] = loader.getController();
 
@@ -219,7 +225,7 @@ public class Management_ProductController implements Initializable {
                     btn_Add.setDisable(true);
                     btn_Update.setDisable(false);
                     btn_delete.setDisable(false);
-                    
+
                 });
             }
         } catch (Exception e) {
@@ -381,6 +387,17 @@ public class Management_ProductController implements Initializable {
         });
     }
 
+    private void ExportPDFProduct() {
+        btn_DPFProduct.setOnAction(evt -> {
+            try {
+                ExportPDF.exportPDFProduct();
+                Dialog.showMessageDialog(null, "File save successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
     @FXML
     private void handleImageGame(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -460,9 +477,13 @@ public class Management_ProductController implements Initializable {
         new FadeInRightBig(pnl_List_Product).play();
         new FadeInUp(pnl_Status).play();
         new FadeInUpBig(pnl_Description).play();
-        new ZoomInUp(pnl_Controller).play();
+        new ZoomInUp(hbox_Controller).play();
         GlowText ani = new GlowText(lbl_OnSale, Color.WHITE, Color.RED);
         ani.setCycleCount(Integer.MAX_VALUE);
         ani.play();
+    }
+
+    private Object ExportPDF() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

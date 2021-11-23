@@ -5,10 +5,19 @@
  */
 package until;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -40,5 +49,32 @@ public class ProcessImage {
         }
         return null;
     }
-
+    public static FileInputStream toFileInputStream(File file) {
+        try {
+            FileInputStream fis = new FileInputStream ( file );
+            return fis;
+        } catch (IOException ex) {
+            
+        }
+        return null;
+    }
+    public static Image toImage(Blob blob) {
+        InputStream in = null;
+        try {
+            in = blob.getBinaryStream();
+            BufferedImage image = ImageIO.read(in);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            Logger.getLogger(ProcessImage.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                
+            }
+        }
+        return null;
+    }
+    
 }

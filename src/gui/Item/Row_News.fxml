@@ -26,7 +26,7 @@
             <Pane fx:id="pane3" layoutX="370.0" prefHeight="180.0" prefWidth="10.0" styleClass="row_news2" />
             <ImageView fx:id="img_Icon" fitHeight="70.0" fitWidth="90.0" layoutX="20.0" layoutY="10.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../icons/Untitled-1.png" />
+                  <Image url="@../../icons/image120.png" />
                </image>
             </ImageView>
             <Text fx:id="lbl_Title" fill="WHITE" layoutX="124.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" wrappingWidth="242.0">

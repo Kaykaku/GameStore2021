@@ -98,6 +98,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        pnl_ManageAccount.setTranslateY(-pnl_ManageAccount.getPrefHeight());
         Variable.PNL_VIEW = pnl_View;
         Variable.WIDTH_VIEW = pnl_View.getPrefWidth();
         Variable.HEIGHT_VIEW = pnl_View.getPrefHeight();
@@ -283,9 +284,10 @@ public class MainController implements Initializable {
 
     void showManageAccount() {
         if (!isShowManageAccount) {
-            new FlipInX(pnl_ManageAccount).play();
+            pnl_ManageAccount.setOpacity(1);
+            new SlideInDown(pnl_ManageAccount).play();
         } else {
-            new FlipOutX(pnl_ManageAccount).play();
+            new FadeOutUp(pnl_ManageAccount).play();
         }
         isShowManageAccount = !isShowManageAccount;
     }

@@ -24,17 +24,21 @@ import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -61,6 +65,7 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.Validation;
 import until.Value;
+import static until.Value.Pay;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -334,23 +339,33 @@ public class DisplayProductController implements Initializable {
             loadStatus();
         });
         btn_Buy.setOnMouseClicked((evt) -> {
-            Order order = new Order();
-            Date date = new Date();
-            String sdate = ProcessDate.toString(date);
-            date = ProcessDate.toDate(sdate);
-
-            order.setAccountId(Auth.USER.getAccountId());
-            order.setCreationDate(date);
-            order.setStatus(1);
-            new OrderDAO().insert(order);
-            order = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
-            OrderDetail orde = new OrderDetail();
-            orde.setOrderID(order.getOrderID());
-            orde.setApplicationId(app.getApplicationID());
-            orde.setPrice(app.getPrice());
-            orde.setSale(app.getSale());
-            new OrderDetailDAO().insert(orde);
-            loadStatus();
+//            Order order = new Order();
+//            Date date = new Date();
+//            String sdate = ProcessDate.toString(date);
+//            date = ProcessDate.toDate(sdate);
+//
+//            order.setAccountId(Auth.USER.getAccountId());
+//            order.setCreationDate(date);
+//            order.setStatus(1);
+//            new OrderDAO().insert(order);
+//            order = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
+//            OrderDetail orde = new OrderDetail();
+//            orde.setOrderID(order.getOrderID());
+//            orde.setApplicationId(app.getApplicationID());
+//            orde.setPrice(app.getPrice());
+//            orde.setSale(app.getSale());
+//            new OrderDetailDAO().insert(orde);
+//            loadStatus();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Pay));
+            Node node;
+            try {
+                node = (Node) loader.load();
+                PayController controller = loader.getController();
+                controller.setInformation(app);
+                PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
@@ -502,7 +517,7 @@ public class DisplayProductController implements Initializable {
             }
 
         }
-        
+
         if (!app.isEnableBuy()) {
             btn_Buy.setText("Out of stock");
             btn_AddWishList.setText("Out of stock");
@@ -570,10 +585,10 @@ public class DisplayProductController implements Initializable {
             comment.setTitle(txt_TitleReview.getText().trim());
             comment.setDescription(txt_DescriptionReview.getText().trim());
             comment.setCreationDate(new Date());
-            
+
             txt_DescriptionReview.setText("");
             txt_TitleReview.setText("");
-            if(!Auth.USER.isComment()){
+            if (!Auth.USER.isComment()) {
                 Dialog.showMessageDialog("Comment failed!!!", "Sorry you can't comment because your account has been blocked by ADMIN");
                 return;
             }

@@ -11,6 +11,7 @@ import Animation.MoveRight;
 import Animation.RoundedImageView;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -37,7 +38,7 @@ public class Row_NewsController implements Initializable {
     /**
      * Initializes the controller class.
      */
-     @FXML
+    @FXML
     private Label lbl_CreationDate;
 
     @FXML
@@ -60,8 +61,9 @@ public class Row_NewsController implements Initializable {
     private Pane pane2;
     @FXML
     private Pane pane3;
-    
+
     private boolean isShowOption = false;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         RoundedImageView.RoundedImage(img_Icon, 10);
@@ -81,17 +83,20 @@ public class Row_NewsController implements Initializable {
             }
             isShowOption = !isShowOption;
         });
-    }    
-     void setNewsInfor(News entity){
-        lbl_Title.setText(ProcessString.cutString(entity.getTitle(),100));
-        lbl_Content.setText(ProcessString.cutString(entity.getDescription(),130));
-        lbl_NewsID.setText(""+entity.getNewsID());
-        lbl_Views.setText(""+entity.getViews());
-        lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));
-        if (entity.getImage()!=null) {
-            img_Icon.setImage(new Image(ProcessImage.toFile(entity.getImage(), "appIcon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(img_Icon, 10);
-        }
     }
-    
+
+    void setNewsInfor(News entity) {
+        Platform.runLater(() -> {
+            lbl_Title.setText(ProcessString.cutString(entity.getTitle(), 100));
+            lbl_Content.setText(ProcessString.cutString(entity.getDescription(), 130));
+            lbl_NewsID.setText("" + entity.getNewsID());
+            lbl_Views.setText("" + entity.getViews());
+            lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));
+            if (entity.getImage() != null) {
+                img_Icon.setImage(new Image(ProcessImage.toFile(entity.getImage(), "appIcon.png").toURI().toString()));
+                RoundedImageView.RoundedImage(img_Icon, 10);
+            }
+        });
+    }
+
 }
