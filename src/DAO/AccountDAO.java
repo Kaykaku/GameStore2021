@@ -30,6 +30,7 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String select_By_Email = "select * from Accounts where Email = ?";
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password]) VALUES (?, ?, ?)";
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
+    private final String select_Email = "select Email from Accounts";
     
     @Override
     public void insert(Account entity) {
@@ -70,7 +71,21 @@ public class AccountDAO extends DAO<Account, Integer> {
         return this.selectBySql(select_By_KeyWord, keys, keys, keys);
 
     }
-
+    public List<Account> selectEmail() {
+        List<Account> list = new ArrayList<>();
+        try {
+            ResultSet resultSet = Connect_Jdbc.query(select_Email);
+            while (resultSet.next()) {
+                String Email = resultSet.getString("Email");
+                Account account = new Account(Email);
+                list.add(account);
+            }
+            resultSet.getStatement().getConnection().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     @Override
     public List<Account> selectBySql(String sql, Object... args) {
         List<Account> list = new ArrayList<Account>();
@@ -78,7 +93,7 @@ public class AccountDAO extends DAO<Account, Integer> {
             ResultSet resultSet = Connect_Jdbc.query(sql, args);
             while (resultSet.next()) {
                 Account entity = new Account();
-                entity.setAccountId(resultSet.getInt("AccountID"));
+                entity.setAccountId(resultSet.getInt("AccountId"));
                 entity.setName(resultSet.getString("Name"));
                 entity.setBirthDay(resultSet.getDate("BirthDay"));
                 entity.setGender(resultSet.getBoolean("Gender"));

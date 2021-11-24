@@ -257,7 +257,13 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXTextArea fx:id="txt_Description" layoutX="20.0" layoutY="56.0" prefHeight="135.0" prefWidth="550.0" promptText="Enter description here" styleClass="text_input" />
+            <JFXTextArea fx:id="txt_Description" layoutX="20.0" layoutY="56.0" prefHeight="70.0" prefWidth="550.0" promptText="Enter description here" styleClass="text_input" />
+            <HBox fx:id="hbox_Controller1" layoutX="83.0" layoutY="156.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btn_sendGames" layoutX="440.0" layoutY="740.0" onAction="#handleButtonSendGames" prefHeight="30.0" prefWidth="109.0" styleClass="button_type1" text="Send new Game" />
+                  <JFXButton fx:id="btn_sendSale" layoutX="550.0" layoutY="740.0" onAction="#handleButtonSendSales" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Send Sale Email" />
+               </children>
+            </HBox>
          </children>
       </Pane>
       <Pane fx:id="pnl_Status" layoutX="610.0" layoutY="580.0" prefHeight="200.0" prefWidth="260.0" styleClass="pnl_view">

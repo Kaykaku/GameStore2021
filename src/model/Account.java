@@ -47,6 +47,10 @@ public class Account {
         this.comment = comment;
     }
 
+    public Account(String Email) {
+        this.Email = Email;
+    }
+
     public int getAccountId() {
         return accountId;
     }
@@ -157,6 +161,11 @@ public class Account {
 
     public void setComment(boolean comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public String toString() {
+         return  Email;
     }
 
 }

@@ -62,6 +62,14 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         return selectBySql(sql, keys).isEmpty() ? null : selectBySql(sql, keys).get(0);
     }
 
+    public List<Application> selectSale() {
+     String sql = "Select Sale from Applications where Sale >0 ";
+        return selectBySql(sql);
+    }
+    public List<Application> selectLastApp() {
+     String sql = "select * from Applications WHERE ApplicationId = (SELECT MAX(ApplicationId) FROM Applications)";
+        return selectBySql(sql);
+    }
     @Override
     public List<Application> selectByKeyWord(String keys) {
         String sql = "SELECT * FROM Applications where Name like ? or ApplicationId like ?";

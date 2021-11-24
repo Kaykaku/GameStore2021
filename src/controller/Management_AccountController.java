@@ -15,18 +15,24 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableCell;
@@ -37,10 +43,13 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import model.Account;
 import until.Dialog;
@@ -182,7 +191,9 @@ public class Management_AccountController implements Initializable {
     
     @FXML
     private JFXButton btn_PDFAccount;
-
+    
+    public static JFXTextField static_Mail;
+    public static Stage static_Stage;
     private JFXDatePicker datePicker_CreationDate;
     private JFXDatePicker datePicker_Birthday;
     AccountDAO accountDAO = new AccountDAO();
@@ -217,6 +228,7 @@ public class Management_AccountController implements Initializable {
                     public void run() {
                         fillCboCountry();
                         fillTable();
+                        static_Mail = txt_Email ;  
                     }
                 });
             }
@@ -482,6 +494,21 @@ public class Management_AccountController implements Initializable {
         btn_Delete.setOnMouseClicked((event) -> {
             delete();
         });
+        btn_SendMail.setOnMouseClicked((MouseEvent event) -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/Form/Mail_Sending.fxml"));
+                Parent root1 = (Parent) fxmlLoader.load();
+                Stage stage = new Stage();
+                static_Stage = stage;
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(new Scene(root1));
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            });
+    
+
     }
 
     void displayFormAnimation() {

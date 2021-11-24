@@ -6,6 +6,7 @@
 package controller;
 
 import Animation.RoundedImageView;
+import DAO.AccountDAO;
 import DAO.ApplicationDAO;
 import DAO.CategoryDAO;
 import com.jfoenix.controls.JFXDatePicker;
@@ -16,6 +17,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,6 +38,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import model.Account;
 import model.Application;
 import until.Catch_Errors;
 import until.Dialog;
@@ -158,9 +164,18 @@ public class Management_ProductController implements Initializable {
 
     @FXML
     private JFXButton btn_DPFProduct;
+    @FXML
+    private JFXButton btn_sendSale;
 
+    @FXML
+    private JFXButton btn_sendGames;
+    
+    
     ApplicationDAO applicationDAO = new ApplicationDAO();
     List<Application> listApplications = new ArrayList<>();
+    List<Account> Emails = new ArrayList<>();
+    AccountDAO AccDAO = new AccountDAO();
+    ApplicationDAO appDAO = new ApplicationDAO();
     CategoryDAO categoryDao = new CategoryDAO();
     JFXDatePicker datePicker_CreationDate = new JFXDatePicker();
     JFXDatePicker datePicker_ReleaseDay = new JFXDatePicker();
@@ -168,6 +183,7 @@ public class Management_ProductController implements Initializable {
     boolean isEdit = false;
     File avatarIcon;
     File avatarImage;
+    File avtImg;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -335,7 +351,37 @@ public class Management_ProductController implements Initializable {
         tog_Active.setSelected(false);
         tog_EnableBuy.setSelected(false);
     }
+    private void sendMailAbtSale() throws IOException, MessagingException, InterruptedException{
+        avtImg = null;
+        Mail_SendingController msd = new Mail_SendingController();
+        Multipart multipart = msd.handleMultipart();
+        Emails = AccDAO.selectEmail();
+        Session session = Mail_SendingController.SendMail();
+        listApplications = appDAO.selectSale();
+        String Subject = "GAMESTORE IS NOW HAVING A REALLY BIG DISCOUNT";
+        int x = listApplications.size();
+        String Text= "Hi, How are you doing, we are now having "+x+" games are on sale"
+        + "  \nwhich are gonna blow your mind, open GameXStore and check it out!"+
+        "\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();
 
+        Mail_SendingController.sendMailsabtDiscount(multipart,Emails,session,listApplications,Subject,Text,avtImg);
+    }
+    @SuppressWarnings("empty-statement")
+    private void sendMailAbtGame() throws IOException, InterruptedException, MessagingException{
+        Mail_SendingController msd = new Mail_SendingController();
+        Multipart multipart = msd.handleMultipart();
+        Emails = AccDAO.selectEmail();
+        Session session = Mail_SendingController.SendMail();
+        listApplications = appDAO.selectLastApp();
+        String Subject = "GAMESTORE JUST HAVE GOT A NEW GAME - GO CHECK IT OUT";
+        int x = listApplications.size();
+        String Text= "Hi, How are you doing again?, A new Game just went on sale,It is "+listApplications.get(0).getName()+
+        ", \nDeveloped by "+listApplications.get(0).getDeveloper()+" which is gonna blow your mind, open GameXStore and check it out!"+
+        "\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();;
+            avtImg = ProcessImage.toFile(listApplications.get(0).getAppImage(), "avatar.png");
+        Mail_SendingController.sendMailsabtDiscount(multipart,Emails,session,listApplications,Subject,Text,avtImg);
+        
+    }
     private void insert() {
         Application App = getForm();
         try {
@@ -466,6 +512,14 @@ public class Management_ProductController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    private void handleButtonSendSales(ActionEvent event) throws IOException, MessagingException, InterruptedException {
+        this.sendMailAbtSale();
+    }
+    @FXML
+    private void handleButtonSendGames(ActionEvent event) throws IOException, MessagingException, InterruptedException {
+        this.sendMailAbtGame();
     }
 
     private void displayFormAnimation() {
