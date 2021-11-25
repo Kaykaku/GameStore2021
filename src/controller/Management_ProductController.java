@@ -5,43 +5,57 @@
  */
 package controller;
 
+import Animation.PulseShort;
 import Animation.RoundedImageView;
+import DAO.AppTypeDAO;
 import DAO.ApplicationDAO;
 import DAO.CategoryDAO;
 import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import com.sun.javafx.tk.FontLoader;
+import com.sun.javafx.tk.Toolkit;
 import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
+import model.AppType;
 import model.Application;
+import model.Category;
 import until.Catch_Errors;
 import until.Dialog;
-import until.ExportPDF;
 import until.ProcessDate;
 import until.ProcessImage;
+import until.ProcessString;
+import until.Validation;
 import until.Value;
 
 /**
@@ -55,10 +69,13 @@ public class Management_ProductController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
+    private ImageView Img_AppImage;
+
+    @FXML
     private JFXTextArea txt_Description;
 
     @FXML
-    private JFXButton btn_clear;
+    private JFXToggleButton tog_Display;
 
     @FXML
     private JFXTextField txt_Price;
@@ -73,7 +90,13 @@ public class Management_ProductController implements Initializable {
     private Pane pnl_Add_Info;
 
     @FXML
+    private Pane pnl_Container;
+
+    @FXML
     private TextField txt_SreachApp;
+
+    @FXML
+    private ImageView Img_AppIcon;
 
     @FXML
     private VBox box_ListProduct;
@@ -85,7 +108,16 @@ public class Management_ProductController implements Initializable {
     private JFXButton btn_Add;
 
     @FXML
+    private JFXButton btn_Delete;
+
+    @FXML
+    private Circle circle;
+    
+    @FXML
     private JFXTextField txt_Languages;
+
+    @FXML
+    private JFXComboBox<String> cbo_Category;
 
     @FXML
     private Pane pnl_List_Product;
@@ -106,9 +138,6 @@ public class Management_ProductController implements Initializable {
     private Label lbl_GameID;
 
     @FXML
-    private JFXButton btn_delete;
-
-    @FXML
     private JFXButton btn_Update;
 
     @FXML
@@ -124,25 +153,34 @@ public class Management_ProductController implements Initializable {
     private Pane pnl_Title;
 
     @FXML
-    private ImageView Img_Icon;
-
-    @FXML
     private Pane pnl_Status;
-
-    @FXML
-    private JFXToggleButton tog_Active;
 
     @FXML
     private Pane pnl_CreationDate;
 
     @FXML
+    private Label lbl_CategoryCount;
+
+    @FXML
+    private JFXToggleButton tog_Type;
+
+    @FXML
+    private JFXButton btn_AddCategory;
+
+    @FXML
+    private JFXButton btn_Clear;
+
+    @FXML
+    private JFXButton btn_DPFProduct;
+
+    @FXML
     private Label lbl_OnSale;
 
     @FXML
-    private ImageView Img_Game;
+    private Pane pnl_List;
 
     @FXML
-    private Pane pnl_List;
+    private Label lbl_Message;
 
     @FXML
     private Pane pnl_Category;
@@ -156,15 +194,12 @@ public class Management_ProductController implements Initializable {
     @FXML
     private Pane pnl_ReleaseDate;
 
-    @FXML
-    private JFXButton btn_DPFProduct;
-
     ApplicationDAO applicationDAO = new ApplicationDAO();
     List<Application> listApplications = new ArrayList<>();
     CategoryDAO categoryDao = new CategoryDAO();
+    AppTypeDAO appTypeDAO = new AppTypeDAO();
     JFXDatePicker datePicker_CreationDate = new JFXDatePicker();
     JFXDatePicker datePicker_ReleaseDay = new JFXDatePicker();
-    Image image = new Image("icons/add-image (1).png");
     boolean isEdit = false;
     File avatarIcon;
     File avatarImage;
@@ -172,15 +207,27 @@ public class Management_ProductController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.showDatePicker();
-        this.EventSearch();
-        this.ExportPDFProduct();
-        this.fillListApplication();
         this.displayFormAnimation();
-        btn_Update.setDisable(true);
-        btn_delete.setDisable(true);
-        ProcessDate.converter(datePicker_CreationDate);
-        ProcessDate.converter(datePicker_ReleaseDay);
+        loadAppCategories(new Application());
+        setEvent();
+        fillDataOnBackground();
+        updateStatus();
+    }
 
+    void fillDataOnBackground() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                }
+                Platform.runLater(() -> {
+                    fillCboCategory();
+                    fillListApplication();
+                });
+            }
+        }.start();
     }
 
     private void fillListApplication() {
@@ -207,66 +254,144 @@ public class Management_ProductController implements Initializable {
                 controllers[h].setAppInfo(listApplications.get(h));
 
                 nodes[h].setOnMouseClicked(evt -> {
+                    isEdit = true;
+                    edit();
+                    for (Row_ProductController controller : controllers) {
+                        controller.setSelected(false);
+                    }
+                    controllers[h].setSelected(true);
+                    new PulseShort(pnl_Image).play();
+                    new PulseShort(pnl_Basic_Info).play();
                     setFormApp(listApplications.get(h));
-                    btn_Add.setDisable(true);
-                    btn_Update.setDisable(false);
-                    btn_delete.setDisable(false);
-                });
 
-                nodes[h].setOnMouseClicked(evt -> {
-                    setFormApp(listApplications.get(h));
-                    btn_Add.setDisable(true);
                     btn_Update.setDisable(false);
-                    btn_delete.setDisable(false);
-                });
-
-                nodes[h].setOnMouseClicked(evt -> {
-                    setFormApp(listApplications.get(h));
-                    btn_Add.setDisable(true);
-                    btn_Update.setDisable(false);
-                    btn_delete.setDisable(false);
-
+                    btn_Delete.setDisable(false);
                 });
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
 
+        }
+    }
+
+    void fillCboCategory() {
+        List<Category> list = categoryDao.selectAll();
+        List<String> categories = new ArrayList<>();
+        list.forEach((category) -> {
+            categories.add(category.getName());
+        });
+
+        cbo_Category.getItems().clear();
+        cbo_Category.getItems().addAll(categories);
+    }
+
+    void loadAppCategories(Application entity) {
+        List<AppType> list = appTypeDAO.selectByApplicationId(entity.getApplicationID());
+        lbl_CategoryCount.setText(list.size() + "");
+
+        pnl_Container.getChildren().clear();
+        double width = 0, x = 10, y = 10;
+        if(list.size()==0){
+            lbl_CategoryCount.setText("1");
+            Category ca = categoryDao.selectByID(1);
+            Label label = new Label(ca.getName());
+            label.setStyle("-fx-background-radius : 10px; -fx-text-fill : white; -fx-background-color : " + ca.getColor());
+            pnl_Container.getChildren().add(label);
+
+            x += width;
+            if ((x * 1.2) > pnl_Container.getPrefWidth()) {
+                x = 10;
+                y += 30;
+            }
+            label.setLayoutX(x);
+            label.setLayoutY(y);
+            label.setPadding(new Insets(2, 10, 2, 10));
+            FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
+            label.setFont(Font.font("Arial", FontWeight.THIN, FontPosture.REGULAR, 16));
+            width = fontLoader.computeStringWidth(label.getText(), label.getFont()) + 30;
+            x = label.getLayoutX();
+        }
+        for (AppType appType : list) {
+            Category ca = categoryDao.selectByID(appType.getCategoryId());
+            Label label = new Label(ca.getName());
+            label.setStyle("-fx-background-radius : 10px; -fx-text-fill : white; -fx-background-color : " + ca.getColor());
+            pnl_Container.getChildren().add(label);
+
+            x += width;
+            if ((x * 1.2) > pnl_Container.getPrefWidth()) {
+                x = 10;
+                y += 30;
+            }
+            label.setLayoutX(x);
+            label.setLayoutY(y);
+            label.setPadding(new Insets(2, 10, 2, 10));
+            FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
+            label.setFont(Font.font("Arial", FontWeight.THIN, FontPosture.REGULAR, 16));
+            width = fontLoader.computeStringWidth(label.getText(), label.getFont()) + 30;
+            x = label.getLayoutX();
+
+            label.setOnMouseClicked((event) -> {
+
+                if (appType.getCategoryId() == 1) {
+                    ProcessString.showMessage(lbl_Message, "Category ALL is default!");
+                    return;
+                }
+                appTypeDAO.delete(appType);
+                ProcessString.showMessage(lbl_Message, "Successfully deleted!");
+                setFormApp(applicationDAO.selectByID(appType.getApplicationID()));
+            });
+            final Tada ani = new Tada(label);
+            ani.setCycleCount(Integer.MAX_VALUE);
+            label.setOnMouseEntered((evt) -> {
+                ani.play();
+            });
+            label.setOnMouseExited((evt) -> {
+                ani.stop();
+                label.setScaleX(1);
+                label.setScaleY(1);
+                label.setScaleZ(1);
+                label.setRotate(0);
+            });
         }
     }
 
     private void showDatePicker() {
         datePicker_CreationDate.setValue(ProcessDate.toLocalDate(ProcessDate.now()));
         datePicker_CreationDate.setEditable(false);
-        datePicker_CreationDate.setDefaultColor(Paint.valueOf("lightblue"));
-        datePicker_ReleaseDay.setDefaultColor(Paint.valueOf("lightblue"));
-        datePicker_CreationDate.setStyle("-fx-text-fill: green");
-        datePicker_ReleaseDay.setStyle("-fx-text-fill: #ffffff");
         pnl_CreationDate.getChildren().add(datePicker_CreationDate);
         pnl_ReleaseDate.getChildren().add(datePicker_ReleaseDay);
+        ProcessDate.converter(datePicker_CreationDate);
+        ProcessDate.converter(datePicker_ReleaseDay);
+        datePicker_ReleaseDay.setDefaultColor(Color.LIGHTBLUE);
+        datePicker_CreationDate.setDefaultColor(Color.LIGHTBLUE);
+        datePicker_CreationDate.setDisable(true);
     }
 
     private void setAvatarIcon() {
         if (avatarIcon != null) {
-            Img_Icon.setImage(new Image(avatarIcon.toURI().toString()));
+            Img_AppIcon.setImage(new Image(avatarIcon.toURI().toString()));
         } else {
-            Img_Icon.setImage(new Image(new File("icons/add-image (1).png").toURI().toString()));
+            Img_AppIcon.setImage(new Image(new File("src/icons/refresh120.png").toURI().toString()));
         }
-        RoundedImageView.RoundedImage(Img_Icon, 200);
+        RoundedImageView.RoundedImage(Img_AppIcon, 200);
     }
 
     private void setAvatarImage() {
         if (avatarImage != null) {
-            Img_Game.setImage(new Image(avatarImage.toURI().toString()));
+            Img_AppImage.setImage(new Image(avatarImage.toURI().toString()));
         } else {
-            Img_Game.setImage(new Image(new File("icons/add-image (1).png").toURI().toString()));
+            Img_AppImage.setImage(new Image(new File("src/icons/icons8_picture_200px_1.png").toURI().toString()));
         }
-        RoundedImageView.RoundedImage(Img_Game, 32);
+        RoundedImageView.RoundedImage(Img_AppImage, 32);
     }
 
     public void setFormApp(Application entity) {
-        lbl_GameID.setText(entity.getApplicationID() + "");
-        txt_Name.setText(entity.getName());
-        txt_Price.setText(entity.getPrice() + "");
-        txt_Size.setText(entity.getSize() + "");
+        loadAppCategories(entity);
+        lbl_GameID.setText(isEdit ? entity.getApplicationID() + "" : "");
+        txt_Name.setText(isEdit ? entity.getName() + "" : "");
+        double number =(double) Math.round(entity.getPrice()*100)/100;
+        txt_Price.setText(isEdit ? number + "" : "");
+        number =(double) Math.round(entity.getSize()*100)/100;
+        txt_Size.setText(isEdit ? number + "" : "");
         if (entity.getAppImage() != null) {
             avatarImage = ProcessImage.toFile(entity.getAppImage(), "avatar.png");
         }
@@ -277,148 +402,183 @@ public class Management_ProductController implements Initializable {
         setAvatarIcon();
         txt_Developed.setText(entity.getDeveloper());
         txt_Published.setText(entity.getPublisher());
-        datePicker_CreationDate.setValue(ProcessDate.toLocalDate(entity.getCreationDate()));
-        datePicker_ReleaseDay.setValue(ProcessDate.toLocalDate(entity.getReleaseDay()));
+        datePicker_CreationDate.setValue(isEdit ? ProcessDate.toLocalDate(entity.getCreationDate()) : LocalDate.now());
+        datePicker_ReleaseDay.setValue(isEdit ? ProcessDate.toLocalDate(entity.getReleaseDay()) : null);
         txt_Languages.setText(entity.getLanguages());
-        txt_Sale.setText(entity.getSale() + "");
-        txt_Description.setText(entity.getDescription());
-        tog_Active.setSelected(entity.isActive());
+        number =(double) Math.round(entity.getSale()*100)/100;
+        txt_Sale.setText(isEdit ? number + "" : "");
+        txt_Description.setText(isEdit ? entity.getDescription() + "" : "");
+        tog_Display.setSelected(entity.isActive());
+        tog_Type.setSelected(entity.isType());
         tog_EnableBuy.setSelected(entity.isEnableBuy());
     }
-    int s;
 
     private Application getForm() {
-        Application App = new Application();
-        App.setName(txt_Name.getText().trim());
-        App.setPrice(Float.parseFloat(txt_Price.getText()));
-        App.setSize(Float.parseFloat(txt_Size.getText()));
-        App.setAppImage(ProcessImage.toBytes(new File("/icons/add-image (1).png")));
-        if (avatarImage != null) {
-            App.setAppImage(ProcessImage.toBytes(avatarImage));
+        String err = "";
+        err += Validation.validationJFXTextFieldLength(txt_Name, "APPLICATION NAME", 3, 100);
+        err += Validation.validationPrice(txt_Price);
+        err += Validation.validationSize(txt_Size);
+        err += Validation.validationImage(Img_AppIcon, avatarIcon , circle, "APPICON");
+        err += Validation.validationImage(Img_AppImage, avatarImage, "APP IMAGE");
+        err += Validation.validationSale(txt_Sale);
+        err += Validation.validationDate(datePicker_ReleaseDay, "RELEASE DATE");
+        err += Validation.validationJFXTextAreaLength(txt_Description, "DESCRIPTION", 10, 4000);
+        if (err.isEmpty()) {
+            Application app = new Application();
+            app.setApplicationID(isEdit?Integer.parseInt(lbl_GameID.getText().trim()):-1);
+            app.setName(txt_Name.getText().trim());
+            app.setPrice(Double.parseDouble(txt_Price.getText().trim()));
+            app.setSize(Double.parseDouble(txt_Size.getText().trim()));
+            app.setAppImage(ProcessImage.toBytes(new File("/icons/add-image (1).png")));
+            if (avatarImage != null) {
+                app.setAppImage(ProcessImage.toBytes(avatarImage));
+            }
+            app.setAppIcon(ProcessImage.toBytes(new File("/icons/add-image (1).png")));
+            if (avatarIcon != null) {
+                app.setAppIcon(ProcessImage.toBytes(avatarIcon));
+            }
+            app.setDeveloper(txt_Developed.getText());
+            app.setPublisher(txt_Published.getText());
+            app.setCreationDate(ProcessDate.toDate((datePicker_CreationDate.getValue())));
+            app.setReleaseDay(ProcessDate.toDate(datePicker_ReleaseDay.getValue()));
+            app.setLanguages(txt_Languages.getText());
+            app.setSale(Double.parseDouble(txt_Sale.getText().trim().isEmpty()?0+"":txt_Sale.getText().trim()));
+            app.setDescription(txt_Description.getText());
+            app.setActive(tog_Display.isSelected());
+            app.setType(tog_Type.isSelected());
+            app.setEnableBuy(tog_EnableBuy.isSelected());
+            return app;
         }
-        App.setAppIcon(ProcessImage.toBytes(new File("/icons/add-image (1).png")));
-        if (avatarIcon != null) {
-            App.setAppIcon(ProcessImage.toBytes(avatarIcon));
-        }
-        App.setDeveloper(txt_Developed.getText());
-        App.setPublisher(txt_Published.getText());
-        App.setCreationDate(ProcessDate.toDate((datePicker_CreationDate.getValue())));
-        App.setReleaseDay(ProcessDate.toDate(datePicker_ReleaseDay.getValue()));
-        App.setLanguages(txt_Languages.getText());
-        App.setSale(Float.parseFloat(txt_Sale.getText()));
-        App.setDescription(txt_Description.getText());
-        App.setActive(tog_Active.isSelected());
-        App.setEnableBuy(tog_EnableBuy.isSelected());
-        if (lbl_GameID.getText().equals("Game ID") == false) {
-            App.setApplicationID(Integer.parseInt(lbl_GameID.getText()));
-        } else {
-            App.setApplicationID(s);
-        }
-        return App;
-
+        ProcessString.showMessage(lbl_Message, "An error occurred on the form!");
+        Dialog.showMessageDialog("Wrong data", err);
+        return null;
     }
 
-    private void setApplication(Application entity) {
-        lbl_GameID.setText("Game ID");
-        txt_Name.setText(isEdit ? entity.getName() : "");
-        txt_Price.setText(isEdit ? entity.getPrice() + "" : "");
-        txt_Size.setText(isEdit ? entity.getSize() + "" : "");
-        Img_Game.setImage(image);
-        Img_Icon.setImage(image);
-        txt_Developed.setText(entity.getDeveloper());
-        txt_Published.setText(entity.getPublisher());
-        datePicker_CreationDate.setValue(ProcessDate.toLocalDate(ProcessDate.now()));
-        datePicker_ReleaseDay.setValue(null);
-        txt_Languages.setText(entity.getLanguages());
-        txt_Sale.setText(entity.getSale() + "");
-        txt_Description.setText("");
-        tog_Active.setSelected(false);
-        tog_EnableBuy.setSelected(false);
+    private void clearForm() {
+        isEdit = false;
+        avatarIcon = null;
+        avatarImage = null;
+        setFormApp(new Application());
+        txt_SreachApp.setText("");
+        fillListApplication();
+        updateStatus();
+        clearColor();
+        ProcessString.showMessage(lbl_Message, "Clear form !!!");
+    }
+
+    private void clearColor() {
+        Validation.clearColor(txt_Name);
+        Validation.clearColor(txt_Price);
+        Validation.clearColor(txt_Size);
+        Validation.clearColor(txt_Sale);
+        Validation.clearColor(datePicker_ReleaseDay);
+        Validation.clearColor(txt_Description);
+    }
+
+    void edit() {
+        isEdit = true;
+        clearColor();
+        updateStatus();
     }
 
     private void insert() {
-        Application App = getForm();
-        try {
-            applicationDAO.insert(App);
-            fillListApplication();
-            this.Clear();
-            Dialog.showMessageDialog("Notice", "Inserted Successful!");
-        } catch (Exception e) {
-            e.printStackTrace();
+        Application entity = getForm();
+        if (entity == null) {
+            return;
         }
+        applicationDAO.insert(entity);
+        
+        clearForm();
+        entity = listApplications.get(listApplications.size()-1);
+        new AppTypeDAO().insert(new AppType(entity.getApplicationID(), 1));
+        ProcessString.showMessage(lbl_Message, "Inserted successfully !");
+        
     }
 
-    private void Update() {
-        Application App = getForm();
-        try {
-            applicationDAO.update(App);
-            fillListApplication();
-            this.Clear();
-            Dialog.showMessageDialog("Notice", "Updated Successful!");
-        } catch (Exception e) {
-
+    private void update() {
+        Application entity = getForm();
+        if (entity == null) {
+            return;
         }
+        applicationDAO.update(entity);
+        fillListApplication();
+        ProcessString.showMessage(lbl_Message, "Update successfully ID-" + entity.getApplicationID() + " !");
     }
 
-    private void Delete() {
+    private void delete() {
         Integer ID = Integer.parseInt(lbl_GameID.getText().trim());
-        try {
-            applicationDAO.delete(ID);
-            fillListApplication();
-            this.Clear();
-        } catch (Exception e) {
+        applicationDAO.delete(ID);
+        clearForm();
+        ProcessString.showMessage(lbl_Message, "Deleted successfully ID-" + ID + " !");
+    }
+    
+    void insertAppType(AppType entity) {
+        if (entity == null) {
+            return;
         }
-
+        List<AppType> list = appTypeDAO.selectByApplicationId(entity.getApplicationID());
+        if (list.size() > 6) {
+            ProcessString.showMessage(lbl_Message, "Too much categories!");
+            return;
+        }
+        appTypeDAO.insert(entity);
+        loadAppCategories(applicationDAO.selectByID(entity.getApplicationID()));
+        ProcessString.showMessage(lbl_Message, "Inserted category successfully !");
+    }
+    private void updateStatus() {
+        btn_Add.setDisable(isEdit);
+        btn_Update.setDisable(!isEdit);
+        btn_Delete.setDisable(!isEdit);
+        btn_AddCategory.setDisable(!isEdit);
     }
 
-    private void Clear() {
-        btn_Add.setDisable(false);
-        btn_Update.setDisable(true);
-        btn_delete.setDisable(true);
-        this.setApplication(new Application());
-    }
-
-    private void EventSearch() {
-        txt_SreachApp.setOnKeyReleased(evt -> {
+    private void setEvent() {
+        txt_SreachApp.setOnKeyReleased((event) -> {
             fillListApplication();
             if (listApplications.size() > 0) {
                 setFormApp(listApplications.get(0));
             }
         });
-    }
-
-    private void ExportPDFProduct() {
-        btn_DPFProduct.setOnAction(evt -> {
-            try {
-                ExportPDF.exportPDFProduct();
-                Dialog.showMessageDialog(null, "File save successfully!");
-            } catch (Exception ex) {
-                ex.printStackTrace();
+        Img_AppImage.setOnMouseClicked((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            avatarImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+            if (avatarImage != null) {
+                setAvatarImage();
             }
         });
-    }
-
-    @FXML
-    private void handleImageGame(MouseEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        avatarImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
-        if (avatarImage != null) {
-            setAvatarImage();
-        }
-    }
-
-    @FXML
-    private void handleImageIcon(MouseEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        avatarIcon = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
-        if (avatarIcon != null) {
-            setAvatarIcon();
-        }
-    }
-
-    @FXML
-    private void handleButtonClearAction(ActionEvent event) {
-        this.Clear();
+        Img_AppIcon.setOnMouseClicked((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            avatarIcon = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+            if (avatarIcon != null) {
+                setAvatarIcon();
+            }
+        });
+        btn_Add.setOnMouseClicked((event) -> {
+            insert();
+        });
+        btn_Clear.setOnMouseClicked((event) -> {
+            clearForm();
+        });
+        btn_Update.setOnMouseClicked((event) -> {
+            update();
+        });
+        btn_Delete.setOnMouseClicked((event) -> {
+            delete();
+        });
+        btn_AddCategory.setOnMouseClicked((evt) -> {
+            if (cbo_Category.getSelectionModel().getSelectedIndex() == -1) {
+                ProcessString.showMessage(lbl_Message,"Please choose categories");
+                return;
+            }
+            AppType appType = new AppType();
+            appType.setApplicationID(Integer.valueOf(lbl_GameID.getText()));
+            int id = categoryDao.selectByName(cbo_Category.getSelectionModel().getSelectedItem()).getCategoryId();
+            appType.setCategoryId(id);
+            if (!appTypeDAO.isContainAppType(appType)) {
+                insertAppType(appType);
+            }
+            setFormApp(applicationDAO.selectByID(appType.getApplicationID()));
+        });
     }
 
     @FXML
@@ -437,7 +597,6 @@ public class Management_ProductController implements Initializable {
                     this.insert();
                 }
             }
-
         }
     }
 
@@ -452,19 +611,9 @@ public class Management_ProductController implements Initializable {
                     && Catch_Errors.check_FloatProduct(txt_Sale)
                     && Catch_Errors.validationReleaseDay(datePicker_ReleaseDay)) {
                 if (Catch_Errors.check_TextAreaProduct(txt_Description)) {
-                    this.Update();
+                    this.update();
                 }
             }
-
-        }
-    }
-
-    @FXML
-    private void handleButtonDeleteAction(ActionEvent event) {
-        try {
-            this.Delete();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -483,7 +632,4 @@ public class Management_ProductController implements Initializable {
         ani.play();
     }
 
-    private Object ExportPDF() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

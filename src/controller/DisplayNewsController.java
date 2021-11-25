@@ -21,8 +21,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import model.Account;
-import model.Application;
 import model.News;
 import until.ProcessDate;
 import until.ProcessImage;

@@ -5,12 +5,15 @@
  */
 package controller;
 
+import DAO.AccountDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Account;
+import until.Auth;
 import until.Value;
 
 /**
@@ -23,8 +26,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Auth.USER = new AccountDAO().selectByID(7);
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Factory.fxml"));
-//         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_USER_INFORMATION));
+//         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_PRODUCT));
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Login.fxml"));
         Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
 

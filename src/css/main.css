@@ -3,7 +3,7 @@
     -fx-background-color: #272727;
 }
 .scroll-pane > .viewport {
-   -fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
@@ -55,20 +55,28 @@
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
-.combo-box,
+
+.choice-box .context-menu { -fx-background-color: black; }
+.choice-box .menu-item:focused { -fx-background-color: orange; }
+.choice-box .menu-item > .label { -fx-text-fill: white; }
+.choice-box .menu-item:focused > .label { -fx-text-fill: black; }
 .choice-box {
+  -fx-background-color: black;
+  -fx-mark-color: orange;
+}
+.choice-box > .label { -fx-text-fill: white; }
+
+.combo-box{
     -fx-prompt-text-fill: white;
     -fx-text-fill: white;
     -fx-background-color: none;
 }
 
-.combo-box .list-cell:filled:selected .text,
-.choice-box .list-cell:filled:selected .text {
+.combo-box .list-cell:filled:selected .text{
     -fx-fill: white;
 }
 
-.combo-box .arrow,
-.choice-box .arrow {
+.combo-box .arrow{
     -fx-background-color: white;   
 }
 .jfx-date-picker .jfx-text-field{
@@ -122,15 +130,44 @@
 .table-row-cell:even:selected{
     -fx-background-color: gray;
 }
+
+.jfx-date-picker:disabled .text-field {
+    -fx-background-color: transparent;
+    -fx-text-color: white;
+}
+.jfx-date-picker .input-line {
+    -fx-background-color:#4d4d4d;
+}
+.jfx-date-picker .input-focused-line {
+    -fx-background-color: lightblue;
+}
+.jfx-text-field .input-line {
+    -fx-background-color: #4d4d4d
+}
+.jfx-text-field .input-focused-line {
+    -fx-background-color: lightblue;
+}
+.jfx-date-picker-error .input-line {
+    -fx-background-color:red;
+}
+.jfx-text-area .input-line {
+    -fx-background-color: #4d4d4d
+}
+.jfx-text-area .input-focused-line {
+    -fx-background-color: lightblue;
+}
+
+
+
 .text-area1{
     -fx-text-fill: white ;
 }
 .text-area1 .scroll-pane{
-      -fx-background-color: #393939;
+    -fx-background-color: #393939;
 }
 .text-area1 .content{
-      -fx-background-color: #393939;
-      -fx-text-fill: white ;
+    -fx-background-color: #393939;
+    -fx-text-fill: white ;
 }
 
 .img_gradient{
@@ -163,7 +200,7 @@
 }
 .login_circle{
     -fx-background-color: #ffffff22;
-        -fx-background-radius: 10px;
+    -fx-background-radius: 10px;
 }
 .login_circle:forcused{
     -fx-background-color: #ffffffee;
@@ -278,7 +315,7 @@
 .button_type{
     -fx-background-color: #565759;
     -fx-background-radius:  0;
-    -fx-text-fill: #8b8b8b ;
+    -fx-text-fill: #eeeeee ;
 }
 .button_type:hover{
     -fx-background-color: #565759;
@@ -330,7 +367,7 @@
 .button_type6:hover{
     -fx-background-color: #cbdbfb;
 }
- .button_type7{
+.button_type7{
     -fx-background-color: #F38064;
     -fx-background-radius: 7px;
     -fx-text-fill: #000000dd ;
@@ -338,16 +375,16 @@
 .button_type7:hover{
     -fx-background-color: #F6a28d;
 }
- .button_type8{
+.button_type8{
     -fx-background-color: #76B900;
     -fx-background-radius: 7px;
     -fx-text-fill: white ;
 }
- .button_type9{
+.button_type9{
     -fx-background-color: transparent;
     -fx-background-radius: 7px;
 }
- .button_type9:hover{
+.button_type9:hover{
     -fx-background-color: #ffffff22;
 }
 .button_type10{
@@ -366,7 +403,7 @@
 }
 .button_type11:hover{
     -fx-background-color: #2467ee;
-    
+
     -fx-text-fill : #ffffff;
 }
 .glass-grey {

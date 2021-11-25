@@ -49,8 +49,8 @@ import model.AppType;
 import model.Application;
 import model.Category;
 import until.Dialog;
-import until.ExportPDF;
 import until.ProcessImage;
+import until.ProcessString;
 import until.Validation;
 import until.Value;
 
@@ -96,6 +96,12 @@ public class Management_CategoryController implements Initializable {
 
     @FXML
     private Label lbl_AppID;
+
+    @FXML
+    private Label lbl_Message;
+
+    @FXML
+    private Label lbl_Message1;
 
     @FXML
     private JFXButton btn_Update;
@@ -175,32 +181,30 @@ public class Management_CategoryController implements Initializable {
     List<Category> listCategories = new ArrayList<>();
     List<Application> listApplications = new ArrayList<>();
     boolean isEdit = false;
-    int index = -1;
-    File avatarFile = null;
+    int index = -1, indexApp = -1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fillDataOnBackground();
         displayFormAnimation();
         setEvent();
-        ExportPDFCaategory();
         updateStatus();
 
     }
 
     void fillDataOnBackground() {
+        fillTableCategories();
         new Thread() {
+            @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                 }
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        fillCboCategory();
-                        fillTableCategories();
-                        fillListApp();
-                    }
+                Platform.runLater(() -> {
+                    fillCboCategory();
+                    
+                    fillListApp();
                 });
             }
         }.start();
@@ -226,21 +230,16 @@ public class Management_CategoryController implements Initializable {
         col_Color.setCellValueFactory(new PropertyValueFactory<>("color"));
         col_AppCount.setCellValueFactory(new PropertyValueFactory<>("appCount"));
 
-        Callback<TableColumn<Category, String>, TableCell<Category, String>> callbackBoo = new Callback<TableColumn<Category, String>, TableCell<Category, String>>() {
+        Callback<TableColumn<Category, String>, TableCell<Category, String>> callbackBoo = (TableColumn<Category, String> param) -> new TableCell<Category, String>() {
             @Override
-            public TableCell<Category, String> call(TableColumn<Category, String> param) {
-                return new TableCell<Category, String>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(item);
-                            setStyle("-fx-background-color : " + item);
-                        }
-                    }
-                };
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-background-color : " + item);
+                }
             }
         };
         col_Color.setCellFactory(callbackBoo);
@@ -250,7 +249,7 @@ public class Management_CategoryController implements Initializable {
     }
 
     void fillListApp() {
-        listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim());
+        listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim(), index > 1 ? Integer.parseInt(lbl_CategoryID.getText()) : 1);
         btn_AddCategory.setDisable(true);
 
         try {
@@ -274,6 +273,7 @@ public class Management_CategoryController implements Initializable {
                 controllers[h].setAppInfo(listApplications.get(h));
 
                 nodes[h].setOnMouseClicked(evt -> {
+                    indexApp = h;
                     setFormApp(listApplications.get(h));
                     btn_AddCategory.setDisable(false);
                     for (Row_ProductController controller : controllers) {
@@ -294,21 +294,29 @@ public class Management_CategoryController implements Initializable {
         if (entity.getAppIcon() != null) {
             img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
             RoundedImageView.RoundedImage(img_AppIcon, 32);
+        } else {
+            img_AppIcon.setImage(new Image(new File("src/icons/icons8_picture_200px_1.png").toURI().toString()));
+            RoundedImageView.RoundedImage(img_AppIcon, 32);
         }
 
         List<AppType> list = appTypeDAO.selectByApplicationId(entity.getApplicationID());
         lbl_CategoryCount.setText(list.size() + "");
 
         pnl_Container.getChildren().clear();
-        double width = 0, x = 10;
+        double width = 0, x = 10, y = 10;
         for (AppType appType : list) {
             Category ca = categoryDAO.selectByID(appType.getCategoryId());
             Label label = new Label(ca.getName());
             label.setStyle("-fx-background-radius : 10px; -fx-text-fill : white; -fx-background-color : " + ca.getColor());
             pnl_Container.getChildren().add(label);
 
-            label.setLayoutX(x + width);
-            label.setLayoutY(10);
+            x += width;
+            if ((x * 1.2) > pnl_Container.getPrefWidth()) {
+                x = 10;
+                y += 30;
+            }
+            label.setLayoutX(x);
+            label.setLayoutY(y);
             label.setPadding(new Insets(2, 10, 2, 10));
             FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
             label.setFont(Font.font("Arial", FontWeight.THIN, FontPosture.REGULAR, 16));
@@ -316,11 +324,13 @@ public class Management_CategoryController implements Initializable {
             x = label.getLayoutX();
 
             label.setOnMouseClicked((event) -> {
-                if (list.size() <= 1) {
-                    Dialog.showMessageDialog("Error", "At least one category");
+
+                if (appType.getCategoryId() == 1) {
+                    ProcessString.showMessage(lbl_Message1, "Category ALL is default!");
                     return;
                 }
                 appTypeDAO.delete(appType);
+                ProcessString.showMessage(lbl_Message1, "Successfully deleted!");
                 setFormApp(applicationDAO.selectByID(appType.getApplicationID()));
                 fillTableCategories();
             });
@@ -358,6 +368,7 @@ public class Management_CategoryController implements Initializable {
 
             return entity;
         }
+        ProcessString.showMessage(lbl_Message,"An error occurred on the form!");
         Dialog.showMessageDialog("Wrong data", err);
         return null;
     }
@@ -379,20 +390,26 @@ public class Management_CategoryController implements Initializable {
     void clearForm() {
         index = -1;
         isEdit = false;
-        avatarFile = null;
         setFormCate(new Category());
+        txt_SearchCategory.setText("");
+        txt_SreachApp.setText("");
+        fillTableCategories();
+        fillListApp();
         updateStatus();
+        Validation.clearColor(txt_CategoryName);
+        ProcessString.showMessage(lbl_Message, "Clear form !!!");
     }
 
     void edit() {
-        isEdit = true;
-        avatarFile = null;
         if (index == -1) {
             return;
         }
+        isEdit = true;
+        Validation.clearColor(txt_CategoryName);
         int id = (int) col_ID.getCellObservableValue(index).getValue();
         Category entity = categoryDAO.selectByID(id);
         setFormCate(entity);
+        fillListApp();
         updateStatus();
     }
 
@@ -405,16 +422,21 @@ public class Management_CategoryController implements Initializable {
         fillTableCategories();
         clearForm();
         fillCboCategory();
+        ProcessString.showMessage(lbl_Message, "Inserted successfully !");
     }
 
     void insertAppType(AppType entity) {
         if (entity == null) {
             return;
         }
+        List<AppType> list = appTypeDAO.selectByApplicationId(entity.getApplicationID());
+        if (list.size() > 6) {
+            ProcessString.showMessage(lbl_Message1, "Too much categories!");
+            return;
+        }
         appTypeDAO.insert(entity);
         fillTableCategories();
-        clearForm();
-
+        ProcessString.showMessage(lbl_Message1, "Inserted successfully !");
     }
 
     void update() {
@@ -422,21 +444,33 @@ public class Management_CategoryController implements Initializable {
         if (entity == null) {
             return;
         }
+        if(entity.getCategoryId()==1){
+            ProcessString.showMessage(lbl_Message, "Cannot update default ID-1 ALL !");
+            return;
+        }
         categoryDAO.update(entity);
         fillTableCategories();
         clearForm();
-        setFormApp(applicationDAO.selectByID(Integer.valueOf(lbl_AppID.getText())));
+        if (indexApp != -1) {
+            setFormApp(applicationDAO.selectByID(Integer.valueOf(lbl_AppID.getText())));
+        }
         fillCboCategory();
+        ProcessString.showMessage(lbl_Message, "Update successfully + ID-" + entity.getCategoryId() + " !");
     }
 
     void delete() {
-        Category entity = getFormCate();
-        if (entity == null) {
+        int id = Integer.parseInt(lbl_CategoryID.getText());
+        if(id==1){
+            ProcessString.showMessage(lbl_Message, "Cannot delete default ID-1 ALL !");
             return;
         }
-        categoryDAO.delete(entity.getCategoryId());
+        categoryDAO.delete(id);
         fillTableCategories();
         clearForm();
+        if (indexApp != -1) {
+            setFormApp(applicationDAO.selectByID(Integer.valueOf(lbl_AppID.getText())));
+        }
+        ProcessString.showMessage(lbl_Message, "Deleted successfully ID-" + id + " !");
     }
 
     void first() {
@@ -463,17 +497,16 @@ public class Management_CategoryController implements Initializable {
         edit();
     }
 
-    private void ExportPDFCaategory() {
-        btn_PDFCategory.setOnAction(evt -> {
-            try {
-                ExportPDF.exportPDFCategory();
-                Dialog.showMessageDialog(null, "File save successfully!");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-    }
-
+//    private void ExportPDFCaategory() {
+//        btn_PDFCategory.setOnAction(evt -> {
+//            try {
+//                ExportPDF.exportPDFCategory();
+//                Dialog.showMessageDialog(null, "File save successfully!");
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        });
+//    }
     void setEvent() {
         tbl_Categories.setOnMouseClicked((event) -> {
             if (event.getClickCount() == 2) {
@@ -522,7 +555,7 @@ public class Management_CategoryController implements Initializable {
 
         btn_AddCategory.setOnMouseClicked((evt) -> {
             if (cbo_Category.getSelectionModel().getSelectedIndex() == -1) {
-                Dialog.showMessageDialog("Error", "Please choose categories");
+                ProcessString.showMessage(lbl_Message1,"Please choose categories");
                 return;
             }
             AppType appType = new AppType();

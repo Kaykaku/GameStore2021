@@ -12,6 +12,7 @@ import Animation.RoundedImageView;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -85,24 +86,31 @@ public class Row_ProductController implements Initializable {
             isShowOption = !isShowOption;
         });
     }
-    void setAppInfo(Application entity){
-        lbl_Id.setText(entity.getApplicationID()+"");
-        lbl_Name.setText(entity.getName());
-        lbl_Price.setText(entity.getPrice()==0?"Free":entity.getPrice()+"$");
-        lbl_RealeaseDate.setText(ProcessDate.toString(entity.getReleaseDay()));
-        lbl_Sale.setText(entity.getSale()+"%");
-        lbl_Size.setText(entity.getSize()+"Mb");
-        if (entity.getAppIcon()!=null) {
-            img_IconApp.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(img_IconApp, 10);
-        }
+
+    void setAppInfo(Application entity) {
+        Platform.runLater(() -> {
+            lbl_Id.setText(entity.getApplicationID() + "");
+            lbl_Name.setText(entity.getName());
+            double number =(double) Math.round(entity.getPrice()*100)/100;
+            lbl_Price.setText(number ==0? "Free" : number + "$");
+            lbl_RealeaseDate.setText(ProcessDate.toString(entity.getReleaseDay()));
+             number =(double) Math.round(entity.getSale()*100)/100;
+            lbl_Sale.setText(number + "%");
+             number =(double) Math.round(entity.getSize()*100)/100;
+            lbl_Size.setText(number + "Mb");
+            if (entity.getAppIcon() != null) {
+                img_IconApp.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+                RoundedImageView.RoundedImage(img_IconApp, 10);
+            }
+        });
     }
-    void setSelected(boolean isSelected){
-        if(isSelected){
+
+    void setSelected(boolean isSelected) {
+        if (isSelected) {
             pnl_Row.setStyle("-fx-background-color: #185FEE ;");
-        }else{
+        } else {
             pnl_Row.setStyle("-fx-background-color: #2f2f2f ;");
         }
     }
-    
+
 }

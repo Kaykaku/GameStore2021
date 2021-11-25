@@ -8,7 +8,6 @@ package controller;
 import Animation.BoxHoverAni;
 import Animation.RoundedImageView;
 import DAO.AppTypeDAO;
-import DAO.ApplicationViewDAO;
 import DAO.CategoryDAO;
 import DAO.StatisticsDAO;
 import java.io.File;
@@ -31,7 +30,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.AppType;
 import model.Application;
-import model.ApplicationView;
 import until.ProcessImage;
 import until.ProcessString;
 import until.Value;
@@ -117,19 +115,20 @@ public class Product_Box_ShortController implements Initializable {
     void setInfo(Application entity) {
         Platform.runLater(() -> {
             application = entity;
+            double number ;
             lbl_AppName.setText(ProcessString.cutString(entity.getName(), 30));
             List<AppType> listAppTypes = new AppTypeDAO().selectByApplicationId(entity.getApplicationID());
             lbl_Categories.setText(listAppTypes.size() > 1 ? categoryDAO.selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
             lbl_CategoriesCount.setText(listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : "");
-            lbl_Price.setText(entity.getPrice() == 0 ? "Free" : entity.getPrice() + "$");
-            
+            number =(double) Math.round(entity.getPrice()*100)/100;
+            lbl_Price.setText(number == 0 ? "Free" : number + "$");
             if (entity.getAppIcon() != null) {
                 img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "icon.png").toURI().toString()));
                 RoundedImageView.RoundedImage(img_AppIcon, 32);
             }
             calculateAverageRating();
         });
-
+        
     }
 
     void setCategory(int cate) {

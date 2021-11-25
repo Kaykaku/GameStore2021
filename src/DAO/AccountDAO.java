@@ -25,7 +25,7 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String select_all_sql = "select * from Accounts";
     private final String select_By_ID_sql = "select * from Accounts where AccountId = ?";
     private final String select_By_User_sql = "select * from Accounts where UserName = ?";
-    private final String select_By_KeyWord = "select * from Accounts where AccountId like ? or Name like ? or UserName like ? ";
+    private final String select_By_KeyWord = "select * from Accounts where (AccountId like ? or Name like ? or UserName like ? ) and Role like ? and Active like ? and Comment like ?";
     private final String update_Register = "update Accounts set Password = ? where Username = ?";
     private final String select_By_Email = "select * from Accounts where Email = ?";
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password]) VALUES (?, ?, ?)";
@@ -64,13 +64,27 @@ public class AccountDAO extends DAO<Account, Integer> {
         return list.get(0);
     }
 
-    @Override
     public List<Account> selectByKeyWord(String keys) {
-        keys = "%" + keys + "%";
-        return this.selectBySql(select_By_KeyWord, keys, keys, keys);
-
+        return null ;
     }
-
+    public List<Account> selectByKeyWord(String keys,int role,int active,int comment) {
+        keys = "%" + keys + "%";
+        String roleString="%";
+        String activeString="%";
+        String commentString="%";
+        if(role!=-1){
+            roleString+=role;
+        }
+        if(active!=-1){
+            activeString+=active;
+        }
+        if(comment!=-1){
+            commentString+=comment;
+        }
+        
+        return this.selectBySql(select_By_KeyWord, keys, keys, keys,roleString,activeString,commentString);
+    }
+    
     @Override
     public List<Account> selectBySql(String sql, Object... args) {
         List<Account> list = new ArrayList<Account>();

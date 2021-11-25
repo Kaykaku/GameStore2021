@@ -22,18 +22,46 @@ public class ApplicationDAO extends DAO<Application, Integer> {
     public void insert(Application entity) {
         String sql = "insert into Applications (Name,Price,Size,AppImage,AppIcon,Developer,Publisher,ReleaseDay,CreationDate,Languages,Sale,Description,Active,EnableBuy) "
                 + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(), entity.getSize(), entity.getAppImage(), entity.getAppIcon(), entity.getDeveloper(),
-                 entity.getPublisher(), entity.getReleaseDay(), entity.getCreationDate(), entity.getLanguages(), entity.getSale(), entity.getDescription(), entity.isActive(), entity.isEnableBuy());
-
+        Connect_Jdbc.update(sql,
+                entity.getName(),
+                entity.getPrice(),
+                entity.getSize(),
+                entity.getAppImage(),
+                entity.getAppIcon(),
+                entity.getDeveloper(),
+                entity.getPublisher(),
+                entity.getReleaseDay(),
+                entity.getCreationDate(),
+                entity.getLanguages(),
+                entity.getSale(),
+                entity.getDescription(),
+                entity.isActive(),
+                entity.isEnableBuy()
+        );
     }
 
     @Override
     public void update(Application entity) {
         String sql = "update Applications set Name=?,Price=?,Size=?,AppImage=?, AppIcon=?,Developer=?,Publisher=?,ReleaseDay=?,CreationDate=?,Languages=?,Sale=?,Description=?,Active=?,EnableBuy=?"
                 + " WHERE ApplicationId=? ";
-        Connect_Jdbc.update(sql, entity.getName(), entity.getPrice(), entity.getSize(), entity.getAppImage(), entity.getAppIcon(), entity.getDeveloper(),
-                 entity.getPublisher(), entity.getReleaseDay(), entity.getCreationDate(), entity.getLanguages(), entity.getSale(),
-                 entity.getDescription(), entity.isActive(), entity.isEnableBuy(), entity.getApplicationID());
+        Connect_Jdbc.update(sql,
+                entity.getName(),
+                entity.getPrice(),
+                entity.getSize(),
+                entity.getAppImage(),
+                entity.getAppIcon(),
+                entity.getDeveloper(),
+                entity.getPublisher(),
+                entity.getReleaseDay(),
+                entity.getCreationDate(),
+                entity.getLanguages(),
+                entity.getSale(),
+                entity.getDescription(),
+                entity.isActive(),
+                entity.isEnableBuy(),
+                entity.getApplicationID()
+        );
+        
     }
 
     @Override
@@ -47,13 +75,15 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         String sql = "SELECT * FROM Applications";
         return selectBySql(sql);
     }
+
     public List<Application> selectActiveAll(int active) {
         String sql = "SELECT * FROM Applications where Active=? ";
-        return selectBySql(sql,active);
+        return selectBySql(sql, active);
     }
-    public List<Application> selectActiveAll(int active,int type) {
+
+    public List<Application> selectActiveAll(int active, int type) {
         String sql = "SELECT * FROM Applications where Active=? and Type=?";
-        return selectBySql(sql,active,type);
+        return selectBySql(sql, active, type);
     }
 
     @Override
@@ -68,11 +98,19 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         keys = "%" + keys + "%";
         return selectBySql(sql, keys, keys);
     }
-    public List<Application> selectByKeyWord(int active,String keys) {
+
+    public List<Application> selectByKeyWord(String keys, int cate) {
+        String sql = "SELECT * FROM Applications a  where (Name like ? or ApplicationId like ?) and ApplicationId in (select ApplicationId from App_Type where CategoryId = ?)";
+        keys = "%" + keys + "%";
+        return selectBySql(sql, keys, keys, cate);
+    }
+
+    public List<Application> selectByKeyWord(int active, String keys) {
         String sql = "SELECT * FROM Applications where Active =? and (Name like ? or ApplicationId like ?)";
         keys = "%" + keys + "%";
-        return selectBySql(sql,active, keys, keys);
+        return selectBySql(sql, active, keys, keys);
     }
+
     @Override
     public List<Application> selectBySql(String sql, Object... args) {
         List<Application> list = new ArrayList<>();
@@ -84,8 +122,8 @@ public class ApplicationDAO extends DAO<Application, Integer> {
                 Application entity = new Application();
                 entity.setApplicationID(rs.getInt("ApplicationId"));
                 entity.setName(rs.getString("Name"));
-                entity.setPrice(rs.getFloat("Price"));
-                entity.setSize(rs.getFloat("Size"));
+                entity.setPrice(rs.getDouble("Price"));
+                entity.setSize(rs.getDouble("Size"));
                 entity.setType(rs.getBoolean("Type"));
                 entity.setAppIcon(rs.getBytes("AppIcon"));
                 entity.setAppImage(rs.getBytes("AppImage"));

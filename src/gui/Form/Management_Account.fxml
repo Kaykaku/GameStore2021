@@ -39,7 +39,10 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_Name" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter name..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Name" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter name..." styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXTextField>
             <Label layoutX="45.0" layoutY="60.0" text="Account ID" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -89,6 +92,11 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+            <Label fx:id="lbl_Message" alignment="CENTER" layoutX="210.0" layoutY="15.0" prefHeight="21.0" prefWidth="397.0" textFill="#39eee8">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane fx:id="pnl_Add_Info" layoutX="10.0" layoutY="290.0" prefHeight="230.0" prefWidth="590.0" styleClass="pnl_view">
@@ -104,13 +112,19 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_Email" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter Publisher..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Email" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="250.0" promptText="Enter email..." styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXTextField>
             <Label layoutX="345.0" layoutY="60.0" text="Email" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_Address" layoutX="20.0" layoutY="175.0" prefHeight="31.0" prefWidth="250.0" promptText="Enter addtress..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Address" layoutX="20.0" layoutY="175.0" prefHeight="31.0" prefWidth="250.0" promptText="Enter addtress..." styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXTextField>
             <Label layoutX="45.0" layoutY="150.0" text="Address" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -142,7 +156,7 @@
                </font>
             </Label>
             <Pane fx:id="pnl_CreationDate" layoutX="320.0" layoutY="175.0" prefHeight="30.0" prefWidth="250.0" />
-            <JFXComboBox fx:id="cbo_Country" layoutX="20.0" layoutY="85.0" prefHeight="31.0" prefWidth="250.0" promptText="-Country-" styleClass="text_input" />
+            <JFXComboBox fx:id="cbo_Country" layoutX="20.0" layoutY="85.0" prefHeight="31.0" prefWidth="250.0" promptText="-Country-" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Status" layoutX="610.0" layoutY="290.0" prefHeight="230.0" prefWidth="260.0" styleClass="pnl_view">
@@ -153,24 +167,24 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXToggleButton fx:id="tog_Active" layoutX="140.0" layoutY="61.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
-            <JFXToggleButton fx:id="tog_Role" layoutX="140.0" layoutY="111.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+            <JFXToggleButton fx:id="tog_Active" layoutX="140.0" layoutY="111.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <JFXToggleButton fx:id="tog_Role" layoutX="140.0" layoutY="61.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../icons/block18.png" />
                </image>
             </ImageView>
-            <Label layoutX="45.0" layoutY="80.0" text="Active" textFill="#b9b8b8">
+            <Label layoutX="45.0" layoutY="130.0" text="Active" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="45.0" layoutY="130.0" text="User/Admin" textFill="#b9b8b8">
+            <Label layoutX="45.0" layoutY="80.0" text="User/Admin" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../icons/admin.png" />
                </image>
@@ -186,6 +200,11 @@
                </font>
             </Label>
             <JFXToggleButton fx:id="tog_Comment" layoutX="140.0" layoutY="161.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <ImageView fx:id="img_Admin" fitHeight="30.0" fitWidth="30.0" layoutX="212.0" layoutY="78.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/superUser50.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane fx:id="pnl_Login_Info" layoutX="880.0" layoutY="50.0" prefHeight="470.0" prefWidth="410.0" styleClass="pnl_view">
@@ -198,10 +217,10 @@
             </Label>
             <HBox layoutX="15.0" layoutY="425.0" prefHeight="30.0" prefWidth="380.0" spacing="10.0">
                <children>
-                  <JFXButton fx:id="btn_Clear" layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Clear" />
-                  <JFXButton fx:id="btn_Add" layoutX="550.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Add" />
-                  <JFXButton fx:id="btn_Update" layoutX="660.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Update" />
-                  <JFXButton fx:id="btn_Delete" layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Delete" />
+                  <JFXButton fx:id="btn_Clear" focusTraversable="false" layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Clear" />
+                  <JFXButton fx:id="btn_Add" focusTraversable="false" layoutX="550.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Add" />
+                  <JFXButton fx:id="btn_Update" focusTraversable="false" layoutX="660.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Update" />
+                  <JFXButton fx:id="btn_Delete" focusTraversable="false" layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Delete" />
                </children>
             </HBox>
             <VBox layoutX="35.0" layoutY="75.0" prefHeight="164.0" prefWidth="345.0" spacing="15.0">
@@ -268,7 +287,7 @@
             </TextField>
             <HBox layoutX="10.0" layoutY="230.0" prefHeight="50.0" prefWidth="284.0" spacing="1.0" styleClass="pnl_view">
                <children>
-                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Docx" />
                   <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
                   <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
                   <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
@@ -276,33 +295,9 @@
             </HBox>
             <VBox layoutX="10.0" layoutY="65.0" prefWidth="285.0" spacing="15.0">
                <children>
-                  <JFXButton layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All role">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/down18.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton layoutX="7.0" layoutY="100.0" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All active">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/down18.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All comment">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/down18.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <ChoiceBox fx:id="cbx_Role" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" />
+                  <ChoiceBox fx:id="cbx_Active" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" />
+                  <ChoiceBox fx:id="cbx_Comment" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" />
                </children>
             </VBox>
          </children>

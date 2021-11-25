@@ -24,7 +24,7 @@
             <Pane fx:id="pnl_MenuHide" layoutX="370.0" prefHeight="100.0" prefWidth="10.0" styleClass="row_product3" />
             <ImageView fx:id="img_IconApp" fitHeight="80.0" fitWidth="80.0" layoutX="20.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../icons/Untitled-1.png" />
+                  <Image url="@../../icons/refresh120.png" />
                </image>
             </ImageView>
             <VBox layoutX="115.0" layoutY="15.0" spacing="10.0">
@@ -48,17 +48,17 @@
             </VBox>
             <VBox layoutX="139.0" layoutY="12.0" spacing="4.0">
                <children>
-                  <Label fx:id="lbl_Id" layoutX="139.0" layoutY="14.0" text="001" textFill="#b9b8b8">
+                  <Label fx:id="lbl_Id" layoutX="139.0" layoutY="14.0" text="ID" textFill="#b9b8b8">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_Price" layoutX="152.0" layoutY="43.0" text="20.00$" textFill="#b9b8b8">
+                  <Label fx:id="lbl_Price" layoutX="152.0" layoutY="43.0" text="Price" textFill="#b9b8b8">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_Sale" layoutX="154.0" layoutY="72.0" text="0%" textFill="#b9b8b8">
+                  <Label fx:id="lbl_Sale" layoutX="154.0" layoutY="72.0" text="Sale" textFill="#b9b8b8">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -86,17 +86,17 @@
             </VBox>
             <VBox layoutX="223.0" layoutY="12.0" spacing="4.0">
                <children>
-                  <Label fx:id="lbl_Name" layoutX="273.0" layoutY="14.0" prefHeight="25.0" prefWidth="136.0" text="Minecraft" textFill="#b9b8b8">
+                  <Label fx:id="lbl_Name" layoutX="273.0" layoutY="14.0" prefHeight="25.0" prefWidth="136.0" text="Name" textFill="#b9b8b8">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_RealeaseDate" layoutX="261.0" layoutY="51.0" text="01/01/2010" textFill="#b9b8b8">
+                  <Label fx:id="lbl_RealeaseDate" layoutX="261.0" layoutY="51.0" text="Release Date" textFill="#b9b8b8">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_Size" layoutX="252.0" layoutY="72.0" text="100.23Mb" textFill="#b9b8b8">
+                  <Label fx:id="lbl_Size" layoutX="252.0" layoutY="72.0" text="Size" textFill="#b9b8b8">
                      <font>
                         <Font size="16.0" />
                      </font>

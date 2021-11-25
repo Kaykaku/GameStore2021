@@ -27,6 +27,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableCell;
@@ -39,15 +40,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import model.Account;
+import until.Auth;
 import until.Dialog;
-import until.ExportPDF;
 import until.ProcessDate;
 import until.ProcessImage;
+import until.ProcessString;
 import until.Validation;
+
 
 /**
  * FXML Controller class
@@ -74,6 +76,14 @@ public class Management_AccountController implements Initializable {
     @FXML
     private JFXButton btn_SendMessage;
 
+    @FXML
+    private ChoiceBox<String> cbx_Comment;
+    
+    @FXML
+    private ChoiceBox<String> cbx_Role;
+    
+    @FXML
+    private ChoiceBox<String> cbx_Active;
     @FXML
     private Pane pnl_Image;
 
@@ -103,6 +113,9 @@ public class Management_AccountController implements Initializable {
 
     @FXML
     private ImageView img_Avatar;
+    
+    @FXML
+    private ImageView img_Admin;
 
     @FXML
     private JFXRadioButton rdo_Female;
@@ -130,6 +143,9 @@ public class Management_AccountController implements Initializable {
 
     @FXML
     private Label lbl_ID;
+    
+    @FXML
+    private Label lbl_Message;
 
     @FXML
     private Pane pnl_Status;
@@ -188,11 +204,13 @@ public class Management_AccountController implements Initializable {
     AccountDAO accountDAO = new AccountDAO();
     List<Account> listAccounts = new ArrayList<>();
     boolean isEdit = false;
-    int index = -1;
+    int index = -1,role=-1;
     File avatarFile = null;
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -208,16 +226,16 @@ public class Management_AccountController implements Initializable {
 
     void fillDataOnBackground() {
         new Thread() {
+            @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                 }
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        fillCboCountry();
-                        fillTable();
-                    }
+                Platform.runLater(() -> {
+                    fillCboCountry();
+                    fillChoiceBox();
+                    fillTable();
                 });
             }
         }.start();
@@ -225,11 +243,11 @@ public class Management_AccountController implements Initializable {
 
     void drawDatePicker() {
         datePicker_CreationDate = new JFXDatePicker();
-        datePicker_CreationDate.setDefaultColor(Paint.valueOf("lightblue"));
         datePicker_Birthday = new JFXDatePicker();
-        datePicker_Birthday.setDefaultColor(Paint.valueOf("lightblue"));
         datePicker_CreationDate.setPrefWidth(250);
         datePicker_Birthday.setPrefWidth(250);
+        datePicker_Birthday.setDefaultColor(Color.LIGHTBLUE);
+        datePicker_CreationDate.setDefaultColor(Color.LIGHTBLUE);
 
         pnl_CreationDate.getChildren().add(datePicker_CreationDate);
         pnl_BirthDay.getChildren().add(datePicker_Birthday);
@@ -237,7 +255,8 @@ public class Management_AccountController implements Initializable {
         ProcessDate.converter(datePicker_Birthday);
         ProcessDate.converter(datePicker_CreationDate);
 
-        pnl_CreationDate.setDisable(true);
+        datePicker_CreationDate.setDisable(true);
+        datePicker_CreationDate.setValue(LocalDate.now());
     }
 
     void fillCboCountry() {
@@ -249,45 +268,61 @@ public class Management_AccountController implements Initializable {
         list.add("Japan");
         cbo_Country.setItems(FXCollections.observableArrayList(list));
     }
-
+    void fillChoiceBox(){
+        List<String> list = new ArrayList<>();
+        list.add("All role");
+        list.add("Admin");
+        list.add("Manager");
+        list.add("User");
+        cbx_Role.setItems(FXCollections.observableArrayList(list));
+        cbx_Role.getSelectionModel().select(0);
+        
+        list.clear();
+        list.add("All status");       
+        list.add("Inactive");
+        list.add("Active");
+        cbx_Active.setItems(FXCollections.observableArrayList(list));
+        cbx_Active.getSelectionModel().select(0);
+        
+        list.clear();
+        list.add("All comment");       
+        list.add("Block comment");
+        list.add("Enable comment");
+        cbx_Comment.setItems(FXCollections.observableArrayList(list));
+        cbx_Comment.getSelectionModel().select(0);
+    }
     void fillTable() {
-        listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
+        listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim(),
+                (cbx_Role.getSelectionModel().getSelectedIndex()-1),
+                (cbx_Active.getSelectionModel().getSelectedIndex()-1),
+                (cbx_Comment.getSelectionModel().getSelectedIndex()-1)
+        );
 
         ObservableList<Account> list = FXCollections.observableArrayList(listAccounts);
 
         col_ID.setCellValueFactory(new PropertyValueFactory<>("accountId"));
         col_Name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_Gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>> callbackBoo = new Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>>() {
+        Callback<TableColumn<Account, Boolean>, TableCell<Account, Boolean>> callbackBoo = (TableColumn<Account, Boolean> param) -> new TableCell<Account, Boolean>() {
             @Override
-            public TableCell<Account, Boolean> call(TableColumn<Account, Boolean> param) {
-                return new TableCell<Account, Boolean>() {
-                    @Override
-                    protected void updateItem(Boolean item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(item ? "Female" : "Male");
-                        }
-                    }
-                };
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item ? "Female" : "Male");
+                }
             }
         };
-        Callback<TableColumn<Account, Date>, TableCell<Account, Date>> callbackDate = new Callback<TableColumn<Account, Date>, TableCell<Account, Date>>() {
+        Callback<TableColumn<Account, Date>, TableCell<Account, Date>> callbackDate = (TableColumn<Account, Date> param) -> new TableCell<Account, Date>() {
             @Override
-            public TableCell<Account, Date> call(TableColumn<Account, Date> param) {
-                return new TableCell<Account, Date>() {
-                    @Override
-                    protected void updateItem(Date item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText(ProcessDate.toString(item));
-                        }
-                    }
-                };
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(ProcessDate.toString(item));
+                }
             }
         };
         col_Gender.setCellFactory(callbackBoo);
@@ -322,6 +357,7 @@ public class Management_AccountController implements Initializable {
     }
 
     void setForm(Account entity) {
+        role =entity.getRole();
         lbl_ID.setText(isEdit ? entity.getAccountId() + "" : "Editing");
         txt_Name.setText(isEdit && entity.getName()!=null ? entity.getName() : "");
         datePicker_Birthday.setValue(isEdit && entity.getBirthDay()!=null? ProcessDate.toLocalDate(entity.getBirthDay()) : null);
@@ -331,18 +367,28 @@ public class Management_AccountController implements Initializable {
         cbo_Country.getSelectionModel().select(isEdit ? entity.getCountry() : "");
         txt_Email.setText(isEdit ? entity.getEmail() : "");
         txt_Address.setText(isEdit ? entity.getAddress() : "");
-        txt_UserName.setText(isEdit ? entity.getUserName().toUpperCase() : "");
+        txt_UserName.setText(isEdit ? entity.getUserName() : "");
         tog_Active.setSelected(isEdit ? entity.isActive() : false);
-        tog_Role.setSelected(isEdit ? entity.getRole() == 1 : false);
+        if(role==0){
+            img_Admin.setOpacity(1);
+            tog_Role.setDisable(true);
+            tog_Role.setSelected(true);
+        }else{
+            img_Admin.setOpacity(0);
+            tog_Role.setDisable(false);
+            tog_Role.setSelected(isEdit ? entity.getRole() == 1 : false);
+        }      
         tog_Comment.setSelected(isEdit ? entity.isComment() : false);
         if (entity.getImage() != null) {
             avatarFile = ProcessImage.toFile(entity.getImage(), "avatar.png");
         }
+        txt_NewPassword.setText("");
+        txt_ConfirmPassword.setText("");
         setAvatar();
     }
-
+    
     void updateStatus() {
-        txt_UserName.setEditable(isEdit);
+        txt_UserName.setEditable(!isEdit);
         btn_Add.setDisable(isEdit);
         btn_Delete.setDisable(!isEdit);
         btn_Update.setDisable(!isEdit);
@@ -370,7 +416,7 @@ public class Management_AccountController implements Initializable {
             entity.setEmail(txt_Email.getText().trim());
             entity.setActive(tog_Active.isSelected());
             entity.setComment(tog_Comment.isSelected());
-            entity.setRole(tog_Role.isSelected() ? 1 : 2);
+            entity.setRole(role);
             entity.setUserName(txt_UserName.getText().trim());
             entity.setPassword(isEdit ? accountDAO.selectByID(entity.getAccountId()).getPassword() : txt_NewPassword.getText().trim());
             entity.setAddress(txt_Address.getText()!=null?txt_Address.getText().trim():"");
@@ -380,22 +426,41 @@ public class Management_AccountController implements Initializable {
             }
             return entity;
         }
+        ProcessString.showMessage(lbl_Message,"An error occurred on the form!");
         Dialog.showMessageDialog("Wrong data", err);
+        
         return null;
     }
-
+    void clearColor(){
+        Validation.clearColor(txt_Name);
+        Validation.clearColor(datePicker_Birthday);
+        Validation.clearColor(txt_Email);
+        Validation.clearColor(txt_UserName);
+        Validation.clearColor(txt_NewPassword);
+        Validation.clearColor(txt_ConfirmPassword);       
+    }
     void clearForm() {
         index = -1;
         isEdit = false;
         avatarFile = null;
         setForm(new Account());
+        cbx_Active.getSelectionModel().select(0);
+        cbx_Role.getSelectionModel().select(0);
+        cbx_Comment.getSelectionModel().select(0);
+        txt_Search.setText("");
+        clearColor();
+        fillTable();
         updateStatus();
+        ProcessString.showMessage(lbl_Message,"Clear form!!!");
     }
 
     void edit() {
+        index = tbl_Accounts.getSelectionModel().getSelectedIndex();
+        if(index==-1) return;
         isEdit = true;
         avatarFile = null;
-        index = tbl_Accounts.getSelectionModel().getSelectedIndex();
+        clearColor();
+        
         int id = (int) col_ID.getCellObservableValue(index).getValue();
         Account entity = accountDAO.selectByID(id);
         setForm(entity);
@@ -407,10 +472,15 @@ public class Management_AccountController implements Initializable {
         if (entity == null) {
             return;
         }
+        if(Auth.USER.getRole()>=entity.getRole()){          
+            ProcessString.showMessage(lbl_Message,"You do not have the authority !");
+            Dialog.showMessageDialog("Error authority account", "You do not have the authority to change the data of this account!");
+            return;
+        }
         accountDAO.insert(entity);
         fillTable();
         clearForm();
-
+        ProcessString.showMessage(lbl_Message,"Inserted successfully!");
     }
 
     void update() {
@@ -418,21 +488,27 @@ public class Management_AccountController implements Initializable {
         if (entity == null) {
             return;
         }
+        if(Auth.USER.getRole()>=entity.getRole()){          
+            ProcessString.showMessage(lbl_Message,"You do not have the authority !");
+            Dialog.showMessageDialog("Error authority account", "You do not have the authority to change the data of this account!");
+            return;
+        }
         accountDAO.update(entity);
         fillTable();
-        clearForm();
-
+        ProcessString.showMessage(lbl_Message,"Update successfully ID-"+entity.getAccountId()+" !");
     }
 
     void delete() {
-        Account entity = getForm();
-        if (entity == null) {
+        int id = Integer.parseInt(lbl_ID.getText());
+        if(Auth.USER.getRole()>=role){          
+            ProcessString.showMessage(lbl_Message,"You do not have the authority !");
+            Dialog.showMessageDialog("Error authority account", "You do not have the authority to change the data of this account!");
             return;
         }
-        accountDAO.delete(entity.getAccountId());
+        accountDAO.delete(id);
         fillTable();
         clearForm();
-
+        ProcessString.showMessage(lbl_Message,"Deleted successfully ID-"+id+" !");
     }
 //     private void ExportPDFAccount() {
 //        btn_PDFAccount.setOnAction(evt -> {
@@ -451,6 +527,16 @@ public class Management_AccountController implements Initializable {
                 edit();
             }
         });
+        cbx_Role.setOnAction((event) -> {
+            fillTable();
+        });
+        cbx_Active.setOnAction((event) -> {
+            fillTable();
+        });
+        cbx_Comment.setOnAction((event) -> {
+            fillTable();
+        });
+        
         txt_Search.setOnKeyReleased(evt -> {
             fillTable();
             if (listAccounts.size() > 0) {

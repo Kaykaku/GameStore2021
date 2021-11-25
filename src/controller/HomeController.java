@@ -13,6 +13,7 @@ import animatefx.animation.FadeInUp;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -133,6 +134,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Variable.START =Instant.now();
         pnl_MainScroll.setPrefHeight(830);
         fillDataOnBackground();
         setEvent();
@@ -140,15 +142,14 @@ public class HomeController implements Initializable {
 
     void fillDataOnBackground() {
         new Thread() {
+            @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                 }
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        setHome();
-                    }
+                Platform.runLater(() -> {
+                    setHome();
                 });
             }
         }.start();
@@ -258,7 +259,7 @@ public class HomeController implements Initializable {
         }
         HashSet<Application> set = new HashSet<>();
         while (set.size() != x) {
-            int i = new Random().nextInt(x);
+            int i = new Random().nextInt(listApps.size());
             set.add(listApps.get(i));
         }
         listApps.clear();

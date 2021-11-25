@@ -31,14 +31,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -65,7 +62,6 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.Validation;
 import until.Value;
-import static until.Value.Pay;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -249,11 +245,6 @@ public class DisplayProductController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         RoundedImageView.RoundedImage(img_AppIcon, 32);
         pnl_MainScroll.setPrefHeight(810);
-        if (Auth.USER == null) {
-            Auth.USER = new AccountDAO().selectByID(2);
-        }
-
-        setInformation(new ApplicationDAO().selectByID(2));
 
     }
 
@@ -266,18 +257,16 @@ public class DisplayProductController implements Initializable {
         loadStatus();
         setEvent();
         new Thread() {
+            @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                 }
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        loadAppCategories();
-                        fillListComments();
-                        fillListRandomApps();
-
-                    }
+                Platform.runLater(() -> {
+                    loadAppCategories();
+                    fillListComments();
+                    fillListRandomApps();
                 });
             }
         }.start();
@@ -287,7 +276,8 @@ public class DisplayProductController implements Initializable {
     void loadBasicInfo() {
         lbl_AppName.setText(app.getName());
         lbl_AppDeveloper.setText(app.getDeveloper());
-        btn_Buy.setText("Get " + app.getPrice() + "$");
+        double number = (double) Math.round(app.getPrice()*100)/100;
+        btn_Buy.setText("Get " + number + "$");
 
         if (app.getAppIcon() != null) {
             img_AppIcon.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));
@@ -304,23 +294,25 @@ public class DisplayProductController implements Initializable {
         lbl_Languages.setText(app.getLanguages());
         lbl_Publisher.setText(app.getPublisher());
         lbl_ReleaseDate.setText(ProcessDate.toString(app.getReleaseDay()));
-        lbl_Sale.setText((int) app.getSale() + "%");
-        lbl_Size.setText(app.getSize() + "MB");
+        number = (double) Math.round(app.getSale()*100)/100;
+        lbl_Sale.setText((int) number + "%");
+        number = (double) Math.round(app.getSize()*100)/100;
+        lbl_Size.setText(number + "MB");
+        
     }
 
     void setEvent() {
         btn_Back.setOnMouseClicked((evt) -> {
             disappearFormAnimation();
             new Thread() {
+                @Override
                 public void run() {
                     try {
                         Thread.sleep(800);
                     } catch (InterruptedException ex) {
                     }
-                    Platform.runLater(new Runnable() {
-                        public void run() {
-                            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
-                        }
+                    Platform.runLater(() -> {
+                        PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
                     });
                 }
             }.start();
@@ -339,33 +331,33 @@ public class DisplayProductController implements Initializable {
             loadStatus();
         });
         btn_Buy.setOnMouseClicked((evt) -> {
-//            Order order = new Order();
-//            Date date = new Date();
-//            String sdate = ProcessDate.toString(date);
-//            date = ProcessDate.toDate(sdate);
-//
-//            order.setAccountId(Auth.USER.getAccountId());
-//            order.setCreationDate(date);
-//            order.setStatus(1);
-//            new OrderDAO().insert(order);
-//            order = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
-//            OrderDetail orde = new OrderDetail();
-//            orde.setOrderID(order.getOrderID());
-//            orde.setApplicationId(app.getApplicationID());
-//            orde.setPrice(app.getPrice());
-//            orde.setSale(app.getSale());
-//            new OrderDetailDAO().insert(orde);
-//            loadStatus();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Pay));
-            Node node;
-            try {
-                node = (Node) loader.load();
-                PayController controller = loader.getController();
-                controller.setInformation(app);
-                PNL_VIEW.getChildren().add(node);
-            } catch (IOException ex) {
-                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Order order = new Order();
+            Date date = new Date();
+            String sdate = ProcessDate.toString(date);
+            date = ProcessDate.toDate(sdate);
+
+            order.setAccountId(Auth.USER.getAccountId());
+            order.setCreationDate(date);
+            order.setStatus(1);
+            new OrderDAO().insert(order);
+            order = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
+            OrderDetail orde = new OrderDetail();
+            orde.setOrderID(order.getOrderID());
+            orde.setApplicationId(app.getApplicationID());
+            orde.setPrice(app.getPrice());
+            orde.setSale(app.getSale());
+            new OrderDetailDAO().insert(orde);
+            loadStatus();
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource(Pay));
+//            Node node;
+//            try {
+//                node = (Node) loader.load();
+//                PayController controller = loader.getController();
+//                controller.setInformation(app);
+//                PNL_VIEW.getChildren().add(node);
+//            } catch (IOException ex) {
+//                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         });
     }
 
@@ -570,15 +562,14 @@ public class DisplayProductController implements Initializable {
                     });
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
         }
     }
 
     void actionComment() {
         String err = "";
         err += Validation.validationJFXTextFieldLength(txt_TitleReview, "TITLE", 5, 100);
-        err += Validation.validationJFXTextFieldLength(txt_DescriptionReview, "DESCRIPTION", 5, 300);
+        err += Validation.validationJFXTextAreaLength(txt_DescriptionReview, "DESCRIPTION", 5, 300);
         if (err.isEmpty()) {
             Comment comment = new Comment();
             comment.setApplicatonViewId(appView.getApplicatonViewId());
@@ -627,8 +618,7 @@ public class DisplayProductController implements Initializable {
                 controllers[h].setInfo((Application) set.toArray()[i]);
 
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
         }
     }
 

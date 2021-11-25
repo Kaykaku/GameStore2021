@@ -25,7 +25,7 @@ public class Account {
     private String Username;
     private String Password;
     private boolean active;
-    private int role;
+    private int role=-1;
     private boolean comment;
 
     public Account() {

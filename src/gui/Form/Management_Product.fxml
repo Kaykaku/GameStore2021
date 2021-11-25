@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.shape.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
@@ -34,10 +36,10 @@
             </ScrollPane>
             <HBox layoutY="50.0" prefHeight="30.0" prefWidth="408.0" spacing="1.0" styleClass="pnl_view">
                <children>
-                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
-                  <JFXButton fx:id="btn_DPFProduct" prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
-                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
-                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
+                  <JFXButton focusTraversable="false" prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton fx:id="btn_DPFProduct" focusTraversable="false" prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
+                  <JFXButton focusTraversable="false" prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
+                  <JFXButton focusTraversable="false" prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
                </children>
             </HBox>
          </children>
@@ -53,14 +55,15 @@
       </Pane>
       <Pane fx:id="pnl_Image" layoutX="10.0" layoutY="50.0" prefHeight="290.0" prefWidth="300.0" styleClass="pnl_view">
          <children>
-            <ImageView fx:id="Img_Icon" fitHeight="100.0" fitWidth="100.0" layoutX="15.0" layoutY="170.0" onMouseClicked="#handleImageIcon" pickOnBounds="true">
+            <Circle fx:id="circle" fill="#c7c7c700" layoutX="65.0" layoutY="230.0" radius="50.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="3.0" />
+            <ImageView fx:id="Img_AppIcon" fitHeight="100.0" fitWidth="100.0" layoutX="15.0" layoutY="180.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../icons/add-image%20(1).png" />
+                  <Image url="@../../icons/refresh120.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Img_Game" fitHeight="150.0" fitWidth="270.0" layoutX="15.0" layoutY="15.0" onMouseClicked="#handleImageGame" pickOnBounds="true">
+            <ImageView fx:id="Img_AppImage" fitHeight="150.0" fitWidth="270.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../icons/add-image%20(1).png" />
+                  <Image url="@../../icons/icons8_picture_200px_1.png" />
                </image>
             </ImageView>
             <Label layoutX="150.0" layoutY="208.0" text="Icon/Screenshot" textFill="#b9b8b8">
@@ -77,8 +80,16 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_Price" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter price" styleClass="text_input" stylesheets="@../../css/main.css" />
-            <JFXTextField id="tex" fx:id="txt_Size" layoutX="300.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enten approximate size" styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Price" layoutX="20.0" layoutY="175.0" prefHeight="37.0" prefWidth="180.0" promptText="Enter price" styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField id="tex" fx:id="txt_Size" layoutX="300.0" layoutY="175.0" prefHeight="37.0" prefWidth="167.0" promptText="Enten approximate size" styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
             <Label layoutX="325.0" layoutY="150.0" text="Approximate Size" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -89,7 +100,11 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_Name" layoutX="300.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter name" styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Name" layoutX="300.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter name" styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXTextField>
             <Label layoutX="45.0" layoutY="60.0" text="Game ID" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -123,52 +138,23 @@
             </ImageView>
             <Label fx:id="lbl_GameID" layoutX="20.0" layoutY="85.0" text="Game ID" textFill="#b9b8b8">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-         </children>
-      </Pane>
-      <Pane fx:id="pnl_Category" layoutX="320.0" layoutY="290.0" prefHeight="70.0" prefWidth="550.0" styleClass="pnl_view">
-         <children>
-            <Label layoutX="127.0" layoutY="14.0" text="3" textFill="#b9b8b8">
+            <Label fx:id="lbl_Message" alignment="CENTER" layoutX="196.0" layoutY="15.0" prefHeight="21.0" prefWidth="345.0" textFill="#39eee8">
                <font>
-                  <Font size="16.0" />
+                  <Font name="Arial Bold" size="16.0" />
                </font>
             </Label>
-            <Label layoutX="45.0" layoutY="13.0" text="Categories" textFill="#b9b8b8">
+            <Label layoutX="207.0" layoutY="180.0" text="\$" textFill="#b9b8b8">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/category18.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="250.0" layoutY="13.0" style="-fx-background-color: green;" styleClass="category_label" text="motorbike" textFill="WHITE">
+            <Label layoutX="477.0" layoutY="180.0" text="MB" textFill="#b9b8b8">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </Label>
-            <Label layoutX="146.0" layoutY="13.0" prefHeight="25.0" prefWidth="97.0" style="-fx-background-color: red;" styleClass="category_label" text="Categories" textFill="WHITE">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </Label>
-            <JFXButton layoutX="495.0" layoutY="11.0" prefHeight="31.0" prefWidth="42.0" styleClass="button_type5" text="+" />
-            <Label alignment="CENTER" layoutX="350.0" layoutY="14.0" prefHeight="25.0" prefWidth="90.0" style="-fx-background-color: blue;" styleClass="category_label" text="Biker" textFill="WHITE">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
             </Label>
          </children>
       </Pane>
@@ -185,8 +171,14 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_Developed" layoutX="20.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Developer" styleClass="text_input" stylesheets="@../../css/main.css" />
-            <JFXTextField id="tex" fx:id="txt_Published" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Publisher" styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Developed" layoutX="20.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Developer" styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXTextField>
+            <JFXTextField id="tex" fx:id="txt_Published" layoutX="320.0" layoutY="85.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Publisher" styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXTextField>
             <Label layoutX="345.0" layoutY="60.0" text="Published By" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -210,8 +202,14 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXTextField id="tex" fx:id="txt_Sale" layoutX="320.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enten % sale" styleClass="text_input" stylesheets="@../../css/main.css" />
-            <JFXTextField id="tex" fx:id="txt_Languages" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter languages" styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Sale" layoutX="320.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enten % sale" styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXTextField>
+            <JFXTextField id="tex" fx:id="txt_Languages" layoutX="20.0" layoutY="175.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter languages" styleClass="text_input" stylesheets="@../../css/main.css">
+               <font>
+                  <Font size="16.0" />
+               </font></JFXTextField>
             <Label layoutX="45.0" layoutY="150.0" text="Supported languages" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
@@ -249,6 +247,28 @@
             </ImageView>
          </children>
       </Pane>
+      <Pane fx:id="pnl_Category" layoutX="320.0" layoutY="290.0" prefHeight="70.0" prefWidth="550.0" styleClass="pnl_view">
+         <children>
+            <JFXComboBox fx:id="cbo_Category" layoutX="188.0" layoutY="5.0" prefHeight="31.0" prefWidth="161.0" promptText="--Chose category--" styleClass="text_input" />
+            <JFXButton fx:id="btn_AddCategory" focusTraversable="false" layoutX="358.0" layoutY="8.0" prefHeight="31.0" prefWidth="42.0" styleClass="glass-grey" text="+" />
+            <Pane fx:id="pnl_Container" layoutX="14.0" layoutY="39.0" prefHeight="68.0" prefWidth="530.0" />
+            <Label fx:id="lbl_CategoryCount" layoutX="129.0" layoutY="9.0" text="0" textFill="#b9b8b8">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="39.0" layoutY="9.0" text="Categories" textFill="#b9b8b8">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/category18.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
       <Pane fx:id="pnl_Description" layoutX="10.0" layoutY="580.0" prefHeight="200.0" prefWidth="590.0" styleClass="pnl_view">
          <children>
             <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="590.0" />
@@ -268,7 +288,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXToggleButton layoutX="140.0" layoutY="98.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <JFXToggleButton fx:id="tog_Display" layoutX="140.0" layoutY="98.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
             <JFXToggleButton fx:id="tog_EnableBuy" layoutX="140.0" layoutY="147.0" prefHeight="60.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
             <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -300,16 +320,16 @@
                   <Image url="@../../icons/apps40hover.png" />
                </image>
             </ImageView>
-            <JFXToggleButton fx:id="tog_Active" layoutX="140.0" layoutY="48.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
+            <JFXToggleButton fx:id="tog_Type" layoutX="140.0" layoutY="48.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Controller" layoutX="440.0" layoutY="790.0" />
       <HBox fx:id="hbox_Controller" layoutX="440.0" layoutY="790.0" spacing="10.0">
          <children>
-            <JFXButton fx:id="btn_clear" layoutX="440.0" layoutY="740.0" onAction="#handleButtonClearAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Clear" />
-            <JFXButton fx:id="btn_Add" layoutX="550.0" layoutY="740.0" onAction="#handleButtonAddAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Add" />
-            <JFXButton fx:id="btn_Update" layoutX="660.0" layoutY="740.0" onAction="#handleButtonUpdateAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Update" />
-            <JFXButton fx:id="btn_delete" layoutX="770.0" layoutY="740.0" onAction="#handleButtonDeleteAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type2" text="Delete" />
+            <JFXButton fx:id="btn_Clear" focusTraversable="false" layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Clear" />
+            <JFXButton fx:id="btn_Add" focusTraversable="false" layoutX="550.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Add" />
+            <JFXButton fx:id="btn_Update" focusTraversable="false" layoutX="660.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Update" />
+            <JFXButton fx:id="btn_Delete" focusTraversable="false" layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Delete" />
          </children>
       </HBox>
    </children>

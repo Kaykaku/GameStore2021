@@ -322,17 +322,17 @@
                   <Font size="24.0" />
                </font>
             </JFXButton>
+            <JFXButton fx:id="btn_QR" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Create login QR code">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXButton>
             <JFXButton fx:id="btn_Contact" layoutX="831.0" layoutY="490.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Contact admin">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
             <JFXButton fx:id="btn_AboutUs" layoutX="831.0" layoutY="700.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="About Us">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="btn_SignOut" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Sign out">
                <font>
                   <Font size="24.0" />
                </font>

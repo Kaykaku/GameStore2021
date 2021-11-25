@@ -172,15 +172,13 @@ public class MainController implements Initializable {
             
         }
         if (Auth.isAdmin()) {
-            ListView.add(FORM_ACCOUNT);
-            ListItems.add(new Object[]{"Accounts", "accounts40"});
-        }
-        if (Auth.isManager()) {
+            ListView.add(FORM_ACCOUNT);         
             ListView.add(FORM_CATEGORY);
             ListView.add(FORM_PRODUCT);
             ListView.add(FORM_ORDER);
             ListView.add(FORM_NEWS);
             ListView.add(FORM_STATISTICS);
+            ListItems.add(new Object[]{"Accounts", "accounts40"});
             ListItems.add(new Object[]{"Category", "categories40"});
             ListItems.add(new Object[]{"Products", "products40"});
             ListItems.add(new Object[]{"Orders", "orders40"});
@@ -233,6 +231,8 @@ public class MainController implements Initializable {
                     }
                 });
                 menuItems[i].setOnMouseReleased(evt -> {
+                    Variable.IS_ACCOUNT_INFORMATION_OPEN=false;
+                    Variable.IS_WISHLIST_OPEN=false;
                     Arrays.fill(isSelected, Boolean.FALSE);
                     isSelected[h] = true;
                     for (MenuItemController ct : controller) {

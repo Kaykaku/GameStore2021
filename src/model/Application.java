@@ -15,20 +15,20 @@ public class Application {
 
     private int applicationID;
     private String name;
-    private float price, size;
+    private double price, size;
     private boolean type;
     private byte[] appImage, appIcon;
     private String developer, publisher;
     private Date releaseDay, creationDate;
     private String languages;
-    private float sale;
+    private double sale;
     private String description;
     private boolean active, enableBuy;
 
     public Application() {
     }
 
-    public Application(int applicationID, String name, float price, float size, boolean type, byte[] appImage, byte[] appIcon, String developer, String publisher, Date releaseDay, Date creationDate, String languages, float sale, String description, boolean active, boolean enableBuy) {
+    public Application(int applicationID, String name, double price, double size, boolean type, byte[] appImage, byte[] appIcon, String developer, String publisher, Date releaseDay, Date creationDate, String languages, double sale, String description, boolean active, boolean enableBuy) {
         this.applicationID = applicationID;
         this.name = name;
         this.price = price;
@@ -63,19 +63,19 @@ public class Application {
         this.name = name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public float getSize() {
+    public double getSize() {
         return size;
     }
 
-    public void setSize(float size) {
+    public void setSize(double size) {
         this.size = size;
     }
 
@@ -143,11 +143,11 @@ public class Application {
         this.languages = languages;
     }
 
-    public float getSale() {
+    public double getSale() {
         return sale;
     }
 
-    public void setSale(float sale) {
+    public void setSale(double sale) {
         this.sale = sale;
     }
 
@@ -174,5 +174,7 @@ public class Application {
     public void setEnableBuy(boolean enableBuy) {
         this.enableBuy = enableBuy;
     }
+
+    
 
 }

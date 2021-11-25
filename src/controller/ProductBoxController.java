@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -32,7 +31,6 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import model.AppType;
 import model.Application;
-import until.ProcessDate;
 import until.ProcessImage;
 import until.Value;
 import static until.Value.*;
@@ -124,7 +122,8 @@ public class ProductBoxController implements Initializable {
         lbl_Categories.setText(listAppTypes.size() > 1 ? new CategoryDAO().selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
         lbl_Categories.setText(lbl_Categories.getText() + " " + (listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : ""));
         lbl_Name.setText(entity.getName());
-        lbl_Price.setText(entity.getPrice() == 0 ? "Free" : entity.getPrice() + "$");
+        double number = (double) Math.round(entity.getPrice() * 100) / 100;
+        lbl_Price.setText(number == 0 ? "Free" : number + "$");
 
         if (entity.getAppIcon() != null) {
             img_App.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
@@ -151,10 +150,10 @@ public class ProductBoxController implements Initializable {
         loadStar(ratings);
         averageRating = (double) Math.round(averageRating / ratings * 10) / 10;
         loadStar(averageRating);
-        
+
         Variable.END = Instant.now();
-            Variable.TIMEELAPSED = Duration.between(Variable.START, Variable.END);
-            System.out.println(Variable.TIMEELAPSED.toMillis());
+        Variable.TIMEELAPSED = Duration.between(Variable.START, Variable.END);
+        System.out.println(Variable.TIMEELAPSED.toMillis());
     }
 
     void loadStar(double rate) {
