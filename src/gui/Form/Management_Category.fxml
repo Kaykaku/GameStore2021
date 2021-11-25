@@ -186,7 +186,7 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </TextField>
-            <TableView fx:id="tbl_Categories" layoutX="15.0" layoutY="65.0" prefHeight="215.0" prefWidth="830.0" styleClass="pnl_view">
+            <TableView fx:id="tbl_Categories" layoutX="15.0" layoutY="61.0" prefHeight="215.0" prefWidth="830.0" styleClass="pnl_view">
               <columns>
                 <TableColumn fx:id="col_ID" prefWidth="135.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="ID" />
                 <TableColumn fx:id="col_Name" prefWidth="220.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NAME" />

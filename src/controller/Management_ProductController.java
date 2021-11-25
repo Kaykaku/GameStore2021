@@ -7,6 +7,7 @@ package controller;
 
 import Animation.PulseShort;
 import Animation.RoundedImageView;
+import DAO.AccountDAO;
 import DAO.AppTypeDAO;
 import DAO.ApplicationDAO;
 import DAO.CategoryDAO;
@@ -47,11 +48,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import model.Account;
 import model.AppType;
 import model.Application;
 import model.Category;
 import until.Catch_Errors;
 import until.Dialog;
+import until.ExportExcel;
+import until.ExportText;
 import until.ProcessDate;
 import until.ProcessImage;
 import until.ProcessString;
@@ -172,6 +179,12 @@ public class Management_ProductController implements Initializable {
 
     @FXML
     private JFXButton btn_DPFProduct;
+    
+    @FXML
+    private JFXButton btn_ExcelProduct;
+    
+    @FXML
+    private JFXButton btn_TextProduct;
 
     @FXML
     private Label lbl_OnSale;
@@ -196,6 +209,9 @@ public class Management_ProductController implements Initializable {
 
     ApplicationDAO applicationDAO = new ApplicationDAO();
     List<Application> listApplications = new ArrayList<>();
+    List<Account> Emails = new ArrayList<>();
+    AccountDAO AccDAO = new AccountDAO();
+    ApplicationDAO appDAO = new ApplicationDAO();
     CategoryDAO categoryDao = new CategoryDAO();
     AppTypeDAO appTypeDAO = new AppTypeDAO();
     JFXDatePicker datePicker_CreationDate = new JFXDatePicker();
@@ -203,6 +219,7 @@ public class Management_ProductController implements Initializable {
     boolean isEdit = false;
     File avatarIcon;
     File avatarImage;
+    File avtImg;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -480,7 +497,37 @@ public class Management_ProductController implements Initializable {
         clearColor();
         updateStatus();
     }
+    private void sendMailAbtSale() throws IOException, MessagingException, InterruptedException{
+        avtImg = null;
+        Mail_SendingController msd = new Mail_SendingController();
+        Multipart multipart = msd.handleMultipart();
+        Emails = AccDAO.selectEmail();
+        Session session = Mail_SendingController.SendMail();
+        listApplications = appDAO.selectSale();
+        String Subject = "GAMESTORE IS NOW HAVING A REALLY BIG DISCOUNT";
+        int x = listApplications.size();
+        String Text= "Hi, How are you doing, we are now having "+x+" games are on sale"
+        + "  \nwhich are gonna blow your mind, open GameXStore and check it out!"+
+        "\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();
 
+        Mail_SendingController.sendMailsabtDiscount(multipart,Emails,session,listApplications,Subject,Text,avtImg);
+    }
+    @SuppressWarnings("empty-statement")
+    private void sendMailAbtGame() throws IOException, InterruptedException, MessagingException{
+        Mail_SendingController msd = new Mail_SendingController();
+        Multipart multipart = msd.handleMultipart();
+        Emails = AccDAO.selectEmail();
+        Session session = Mail_SendingController.SendMail();
+        listApplications = appDAO.selectLastApp();
+        String Subject = "GAMESTORE JUST HAVE GOT A NEW GAME - GO CHECK IT OUT";
+        int x = listApplications.size();
+        String Text= "Hi, How are you doing again?, A new Game just went on sale,It is "+listApplications.get(0).getName()+
+        ", \nDeveloped by "+listApplications.get(0).getDeveloper()+" which is gonna blow your mind, open GameXStore and check it out!"+
+        "\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();;
+            avtImg = ProcessImage.toFile(listApplications.get(0).getAppImage(), "avatar.png");
+        Mail_SendingController.sendMailsabtDiscount(multipart,Emails,session,listApplications,Subject,Text,avtImg);
+        
+    }
     private void insert() {
         Application entity = getForm();
         if (entity == null) {
@@ -545,6 +592,29 @@ public class Management_ProductController implements Initializable {
             if (avatarImage != null) {
                 setAvatarImage();
             }
+        });
+    }
+     private void ExportExcelProduct() {
+        btn_ExcelProduct.setOnAction(evt -> {
+            String[] header = new String[]{"ID", "Name", "Price", "Size", "Image", "Icon", "Developer", "Publisher", "ReleaseDay",
+                "CreationDate", "Languages","Sale","Active","EnableBuy", "Description"};
+            List<Application> list = applicationDAO.selectAll();
+            List<Object[]> listObjs = new ArrayList<>();
+            list.forEach((Application) -> {
+                listObjs.add(Application.toObjects());
+            });
+            String fileName = "Product";
+            String title = "Application List";
+            try {
+                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+            } catch (IOException ex) {
+                
+            }
+        });
+    }
+     private void ExportTextProduct() {
+        btn_TextProduct.setOnAction(evt -> {       
+              ExportText.ExportFileProduct();
         });
         Img_AppIcon.setOnMouseClicked((event) -> {
             FileChooser fileChooser = new FileChooser();
@@ -615,6 +685,14 @@ public class Management_ProductController implements Initializable {
                 }
             }
         }
+    }
+    @FXML
+    private void handleButtonSendSales(ActionEvent event) throws IOException, MessagingException, InterruptedException {
+        this.sendMailAbtSale();
+    }
+    @FXML
+    private void handleButtonSendGames(ActionEvent event) throws IOException, MessagingException, InterruptedException {
+        this.sendMailAbtGame();
     }
 
     private void displayFormAnimation() {

@@ -24,9 +24,9 @@
          <children>
             <HBox layoutY="50.0" prefHeight="30.0" prefWidth="408.0" spacing="1.0" styleClass="pnl_view">
                <children>
-                  <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton fx:id="btn_TextNew" prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
                   <JFXButton fx:id="btn_PDFNews" prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="PDF" />
-                  <JFXButton prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
+                  <JFXButton fx:id="btn_ExcelNew" prefHeight="400.0" prefWidth="102.0" styleClass="button_type" text="Excel" />
                   <JFXButton prefHeight="400.0" prefWidth="102.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
                </children>
             </HBox>

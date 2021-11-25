@@ -47,6 +47,10 @@ public class Account {
         this.comment = comment;
     }
 
+    public Account(String Email) {
+        this.Email = Email;
+    }
+
     public int getAccountId() {
         return accountId;
     }
@@ -158,5 +162,20 @@ public class Account {
     public void setComment(boolean comment) {
         this.comment = comment;
     }
+
+    @Override
+    public String toString() {
+         return  Email;
+    }
+    public Object[] toObjects() { 
+        return new Object[]{accountId,name,birthDay, gender?"Male":"Famale",image,Email,address, country,creationDate,Username,
+            Password,active?0:1,role,comment };
+    
+    }
+
+    public String toStrings() {
+        return  "ID:" + accountId + ", Name:" + name + ", BirthDay:" + birthDay + ", Gender" + gender + ", Image:" + image + ", Email=" + Email + ", Address=" + address + ", Country=" + country + ", CreationDate=" + creationDate + ", Username=" + Username + ", Password=" + Password + ", Active=" + active + ", Role=" + role + ", Comment=" + comment + '}';
+    }
+
 
 }

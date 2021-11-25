@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -153,6 +154,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        cbo_Remember.setSelected(true);
 
         preferences = Preferences.userNodeForPackage(LoginController.class);
         if (preferences != null) {
@@ -402,27 +405,33 @@ public class LoginController implements Initializable {
                 Messages(lbl_Message_Login, "Fail password!");
                 Incorrect(txt_Password_Login);
             } else {
-                if (cbo_Remember.isSelected()) {
-                    preferences.put("username", usename);
-                    preferences.put("password", password);
+                if (account.isActive()) {
+                    if (cbo_Remember.isSelected()) {
+                        preferences.put("username", usename);
+                        preferences.put("password", password);
+                        
+                        System.out.println("Login success!");
+                        Auth.USER = account;
+                        try {
+                            ((Node) (event.getSource())).getScene().getWindow().hide();
+                            Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
+                            Stage stage = new Stage();
+                            stage.initStyle(StageStyle.UNDECORATED);
+                            stage.setScene(new Scene(root));
+                            stage.show();
+
+                        } catch (IOException ex) {
+                            Logger.getLogger(LoginController.class
+                                    .getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        preferences.put("username", "");
+                        preferences.put("password", "");
+                    }
                 } else {
-                    preferences.put("username", "");
-                    preferences.put("password", "");
-                }
-
-                System.out.println("Login success!");
-                Auth.USER = account;
-                try {
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
-                    Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
-                    Stage stage = new Stage();
-                    stage.initStyle(StageStyle.UNDECORATED);
-                    stage.setScene(new Scene(root));
-                    stage.show();
-
-                } catch (IOException ex) {
-                    Logger.getLogger(LoginController.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                    Messages(lbl_Message_Login, "You account is blocked!");
+                    Incorrect(txt_Password_Login);
+                    Incorrect(txt_Username_Login);
                 }
             }
         }
@@ -563,10 +572,13 @@ public class LoginController implements Initializable {
                         } else {
                             Messages(lbl_Message_Register, "");
                             Correct(txt_Password_Register);
-
+                            Date creationDate = new Date();
                             account.setUserName(username);
                             account.setEmail(email);
                             account.setPassword(password);
+                            account.setCreationDate(creationDate);
+                            account.setRole(2);
+                            account.setActive(true);
                             dao.insert_Register(account);
 
                             System.out.println("Register success!");
@@ -687,6 +699,5 @@ public class LoginController implements Initializable {
     public void Correct(TextField name) {
         name.setStyle("-fx-border-color: #fff");
     }
-
 
 }
