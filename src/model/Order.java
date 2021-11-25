@@ -58,4 +58,12 @@ public class Order {
     public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
+    public Object[] toObjects() {
+        return new Object[]{orderID,creationDate,status,accountId};
+    }
+
+    @Override
+    public String toString() {
+        return "ID:" + orderID + ", CreationDate=" + creationDate + ", Status=" + status + ", AccountId=" + accountId;
+    }
 }

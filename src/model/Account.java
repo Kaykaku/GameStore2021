@@ -167,5 +167,15 @@ public class Account {
     public String toString() {
          return  Email;
     }
+    public Object[] toObjects() { 
+        return new Object[]{accountId,name,birthDay, gender?"Male":"Famale",image,Email,address, country,creationDate,Username,
+            Password,active?0:1,role,comment };
+    
+    }
+
+    public String toStrings() {
+        return  "ID:" + accountId + ", Name:" + name + ", BirthDay:" + birthDay + ", Gender" + gender + ", Image:" + image + ", Email=" + Email + ", Address=" + address + ", Country=" + country + ", CreationDate=" + creationDate + ", Username=" + Username + ", Password=" + Password + ", Active=" + active + ", Role=" + role + ", Comment=" + comment + '}';
+    }
+
 
 }

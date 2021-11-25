@@ -174,5 +174,16 @@ public class Application {
     public void setEnableBuy(boolean enableBuy) {
         this.enableBuy = enableBuy;
     }
+    @Override
+    public String toString() {
+        return "ID:" + applicationID + ", Name:" + name + ", Price:" + price + ", Size:" + size + ", Type:" + type + ", Image:" + appImage + ",Icon:" + appIcon + ", Developer:" + developer + ", Publisher:" + publisher + ", ReleaseDay:" + releaseDay + ", CreationDate:" + creationDate + ", Languages:" + languages + ", Sale:" + sale+ ", Active:" + active + ", EnableBuy:" + enableBuy + ", Description:" + description;
+    }
+
+
+    public Object[] toObjects() { 
+        return new Object[]{applicationID,name,price, size,appImage,appIcon,developer, publisher,releaseDay,creationDate,
+            languages,sale,active,enableBuy,description };
+    
+    }
 
 }

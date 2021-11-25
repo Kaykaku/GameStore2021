@@ -45,7 +45,9 @@ import model.Account;
 import model.Application;
 import until.Catch_Errors;
 import until.Dialog;
+import until.ExportExcel;
 import until.ExportPDF;
+import until.ExportText;
 import until.ProcessDate;
 import until.ProcessImage;
 import until.Value;
@@ -164,6 +166,12 @@ public class Management_ProductController implements Initializable {
 
     @FXML
     private JFXButton btn_DPFProduct;
+    
+    @FXML
+    private JFXButton btn_ExcelProduct;
+    @FXML
+    private JFXButton btn_TextProduct;
+    
     @FXML
     private JFXButton btn_sendSale;
 
@@ -190,6 +198,8 @@ public class Management_ProductController implements Initializable {
         this.showDatePicker();
         this.EventSearch();
         this.ExportPDFProduct();
+        this.ExportExcelProduct();
+        this.ExportTextProduct();
         this.fillListApplication();
         this.displayFormAnimation();
         btn_Update.setDisable(true);
@@ -441,6 +451,29 @@ public class Management_ProductController implements Initializable {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        });
+    }
+     private void ExportExcelProduct() {
+        btn_ExcelProduct.setOnAction(evt -> {
+            String[] header = new String[]{"ID", "Name", "Price", "Size", "Image", "Icon", "Developer", "Publisher", "ReleaseDay",
+                "CreationDate", "Languages","Sale","Active","EnableBuy", "Description"};
+            List<Application> list = applicationDAO.selectAll();
+            List<Object[]> listObjs = new ArrayList<>();
+            list.forEach((Application) -> {
+                listObjs.add(Application.toObjects());
+            });
+            String fileName = "Product";
+            String title = "Application List";
+            try {
+                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+            } catch (IOException ex) {
+                
+            }
+        });
+    }
+     private void ExportTextProduct() {
+        btn_TextProduct.setOnAction(evt -> {       
+              ExportText.ExportFileProduct();
         });
     }
 

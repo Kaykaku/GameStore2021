@@ -46,7 +46,9 @@ import model.News;
 import static until.Auth.USER;
 import until.Catch_Errors;
 import until.Dialog;
+import until.ExportExcel;
 import until.ExportPDF;
+import until.ExportText;
 import until.ProcessImage;
 import until.ProcessDate;
 
@@ -127,9 +129,14 @@ public class Management_NewsController implements Initializable {
 
     @FXML
     private TextField txt_Search;
-    
+
     @FXML
     private JFXButton btn_PDFNews;
+    @FXML
+    private JFXButton btn_ExcelNew;
+
+    @FXML
+    private JFXButton btn_TextNew;
     int s;
     int row = 20;
 //    byte [] path = null;
@@ -147,6 +154,8 @@ public class Management_NewsController implements Initializable {
         fillDataOnBackground();
         search();
         ExportPDFNews();
+        ExportExcelNews();
+        ExportTextNew();
         updateStatus();
 
     }
@@ -361,7 +370,8 @@ public class Management_NewsController implements Initializable {
             }
         });
     }
-     private void ExportPDFNews() {
+
+    private void ExportPDFNews() {
         btn_PDFNews.setOnAction(evt -> {
             try {
                 ExportPDF.exportPDFNews();
@@ -369,6 +379,41 @@ public class Management_NewsController implements Initializable {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        });
+    }
+
+    private void ExportExcelNews() {
+        btn_ExcelNew.setOnAction(evt -> {
+            String[] header = new String[]{"ID", "CreationDate", "Title", "Description", "Contents", "Image", "AccountId", "Views"};
+            List<News> list = newsDao.selectAll();
+            List<Object[]> listObjs = new ArrayList<>();
+            list.forEach((News) -> {
+                listObjs.add(News.toObjects());
+            });
+            String fileName = "News";
+            String title = "News List";
+            try {
+                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+            } catch (IOException ex) {
+                Logger.getLogger(Management_NewsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+
+    private void ExportTextNew() {
+        btn_TextNew.setOnAction(evt -> {
+//            try {          
+//                List<News> list = newsDao.selectAll();
+//                List<Object[]> listObjs = new ArrayList<>();
+//                list.forEach((News) -> {
+//                    listObjs.add(News.toObjects());
+//                });
+//                String fileName = "Newstxt";
+//                ExportText.exportText(null,  listObjs, fileName);
+//            } catch (IOException ex) {
+//               ex.printStackTrace();
+//            }
+            ExportText.ExportFileNews();
         });
     }
 

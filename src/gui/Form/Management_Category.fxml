@@ -178,7 +178,7 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </TextField>
-            <TableView fx:id="tbl_Categories" layoutX="15.0" layoutY="65.0" prefHeight="215.0" prefWidth="830.0" styleClass="pnl_view">
+            <TableView fx:id="tbl_Categories" layoutX="15.0" layoutY="61.0" prefHeight="215.0" prefWidth="830.0" styleClass="pnl_view">
               <columns>
                 <TableColumn fx:id="col_ID" prefWidth="135.0" styleClass="category_table" text="ID" />
                 <TableColumn fx:id="col_Name" prefWidth="220.0" styleClass="category_table" text="NAME" />
@@ -188,9 +188,9 @@
             </TableView>
             <HBox layoutX="290.0" layoutY="10.0" prefHeight="30.0" prefWidth="280.0" spacing="1.0" styleClass="pnl_view">
                <children>
-                  <JFXButton prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton fx:id="btn_TextCategory" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
                   <JFXButton fx:id="btn_PDFCategory" prefHeight="30.0" prefWidth="100.0" styleClass="button_type" text="PDF" />
-                  <JFXButton prefHeight="30.0" prefWidth="100.0" styleClass="button_type" text="Excel" />
+                  <JFXButton fx:id="btn_ExcelCategory" prefHeight="30.0" prefWidth="100.0" styleClass="button_type" text="Excel" />
                   <JFXButton prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
                </children>
             </HBox>

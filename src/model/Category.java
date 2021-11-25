@@ -51,5 +51,12 @@ public class Category {
     public  int getAppCount(){
         return new AppTypeDAO().selectByCategoryId(categoryId).size();
     }
+      public Object[] toObjects() {
+        return new Object[]{categoryId,name,color};
+    }
+    @Override
+    public String toString() {
+        return  "ID:" + categoryId + ", Name:" + name + ", Color:" + color;
+    }
     
 }

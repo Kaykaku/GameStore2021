@@ -53,7 +53,9 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import model.Account;
 import until.Dialog;
+import until.ExportExcel;
 import until.ExportPDF;
+import until.ExportText;
 import until.ProcessDate;
 import until.ProcessImage;
 import until.Validation;
@@ -192,6 +194,10 @@ public class Management_AccountController implements Initializable {
     @FXML
     private JFXButton btn_PDFAccount;
     
+    @FXML
+    private JFXButton  btn_ExcelAccount ;
+    @FXML
+    private JFXButton btn_TextAccount;
     public static JFXTextField static_Mail;
     public static Stage static_Stage;
     private JFXDatePicker datePicker_CreationDate;
@@ -211,7 +217,9 @@ public class Management_AccountController implements Initializable {
         drawDatePicker();
         setGroupButton();
         setEvent();
-        //ExportPDFAccount();
+        ExportPDFAccount();
+        ExportExcelAccount();
+        ExportTextAccount();
         setAvatar();
         updateStatus();
         fillDataOnBackground();
@@ -446,16 +454,53 @@ public class Management_AccountController implements Initializable {
         clearForm();
 
     }
-//     private void ExportPDFAccount() {
-//        btn_PDFAccount.setOnAction(evt -> {
-//            try {
-//                ExportPDF.exportPDFAccount();
-//                Dialog.showMessageDialog(null, "File save successfully!");
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
-//        });
-//    }
+ private void ExportPDFAccount() {
+        btn_PDFAccount.setOnAction(evt -> {
+            try {
+                ExportPDF.exportPDFAccount();
+                Dialog.showMessageDialog(null, "File save successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+  
+    private void ExportExcelAccount() {
+        btn_ExcelAccount.setOnAction(evt -> {
+            String[] header = new String[]{"ID", "Name", "BirthDay", "Gender", "Image",
+                "Email", "Address", "Country", "Creation Date", "Username",
+                "Password", "Active", "Role", "Comment"};
+            List<Account> list = accountDAO.selectAll();
+            List<Object[]> listObjs = new ArrayList<>();
+            list.forEach((News) -> {
+                listObjs.add(News.toObjects());
+            });
+            String fileName = "Account";
+            String title = "Account List";
+            try {
+                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+            } catch (IOException ex) {
+                Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+
+    private void ExportTextAccount() {
+        btn_TextAccount.setOnAction(evt -> {
+//           try {
+//               List<Account> list = accountDAO.selectAll();
+//               List<Object[]> listObjs = new ArrayList<>();
+//               list.forEach((News) -> {
+//                   listObjs.add(News.toObjects());
+//               });
+//               String fileName = "Account";
+//               ExportText.exportText(null, listObjs, fileName);
+//           } catch (IOException ex) {
+//              ex.printStackTrace();
+//           }
+            ExportText.ExportFileAccount();
+        });
+    }
 
     void setEvent() {
         tbl_Accounts.setOnMouseClicked((event) -> {

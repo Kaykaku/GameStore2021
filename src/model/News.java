@@ -131,6 +131,12 @@ public class News {
     public void setToggle_Views(boolean toggle_Views) {
         this.toggle_Views = toggle_Views;
     }
+    public Object[] toObjects() {
+         return new Object[]{NewsID,CreationDate,Title,Description, Contents,Image,AccountId,Views};
+    }
+   public String toStrings() {
+        return "ID:" + NewsID + ", Name:" + name + ", AccountId:" + AccountId + ", Views:" + Views + ", CreationDate:" + CreationDate +", Title:" + Title + ", Description=" + Description + ", Contents:" + Contents + ", Image:" + Image + '}';
+    }
     
 
 	

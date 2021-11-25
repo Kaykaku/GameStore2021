@@ -18,9 +18,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +40,9 @@ import model.Application;
 import model.Order;
 import model.OrderDetail;
 import until.Dialog;
+import until.ExportExcel;
+import until.ExportPDF;
+import until.ExportText;
 import until.ProcessDate;
 import until.Validation;
 import until.Value;
@@ -178,6 +184,14 @@ public class Management_OrderController implements Initializable {
     @FXML
     private Pane pnl_Management_Order;
 
+    @FXML
+    private JFXButton btn_PDFOrder;
+    @FXML
+    private JFXButton btn_ExcelOrder;
+
+    @FXML
+    private JFXButton btn_TextOrder;
+
     List<Order> listOrders;
     List<OrderDetail> listOrderDetails;
     List<Application> listApplications;
@@ -198,6 +212,9 @@ public class Management_OrderController implements Initializable {
         displayFormAnimation();
         setGroupButton();
         setEvent();
+         ExportPDFOrder();
+        ExportExcelOrder();
+        ExportTextOrder();
         updateStatus();
         fillDataOnBackground();
 
@@ -297,7 +314,7 @@ public class Management_OrderController implements Initializable {
                 final int h = i;
                 OrderDetail orde = listOrderDetails.get(h);
                 total += orde.getPrice() * (100 - orde.getSale());
-                
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.ROW_ORDERDETAIL));
                 nodes[h] = (Pane) loader.load();
                 controllers[h] = loader.getController();
@@ -352,12 +369,12 @@ public class Management_OrderController implements Initializable {
                 nodes[h].setOnMousePressed(evt -> {
 
                     pnl_Management_Order.getChildren().add(nodes[h]);
-                    nodes[h].setLayoutX(evt.getSceneX()-90);
-                    nodes[h].setLayoutY(evt.getSceneY()-60);
+                    nodes[h].setLayoutX(evt.getSceneX() - 90);
+                    nodes[h].setLayoutY(evt.getSceneY() - 60);
                 });
                 nodes[h].setOnMouseDragged(evt -> {
-                    nodes[h].setLayoutX(evt.getSceneX()-90);
-                    nodes[h].setLayoutY(evt.getSceneY()-60);
+                    nodes[h].setLayoutX(evt.getSceneX() - 90);
+                    nodes[h].setLayoutY(evt.getSceneY() - 60);
                 });
                 nodes[h].setOnMouseReleased(evt -> {
                     pnl_Management_Order.getChildren().remove(nodes[h]);
@@ -409,7 +426,7 @@ public class Management_OrderController implements Initializable {
             entity.setAccountId(Integer.valueOf(txt_OderCustomerID.getText()));
             entity.setCreationDate(ProcessDate.toDate(lbl_OrderCreationDate.getText()));
             entity.setStatus(rdo_Processing.isSelected() ? 0 : rdo_Accepted.isSelected() ? 1 : 2);
-   
+
             return entity;
         }
         Dialog.showMessageDialog("Wrong data", err);
@@ -449,7 +466,7 @@ public class Management_OrderController implements Initializable {
             changeTabs();
         }
         setOrderForm(new Order());
-        
+
         updateStatus();
         clearOrderDetailForm();
         pnl_Tab_OrderDetails.setDisable(true);
@@ -564,6 +581,41 @@ public class Management_OrderController implements Initializable {
         }
         isTabs1 = !isTabs1;
     }
+    private void ExportPDFOrder() {
+        btn_PDFOrder.setOnAction(evt -> {
+            try {
+                ExportPDF.exportPDFOrder();
+                Dialog.showMessageDialog(null, "File Ordetail save successfully!");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    private void ExportExcelOrder() {
+        btn_ExcelOrder.setOnAction(evt -> {
+            String[] header = new String[]{"ID", "CreationDate", "Status", "AcountID"};
+            List<Order> list = orderDAO.selectAll();
+            List<Object[]> listObjs = new ArrayList<>();
+            list.forEach((News) -> {
+                listObjs.add(News.toObjects());
+            });
+            String fileName = "News";
+            String title = "News List";
+            try {
+                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+            } catch (IOException ex) {
+                Logger.getLogger(Management_OrderController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+
+    private void ExportTextOrder() {
+        btn_TextOrder.setOnAction(evt -> {
+            ExportText.ExportFileOrder();
+        });
+    }
+
 
     void setEvent() {
         pnl_Tab_Orders.setDisable(true);

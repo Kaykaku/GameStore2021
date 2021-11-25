@@ -18,10 +18,13 @@ import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +52,9 @@ import model.AppType;
 import model.Application;
 import model.Category;
 import until.Dialog;
+import until.ExportExcel;
 import until.ExportPDF;
+import until.ExportText;
 import until.ProcessImage;
 import until.Validation;
 import until.Value;
@@ -169,6 +174,11 @@ public class Management_CategoryController implements Initializable {
     private JFXButton btn_Last;
     @FXML
     private JFXButton btn_PDFCategory;
+    @FXML
+    private JFXButton btn_TextCategory;
+    @FXML
+    private JFXButton btn_ExcelCategory;
+
     CategoryDAO categoryDAO = new CategoryDAO();
     ApplicationDAO applicationDAO = new ApplicationDAO();
     AppTypeDAO appTypeDAO = new AppTypeDAO();
@@ -184,6 +194,8 @@ public class Management_CategoryController implements Initializable {
         displayFormAnimation();
         setEvent();
         ExportPDFCaategory();
+        ExportExcelCategory();
+        ExportTextCategory();
         updateStatus();
 
     }
@@ -473,6 +485,31 @@ public class Management_CategoryController implements Initializable {
             }
         });
     }
+
+    private void ExportExcelCategory() {
+        btn_ExcelCategory.setOnAction(evt -> {
+            String[] header = new String[]{"ID", "Name", "Color"};
+            List<Category> list = categoryDAO.selectAll();
+            List<Object[]> listObjs = new ArrayList<>();
+            list.forEach((News) -> {
+                listObjs.add(News.toObjects());
+            });
+            String fileName = "Category";
+            String title = "Category List";
+            try {
+                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+            } catch (IOException ex) {
+                Logger.getLogger(Management_CategoryController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+
+    private void ExportTextCategory() {
+        btn_TextCategory.setOnAction(evt -> {
+            ExportText.ExportFileCategory();
+        });
+    }
+
 
     void setEvent() {
         tbl_Categories.setOnMouseClicked((event) -> {
