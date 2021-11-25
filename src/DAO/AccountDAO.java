@@ -28,7 +28,7 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String select_By_KeyWord = "select * from Accounts where AccountId like ? or Name like ? or UserName like ? ";
     private final String update_Register = "update Accounts set Password = ? where Username = ?";
     private final String select_By_Email = "select * from Accounts where Email = ?";
-    private final String insert_Register = "INSERT Accounts (Username, Email, [Password]) VALUES (?, ?, ?)";
+    private final String insert_Register = "INSERT Accounts (Username, Email, [Password], creationDate, Role, Active) VALUES (?, ?, ?, ?, ?, ?)";
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
     private final String select_Email = "select Email from Accounts";
     
@@ -126,7 +126,7 @@ public class AccountDAO extends DAO<Account, Integer> {
     }
 
     public void insert_Register(Account entity) {
-        Connect_Jdbc.update(insert_Register, entity.getUserName(), entity.getEmail(), entity.getPassword());
+        Connect_Jdbc.update(insert_Register, entity.getUserName(), entity.getEmail(), entity.getPassword(), entity.getCreationDate(), entity.getRole(), entity.isActive());
     }
 
     public void update_Register(Account entity) {
