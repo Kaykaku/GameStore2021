@@ -25,9 +25,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -36,6 +38,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import model.Account;
 import model.Application;
 import model.Order;
 import model.OrderDetail;
@@ -58,6 +61,21 @@ public class Management_OrderController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    private ChoiceBox<String> cbx_ID;
+    
+    @FXML
+    private ChoiceBox<String> cbx_Price;
+    
+    @FXML
+    private ChoiceBox<String> cbx_Apps;
+    
+    @FXML
+    private ChoiceBox<String> cbx_Customer;
+    
+    @FXML
+    private ChoiceBox<String> cbx_Status;
+    
     @FXML
     private JFXButton btn_Order_Add;
 
@@ -216,6 +234,7 @@ public class Management_OrderController implements Initializable {
         ExportExcelOrder();
         ExportTextOrder();
         updateStatus();
+        fillChoiceBox();
         fillDataOnBackground();
 
     }
@@ -228,10 +247,8 @@ public class Management_OrderController implements Initializable {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                 }
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        fillListOrders();
-                    }
+                Platform.runLater(() -> {
+                    fillListOrders();
                 });
             }
         }.start();
@@ -247,8 +264,32 @@ public class Management_OrderController implements Initializable {
         rdo_Refunded.setToggleGroup(grbutton);
     }
 
+    void fillChoiceBox(){
+        List<String> list = new ArrayList<>();
+        list.add("All date");
+        list.add("Date ASC");
+        list.add("Date DESC");
+        cbx_ID.setItems(FXCollections.observableArrayList(list));
+        cbx_ID.getSelectionModel().select(0);
+        
+//        list.clear();
+//        list.add("All status");       
+//        list.add("Inactive");
+//        list.add("Active");
+//        cbx_Active.setItems(FXCollections.observableArrayList(list));
+//        cbx_Active.getSelectionModel().select(0);
+        
+        list.clear();
+        list.add("All status");       
+        list.add("Processing");
+        list.add("Accepted");
+        list.add("Refunded");
+        cbx_Status.setItems(FXCollections.observableArrayList(list));
+        cbx_Status.getSelectionModel().select(0);
+    }
     void fillListOrders() {
         try {
+            List<Account> listAccount = accountDAO.selectAll();
             listOrders = orderDAO.selectByKeyWord(txt_SearchTabs.getText().trim());
             int row = listOrders.size();
 
@@ -270,7 +311,7 @@ public class Management_OrderController implements Initializable {
                     nodes[h] = (Pane) loader.load();
                     controllers[h] = loader.getController();
                     vbox_Orders.getChildren().add(nodes[h]);
-                    controllers[h].setInfo(listOrders.get(h));
+                    controllers[h].setInfo(listOrders.get(h),listAccount);
 
                     nodes[h].setOnMouseClicked(evt -> {
                         for (Row_OrderController controller : controllers) {
@@ -331,6 +372,7 @@ public class Management_OrderController implements Initializable {
                     isOrderDetailEdit = true;
                     setOrderDetailForm(orde);
                     updateStatus();
+                    
                 });
                 controllers[h].getButtonDelete().setOnMouseClicked((event) -> {
                     deleteOrderDetail(orde);
@@ -654,7 +696,6 @@ public class Management_OrderController implements Initializable {
             deleteOrderDetail(listOrderDetails.get(detailIndex));
         });
         btn_OrderDetail_Update.setOnMouseClicked((evt) -> {
-            System.out.println(detailIndex);
             updateOrderDetail(listOrderDetails.get(detailIndex));
         });
     }

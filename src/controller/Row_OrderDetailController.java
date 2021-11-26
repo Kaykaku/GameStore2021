@@ -13,6 +13,7 @@ import DAO.ApplicationDAO;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -55,15 +56,15 @@ public class Row_OrderDetailController implements Initializable {
 
     @FXML
     private Label lbl_Price;
-    
+
     @FXML
     private JFXButton btn_Delete;
 
     @FXML
     private Label lbl_Sale;
-    boolean isShowOption=false;
+    boolean isShowOption = false;
     ApplicationDAO dao = new ApplicationDAO();
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         RoundedImageView.RoundedImage(img_IconApp, 10);
@@ -90,27 +91,32 @@ public class Row_OrderDetailController implements Initializable {
             isShowOption = !isShowOption;
         });
     }
-    void setOrderDetailInfo(OrderDetail entity){
-        Application app = dao.selectByID(entity.getApplicationId());
-        lbl_Id.setText(entity.getApplicationId()+"");
-        lbl_Name.setText(app.getName());
-        double price=(double) Math.round(entity.getPrice()*(100-entity.getSale()))/100;
-        lbl_Price.setText(price==0?"Free":"*"+price+"$");
-        lbl_Sale.setText(entity.getSale()+"%");
-        if (app.getAppIcon()!=null) {
-            img_IconApp.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(img_IconApp, 10);
-        }
-        lbl_Code.setText(entity.getDiscountCode());
+
+    void setOrderDetailInfo(OrderDetail entity) {
+        Platform.runLater(() -> {
+            Application app = dao.selectByID(entity.getApplicationId());
+            lbl_Id.setText(entity.getApplicationId() + "");
+            lbl_Name.setText(app.getName());
+            double price = (double) Math.round(entity.getPrice() * (100 - entity.getSale())) / 100;
+            lbl_Price.setText(price == 0 ? "Free" : "*" + price + "$");
+            lbl_Sale.setText(entity.getSale() + "%");
+            if (app.getAppIcon() != null) {
+                img_IconApp.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));
+                RoundedImageView.RoundedImage(img_IconApp, 10);
+            }
+            lbl_Code.setText(entity.getDiscountCode());
+        });
     }
-    void setSelected(boolean isSelected){
-        if(isSelected){
+
+    void setSelected(boolean isSelected) {
+        if (isSelected) {
             pnl_Row.setStyle("-fx-background-color: #185FEE ;");
-        }else{
+        } else {
             pnl_Row.setStyle("-fx-background-color: #2f2f2f ;");
         }
-    } 
-    JFXButton getButtonDelete(){
+    }
+
+    JFXButton getButtonDelete() {
         return btn_Delete;
     }
 }

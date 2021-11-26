@@ -31,6 +31,9 @@ public class Value {
     public static final String FORM_LOGIN  ="/gui/Form/Login.fxml";
     public static final String Pay  ="/gui/Form/Pay.fxml";
     
+    public static final String DIALOG_SCANQRCODE  ="/gui/Form/Dialog_ScanQRcode.fxml";
+    public static final String DIALOG_CREATEQRCODE  ="/gui/Form/Dialog_CreateQRcode.fxml";
+    
     public static final String ROW_ORDER  ="/gui/Item/Row_Order.fxml";
     public static final String ROW_PRODUCT  ="/gui/Item/Row_Product.fxml";
     public static final String ROW_WISHLIST  ="/gui/Item/Row_Wishlist.fxml";

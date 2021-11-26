@@ -227,6 +227,8 @@ public class Management_ProductController implements Initializable {
         this.displayFormAnimation();
         loadAppCategories(new Application());
         setEvent();
+        ExportExcelProduct();
+        ExportTextProduct();
         fillDataOnBackground();
         updateStatus();
     }
@@ -593,29 +595,6 @@ public class Management_ProductController implements Initializable {
                 setAvatarImage();
             }
         });
-    }
-     private void ExportExcelProduct() {
-        btn_ExcelProduct.setOnAction(evt -> {
-            String[] header = new String[]{"ID", "Name", "Price", "Size", "Image", "Icon", "Developer", "Publisher", "ReleaseDay",
-                "CreationDate", "Languages","Sale","Active","EnableBuy", "Description"};
-            List<Application> list = applicationDAO.selectAll();
-            List<Object[]> listObjs = new ArrayList<>();
-            list.forEach((Application) -> {
-                listObjs.add(Application.toObjects());
-            });
-            String fileName = "Product";
-            String title = "Application List";
-            try {
-                ExportExcel.exportFile(null, header, listObjs, fileName, title);
-            } catch (IOException ex) {
-                
-            }
-        });
-    }
-     private void ExportTextProduct() {
-        btn_TextProduct.setOnAction(evt -> {       
-              ExportText.ExportFileProduct();
-        });
         Img_AppIcon.setOnMouseClicked((event) -> {
             FileChooser fileChooser = new FileChooser();
             avatarIcon = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
@@ -650,42 +629,32 @@ public class Management_ProductController implements Initializable {
             setFormApp(applicationDAO.selectByID(appType.getApplicationID()));
         });
     }
-
-    @FXML
-    private void handleButtonAddAction(ActionEvent event) {
-        if (Catch_Errors.validationImageProduct(avatarImage)
-                && Catch_Errors.validationImageProduct(avatarIcon)
-                && Catch_Errors.check_TextProduct(txt_Name)
-                && Catch_Errors.check_FloatProduct(txt_Price)
-                && Catch_Errors.check_FloatProduct(txt_Size)) {
-            if (Catch_Errors.check_TextProduct(txt_Developed)
-                    && Catch_Errors.check_Languages(txt_Languages)
-                    && Catch_Errors.check_TextProduct(txt_Published)) {
-                if (Catch_Errors.check_FloatProduct(txt_Sale)
-                        && Catch_Errors.validationReleaseDay(datePicker_ReleaseDay)
-                        && Catch_Errors.check_TextAreaProduct(txt_Description)) {
-                    this.insert();
-                }
+     private void ExportExcelProduct() {
+        btn_ExcelProduct.setOnAction(evt -> {
+            String[] header = new String[]{"ID", "Name", "Price", "Size", "Image", "Icon", "Developer", "Publisher", "ReleaseDay",
+                "CreationDate", "Languages","Sale","Active","EnableBuy", "Description"};
+            List<Application> list = applicationDAO.selectAll();
+            List<Object[]> listObjs = new ArrayList<>();
+            list.forEach((Application) -> {
+                listObjs.add(Application.toObjects());
+            });
+            String fileName = "Product";
+            String title = "Application List";
+            try {
+                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+            } catch (IOException ex) {
+                
             }
-        }
+        });
+    }
+     private void ExportTextProduct() {
+        btn_TextProduct.setOnAction(evt -> {       
+              ExportText.ExportFileProduct();
+        });
+        
     }
 
-    @FXML
-    private void handleButtonUpdateAction(ActionEvent event) {
-        if (Catch_Errors.check_TextProduct(txt_Name)
-                && Catch_Errors.check_FloatProduct(txt_Price)
-                && Catch_Errors.check_FloatProduct(txt_Size)) {
-            if (Catch_Errors.check_TextProduct(txt_Developed)
-                    && Catch_Errors.check_TextProduct(txt_Published)
-                    && Catch_Errors.check_Languages(txt_Languages)
-                    && Catch_Errors.check_FloatProduct(txt_Sale)
-                    && Catch_Errors.validationReleaseDay(datePicker_ReleaseDay)) {
-                if (Catch_Errors.check_TextAreaProduct(txt_Description)) {
-                    this.update();
-                }
-            }
-        }
-    }
+    
     @FXML
     private void handleButtonSendSales(ActionEvent event) throws IOException, MessagingException, InterruptedException {
         this.sendMailAbtSale();

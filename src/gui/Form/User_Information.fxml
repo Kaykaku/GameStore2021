@@ -37,7 +37,7 @@
                         <Font size="18.0" />
                      </font>
                   </PasswordField>
-                  <JFXButton fx:id="btnChangepass" prefHeight="45.0" prefWidth="350.0" styleClass="button_type6" text="Change password">
+                  <JFXButton fx:id="btnChangepass" focusTraversable="false" prefHeight="45.0" prefWidth="350.0" styleClass="button_type6" text="Change password">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -317,22 +317,22 @@
       </Pane>
       <VBox fx:id="vbox_Controller" layoutX="970.0" layoutY="510.0" prefHeight="300.0" prefWidth="310.0" spacing="15.0">
          <children>
-            <JFXButton fx:id="btn_Update" layoutX="831.0" layoutY="595.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Update infomation">
+            <JFXButton fx:id="btn_Update" focusTraversable="false" layoutX="831.0" layoutY="595.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Update infomation">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btn_QR" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Create login QR code">
+            <JFXButton fx:id="btn_QRcode" focusTraversable="false" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Create login QR code">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btn_Contact" layoutX="831.0" layoutY="490.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Contact admin">
+            <JFXButton fx:id="btn_Contact" focusTraversable="false" layoutX="831.0" layoutY="490.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Contact admin">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btn_AboutUs" layoutX="831.0" layoutY="700.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="About Us">
+            <JFXButton fx:id="btn_AboutUs" focusTraversable="false" layoutX="831.0" layoutY="700.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="About Us">
                <font>
                   <Font size="24.0" />
                </font>

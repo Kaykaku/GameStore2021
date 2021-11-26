@@ -6,6 +6,7 @@
 package DAO;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import model.Account;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,18 +32,19 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password], creationDate, Role, Active) VALUES (?, ?, ?, ?, ?, ?)";
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
     private final String select_Email = "select Email from Accounts";
+    private final String update_QRcode = "update Accounts set QRcode=? where AccountId = ?";
     
     @Override
     public void insert(Account entity) {
         Connect_Jdbc.update(insert_sql, entity.getName(), entity.getBirthDay(), entity.isGender(),
                 entity.getImage(), entity.getEmail(), entity.getAddress(), entity.getCountry(), entity.getCreationDate(),
-                entity.getUserName(), entity.getPassword(), entity.isActive(), entity.getRole(), entity.isComment());
+                entity.getUsername(), entity.getPassword(), entity.isActive(), entity.getRole(), entity.isComment());
     }
 
     @Override
     public void update(Account entity) {
         Connect_Jdbc.update(update_sql, entity.getName(), entity.getBirthDay(), entity.isGender(), entity.getImage(),
-                entity.getEmail(), entity.getAddress(), entity.getCountry(), entity.getCreationDate(), entity.getUserName(), entity.getPassword(),
+                entity.getEmail(), entity.getAddress(), entity.getCountry(), entity.getCreationDate(), entity.getUsername(), entity.getPassword(),
                 entity.isActive(), entity.getRole(), entity.isComment(), entity.getAccountId());
     }
 
@@ -65,6 +67,7 @@ public class AccountDAO extends DAO<Account, Integer> {
         return list.get(0);
     }
 
+    @Override
     public List<Account> selectByKeyWord(String keys) {
         return null ;
     }
@@ -96,14 +99,14 @@ public class AccountDAO extends DAO<Account, Integer> {
                 list.add(account);
             }
             resultSet.getStatement().getConnection().close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
     @Override
     public List<Account> selectBySql(String sql, Object... args) {
-        List<Account> list = new ArrayList<Account>();
+        List<Account> list = new ArrayList<>();
         try {
             ResultSet resultSet = Connect_Jdbc.query(sql, args);
             while (resultSet.next()) {
@@ -117,21 +120,24 @@ public class AccountDAO extends DAO<Account, Integer> {
                 entity.setAddress(resultSet.getString("Address"));
                 entity.setCountry(resultSet.getString("Country"));
                 entity.setCreationDate(resultSet.getDate("CreationDate"));
-                entity.setUserName(resultSet.getString("UserName"));
+                entity.setUsername(resultSet.getString("UserName"));
                 entity.setPassword(resultSet.getString("Password"));
                 entity.setActive(resultSet.getBoolean("Active"));
                 entity.setRole(resultSet.getInt("Role"));
                 entity.setComment(resultSet.getBoolean("Comment"));
-
+                entity.setQRcode(resultSet.getString("QRcode"));
                 list.add(entity);
             }
             resultSet.getStatement().getConnection().close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
-
+    
+    public void updateQRcode(Account entity){
+        Connect_Jdbc.update(update_QRcode, entity.getQRcode(),entity.getAccountId());
+    }
     public Account selectByUser(String keys) {
         List<Account> list = this.selectBySql(select_By_User_sql, keys);
         if (list.isEmpty()) {
@@ -139,13 +145,13 @@ public class AccountDAO extends DAO<Account, Integer> {
         }
         return list.get(0);
     }
-
+    
     public void insert_Register(Account entity) {
-        Connect_Jdbc.update(insert_Register, entity.getUserName(), entity.getEmail(), entity.getPassword(), entity.getCreationDate(), entity.getRole(), entity.isActive());
+        Connect_Jdbc.update(insert_Register, entity.getUsername(), entity.getEmail(), entity.getPassword(), entity.getCreationDate(), entity.getRole(), entity.isActive());
     }
 
     public void update_Register(Account entity) {
-        Connect_Jdbc.update(update_Register, entity.getPassword(), entity.getUserName());
+        Connect_Jdbc.update(update_Register, entity.getPassword(), entity.getUsername());
     }
 
     public Account selectByEmail(String keys) {

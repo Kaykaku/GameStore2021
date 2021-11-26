@@ -18,43 +18,28 @@ public class Account {
     private Date birthDay;
     private boolean gender;
     private byte[] image=null;
-    private String Email;
+    private String email;
     private String address;
     private String country;
     private Date creationDate;
-    private String Username;
-    private String Password;
+    private String username;
+    private String password;
     private boolean active;
     private int role=-1;
     private boolean comment;
-
+    private String QRcode;
     public Account() {
-    }
-
-    public Account(int accountId, String name, Date birthDay, boolean gender, String Email, String address, String country, Date creationDate, String UserName, String Password, boolean active, int role, boolean comment) {
-        this.accountId = accountId;
-        this.name = name;
-        this.birthDay = birthDay;
-        this.gender = gender;
-        this.Email = Email;
-        this.address = address;
-        this.country = country;
-        this.creationDate = creationDate;
-        this.Username = UserName;
-        this.Password = Password;
-        this.active = active;
-        this.role = role;
-        this.comment = comment;
-    }
-
-    public Account(String Email) {
-        this.Email = Email;
     }
 
     public int getAccountId() {
         return accountId;
     }
 
+    public Account(String email) {
+        this.email = email;
+    }
+
+    
     public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
@@ -92,11 +77,11 @@ public class Account {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAddress() {
@@ -123,20 +108,20 @@ public class Account {
         this.creationDate = creationDate;
     }
 
-    public String getUserName() {
-        return Username;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String UserName) {
-        this.Username = UserName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
-    public void setPassword(String Password) {
-        this.Password = Password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean isActive() {
@@ -163,18 +148,28 @@ public class Account {
         this.comment = comment;
     }
 
+    public String getQRcode() {
+        return QRcode;
+    }
+
+    public void setQRcode(String QRcode) {
+        this.QRcode = QRcode;
+    }
+
+    
+
     @Override
     public String toString() {
-         return  Email;
+         return  email;
     }
     public Object[] toObjects() { 
-        return new Object[]{accountId,name,birthDay, gender?"Male":"Famale",image,Email,address, country,creationDate,Username,
-            Password,active?0:1,role,comment };
+        return new Object[]{accountId,name,birthDay, gender?"Male":"Famale",image,email,address, country,creationDate,username,
+            password,active?0:1,role,comment };
     
     }
 
     public String toStrings() {
-        return  "ID:" + accountId + ", Name:" + name + ", BirthDay:" + birthDay + ", Gender" + gender + ", Image:" + image + ", Email=" + Email + ", Address=" + address + ", Country=" + country + ", CreationDate=" + creationDate + ", Username=" + Username + ", Password=" + Password + ", Active=" + active + ", Role=" + role + ", Comment=" + comment + '}';
+        return  "ID:" + accountId + ", Name:" + name + ", BirthDay:" + birthDay + ", Gender" + gender + ", Image:" + image + ", Email=" + email + ", Address=" + address + ", Country=" + country + ", CreationDate=" + creationDate + ", Username=" + username + ", Password=" + password + ", Active=" + active + ", Role=" + role + ", Comment=" + comment + '}';
     }
 
 

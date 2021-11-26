@@ -6,6 +6,7 @@
 package until;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -76,5 +77,14 @@ public class ProcessImage {
         }
         return null;
     }
-    
+    public BufferedImage toImage(byte[] bytes ){
+        try {
+            InputStream is = new ByteArrayInputStream(bytes);
+            BufferedImage bi = ImageIO.read(is);
+            return bi;
+        } catch (IOException ex) {
+            
+        }
+        return  null;
+    }
 }

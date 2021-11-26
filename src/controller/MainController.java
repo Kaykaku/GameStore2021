@@ -151,9 +151,6 @@ public class MainController implements Initializable {
                 Auth.USER = null;
     }
     void loadRoleItems() {
-        if (Auth.USER == null) {
-            Auth.USER = new AccountDAO().selectByID(1);
-        }
         pnl_ManageAccount.setTranslateX(0);
         ListView = new ArrayList<>();
         ListItems = new ArrayList<>();
@@ -196,7 +193,7 @@ public class MainController implements Initializable {
             RoundedImageView.RoundedImage(img_User_Icon_Small, 35);
             RoundedImageView.RoundedImage(img_User_Icon_Medium, img_User_Icon_Medium.getFitWidth());
         }
-        lbl_UserName.setText(Auth.USER.getUserName());
+        lbl_UserName.setText(Auth.USER.getUsername());
         lbl_UserName_Hide.setText(Auth.USER.getName());
         lbl_Email_Hide.setText(Auth.USER.getEmail());
     }

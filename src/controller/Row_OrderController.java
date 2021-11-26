@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import model.Account;
 import model.Order;
 import model.OrderDetail;
 import until.ProcessDate;
@@ -69,10 +70,18 @@ public class Row_OrderController implements Initializable {
         });
     }
 
-    void setInfo(Order entity) {
+    void setInfo(Order entity,List<Account> listAccount) {
+        
         Platform.runLater(() -> {
+            double total = 0;         
             List<OrderDetail> list = new OrderDetailDAO().selectByOrderID(entity.getOrderID());
-            double total = 0;
+             String name ="";
+            for (Account account : listAccount) {
+                if(account.getAccountId()==entity.getAccountId()){
+                    name =account.getName();
+                    break;
+                }
+            }
             for (OrderDetail orderDetail : list) {
                 total += orderDetail.getPrice() * (100 - orderDetail.getSale());
             }
@@ -80,7 +89,7 @@ public class Row_OrderController implements Initializable {
 
             lbl_ID.setText(entity.getOrderID() + "");
             lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));
-            lbl_NameCustomer.setText(entity.getAccountId() + "-" + new AccountDAO().selectByID(entity.getAccountId()).getName());
+            lbl_NameCustomer.setText(entity.getAccountId() + "-" + name);
             lbl_Quantity.setText(list.size() + " Apps");
             lbl_Total.setText(total + "$");
             String status = entity.getStatus() == 0 ? "Processing" : entity.getStatus() == 1 ? "Accepted" : "Refunded";

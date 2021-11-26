@@ -387,7 +387,7 @@ public class Management_AccountController implements Initializable {
         cbo_Country.getSelectionModel().select(isEdit ? entity.getCountry() : "");
         txt_Email.setText(isEdit ? entity.getEmail() : "");
         txt_Address.setText(isEdit ? entity.getAddress() : "");
-        txt_UserName.setText(isEdit ? entity.getUserName() : "");
+        txt_UserName.setText(isEdit ? entity.getUsername(): "");
         tog_Active.setSelected(isEdit ? entity.isActive() : false);
         if(role==0){
             img_Admin.setOpacity(1);
@@ -437,7 +437,7 @@ public class Management_AccountController implements Initializable {
             entity.setActive(tog_Active.isSelected());
             entity.setComment(tog_Comment.isSelected());
             entity.setRole(role);
-            entity.setUserName(txt_UserName.getText().trim());
+            entity.setUsername(txt_UserName.getText().trim());
             entity.setPassword(isEdit ? accountDAO.selectByID(entity.getAccountId()).getPassword() : txt_NewPassword.getText().trim());
             entity.setAddress(txt_Address.getText()!=null?txt_Address.getText().trim():"");
             entity.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png")));

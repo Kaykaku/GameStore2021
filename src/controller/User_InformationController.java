@@ -13,13 +13,19 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -31,10 +37,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Account;
 import until.Auth;
 import until.ProcessDate;
 import until.ProcessImage;
+import until.Value;
 import until.Variable;
 import static until.Variable.PNL_VIEW;
 
@@ -58,6 +68,9 @@ public class User_InformationController implements Initializable {
 
     @FXML
     private JFXButton btn_AboutUs;
+
+    @FXML
+    private JFXButton btn_QRcode;
 
     @FXML
     private Label lbl_AppViews;
@@ -153,7 +166,7 @@ public class User_InformationController implements Initializable {
     private JFXDatePicker datePicker_CreationDate;
     private JFXDatePicker datePicker_Birthday;
     AccountDAO accountDAO = new AccountDAO();
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         RoundedImageView.RoundedImage(img_Avatar, img_Avatar.getFitWidth());
@@ -166,8 +179,21 @@ public class User_InformationController implements Initializable {
 
     void setEvent() {
         btn_Back.setOnMouseClicked((event) -> {
-            Variable.IS_ACCOUNT_INFORMATION_OPEN=false;
-            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);           
+            Variable.IS_ACCOUNT_INFORMATION_OPEN = false;
+            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
+        });
+        btn_QRcode.setOnMouseClicked((event) -> {
+            try {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_CREATEQRCODE));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.showAndWait();
+            } catch (IOException ex) {
+                Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
@@ -176,27 +202,28 @@ public class User_InformationController implements Initializable {
             img_Avatar.setImage(new Image(ProcessImage.toFile(account.getImage(), "avatar.png").toURI().toString()));
             RoundedImageView.RoundedImage(img_Avatar, img_Avatar.getFitWidth());
         }
-        txt_Username.setText(account.getUserName()+"");
+        txt_Username.setText(account.getUsername()+ "");
         txt_Username.setEditable(false);
-        lbl_Accountid.setText(account.getAccountId()+"");
-        txt_Name.setText(account.getName()+"");
-        datePicker_Birthday.setValue(account.getBirthDay()!=null? ProcessDate.toLocalDate(account.getBirthDay()) : null);
+        lbl_Accountid.setText(account.getAccountId() + "");
+        txt_Name.setText(account.getName() + "");
+        datePicker_Birthday.setValue(account.getBirthDay() != null ? ProcessDate.toLocalDate(account.getBirthDay()) : null);
         rdo_Female.setSelected(account.isGender());
         rdo_Male.setSelected(!account.isGender());
         cbo_Country.getSelectionModel().select(account.getCountry());
-        txt_Email.setText(account.getEmail()+"");
-        txt_Address.setText(account.getAddress()+"");
+        txt_Email.setText(account.getEmail() + "");
+        txt_Address.setText(account.getAddress() + "");
         lbl_CreationDate.setText(ProcessDate.toString(account.getCreationDate()));
-        
+
         Object[] accStatics = new StatisticsDAO().getAccountStatistics(account.getAccountId());
-        lbl_AppViews.setText(accStatics[0]+" Views");
-        lbl_TotalOders.setText(accStatics[1]+" Orders");
-        lbl_Ratings.setText(accStatics[2]+" Ratings");
-        lbl_Comments.setText(accStatics[3]+" Comments");
-        lbl_AppPurchased.setText(accStatics[4]+" Apps");
-        double paid = accStatics[5]!=null? (double) Math.round((double)accStatics[5]*100) / 100:0;
-        lbl_AmountPaid.setText(paid+"$");
+        lbl_AppViews.setText(accStatics[0] + " Views");
+        lbl_TotalOders.setText(accStatics[1] + " Orders");
+        lbl_Ratings.setText(accStatics[2] + " Ratings");
+        lbl_Comments.setText(accStatics[3] + " Comments");
+        lbl_AppPurchased.setText(accStatics[4] + " Apps");
+        double paid = accStatics[5] != null ? (double) Math.round((double) accStatics[5] * 100) / 100 : 0;
+        lbl_AmountPaid.setText(paid + "$");
     }
+
     void drawDatePicker() {
         datePicker_Birthday = new JFXDatePicker();
         datePicker_Birthday.setDefaultColor(Paint.valueOf("lightblue"));
@@ -217,6 +244,7 @@ public class User_InformationController implements Initializable {
 
         cbo_Country.setItems(FXCollections.observableArrayList(list));
     }
+
     void setGroupButton() {
         ToggleGroup grbutton = new ToggleGroup();
         rdo_Male.setSelectedColor(Color.valueOf("#4a84f8"));

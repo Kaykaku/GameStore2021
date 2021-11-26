@@ -81,7 +81,7 @@ public class Row_CommentController implements Initializable {
         lbl_CommentDate.setText(ProcessDate.toString(entity.getCreationDate()));
         
         Account account = new AccountDAO().selectByAppViewID(entity.getApplicatonViewId());
-        lbl_UserName.setText(account.getUserName());
+        lbl_UserName.setText(account.getUsername());
         if (account.getImage()!=null) {
             img_Avatar.setImage(new Image(ProcessImage.toFile(account.getImage(), "smalavatar.png").toURI().toString()));
             RoundedImageView.RoundedImage(img_Avatar, 40);

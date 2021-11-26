@@ -251,7 +251,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_CategoryCount" layoutX="135.0" layoutY="130.0" text="3" textFill="#b9b8b8">
+            <Label fx:id="lbl_CategoryCount" layoutX="135.0" layoutY="130.0" text="0" textFill="#b9b8b8">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

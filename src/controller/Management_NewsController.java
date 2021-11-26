@@ -464,6 +464,7 @@ public class Management_NewsController implements Initializable {
     private void handleImgAction(MouseEvent event) {
 //        this.ChooseImage();
         FileChooser fileChooser = new FileChooser();
+        
         avatarImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
         if (avatarImage != null) {
             setAvatarImage();

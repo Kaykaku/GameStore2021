@@ -58,7 +58,7 @@ public class ExportPDF {
             heading.setSize(10);
             dataTable.setSize(8.5);
             Table table = new Table();
-            List<List<Cell>> tableData = new ArrayList<List<Cell>>();
+            List<List<Cell>> tableData = new ArrayList<>();
             List<Cell> tableRow = new ArrayList<>();
             Cell cell = new Cell(heading, "ID");
             tableRow.add(cell);
@@ -324,7 +324,7 @@ public class ExportPDF {
                 Cell Country = new Cell(dataTable, model.getCountry());
                 Cell Email = new Cell(dataTable, model.getEmail());
                 Cell Creation = new Cell(dataTable, String.valueOf(model.getCreationDate()));
-                Cell UserName = new Cell(dataTable, model.getUserName());
+                Cell UserName = new Cell(dataTable, model.getUsername());
                 Cell Password = new Cell(dataTable, model.getPassword() + "");
                 Cell Active = new Cell(dataTable, model.isActive() ? "Active" : "InActive");
                 Cell Role = new Cell(dataTable, model.getRole() + "");

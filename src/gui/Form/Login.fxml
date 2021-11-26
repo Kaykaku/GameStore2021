@@ -112,7 +112,7 @@
                   <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
                </children>
             </Pane>
-            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="162.0" layoutY="477.0" onAction="#LoginAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
+            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="162.0" layoutY="477.0" onAction="#LoginAction" prefHeight="40.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -123,7 +123,7 @@
                   <Font size="18.0" />
                </font>
             </JFXCheckBox>
-            <Label fx:id="lbl_ForgotPassword" alignment="CENTER" layoutX="324.0" layoutY="547.0" prefHeight="27.0" prefWidth="138.0" styleClass="text_input2" text="Forgot password" textFill="#b7492f" underline="true">
+            <Label fx:id="lbl_ForgotPassword" alignment="CENTER" layoutX="324.0" layoutY="524.0" prefHeight="27.0" prefWidth="138.0" styleClass="text_input2" text="Forgot password" textFill="#b7492f" underline="true">
                <font>
                   <Font size="18.0" />
                </font>
@@ -132,6 +132,22 @@
                <font>
                   <Font size="16.0" />
                </font></Label>
+            <JFXButton fx:id="btn_LoginQRcode" focusTraversable="false" layoutX="163.0" layoutY="574.0" onAction="#LoginAction" prefHeight="40.0" prefWidth="300.0" styleClass="button_type10" text="Sign in with QRcode">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <HBox layoutX="32.0" layoutY="524.0" prefHeight="16.0" prefWidth="560.0">
+               <children>
+                  <Separator layoutX="30.0" layoutY="536.0" prefHeight="32.0" prefWidth="200.0" />
+                  <Label alignment="CENTER" layoutX="182.0" layoutY="512.0" prefHeight="27.0" prefWidth="34.0" text="OR" textFill="#dddddd">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="313.0" layoutY="535.0" prefHeight="38.0" prefWidth="200.0" />
+               </children>
+            </HBox>
          </children>
       </Pane>
       <Pane fx:id="pnl_ChangePass" layoutX="1245.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">

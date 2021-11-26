@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.embed.swing.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pnl_Dialog" prefHeight="540.0" prefWidth="560.0" styleClass="container1" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Dialog_ScanQRcodeController">
+   <children>
+      <ImageView fx:id="img_WebcamView" fitHeight="400.0" fitWidth="500.0" layoutX="30.0" layoutY="50.0" pickOnBounds="true" />
+      <Button fx:id="btn_Exit" focusTraversable="false" layoutX="516.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="33.0" styleClass="button_close" stylesheets="@../../css/main.css">
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/multiply24.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Label fx:id="lbl_Message" alignment="CENTER" contentDisplay="CENTER" layoutY="482.0" prefHeight="27.0" prefWidth="560.0" text="Place the QR code in the center of the screen" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

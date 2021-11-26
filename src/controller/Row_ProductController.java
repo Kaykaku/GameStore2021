@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -88,18 +89,19 @@ public class Row_ProductController implements Initializable {
     }
 
     void setAppInfo(Application entity) {
+
         Platform.runLater(() -> {
             lbl_Id.setText(entity.getApplicationID() + "");
             lbl_Name.setText(entity.getName());
-            double number =(double) Math.round(entity.getPrice()*100)/100;
-            lbl_Price.setText(number ==0? "Free" : number + "$");
+            double number = (double) Math.round(entity.getPrice() * 100) / 100;
+            lbl_Price.setText(number == 0 ? "Free" : number + "$");
             lbl_RealeaseDate.setText(ProcessDate.toString(entity.getReleaseDay()));
-             number =(double) Math.round(entity.getSale()*100)/100;
+            number = (double) Math.round(entity.getSale() * 100) / 100;
             lbl_Sale.setText(number + "%");
-             number =(double) Math.round(entity.getSize()*100)/100;
+            number = (double) Math.round(entity.getSize() * 100) / 100;
             lbl_Size.setText(number + "Mb");
             if (entity.getAppIcon() != null) {
-                img_IconApp.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+                img_IconApp.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(),"a.png").toURI().toString()));
                 RoundedImageView.RoundedImage(img_IconApp, 10);
             }
         });

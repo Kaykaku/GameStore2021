@@ -509,7 +509,7 @@ public class LoginController implements Initializable {
                         Account account = new Account();
 
                         account.setPassword(password1);
-                        account.setUserName(username);
+                        account.setUsername(username);
 
                         dao.update_Register(account);
 
@@ -573,7 +573,7 @@ public class LoginController implements Initializable {
                             Messages(lbl_Message_Register, "");
                             Correct(txt_Password_Register);
                             Date creationDate = new Date();
-                            account.setUserName(username);
+                            account.setUsername(username);
                             account.setEmail(email);
                             account.setPassword(password);
                             account.setCreationDate(creationDate);
