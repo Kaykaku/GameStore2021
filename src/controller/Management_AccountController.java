@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -189,25 +190,33 @@ public class Management_AccountController implements Initializable {
 
     @FXML
     private JFXComboBox<String> cbo_Country;
-    
-    
+    @FXML
+    private JFXComboBox<String> cb_Other;
+    @FXML
+    private JFXComboBox<String> cb_Active;
+    @FXML
+    private JFXComboBox<String> cb_Role;
     @FXML
     private JFXButton btn_PDFAccount;
-    
+    @FXML
+    private Pane pnl_ProgressBar;
     @FXML
     private JFXButton  btn_ExcelAccount ;
     @FXML
     private JFXButton btn_TextAccount;
     public static JFXTextField static_Mail;
     public static Stage static_Stage;
+    public static Pane static_PnlProgressBar;
     private JFXDatePicker datePicker_CreationDate;
     private JFXDatePicker datePicker_Birthday;
     AccountDAO accountDAO = new AccountDAO();
     List<Account> listAccounts = new ArrayList<>();
+    
+    
     boolean isEdit = false;
     int index = -1;
     File avatarFile = null;
-
+    
     /**
      * Initializes the controller class.
      */
@@ -223,8 +232,9 @@ public class Management_AccountController implements Initializable {
         setAvatar();
         updateStatus();
         fillDataOnBackground();
+        
     }
-
+    
     void fillDataOnBackground() {
         new Thread() {
             public void run() {
@@ -235,8 +245,10 @@ public class Management_AccountController implements Initializable {
                 Platform.runLater(new Runnable() {
                     public void run() {
                         fillCboCountry();
+                        listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
                         fillTable();
                         static_Mail = txt_Email ;  
+                        static_PnlProgressBar = pnl_ProgressBar;
                     }
                 });
             }
@@ -268,11 +280,24 @@ public class Management_AccountController implements Initializable {
         list.add("England");
         list.add("Japan");
         cbo_Country.setItems(FXCollections.observableArrayList(list));
+        List<String> listRole = new ArrayList<>();
+        listRole.add("All Role");
+        listRole.add("Admin");
+        listRole.add("Manager");
+        listRole.add("User");
+        cb_Role.setItems(FXCollections.observableArrayList(listRole));
+        List<String> listActive = new ArrayList<>();
+        listActive.add("All Status");
+        listActive.add("Activated");
+        listActive.add("Inactivated");
+        cb_Active.setItems(FXCollections.observableArrayList(listActive));
+        List<String> listComment = new ArrayList<>();
+        listComment.add("All Status");
+        listComment.add("Activated");   
+        listComment.add("Inactivated");
+        cb_Other.setItems(FXCollections.observableArrayList(listComment));
     }
-
     void fillTable() {
-        listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
-
         ObservableList<Account> list = FXCollections.observableArrayList(listAccounts);
 
         col_ID.setCellValueFactory(new PropertyValueFactory<>("accountId"));
@@ -428,6 +453,7 @@ public class Management_AccountController implements Initializable {
             return;
         }
         accountDAO.insert(entity);
+        listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
         fillTable();
         clearForm();
 
@@ -439,6 +465,7 @@ public class Management_AccountController implements Initializable {
             return;
         }
         accountDAO.update(entity);
+        listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
         fillTable();
         clearForm();
 
@@ -450,6 +477,7 @@ public class Management_AccountController implements Initializable {
             return;
         }
         accountDAO.delete(entity.getAccountId());
+        listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
         fillTable();
         clearForm();
 
@@ -552,7 +580,49 @@ public class Management_AccountController implements Initializable {
                 Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
             }
             });
-    
+        cb_Role.setOnAction(event ->{
+                String selectedItem = cb_Role.getSelectionModel().getSelectedItem();
+                if(selectedItem.equalsIgnoreCase("Admin")){
+                    listAccounts = accountDAO.selectRoles(0+"");
+                    fillTable();
+                }else if(selectedItem.equalsIgnoreCase("Manager")){
+                    listAccounts = accountDAO.selectRoles(1+"");
+                    fillTable();
+                }else if(selectedItem.equalsIgnoreCase("User")){
+                    listAccounts = accountDAO.selectRoles(2+"");
+                    fillTable();
+                }else{
+                    listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
+                    fillTable();
+                }  
+            });
+        cb_Active.setOnAction((ActionEvent event) ->{
+                String selectedItem = cb_Active.getSelectionModel().getSelectedItem().toString();
+                if(selectedItem.equalsIgnoreCase("Activated")){
+                    listAccounts = accountDAO.selectActive(1+"");
+                    fillTable();
+                }else if(selectedItem.equalsIgnoreCase("Inactivated")){
+                    listAccounts = accountDAO.selectRoles(0+"");
+                    fillTable();
+                }else{
+                    listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
+                    fillTable();
+                }  
+            });
+        cb_Other.setOnAction((ActionEvent event) ->{
+                String selectedComment = cb_Other.getSelectionModel().getSelectedItem();
+                if(selectedComment.equalsIgnoreCase("Activated")){
+                    listAccounts = accountDAO.selectComment(1+"");
+                    fillTable();
+                }else if(selectedComment.equalsIgnoreCase("Inactivated")){
+                    listAccounts = accountDAO.selectComment(0+"");
+                    fillTable();
+                }else{
+                    listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
+                    fillTable();
+                }  
+            });
+        
 
     }
 

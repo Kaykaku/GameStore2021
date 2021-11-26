@@ -257,7 +257,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXTextArea fx:id="txt_Description" layoutX="20.0" layoutY="56.0" prefHeight="70.0" prefWidth="550.0" promptText="Enter description here" styleClass="text_input" />
+            <JFXTextArea fx:id="txt_Description" layoutX="20.0" layoutY="56.0" prefHeight="129.0" prefWidth="550.0" promptText="Enter description here" styleClass="text_input" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Status" layoutX="610.0" layoutY="580.0" prefHeight="200.0" prefWidth="260.0" styleClass="pnl_view">
@@ -312,7 +312,7 @@
             <JFXButton fx:id="btn_delete" layoutX="770.0" layoutY="740.0" onAction="#handleButtonDeleteAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type2" text="Delete" />
          </children>
       </HBox>
-      <HBox fx:id="hbox_Controller1" layoutX="102.0" layoutY="796.0" spacing="10.0">
+      <HBox fx:id="hbox_Controller1" layoutX="101.0" layoutY="790.0" spacing="10.0">
          <children>
             <JFXButton fx:id="btn_sendGames" layoutX="440.0" layoutY="740.0" onAction="#handleButtonSendGames" prefHeight="30.0" prefWidth="109.0" styleClass="button_type1" text="Send new Game" />
             <JFXButton fx:id="btn_sendSale" layoutX="550.0" layoutY="740.0" onAction="#handleButtonSendSales" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Send Sale Email" />

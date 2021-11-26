@@ -16,6 +16,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import static controller.Management_AccountController.static_Mail;
 import static controller.Management_AccountController.static_Stage;
+import static controller.MainController.static_ProgressBar;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -27,17 +28,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.Executors;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -84,6 +88,8 @@ public class Mail_SendingController  implements Initializable {
     private JFXTextArea txt_Content;
     @FXML
     private JFXButton btn_Send;
+     @FXML
+    private JFXButton btn_Back;
     @FXML
     private ImageView new_Image;
     @FXML
@@ -94,21 +100,36 @@ public class Mail_SendingController  implements Initializable {
     private CheckBox sendAll_ChBox;
     @FXML
     private TableView<Account> tbl_Email;
-
     @FXML
     private TableColumn<Account, String> col_Email;
-
+    @FXML
+    private TableColumn<Account, String> col_ID;
+    @FXML
+    private TableColumn<Account, String> col_Name;
+    @FXML
+    private TableColumn<Account, String> col_UserName;
+    @FXML
+    private TableColumn<Account, Boolean> col_Select;
     @FXML
     private JFXTextArea txt_SelectedFiles;
+    @FXML
+    private Label lbl_Exit;
     
     List<File> Attachment=new ArrayList<>();
     public static List<Account> Emails = new ArrayList<>();
     public static AccountDAO AccDAO = new AccountDAO();
     public static ApplicationDAO appDAO = new ApplicationDAO();
     public static List<Application> Sales = new ArrayList<>();
+    List<String> listEmails = new ArrayList();
     Multipart multipart ;
     public static File avtImg;
-     
+    public static ProgressBar progress = new ProgressBar();
+    public static Label lbl_Progress = new Label();
+    public static JFXButton btn_Cancel = new JFXButton();
+    static Boolean cancelTask = false;
+    static int i;
+    
+
     
     /**
      * Initializes the controller class.    
@@ -120,7 +141,6 @@ public class Mail_SendingController  implements Initializable {
             displayFormAnimation();
             setThings();
             fillTable();
-
             
           }   
     void Clear(){
@@ -132,6 +152,7 @@ public class Mail_SendingController  implements Initializable {
         sendAll_ChBox.setSelected(false);
     }
     void setThings(){
+        txt_To.setDisable(true);
         txt_SelectedFiles.setEditable(false);
         txt_To.setText(static_Mail.getText());
         tbl_Email.setOnMouseClicked((event) -> {
@@ -142,24 +163,44 @@ public class Mail_SendingController  implements Initializable {
         sendAll_ChBox.setOnMouseClicked((event) -> {
         if (sendAll_ChBox.isSelected()) {
             txt_To.setText(Emails+"");
-            txt_To.setEditable(false);
             }
         else{
             txt_To.setText("");
             txt_To.setEditable(true);
         }
         });
-        
+        btn_Back.setOnMouseClicked((event) -> {
+            if (!txt_To.getText().isEmpty()) {
+                Clear();
+            }
+        });
+        btn_Cancel.setOnMouseClicked(event -> {cancelTask =true; System.out.println("Task Stopped!");});
+        btn_Back.setOnMouseClicked(event -> {this.Clear();});
+        lbl_Exit.setOnMouseClicked(event -> {static_Stage.close();});
     }
     void fillTable() {
         String keys = "";
-        Emails = AccDAO.selectByKeyWord(keys.trim());
+        Emails = AccDAO.selectByKeyWord(keys.trim());        
         ObservableList<Account> list = FXCollections.observableArrayList(Emails);
-        col_Email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        col_ID.setCellValueFactory(new PropertyValueFactory<>("AccountId"));
+        col_Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        col_UserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        col_Email.setCellValueFactory(new PropertyValueFactory<>("Email"));
+//        col_Select.setCellValueFactory(new PropertyValueFactory<Account,Boolean>("checkbox"));
+//        col_Select.setCellFactory(CheckBoxTableCell.forTableColumn(col_Select));
         tbl_Email.getItems().removeAll();
         tbl_Email.setItems(list);
-
     }
+    
+    static void setStyleProgressBar(){
+        progress.setStyle("-fx-accent: #ed6f15; ");
+        progress.setPrefWidth(180);
+        progress.setPrefHeight(3);
+        btn_Cancel.setText("Cancel");
+        btn_Cancel.setStyle("-fx-background-color: #202020;-fx-text-fill: #ffffff; -fx-padding: 5px; -fx-border-insets: 5px; -fx-background-insets: 5px;");
+        static_ProgressBar.getChildren().addAll(progress,btn_Cancel);
+    }
+    
     public static Message SendMailContent(Session session, String send,String Subject, String Text
     ) throws MessagingException, IOException {
         Message message = new MimeMessage(session);
@@ -178,8 +219,8 @@ public class Mail_SendingController  implements Initializable {
     }
 
     public static Session SendMail() {
-        final String username = "GamexStore.ST@gmail.com";
-        final String password = "GamexStore.ST123";
+        final String username = "khanhduonghoangkhanh11@gmail.com";
+        final String password = "01664252932";
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -198,11 +239,12 @@ public class Mail_SendingController  implements Initializable {
         index = tbl_Email.getSelectionModel().getSelectedIndex();
         String Email = col_Email.getCellObservableValue(index).getValue();
         if(!txt_To.getText().contains(Email)){
-            
             if(txt_To.getText().isEmpty()){
                 txt_To.appendText(Email);
+                listEmails.add(Email);
             }else{
                 txt_To.appendText(", "+Email);
+                listEmails.add(Email);
             }
         }else{
             Dialog.showMessageDialog("Notice","You have already chosen this one!");
@@ -221,15 +263,32 @@ public class Mail_SendingController  implements Initializable {
                 }
          }   return multipart;
  }  
-    
-    void sendAllMail() throws IOException, InterruptedException, MessagingException{
-                 Executors.newSingleThreadExecutor().execute(new Runnable() {
-                 @Override
-                 public void run() {
-                     try {
+    static void removeProgress() {
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException ex) {
+                }
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        static_ProgressBar.getChildren().removeAll(progress,btn_Cancel);
+                        
+                    }
+                });
+            }
+        }.start();
+    }
+    private void startProcessSendAll() {
+        cancelTask = false;
+        setStyleProgressBar();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
                          Multipart multipart = handleMultipart();
                          Emails = AccDAO.selectEmail();
-                         for (int i = 0; i < Emails.size(); i++) {
+                            for ( i = 0; i < Emails.size()&& cancelTask == false; i++ ) {
                              try {
                                  Session session = SendMail();
                                  String send = String.valueOf(Emails.get(i));
@@ -237,65 +296,98 @@ public class Mail_SendingController  implements Initializable {
                                  String Text= txt_Content.getText()+"\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();
                                  Message message = SendMailContent(session, send, Subject, Text);
                                  message.setContent(multipart);
-                                 
                                  Transport.send(message);
+                                 updateProgress(i, Emails.size());
                                  System.out.println("Sent Successfully!");
                              } catch (AddressException ex) {
                                  Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
                              } catch (MessagingException | IOException ex) {
                                  Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
-                             }
-                             
+
                          }
+                        }
+                     } catch (IOException | MessagingException ex) {
+                         Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                return null;
+                }
+
+        };
+        
+        task.setOnFailed(wse -> {
+            System.out.println("Task stopped, got some error");
+        });
+
+        task.setOnSucceeded(wse -> {
+           progress.progressProperty().unbind();
+            progress.setProgress(Emails.size());
+            System.out.println("Done!");
+            removeProgress();
+        });
+            progress.progressProperty().bind(task.progressProperty());
+            new Thread(task).start();}
+  
+    private void startProcess() {
+        cancelTask = false;
+        setStyleProgressBar();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+               try {
+                     Multipart multipart = handleMultipart();
+                     Emails = AccDAO.selectEmail();
+                        for ( i = 0; i < listEmails.size()&& cancelTask == false; i++) {
+                         try {
+                             updateProgress(i, listEmails.size());
+                             Session session = SendMail();
+                             String send = String.valueOf(listEmails.get(i));
+                             String Subject = txt_Title.getText().toUpperCase();
+                             String Text= txt_Content.getText()+"\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();
+                             Message message = SendMailContent(session, send, Subject, Text);
+                             message.setContent(multipart);
+                             Transport.send(message);
+                             System.out.println("Sent Successfully!");
+                             
+                         } catch (AddressException ex) {
+                             Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+                         } catch (MessagingException | IOException ex) {
+                             Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+
+                     }
+                        }
                      } catch (IOException ex) {
                          Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
                      } catch (MessagingException ex) {
                          Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
                      }
-                 }
-             });
+                return null;
+                }
 
-    }
-    void sendMail() throws IOException, InterruptedException, MessagingException{
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            String send = txt_To.getText();
-                 @Override
-                 public void run() {
-                     try {
-                         Session session = SendMail();
-                         String Subject = txt_Title.getText().toUpperCase();
-                         String Text= txt_Content.getText()+"\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();
-                         BodyPart messageBodyPart = new MimeBodyPart();
-                         messageBodyPart.setText(Text);
-                         Multipart multipart = new MimeMultipart();
-                         multipart.addBodyPart(messageBodyPart);
-                         for (File f: Attachment) {
-                             if(Attachment!=null){
-                                 MimeBodyPart part=new MimeBodyPart();
-                                 part.attachFile(f);
-                                 multipart.addBodyPart(part);
-                             }
-                         }
-                         Message message = SendMailContent(session, send, Subject, Text);
-                         message.setContent(multipart);
+        };
 
-                         Transport.send(message);
-                         System.out.println("Sent Successfully!");
-                     }
-                     catch (IOException ex) {         
-                         Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
-                     } catch (MessagingException ex) {
-                         Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
-                     } 
-                 }      
+        task.setOnFailed(wse -> {
+            System.out.println("Task stopped, got some error");
         });
-                    
+
+        task.setOnSucceeded(wse -> {
+            progress.progressProperty().unbind();
+            progress.setProgress(Emails.size());
+            System.out.println("Done!");
+            removeProgress();
+           // static_ProgressBar.getChildren().remove(progress);
+           
+           
+        });
+        progress.progressProperty().bind(task.progressProperty());
+        new Thread(task).start();
     }
-    public static void sendMailsabtDiscount(Multipart multipart,List<Account> Emails,Session session,List<Application> Sales,String Sub, String Text,File avtImg) throws IOException, InterruptedException, MessagingException{  
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-                 @Override
-                 public void run() {
-                     for (int i = 0; i < Emails.size(); i++) {
+   public static void sendMailsabtDiscount(Multipart multipart,List<Account> Emails,Session session,List<Application> Sales,String Sub, String Text,File avtImg) 
+           throws IOException, InterruptedException, MessagingException{  
+            setStyleProgressBar();
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                        for ( i = 0; i < Emails.size()&& cancelTask == false; i++) {
                          try {
                              String send = String.valueOf(Emails.get(i));
                              String subject = String.valueOf(Sub);
@@ -308,34 +400,53 @@ public class Mail_SendingController  implements Initializable {
                              if(avtImg!= null){
                                 part.attachFile(avtImg);
                                 multipart.addBodyPart(part);
-                                }
+                                }                             
                              Message message = SendMailContent(session,send,subject,Txt);
                              message.setContent(multipart);
                              Transport.send(message);
+                             updateProgress(i, Emails.size());
                              System.out.println("Sent All Successfully!");
+
+                             
                          } catch (AddressException ex) {
                              Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
-                         } catch (MessagingException ex) {
-                             Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
-                         } catch (IOException ex) {
+                         } catch (MessagingException | IOException ex) {
                              Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
                          }
-                     }
-                 }
-             });
+                    }
+                return null;
+                }
+
+        };
+
+        task.setOnFailed(wse -> {
+            System.out.println("Task stopped, got some error");
+        });
+
+        task.setOnSucceeded(wse -> {
+            progress.progressProperty().unbind();
+            progress.setProgress(Emails.size());
+            System.out.println("Done!");
+            removeProgress();
+        });   
+        progress.progressProperty().bind(task.progressProperty());
+        new Thread(task).start();
     }
+    
+
     @FXML
     private void handleButtonSend(ActionEvent event)  throws InterruptedException, IOException, MessagingException  {
         if(sendAll_ChBox.isSelected()){
-                 sendAllMail();
+                 startProcessSendAll();
                  static_Stage.close();
+                 
         }else{
             if(txt_To.getText().isEmpty()){
                 Dialog.showMessageDialog("Notice", "Please fill in email address");
             }
             else{
                 System.out.println("Sending.......");
-                sendMail();
+                startProcess();
                 static_Stage.close();
             }
             

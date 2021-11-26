@@ -6,8 +6,6 @@
 package model;
 
 import java.util.Date;
-import javafx.scene.image.Image;
-
 /**
  *
  * @author leminhthanh
@@ -28,6 +26,7 @@ public class Account {
     private int role;
     private boolean comment;
 
+
     public Account() {
     }
 
@@ -45,6 +44,7 @@ public class Account {
         this.active = active;
         this.role = role;
         this.comment = comment;
+
     }
 
     public Account(String Email) {
@@ -162,7 +162,8 @@ public class Account {
     public void setComment(boolean comment) {
         this.comment = comment;
     }
-
+    
+    
     @Override
     public String toString() {
          return  Email;

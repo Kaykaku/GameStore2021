@@ -20,6 +20,7 @@
                   <Font name="Arial Bold" size="24.0" />
                </font>
             </Label>
+            <Pane fx:id="pnl_ProgressBar" layoutX="297.0" layoutY="12.0" prefHeight="30.0" prefWidth="345.0" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Image" layoutX="10.0" layoutY="50.0" prefHeight="230.0" prefWidth="230.0" styleClass="pnl_view">
@@ -276,33 +277,9 @@
             </HBox>
             <VBox layoutX="10.0" layoutY="65.0" prefWidth="285.0" spacing="15.0">
                <children>
-                  <JFXButton layoutX="10.0" layoutY="60.0" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All role">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/down18.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton layoutX="7.0" layoutY="100.0" prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All active">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/down18.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton prefHeight="40.0" prefWidth="290.0" styleClass="text_input1" text="All comment">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/down18.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <JFXComboBox fx:id="cb_Role" prefHeight="40.0" prefWidth="283.0" promptText="SELECT ROLE" styleClass="text_input" />
+                  <JFXComboBox fx:id="cb_Active" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="283.0" promptText="SELECT STATUS" styleClass="text_input" />
+                  <JFXComboBox fx:id="cb_Other" layoutX="10.0" layoutY="65.0" prefHeight="40.0" prefWidth="283.0" promptText="SELECT COMMENT STATUS" styleClass="text_input" />
                </children>
             </VBox>
          </children>

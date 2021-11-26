@@ -16,6 +16,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
+import static controller.Mail_SendingController.btn_Cancel;
+import static controller.Mail_SendingController.cancelTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -187,7 +189,7 @@ public class Management_ProductController implements Initializable {
     CategoryDAO categoryDao = new CategoryDAO();
     JFXDatePicker datePicker_CreationDate = new JFXDatePicker();
     JFXDatePicker datePicker_ReleaseDay = new JFXDatePicker();
-    Image image = new Image("icons/add-image (1).png");
+    Image image = new Image("icons/add-image (1).png"); 
     boolean isEdit = false;
     File avatarIcon;
     File avatarImage;
@@ -206,7 +208,8 @@ public class Management_ProductController implements Initializable {
         btn_delete.setDisable(true);
         ProcessDate.converter(datePicker_CreationDate);
         ProcessDate.converter(datePicker_ReleaseDay);
-
+        Emails = AccDAO.selectUserEmail();
+        btn_Cancel.setOnMouseClicked(event -> {cancelTask =true; System.out.println("Task Stopped!");});
     }
 
     private void fillListApplication() {
@@ -363,9 +366,9 @@ public class Management_ProductController implements Initializable {
     }
     private void sendMailAbtSale() throws IOException, MessagingException, InterruptedException{
         avtImg = null;
+        cancelTask = false;
         Mail_SendingController msd = new Mail_SendingController();
         Multipart multipart = msd.handleMultipart();
-        Emails = AccDAO.selectEmail();
         Session session = Mail_SendingController.SendMail();
         listApplications = appDAO.selectSale();
         String Subject = "GAMESTORE IS NOW HAVING A REALLY BIG DISCOUNT";
@@ -378,9 +381,9 @@ public class Management_ProductController implements Initializable {
     }
     @SuppressWarnings("empty-statement")
     private void sendMailAbtGame() throws IOException, InterruptedException, MessagingException{
+        cancelTask = false;
         Mail_SendingController msd = new Mail_SendingController();
         Multipart multipart = msd.handleMultipart();
-        Emails = AccDAO.selectEmail();
         Session session = Mail_SendingController.SendMail();
         listApplications = appDAO.selectLastApp();
         String Subject = "GAMESTORE JUST HAVE GOT A NEW GAME - GO CHECK IT OUT";

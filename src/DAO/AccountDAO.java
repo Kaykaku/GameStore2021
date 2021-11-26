@@ -6,6 +6,7 @@
 package DAO;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import model.Account;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,11 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password], creationDate, Role, Active) VALUES (?, ?, ?, ?, ?, ?)";
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
     private final String select_Email = "select Email from Accounts";
+    private final String select_UserEmail = "select Email from Accounts where Role = 2";
+    private final String select_Role = "select * from Accounts where role=?";
+    private final String select_Active = "select * from Accounts where Active=?";
+    private final String select_Cmt = "select * from Accounts where Comment=?";
+    private final String select_ActRoleCmt = "select * from Accounts where Active=? and Role =? and Comment = ?";
     
     @Override
     public void insert(Account entity) {
@@ -71,6 +77,18 @@ public class AccountDAO extends DAO<Account, Integer> {
         return this.selectBySql(select_By_KeyWord, keys, keys, keys);
 
     }
+    public List<Account> selectRoles(String keys) {
+        return this.selectBySql(select_Role,keys);
+    }
+    public List<Account> selectActive(String keys) {
+        return this.selectBySql(select_Active,keys);
+    }
+    public List<Account> selectComment(String keys) {
+        return this.selectBySql(select_Cmt,keys);
+    }
+    public List<Account> selectActRole(String keys,String key2,String keys3) {
+        return this.selectBySql(select_ActRoleCmt,keys,key2,keys3);
+    }
     public List<Account> selectEmail() {
         List<Account> list = new ArrayList<>();
         try {
@@ -81,8 +99,21 @@ public class AccountDAO extends DAO<Account, Integer> {
                 list.add(account);
             }
             resultSet.getStatement().getConnection().close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+        }
+        return list;
+    }
+    public List<Account> selectUserEmail() {
+        List<Account> list = new ArrayList<>();
+        try {
+            ResultSet resultSet = Connect_Jdbc.query(select_UserEmail);
+            while (resultSet.next()) {
+                String Email = resultSet.getString("Email");
+                Account account = new Account(Email);
+                list.add(account);
+            }
+            resultSet.getStatement().getConnection().close();
+        } catch (SQLException e) {
         }
         return list;
     }
@@ -107,7 +138,6 @@ public class AccountDAO extends DAO<Account, Integer> {
                 entity.setActive(resultSet.getBoolean("Active"));
                 entity.setRole(resultSet.getInt("Role"));
                 entity.setComment(resultSet.getBoolean("Comment"));
-
                 list.add(entity);
             }
             resultSet.getStatement().getConnection().close();
