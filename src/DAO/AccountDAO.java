@@ -31,7 +31,7 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String select_By_Email = "select * from Accounts where Email = ?";
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password], creationDate, Role, Active) VALUES (?, ?, ?, ?, ?, ?)";
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
-    private final String select_Email = "select Email from Accounts";
+    private final String select_Email = "select Email from Accounts ";
     private final String select_UserEmail = "select Email from Accounts where Role = 2";
     private final String select_Role = "select * from Accounts where role=?";
     private final String select_Active = "select * from Accounts where Active=?";

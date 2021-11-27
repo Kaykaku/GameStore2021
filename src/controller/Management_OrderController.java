@@ -272,12 +272,26 @@ public class Management_OrderController implements Initializable {
         cbx_ID.setItems(FXCollections.observableArrayList(list));
         cbx_ID.getSelectionModel().select(0);
         
-//        list.clear();
-//        list.add("All status");       
-//        list.add("Inactive");
-//        list.add("Active");
-//        cbx_Active.setItems(FXCollections.observableArrayList(list));
-//        cbx_Active.getSelectionModel().select(0);
+        list.clear();
+        list.add("All customer");       
+        list.add("A-Z");
+        list.add("Z-A");
+        cbx_Customer.setItems(FXCollections.observableArrayList(list));
+        cbx_Customer.getSelectionModel().select(0);
+        
+        list.clear();
+        list.add("All Quantity");       
+        list.add("Quantity ASC");
+        list.add("Quantity DESC");
+        cbx_Apps.setItems(FXCollections.observableArrayList(list));
+        cbx_Apps.getSelectionModel().select(0);
+        
+        list.clear();
+        list.add("All Price");       
+        list.add("Price ASC");
+        list.add("Price DESC");
+        cbx_Price.setItems(FXCollections.observableArrayList(list));
+        cbx_Price.getSelectionModel().select(0);
         
         list.clear();
         list.add("All status");       
@@ -678,7 +692,11 @@ public class Management_OrderController implements Initializable {
                 fillListApp();
             }
         });
-
+        
+        cbx_Apps.setOnAction((evt) -> {
+            
+        });
+        
         btn_Order_Clear.setOnMouseClicked((evt) -> {
             clearOrderForm();
         });
@@ -699,7 +717,12 @@ public class Management_OrderController implements Initializable {
             updateOrderDetail(listOrderDetails.get(detailIndex));
         });
     }
-
+    void filter(int x){
+        cbx_Customer.getSelectionModel().select(0);
+        cbx_ID.getSelectionModel().select(0);
+        cbx_Price.getSelectionModel().select(0);
+        cbx_Customer.getSelectionModel().select(0);
+    }
     void displayFormAnimation() {
         new FadeInDown(pnl_Order_Info).play();
         new FadeInLeftBig(pnl_Title).play();

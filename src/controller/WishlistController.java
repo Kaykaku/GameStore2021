@@ -100,6 +100,7 @@ public class WishlistController implements Initializable {
         });
     }
     void loadWishList(){
+        total=0;
         List<Wishlist> list = new WishlistDAO().selectByAccountID(user.getAccountId());
         try {
             Pane paneP = (Pane) FXMLLoader.load(getClass().getResource(Value.ROW_WISHLIST));

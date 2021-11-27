@@ -78,7 +78,7 @@ public class Row_OrderController implements Initializable {
              String name ="";
             for (Account account : listAccount) {
                 if(account.getAccountId()==entity.getAccountId()){
-                    name =account.getName();
+                    name =account.getName()==null? account.getUsername():account.getName();
                     break;
                 }
             }

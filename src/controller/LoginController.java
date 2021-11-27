@@ -48,6 +48,7 @@ import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.stage.Modality;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -55,6 +56,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import until.Value;
 
 /**
  * FXML Controller class
@@ -146,6 +148,8 @@ public class LoginController implements Initializable {
     @FXML
     private JFXButton btn_Register;
     @FXML
+    private JFXButton btn_LoginQRcode;
+    @FXML
     private JFXCheckBox cbo_Agree;
     @FXML
     private Label lbl_Message_Register;
@@ -231,6 +235,33 @@ public class LoginController implements Initializable {
                     Messages(lbl_Message_Login, "Password much length more than 5!");
                     Incorrect(txt_Password_Login);
                 }
+            }
+        });
+        btn_LoginQRcode.setOnMouseClicked((event) -> {
+            try {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_SCANQRCODE));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.showAndWait();
+                if (Auth.USER != null) {
+                    try {
+                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                        Parent parent = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
+                        Stage stagez = new Stage();
+                        stagez.initStyle(StageStyle.UNDECORATED);
+                        stagez.setScene(new Scene(parent));
+                        stagez.show();
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(LoginController.class
+                                .getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 

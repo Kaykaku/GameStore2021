@@ -38,7 +38,7 @@ public class OrderDAO extends DAO<Order,Integer>{
 
     @Override
     public List<Order> selectAll() {
-        String sql= "SELECT * FROM Orders";
+        String sql= "SELECT * FROM Orders order by OrderId desc";
         return selectBySql(sql);
     }
 
@@ -50,7 +50,7 @@ public class OrderDAO extends DAO<Order,Integer>{
 
     @Override
     public List<Order> selectByKeyWord(String keys) {
-        String sql= "SELECT * FROM Orders WHERE OrderId like ? or AccountId like ?";
+        String sql= "SELECT * FROM Orders WHERE OrderId like ? or AccountId like ? order by OrderId desc";
         keys= "%"+keys+"%";
         return selectBySql(sql,keys,keys);
     }

@@ -126,7 +126,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btn_LoginQRcode" focusTraversable="false" layoutX="164.0" layoutY="560.0" onAction="#LoginAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in with QRcode">
+            <JFXButton fx:id="btn_LoginQRcode" focusTraversable="false" layoutX="164.0" layoutY="560.0"  prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in with QRcode">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

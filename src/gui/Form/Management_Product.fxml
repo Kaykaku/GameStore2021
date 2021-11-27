@@ -332,10 +332,10 @@
             <JFXButton fx:id="btn_Delete" focusTraversable="false" layoutX="770.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Delete" />
          </children>
       </HBox>
-      <HBox fx:id="hbox_Controller1" layoutX="101.0" layoutY="790.0" spacing="10.0">
+      <HBox fx:id="hbox_Controller1" layoutX="13.0" layoutY="788.0" spacing="10.0">
          <children>
-            <JFXButton fx:id="btn_sendGames" layoutX="440.0" layoutY="740.0" onAction="#handleButtonSendGames" prefHeight="30.0" prefWidth="109.0" styleClass="button_type1" text="Send new Game" />
-            <JFXButton fx:id="btn_sendSale" layoutX="550.0" layoutY="740.0" onAction="#handleButtonSendSales" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Send Sale Email" />
+            <JFXButton fx:id="btn_sendGames" layoutX="440.0" layoutY="740.0" onAction="#handleButtonSendGames" prefHeight="31.0" prefWidth="150.0" styleClass="dark-blue" text="Send this game" />
+            <JFXButton fx:id="btn_sendSale" layoutX="550.0" layoutY="740.0" onAction="#handleButtonSendSales" prefHeight="31.0" prefWidth="150.0" styleClass="dark-blue" text="Send Sale Email" />
          </children>
       </HBox>
    </children>

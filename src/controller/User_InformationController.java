@@ -195,6 +195,19 @@ public class User_InformationController implements Initializable {
                 Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        btn_Camera.setOnMouseClicked((event) -> {
+            try {
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_TAKEPICTURE));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.showAndWait();
+            } catch (IOException ex) {
+                Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
     void setInformation() {

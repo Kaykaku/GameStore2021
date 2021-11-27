@@ -33,6 +33,7 @@ public class Value {
     
     public static final String DIALOG_SCANQRCODE  ="/gui/Form/Dialog_ScanQRcode.fxml";
     public static final String DIALOG_CREATEQRCODE  ="/gui/Form/Dialog_CreateQRcode.fxml";
+    public static final String DIALOG_TAKEPICTURE  ="/gui/Form/Dialog_TakePicture.fxml";
     
     public static final String ROW_ORDER  ="/gui/Item/Row_Order.fxml";
     public static final String ROW_PRODUCT  ="/gui/Item/Row_Product.fxml";

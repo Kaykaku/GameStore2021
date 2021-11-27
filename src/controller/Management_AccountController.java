@@ -241,7 +241,6 @@ public class Management_AccountController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         displayFormAnimation();
-        System.out.println("controller.Management_AccountController.initialize()");
         drawDatePicker();
         setGroupButton();
         setEvent();

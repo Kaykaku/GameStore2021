@@ -25,11 +25,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Auth.USER = new AccountDAO().selectByID(7);
+//        Auth.USER = new AccountDAO().selectByID(1);
 //        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Factory.fxml"));
 //         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_STATISTICS));
-//        Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
+//        Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
 
         Scene scene = new Scene(root);
 

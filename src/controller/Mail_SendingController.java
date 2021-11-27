@@ -180,7 +180,7 @@ public class Mail_SendingController  implements Initializable {
     }
     void fillTable() {
         String keys = "";
-        Emails = AccDAO.selectByKeyWord(keys.trim());        
+        Emails = AccDAO.selectAll();        
         ObservableList<Account> list = FXCollections.observableArrayList(Emails);
         col_ID.setCellValueFactory(new PropertyValueFactory<>("AccountId"));
         col_Name.setCellValueFactory(new PropertyValueFactory<>("Name"));

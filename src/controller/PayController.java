@@ -5,15 +5,12 @@
  */
 package controller;
 
-import Animation.RoundedImageView;
 import DAO.ApplicationDAO;
 import DAO.OrderDAO;
 import DAO.OrderDetailDAO;
 import DAO.WishlistDAO;
-import animatefx.animation.SlideInDown;
 import animatefx.animation.SlideInUp;
 import animatefx.animation.SlideOutLeft;
-import animatefx.animation.SlideOutRight;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -50,11 +47,11 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import javafx.scene.layout.VBox;
 import model.Account;
 import model.Application;
@@ -63,13 +60,10 @@ import model.OrderDetail;
 import model.Wishlist;
 import until.Auth;
 import until.ProcessDate;
-import until.ProcessImage;
 import until.Validation;
 import until.Value;
-import static until.Value.FORM_HOME_GAMES;
 import static until.Value.FORM_LIBRARY;
 import static until.Value.FORM_PRODUCT_LIST;
-import until.Variable;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -166,15 +160,10 @@ public class PayController implements Initializable {
 
     private void setEvent() {
         btn_continueShopping.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(FORM_PRODUCT_LIST));
-            Node node;
-            try {
-                node = (Node) loader.load();
-                PNL_VIEW.getChildren().add(node);
-            } catch (IOException ex) {
-                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
         });
+        hpl_orderlink.setText("View in Library");
+        hpl_orderlink.setPrefWidth(USE_COMPUTED_SIZE);
         hpl_orderlink.setOnMouseClicked((evt) -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(FORM_LIBRARY));
             Node node;

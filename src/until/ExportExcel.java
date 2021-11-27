@@ -2,6 +2,7 @@ package until;
 
 import java.awt.Component;
 import java.awt.Desktop;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -28,7 +27,6 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import static until.ExportText.fc;
 
 public class ExportExcel {
 
@@ -201,7 +199,11 @@ public class ExportExcel {
             ExportExcel.setTitle(title);
             ExportExcel.setObjects(row);
             ExportExcel.create(path + "");
-            Dialog.showMessageDialog(null, "Save successfully!");
+            boolean flag =Dialog.showComfirmDialog(null, "Save successfully! You want to open it?");
+            if(flag){
+                Desktop desktop = Desktop.getDesktop();  
+                desktop.open(path);
+            }
         }else{
             Dialog.showMessageDialog(null, "Save failded!");
         }
