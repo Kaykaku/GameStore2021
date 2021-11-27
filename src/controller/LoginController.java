@@ -165,6 +165,10 @@ public class LoginController implements Initializable {
             }
         }
 
+        setEvent();
+    }
+
+    private void setEvent() {
         btn_Change.setOnMouseClicked((evt) -> {
             if (!isRegisterForm) {
                 if (isChangePassForm) {
@@ -276,7 +280,7 @@ public class LoginController implements Initializable {
                 }
                 );
         txt_NewPass_ChangePass.setOnKeyReleased(event -> {
-            if (txt_NewPass_ChangePass.getText().isEmpty()) {
+            if (txt_NewPass_ChangePass.getText().trim().isEmpty()) {
                 Incorrect(txt_NewPass_ChangePass);
                 Messages(lbl_Message_ChangePass, "New password cannot be empty!");
             } else {
@@ -313,7 +317,7 @@ public class LoginController implements Initializable {
         setOnKeyPressed(txt_ComfirmPassword_Register, txt_Username_Register);
 
         txt_Username_Register.setOnKeyReleased(event -> {
-            if (txt_Username_Register.getText().isEmpty()) {
+            if (txt_Username_Register.getText().trim().isEmpty()) {
                 Incorrect(txt_Username_Register);
                 Messages(lbl_Message_Register, "Username cannot be empty!");
             } else {
@@ -346,7 +350,7 @@ public class LoginController implements Initializable {
         );
 
         txt_Password_Register.setOnKeyReleased(event -> {
-            if (txt_Password_Register.getText().isEmpty()) {
+            if (txt_Password_Register.getText().trim().isEmpty()) {
                 Incorrect(txt_Password_Register);
                 Messages(lbl_Message_Register, "Password cannot be empty!");
             } else {
@@ -375,7 +379,6 @@ public class LoginController implements Initializable {
             }
         }
         );
-
     }
 
     @FXML
@@ -409,7 +412,7 @@ public class LoginController implements Initializable {
                     if (cbo_Remember.isSelected()) {
                         preferences.put("username", usename);
                         preferences.put("password", password);
-                        
+
                         System.out.println("Login success!");
                         Auth.USER = account;
                         try {
@@ -452,17 +455,23 @@ public class LoginController implements Initializable {
 
                 Session session = SendMail();
 
-                try {
-                    Message message = SendMailContent(session, send);
+                new Thread(new Runnable() {
+                    public void run() {
+                        Message message;
+                        try {
+                            message = SendMailContent(session, send);
+                            Transport.send(message);
+                        } catch (MessagingException ex) {
+                            ex.printStackTrace();
+                        }
 
-                    Transport.send(message);
-                    check = true;
-                    clock();
-                    System.out.println("Done");
+                    }
+                }).start();
 
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                }
+                check = true;
+                clock();
+                System.out.println("Done");
+
             }
         }
     }
@@ -537,6 +546,9 @@ public class LoginController implements Initializable {
         String email = txt_Email_Register.getText();
         String password = txt_Password_Register.getText();
         String password1 = txt_ComfirmPassword_Register.getText();
+        String regex = "^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
 
         if (username.isEmpty() && email.isEmpty() && password.isEmpty() && password1.isEmpty()) {
             Incorrect(txt_Username_Register);
@@ -556,7 +568,12 @@ public class LoginController implements Initializable {
             } else if (!cbo_Agree.isSelected()) {
                 Messages(lbl_Message_Register, "Click agee with us!");
             }
+        } else if (!matcher.matches()) {
+            Messages(lbl_Message_Register, "Email is invalid!");
+            Incorrect(txt_Email_Register);
         } else {
+            Messages(lbl_Message_Register, "");
+            Correct(txt_Email_Register);
             if (password1.equals(password)) {
                 Messages(lbl_Message_Register, "");
                 Correct(txt_ComfirmPassword_Register);

@@ -32,6 +32,11 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password], creationDate, Role, Active) VALUES (?, ?, ?, ?, ?, ?)";
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
     private final String select_Email = "select Email from Accounts";
+    private final String select_UserEmail = "select Email from Accounts where Role = 2";
+    private final String select_Role = "select * from Accounts where role=?";
+    private final String select_Active = "select * from Accounts where Active=?";
+    private final String select_Cmt = "select * from Accounts where Comment=?";
+    private final String select_ActRoleCmt = "select * from Accounts where Active=? and Role =? and Comment = ?";
     private final String update_QRcode = "update Accounts set QRcode=? where AccountId = ?";
     
     @Override
@@ -71,6 +76,18 @@ public class AccountDAO extends DAO<Account, Integer> {
     public List<Account> selectByKeyWord(String keys) {
         return null ;
     }
+    public List<Account> selectRoles(String keys) {
+        return this.selectBySql(select_Role,keys);
+    }
+    public List<Account> selectActive(String keys) {
+        return this.selectBySql(select_Active,keys);
+    }
+    public List<Account> selectComment(String keys) {
+        return this.selectBySql(select_Cmt,keys);
+    }
+    public List<Account> selectActRole(String keys,String key2,String keys3) {
+        return this.selectBySql(select_ActRoleCmt,keys,key2,keys3);
+    }
     public List<Account> selectByKeyWord(String keys,int role,int active,int comment) {
         keys = "%" + keys + "%";
         String roleString="%";
@@ -100,7 +117,20 @@ public class AccountDAO extends DAO<Account, Integer> {
             }
             resultSet.getStatement().getConnection().close();
         } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Account> selectUserEmail() {
+        List<Account> list = new ArrayList<>();
+        try {
+            ResultSet resultSet = Connect_Jdbc.query(select_UserEmail);
+            while (resultSet.next()) {
+                String Email = resultSet.getString("Email");
+                Account account = new Account(Email);
+                list.add(account);
+            }
+            resultSet.getStatement().getConnection().close();
+        } catch (SQLException e) {
         }
         return list;
     }

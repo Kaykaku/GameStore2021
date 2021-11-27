@@ -6,7 +6,6 @@
 package controller;
 
 import Animation.RoundedImageView;
-import DAO.AccountDAO;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
@@ -27,6 +26,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -87,7 +87,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Label lbl_SignOut;
-
+    @FXML
+    private HBox pnl_ProgressBar;
+    public static HBox static_ProgressBar;
     boolean isShowManageAccount = false;
     private boolean[] isSelected;
     int menu = 7;
@@ -133,6 +135,7 @@ public class MainController implements Initializable {
         lbl_SignOut.setOnMouseClicked(evt ->{
             signOut(evt);
         });
+        static_ProgressBar = pnl_ProgressBar;
     }
     void signOut(MouseEvent evt){
                 try {

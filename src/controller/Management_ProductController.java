@@ -21,6 +21,8 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
+import static controller.Mail_SendingController.btn_Cancel;
+import static controller.Mail_SendingController.cancelTask;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -247,6 +249,8 @@ public class Management_ProductController implements Initializable {
                 });
             }
         }.start();
+        Emails = AccDAO.selectUserEmail();
+        btn_Cancel.setOnMouseClicked(event -> {cancelTask =true; System.out.println("Task Stopped!");});
     }
 
     private void fillListApplication() {
@@ -412,7 +416,7 @@ public class Management_ProductController implements Initializable {
         number =(double) Math.round(entity.getSize()*100)/100;
         txt_Size.setText(isEdit ? number + "" : "");
         if (entity.getAppImage() != null) {
-            avatarImage = ProcessImage.toFile(entity.getAppImage(), "avatar.png");
+            avatarImage = ProcessImage.toFile(entity.getAppImage(), "avatar1.png");
         }
         setAvatarImage();
         if (entity.getAppIcon() != null) {
@@ -501,9 +505,9 @@ public class Management_ProductController implements Initializable {
     }
     private void sendMailAbtSale() throws IOException, MessagingException, InterruptedException{
         avtImg = null;
+        cancelTask = false;
         Mail_SendingController msd = new Mail_SendingController();
         Multipart multipart = msd.handleMultipart();
-        Emails = AccDAO.selectEmail();
         Session session = Mail_SendingController.SendMail();
         listApplications = appDAO.selectSale();
         String Subject = "GAMESTORE IS NOW HAVING A REALLY BIG DISCOUNT";
@@ -514,11 +518,11 @@ public class Management_ProductController implements Initializable {
 
         Mail_SendingController.sendMailsabtDiscount(multipart,Emails,session,listApplications,Subject,Text,avtImg);
     }
-    @SuppressWarnings("empty-statement")
+
     private void sendMailAbtGame() throws IOException, InterruptedException, MessagingException{
+        cancelTask = false;
         Mail_SendingController msd = new Mail_SendingController();
         Multipart multipart = msd.handleMultipart();
-        Emails = AccDAO.selectEmail();
         Session session = Mail_SendingController.SendMail();
         listApplications = appDAO.selectLastApp();
         String Subject = "GAMESTORE JUST HAVE GOT A NEW GAME - GO CHECK IT OUT";

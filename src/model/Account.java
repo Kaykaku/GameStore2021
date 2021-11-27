@@ -6,8 +6,6 @@
 package model;
 
 import java.util.Date;
-import javafx.scene.image.Image;
-
 /**
  *
  * @author leminhthanh

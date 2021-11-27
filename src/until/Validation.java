@@ -29,8 +29,8 @@ import model.Account;
  * @author Admin
  */
 public class Validation {
-
-    public static String validationPersonName(JFXTextField textField) {
+    public static double price = 0;
+    public static String validationPersonName(TextField textField) {
         String err = "";
         if (!textField.getText().trim().isEmpty() && !textField.getText().trim().matches("[\\D]{3,}")) {
             err = "NAME must be at least 3 characters and contain no numbers !\n";

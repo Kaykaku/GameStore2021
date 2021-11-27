@@ -8,12 +8,16 @@ package controller;
 import DAO.ApplicationDAO;
 import DAO.WishlistDAO;
 import com.jfoenix.controls.JFXButton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -23,7 +27,9 @@ import model.Account;
 import model.Application;
 import model.Wishlist;
 import until.Auth;
+import until.Validation;
 import until.Value;
+import static until.Value.Pay;
 import until.Variable;
 import static until.Variable.PNL_VIEW;
 
@@ -76,6 +82,18 @@ public class WishlistController implements Initializable {
         setEvent();
     }  
     void setEvent(){
+        btn_Payment.setOnMouseClicked(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Pay));
+            Node node;
+            try {
+                node = (Node) loader.load();
+                PayController controller = loader.getController();
+                controller.setInformations();
+                PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         btn_Back.setOnMouseClicked((event) -> {
             Variable.IS_WISHLIST_OPEN=false;
             PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);           
@@ -110,6 +128,7 @@ public class WishlistController implements Initializable {
             }
         } catch (Exception e) {
         }
+        Validation.price = total;
         lbl_Total_Price.setText(total+"$");
     }
 }

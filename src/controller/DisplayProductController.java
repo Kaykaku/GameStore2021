@@ -518,6 +518,23 @@ public class DisplayProductController implements Initializable {
         }
     }
 
+    void loadStatusAll(Application app) {
+
+        if (new ApplicationDAO().isPurchaseApplication(Auth.USER.getAccountId(), app.getApplicationID())) {
+            btn_Buy.setText("Owned");
+            btn_AddWishList.setText("Owned");
+            btn_AddWishList.setDisable(true);
+            btn_Buy.setDisable(true);
+        }
+
+        if (!app.isEnableBuy()) {
+            btn_Buy.setText("Out of stock");
+            btn_AddWishList.setText("Out of stock");
+            btn_AddWishList.setDisable(true);
+            btn_Buy.setDisable(true);
+        }
+    }
+    
     void fillListComments() {
         CommentDAO dao = new CommentDAO();
         List<Comment> listComment = dao.selectByAppId(app.getApplicationID());
