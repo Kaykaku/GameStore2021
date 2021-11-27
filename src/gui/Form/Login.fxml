@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -24,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="700.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<Pane prefHeight="700.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
    <children>
       <ImageView fx:id="img_bg1" fitHeight="700.0" fitWidth="1247.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -77,7 +70,7 @@
       <Pane layoutX="620.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css" />
       <Pane fx:id="pnl_Login" layoutX="620.0" prefHeight="700.0" prefWidth="623.0" styleClass="login_background" stylesheets="@../../css/main.css">
          <children>
-            <VBox layoutX="162.0" layoutY="274.0" spacing="20.0">
+            <VBox layoutX="164.0" layoutY="224.0" spacing="20.0">
                <children>
                   <TextField fx:id="txt_Username_Login" focusTraversable="false" prefHeight="55.0" prefWidth="300.0" promptText="Username" styleClass="text_input4">
                      <font>
@@ -102,7 +95,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Pane layoutX="248.0" layoutY="94.0">
+            <Pane layoutX="250.0" layoutY="44.0">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="100.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -112,40 +105,41 @@
                   <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
                </children>
             </Pane>
-            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="162.0" layoutY="477.0" onAction="#LoginAction" prefHeight="40.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
+            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="166.0" layoutY="425.0" onAction="#LoginAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
               
-                        </JFXButton>
-            <JFXCheckBox fx:id="cbo_Remember" checkedColor="#2467ed" focusTraversable="false" layoutX="162.0" layoutY="413.0" prefHeight="27.0" prefWidth="200.0" text="Remember me" textFill="WHITE">
+                              </JFXButton>
+            <JFXCheckBox fx:id="cbo_Remember" checkedColor="#2467ed" focusTraversable="false" layoutX="171.0" layoutY="363.0" prefHeight="27.0" prefWidth="200.0" text="Remember me" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXCheckBox>
-            <Label fx:id="lbl_ForgotPassword" alignment="CENTER" layoutX="324.0" layoutY="524.0" prefHeight="27.0" prefWidth="138.0" styleClass="text_input2" text="Forgot password" textFill="#b7492f" underline="true">
+            <Label fx:id="lbl_ForgotPassword" alignment="CENTER" layoutX="328.0" layoutY="487.0" prefHeight="27.0" prefWidth="138.0" styleClass="text_input2" text="Forgot password" textFill="#b7492f" underline="true">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_Message_Login" layoutX="162.0" layoutY="449.0" prefWidth="300.0" textFill="RED">
+            <Label fx:id="lbl_Message_Login" layoutX="165.0" layoutY="397.0" prefWidth="300.0" textFill="RED">
                <font>
                   <Font size="16.0" />
-               </font></Label>
-            <JFXButton fx:id="btn_LoginQRcode" focusTraversable="false" layoutX="163.0" layoutY="574.0" onAction="#LoginAction" prefHeight="40.0" prefWidth="300.0" styleClass="button_type10" text="Sign in with QRcode">
+               </font>
+            </Label>
+            <JFXButton fx:id="btn_LoginQRcode" focusTraversable="false" layoutX="164.0" layoutY="560.0" onAction="#LoginAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in with QRcode">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
-            <HBox layoutX="32.0" layoutY="524.0" prefHeight="16.0" prefWidth="560.0">
+            <HBox layoutX="151.0" layoutY="521.0" prefHeight="23.0" prefWidth="322.0">
                <children>
-                  <Separator layoutX="30.0" layoutY="536.0" prefHeight="32.0" prefWidth="200.0" />
+                  <Separator layoutX="30.0" layoutY="536.0" prefHeight="32.0" prefWidth="140.0" />
                   <Label alignment="CENTER" layoutX="182.0" layoutY="512.0" prefHeight="27.0" prefWidth="34.0" text="OR" textFill="#dddddd">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Separator layoutX="313.0" layoutY="535.0" prefHeight="38.0" prefWidth="200.0" />
+                  <Separator layoutX="313.0" layoutY="535.0" prefHeight="23.0" prefWidth="140.0" />
                </children>
             </HBox>
          </children>
