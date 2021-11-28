@@ -18,6 +18,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -34,6 +35,7 @@ import until.QRDecoder;
  * @author Admin
  */
 public class Dialog_TakePictureController implements Initializable {
+
     @FXML
     private ImageView img_WebcamView;
 
@@ -55,16 +57,18 @@ public class Dialog_TakePictureController implements Initializable {
     private final QRDecoder qrDecoder = new QRDecoder();
 
     private Webcam webcam;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         startCameraInput();
-
+        setEvent();
         btn_Exit.setOnMouseClicked((event) -> {
             webcam.close();
             Stage stage = (Stage) btn_Exit.getScene().getWindow();
             stage.close();
         });
-    }  
+    }
+
     private void startCameraInput() {
         Task<Void> webCamTask = new Task<Void>() {
             @Override
@@ -81,8 +85,9 @@ public class Dialog_TakePictureController implements Initializable {
         webCamThread.setDaemon(true);
         webCamThread.start();
     }
+    boolean stopCamera = false;
+
     private void startWebCamStream() {
-        boolean stopCamera = false;
 
         Task<Void> task = new Task<Void>() {
 
@@ -115,4 +120,15 @@ public class Dialog_TakePictureController implements Initializable {
         img_WebcamView.imageProperty().bind(imageProperty);
         RoundedImageView.RoundedImage(img_WebcamView, 32);
     }
+
+    private void setEvent() {
+        btn_Take.setOnMouseClicked(event -> {
+            stopCamera = true;
+        });
+        btn_Again.setOnMouseClicked(event -> {
+            stopCamera = false;
+            startWebCamStream();
+        });
+    }
+
 }

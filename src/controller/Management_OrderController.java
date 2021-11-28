@@ -641,7 +641,6 @@ public class Management_OrderController implements Initializable {
         btn_PDFOrder.setOnAction(evt -> {
             try {
                 ExportPDF.exportPDFOrder();
-                Dialog.showMessageDialog(null, "File Ordetail save successfully!");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

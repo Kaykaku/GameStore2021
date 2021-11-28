@@ -57,9 +57,9 @@ import model.Account;
 import model.AppType;
 import model.Application;
 import model.Category;
-import until.Catch_Errors;
 import until.Dialog;
 import until.ExportExcel;
+import until.ExportPDF;
 import until.ExportText;
 import until.ProcessDate;
 import until.ProcessImage;
@@ -121,7 +121,7 @@ public class Management_ProductController implements Initializable {
 
     @FXML
     private Circle circle;
-    
+
     @FXML
     private JFXTextField txt_Languages;
 
@@ -181,10 +181,10 @@ public class Management_ProductController implements Initializable {
 
     @FXML
     private JFXButton btn_DPFProduct;
-    
+
     @FXML
     private JFXButton btn_ExcelProduct;
-    
+
     @FXML
     private JFXButton btn_TextProduct;
 
@@ -230,6 +230,7 @@ public class Management_ProductController implements Initializable {
         loadAppCategories(new Application());
         setEvent();
         ExportExcelProduct();
+        ExportPDFProduct();
         ExportTextProduct();
         fillDataOnBackground();
         updateStatus();
@@ -250,7 +251,10 @@ public class Management_ProductController implements Initializable {
             }
         }.start();
         Emails = AccDAO.selectUserEmail();
-        btn_Cancel.setOnMouseClicked(event -> {cancelTask =true; System.out.println("Task Stopped!");});
+        btn_Cancel.setOnMouseClicked(event -> {
+            cancelTask = true;
+            System.out.println("Task Stopped!");
+        });
     }
 
     private void fillListApplication() {
@@ -313,7 +317,7 @@ public class Management_ProductController implements Initializable {
 
         pnl_Container.getChildren().clear();
         double width = 0, x = 10, y = 10;
-        if(list.size()==0){
+        if (list.size() == 0) {
             lbl_CategoryCount.setText("1");
             Category ca = categoryDao.selectByID(1);
             Label label = new Label(ca.getName());
@@ -411,9 +415,9 @@ public class Management_ProductController implements Initializable {
         loadAppCategories(entity);
         lbl_GameID.setText(isEdit ? entity.getApplicationID() + "" : "");
         txt_Name.setText(isEdit ? entity.getName() + "" : "");
-        double number =(double) Math.round(entity.getPrice()*100)/100;
+        double number = (double) Math.round(entity.getPrice() * 100) / 100;
         txt_Price.setText(isEdit ? number + "" : "");
-        number =(double) Math.round(entity.getSize()*100)/100;
+        number = (double) Math.round(entity.getSize() * 100) / 100;
         txt_Size.setText(isEdit ? number + "" : "");
         if (entity.getAppImage() != null) {
             avatarImage = ProcessImage.toFile(entity.getAppImage(), "avatar1.png");
@@ -428,7 +432,7 @@ public class Management_ProductController implements Initializable {
         datePicker_CreationDate.setValue(isEdit ? ProcessDate.toLocalDate(entity.getCreationDate()) : LocalDate.now());
         datePicker_ReleaseDay.setValue(isEdit ? ProcessDate.toLocalDate(entity.getReleaseDay()) : null);
         txt_Languages.setText(entity.getLanguages());
-        number =(double) Math.round(entity.getSale()*100)/100;
+        number = (double) Math.round(entity.getSale() * 100) / 100;
         txt_Sale.setText(isEdit ? number + "" : "");
         txt_Description.setText(isEdit ? entity.getDescription() + "" : "");
         tog_Display.setSelected(entity.isActive());
@@ -441,14 +445,14 @@ public class Management_ProductController implements Initializable {
         err += Validation.validationJFXTextFieldLength(txt_Name, "APPLICATION NAME", 3, 100);
         err += Validation.validationPrice(txt_Price);
         err += Validation.validationSize(txt_Size);
-        err += Validation.validationImage(Img_AppIcon, avatarIcon , circle, "APPICON");
+        err += Validation.validationImage(Img_AppIcon, avatarIcon, circle, "APPICON");
         err += Validation.validationImage(Img_AppImage, avatarImage, "APP IMAGE");
         err += Validation.validationSale(txt_Sale);
         err += Validation.validationDate(datePicker_ReleaseDay, "RELEASE DATE");
         err += Validation.validationJFXTextAreaLength(txt_Description, "DESCRIPTION", 10, 4000);
         if (err.isEmpty()) {
             Application app = new Application();
-            app.setApplicationID(isEdit?Integer.parseInt(lbl_GameID.getText().trim()):-1);
+            app.setApplicationID(isEdit ? Integer.parseInt(lbl_GameID.getText().trim()) : -1);
             app.setName(txt_Name.getText().trim());
             app.setPrice(Double.parseDouble(txt_Price.getText().trim()));
             app.setSize(Double.parseDouble(txt_Size.getText().trim()));
@@ -465,7 +469,7 @@ public class Management_ProductController implements Initializable {
             app.setCreationDate(ProcessDate.toDate((datePicker_CreationDate.getValue())));
             app.setReleaseDay(ProcessDate.toDate(datePicker_ReleaseDay.getValue()));
             app.setLanguages(txt_Languages.getText());
-            app.setSale(Double.parseDouble(txt_Sale.getText().trim().isEmpty()?0+"":txt_Sale.getText().trim()));
+            app.setSale(Double.parseDouble(txt_Sale.getText().trim().isEmpty() ? 0 + "" : txt_Sale.getText().trim()));
             app.setDescription(txt_Description.getText());
             app.setActive(tog_Display.isSelected());
             app.setType(tog_Type.isSelected());
@@ -503,7 +507,8 @@ public class Management_ProductController implements Initializable {
         clearColor();
         updateStatus();
     }
-    private void sendMailAbtSale() throws IOException, MessagingException, InterruptedException{
+
+    private void sendMailAbtSale() throws IOException, MessagingException, InterruptedException {
         avtImg = null;
         cancelTask = false;
         Mail_SendingController msd = new Mail_SendingController();
@@ -512,14 +517,14 @@ public class Management_ProductController implements Initializable {
         listApplications = appDAO.selectSale();
         String Subject = "GAMESTORE IS NOW HAVING A REALLY BIG DISCOUNT";
         int x = listApplications.size();
-        String Text= "Hi, How are you doing, we are now having "+x+" games are on sale"
-        + "  \nwhich are gonna blow your mind, open GameXStore and check it out!"+
-        "\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();
+        String Text = "Hi, How are you doing, we are now having " + x + " games are on sale"
+                + "  \nwhich are gonna blow your mind, open GameXStore and check it out!"
+                + "\n\n Thank you for choosing us!" + "\n" + ProcessDate.now();
 
-        Mail_SendingController.sendMailsabtDiscount(multipart,Emails,session,listApplications,Subject,Text,avtImg);
+        Mail_SendingController.sendMailsabtDiscount(multipart, Emails, session, listApplications, Subject, Text, avtImg);
     }
 
-    private void sendMailAbtGame() throws IOException, InterruptedException, MessagingException{
+    private void sendMailAbtGame() throws IOException, InterruptedException, MessagingException {
         cancelTask = false;
         Mail_SendingController msd = new Mail_SendingController();
         Multipart multipart = msd.handleMultipart();
@@ -527,25 +532,26 @@ public class Management_ProductController implements Initializable {
         listApplications = appDAO.selectLastApp();
         String Subject = "GAMESTORE JUST HAVE GOT A NEW GAME - GO CHECK IT OUT";
         int x = listApplications.size();
-        String Text= "Hi, How are you doing again?, A new Game just went on sale,It is "+listApplications.get(0).getName()+
-        ", \nDeveloped by "+listApplications.get(0).getDeveloper()+" which is gonna blow your mind, open GameXStore and check it out!"+
-        "\n\n Thank you for choosing us!"+"\n"+ProcessDate.now();;
-            avtImg = ProcessImage.toFile(listApplications.get(0).getAppImage(), "avatar.png");
-        Mail_SendingController.sendMailsabtDiscount(multipart,Emails,session,listApplications,Subject,Text,avtImg);
-        
+        String Text = "Hi, How are you doing again?, A new Game just went on sale,It is " + listApplications.get(0).getName()
+                + ", \nDeveloped by " + listApplications.get(0).getDeveloper() + " which is gonna blow your mind, open GameXStore and check it out!"
+                + "\n\n Thank you for choosing us!" + "\n" + ProcessDate.now();;
+        avtImg = ProcessImage.toFile(listApplications.get(0).getAppImage(), "avatar.png");
+        Mail_SendingController.sendMailsabtDiscount(multipart, Emails, session, listApplications, Subject, Text, avtImg);
+
     }
+
     private void insert() {
         Application entity = getForm();
         if (entity == null) {
             return;
         }
         applicationDAO.insert(entity);
-        
+
         clearForm();
-        entity = listApplications.get(listApplications.size()-1);
+        entity = listApplications.get(listApplications.size() - 1);
         new AppTypeDAO().insert(new AppType(entity.getApplicationID(), 1));
         ProcessString.showMessage(lbl_Message, "Inserted successfully !");
-        
+
     }
 
     private void update() {
@@ -564,7 +570,7 @@ public class Management_ProductController implements Initializable {
         clearForm();
         ProcessString.showMessage(lbl_Message, "Deleted successfully ID-" + ID + " !");
     }
-    
+
     void insertAppType(AppType entity) {
         if (entity == null) {
             return;
@@ -578,6 +584,7 @@ public class Management_ProductController implements Initializable {
         loadAppCategories(applicationDAO.selectByID(entity.getApplicationID()));
         ProcessString.showMessage(lbl_Message, "Inserted category successfully !");
     }
+
     private void updateStatus() {
         btn_Add.setDisable(isEdit);
         btn_Update.setDisable(!isEdit);
@@ -620,7 +627,7 @@ public class Management_ProductController implements Initializable {
         });
         btn_AddCategory.setOnMouseClicked((evt) -> {
             if (cbo_Category.getSelectionModel().getSelectedIndex() == -1) {
-                ProcessString.showMessage(lbl_Message,"Please choose categories");
+                ProcessString.showMessage(lbl_Message, "Please choose categories");
                 return;
             }
             AppType appType = new AppType();
@@ -633,10 +640,11 @@ public class Management_ProductController implements Initializable {
             setFormApp(applicationDAO.selectByID(appType.getApplicationID()));
         });
     }
-     private void ExportExcelProduct() {
+
+    private void ExportExcelProduct() {
         btn_ExcelProduct.setOnAction(evt -> {
             String[] header = new String[]{"ID", "Name", "Price", "Size", "Image", "Icon", "Developer", "Publisher", "ReleaseDay",
-                "CreationDate", "Languages","Sale","Active","EnableBuy", "Description"};
+                "CreationDate", "Languages", "Sale", "Active", "EnableBuy", "Description"};
             List<Application> list = applicationDAO.selectAll();
             List<Object[]> listObjs = new ArrayList<>();
             list.forEach((Application) -> {
@@ -647,22 +655,34 @@ public class Management_ProductController implements Initializable {
             try {
                 ExportExcel.exportFile(null, header, listObjs, fileName, title);
             } catch (IOException ex) {
-                
+
             }
         });
     }
-     private void ExportTextProduct() {
-        btn_TextProduct.setOnAction(evt -> {       
-              ExportText.ExportFileProduct();
+
+    private void ExportTextProduct() {
+        btn_TextProduct.setOnAction(evt -> {
+            ExportText.ExportFileProduct();
         });
-        
+
     }
 
-    
+    private void ExportPDFProduct() {
+        btn_DPFProduct.setOnAction(evt -> {
+            try {
+                ExportPDF.exportPDFProduct();
+            } catch (Exception ex) {
+
+            }
+
+        });
+    }
+
     @FXML
     private void handleButtonSendSales(ActionEvent event) throws IOException, MessagingException, InterruptedException {
         this.sendMailAbtSale();
     }
+
     @FXML
     private void handleButtonSendGames(ActionEvent event) throws IOException, MessagingException, InterruptedException {
         this.sendMailAbtGame();

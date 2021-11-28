@@ -12,6 +12,7 @@ import DAO.NewsDAO;
 import DAO.OrderDAO;
 import com.pdfjet.A3;
 import com.pdfjet.A4;
+import com.pdfjet.A5;
 import com.pdfjet.Cell;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
@@ -33,7 +34,6 @@ import model.Category;
 import model.News;
 import model.Order;
 
-
 /**
  *
  * @author NguyenHuan
@@ -42,13 +42,15 @@ public class ExportPDF {
 
     static JFileChooser fileChooser = new JFileChooser();
     static FileNameExtensionFilter Findpdf = new FileNameExtensionFilter("PDF(.pdf)", "pdf", "pdf");
-    static FileChooser fc = new FileChooser();
 
     public static void exportPDFProduct() throws FileNotFoundException, Exception {
         ApplicationDAO appDao = new ApplicationDAO();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
+        fileChooser.setInitialFileName("Application");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             FileOutputStream fos = new FileOutputStream(path);
             PDF pdf = new PDF(fos);
@@ -113,7 +115,6 @@ public class ExportPDF {
                 tableRow.add(Sale);
                 tableRow.add(Active);
                 tableRow.add(EnableBuy);
-//                    tableRow.add(Description);
                 tableData.add(tableRow);
             }
             table.setData(tableData);
@@ -147,6 +148,7 @@ public class ExportPDF {
                 page = new Page(pdf, A3.PORTRAIT);
 
             }
+            Dialog.showMessageDialog(null, "File save successfully!");
             pdf.flush();
             fos.close();
         }
@@ -154,13 +156,16 @@ public class ExportPDF {
 
     public static void exportPDFNews() throws Exception {
         NewsDAO newDao = new NewsDAO();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        FileChooser fileChooser = new FileChooser();
+       fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
+        fileChooser.setInitialFileName("News");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             FileOutputStream fos = new FileOutputStream(path);
             PDF pdf = new PDF(fos);
-            Page page = new Page(pdf, A4.PORTRAIT);
+            Page page = new Page(pdf, A3.PORTRAIT);
             Font heading = new Font(pdf, CoreFont.HELVETICA_BOLD);
             Font dataTable = new Font(pdf, CoreFont.HELVETICA);
             dataTable.setSize(10);
@@ -169,51 +174,33 @@ public class ExportPDF {
             List<Cell> tableRow = new ArrayList<>();
             Cell cell = new Cell(heading, "ID");
             tableRow.add(cell);
-            cell = new Cell(heading, "Name");
-            tableRow.add(cell);
             cell = new Cell(heading, "Creation Date");
-            tableRow.add(cell);
-            cell = new Cell(heading, "Tilte");
-            tableRow.add(cell);
-            cell = new Cell(heading, "Description");
-            tableRow.add(cell);
-            cell = new Cell(heading, "Content");
             tableRow.add(cell);
             cell = new Cell(heading, "Views");
             tableRow.add(cell);
+            cell = new Cell(heading, "Title");
             tableRow.add(cell);
             tableData.add(tableRow);
             List<News> list = newDao.selectAll();
             for (News model : list) {
                 Cell NewID = new Cell(dataTable, String.valueOf(model.getNewsID()));
-                Cell Name = new Cell(dataTable, model.getName());
                 Cell CreationBy = new Cell(dataTable, String.valueOf(model.getCreationDate()));
-                Cell Tilte = new Cell(dataTable, model.getTitle());
-                Cell Description = new Cell(dataTable, model.getDescription());
-                Cell Content = new Cell(dataTable, model.getContents());
                 Cell Views = new Cell(dataTable, String.valueOf(model.getViews()));
-
+                 Cell Title = new Cell(dataTable, model.getTitle());
                 tableRow = new ArrayList<Cell>();
                 tableRow.add(NewID);
-                tableRow.add(Name);
                 tableRow.add(CreationBy);
-                tableRow.add(Tilte);
-                tableRow.add(Description);
-                tableRow.add(Content);
                 tableRow.add(Views);
+                tableRow.add(Title);
                 tableData.add(tableRow);
             }
             table.setData(tableData);
-            table.setPosition(30f, 60f);
+            table.setPosition(80f, 60f);
             for (int i = 0; i < tableRow.size(); i++) {
-                if (i == 0) {
-                    table.setColumnWidth(i, 20f);
-                } else if (i == 1) {
-                    table.setColumnWidth(i, 70f);
-                } else {
-                    table.setColumnWidth(i, 200f);
-                }
-
+                if(i == 0)table.setColumnWidth(i, 40f);
+                if(i == 1)table.setColumnWidth(i, 100f);
+                if(i == 2) table.setColumnWidth(i, 80f);
+                if(i == 3)table.setColumnWidth(i, 500f);
             }
             while (true) {
                 table.drawOn(page);
@@ -224,6 +211,7 @@ public class ExportPDF {
                 page = new Page(pdf, A4.PORTRAIT);
 
             }
+            Dialog.showMessageDialog(null, "File save successfully!");
             pdf.flush();
             fos.close();
         }
@@ -232,9 +220,12 @@ public class ExportPDF {
 
     public static void exportPDFCategory() throws Exception {
         CategoryDAO cateDAO = new CategoryDAO();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
+        fileChooser.setInitialFileName("Category");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             FileOutputStream fos = new FileOutputStream(path);
             PDF pdf = new PDF(fos);
@@ -281,6 +272,7 @@ public class ExportPDF {
                 page = new Page(pdf, A4.PORTRAIT);
 
             }
+            Dialog.showMessageDialog(null, "File save successfully!");
             pdf.flush();
             fos.close();
         }
@@ -289,13 +281,16 @@ public class ExportPDF {
 
     public static void exportPDFAccount() throws Exception {
         AccountDAO accDAO = new AccountDAO();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        FileChooser fileChooser = new FileChooser();
+       fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
+        fileChooser.setInitialFileName("Account");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             FileOutputStream fos = new FileOutputStream(path);
             PDF pdf = new PDF(fos);
-            Page page = new Page(pdf, A4.PORTRAIT);
+            Page page = new Page(pdf, A3.PORTRAIT);
             Font heading = new Font(pdf, CoreFont.HELVETICA_BOLD);
             Font dataTable = new Font(pdf, CoreFont.HELVETICA);
             dataTable.setSize(10);
@@ -314,6 +309,10 @@ public class ExportPDF {
             tableRow.add(cell);
             cell = new Cell(heading, "Email");
             tableRow.add(cell);
+            cell = new Cell(heading, "Username");
+            tableRow.add(cell);
+            cell = new Cell(heading, "Password");
+            tableRow.add(cell);
             tableData.add(tableRow);
             List<Account> list = accDAO.selectAll();
             for (Account model : list) {
@@ -323,12 +322,8 @@ public class ExportPDF {
                 Cell BirthDay = new Cell(dataTable, String.valueOf(model.getBirthDay()));
                 Cell Country = new Cell(dataTable, model.getCountry());
                 Cell Email = new Cell(dataTable, model.getEmail());
-                Cell Creation = new Cell(dataTable, String.valueOf(model.getCreationDate()));
                 Cell UserName = new Cell(dataTable, model.getUsername());
                 Cell Password = new Cell(dataTable, model.getPassword() + "");
-                Cell Active = new Cell(dataTable, model.isActive() ? "Active" : "InActive");
-                Cell Role = new Cell(dataTable, model.getRole() + "");
-
                 tableRow = new ArrayList<Cell>();
                 tableRow.add(ID);
                 tableRow.add(Name);
@@ -336,20 +331,23 @@ public class ExportPDF {
                 tableRow.add(BirthDay);
                 tableRow.add(Country);
                 tableRow.add(Email);
-                tableRow.add(Creation);
                 tableRow.add(UserName);
                 tableRow.add(Password);
-                tableRow.add(Active);
-                tableRow.add(Role);
                 tableData.add(tableRow);
             }
             table.setData(tableData);
-            table.setPosition(30f, 60f);
+            table.setPosition(40f, 60f);
             for (int i = 0; i < tableRow.size(); i++) {
                 if (i == 0) {
                     table.setColumnWidth(i, 20f);
+                } else if (i == 2) {
+                    table.setColumnWidth(i, 70f);
                 } else if (i == 3) {
-                    table.setColumnWidth(i, 50f);
+                    table.setColumnWidth(i, 70f);
+                } else if (i == 4) {
+                    table.setColumnWidth(i, 70f);
+                } else if (i == 5) {
+                    table.setColumnWidth(i, 150f);
                 } else {
                     table.setColumnWidth(i, 130f);
                 }
@@ -360,9 +358,10 @@ public class ExportPDF {
                     table.resetRenderedPagesCount();
                     break;
                 }
-                page = new Page(pdf, A4.PORTRAIT);
+                page = new Page(pdf, A3.PORTRAIT);
 
             }
+            Dialog.showMessageDialog(null, "File save successfully!");
             pdf.flush();
             fos.close();
         }
@@ -370,9 +369,12 @@ public class ExportPDF {
 
     public static void exportPDFOrder() throws Exception {
         OrderDAO orDAO = new OrderDAO();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
+        fileChooser.setInitialFileName("order");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             FileOutputStream fos = new FileOutputStream(path);
             PDF pdf = new PDF(fos);
@@ -419,6 +421,7 @@ public class ExportPDF {
                 page = new Page(pdf, A4.PORTRAIT);
 
             }
+            Dialog.showMessageDialog(null, "File save successfully!");
             pdf.flush();
             fos.close();
         }

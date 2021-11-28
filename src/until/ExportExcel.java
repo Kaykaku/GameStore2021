@@ -1,8 +1,6 @@
 package until;
 
 import java.awt.Component;
-import java.awt.Desktop;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.BuiltinFormats;
@@ -27,6 +24,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 public class ExportExcel {
 
@@ -191,6 +189,7 @@ public class ExportExcel {
     public static void exportFile(Component parent, String[] header, List<Object[]> row, String fileName, String title) throws IOException {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".xlsx"));
+        fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
         fc.setTitle("Select folder");
         File path = fc.showSaveDialog(new Stage());
         if (path != null) {
@@ -199,11 +198,7 @@ public class ExportExcel {
             ExportExcel.setTitle(title);
             ExportExcel.setObjects(row);
             ExportExcel.create(path + "");
-            boolean flag =Dialog.showComfirmDialog(null, "Save successfully! You want to open it?");
-            if(flag){
-                Desktop desktop = Desktop.getDesktop();  
-                desktop.open(path);
-            }
+            Dialog.showMessageDialog(null, "Save successfully!");
         }else{
             Dialog.showMessageDialog(null, "Save failded!");
         }

@@ -199,6 +199,9 @@ public class Management_CategoryController implements Initializable {
         fillDataOnBackground();
         displayFormAnimation();
         setEvent();
+        ExportPDFCategory();
+        ExportExcelCategory();
+        ExportTextCategory();
         updateStatus();
 
     }
@@ -508,11 +511,10 @@ public class Management_CategoryController implements Initializable {
         edit();
     }
 
-    private void ExportPDFCaategory() {
+    private void ExportPDFCategory() {
         btn_PDFCategory.setOnAction(evt -> {
             try {
-                ExportPDF.exportPDFCategory();
-                Dialog.showMessageDialog(null, "File save successfully!");
+                ExportPDF.exportPDFCategory();         
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -542,7 +544,7 @@ public class Management_CategoryController implements Initializable {
             ExportText.ExportFileCategory();
         });
     }
-
+    
 
     void setEvent() {
         tbl_Categories.setOnMouseClicked((event) -> {

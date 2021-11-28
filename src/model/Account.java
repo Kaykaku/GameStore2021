@@ -6,6 +6,7 @@
 package model;
 
 import java.util.Date;
+import javafx.scene.control.CheckBox;
 /**
  *
  * @author leminhthanh
@@ -26,9 +27,10 @@ public class Account {
     private int role=-1;
     private boolean comment;
     private String QRcode;
+    private CheckBox checkbox;
     public Account() {
     }
-
+    
     public int getAccountId() {
         return accountId;
     }
@@ -37,6 +39,14 @@ public class Account {
         this.email = email;
     }
 
+    public Account(int accountId, String name, String email, String username) {
+        this.accountId = accountId;
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.checkbox =  new CheckBox();
+    }
+    
     
     public void setAccountId(int accountId) {
         this.accountId = accountId;
@@ -153,7 +163,13 @@ public class Account {
     public void setQRcode(String QRcode) {
         this.QRcode = QRcode;
     }
-
+    public CheckBox getCheckbox() {
+        return checkbox;
+    }
+ 
+    public void setCheckBox(CheckBox checkbox) {
+        this.checkbox = checkbox;
+    }
     
 
     @Override
@@ -169,6 +185,7 @@ public class Account {
     public String toStrings() {
         return  "ID:" + accountId + ", Name:" + name + ", BirthDay:" + birthDay + ", Gender" + gender + ", Image:" + image + ", Email=" + email + ", Address=" + address + ", Country=" + country + ", CreationDate=" + creationDate + ", Username=" + username + ", Password=" + password + ", Active=" + active + ", Role=" + role + ", Comment=" + comment + '}';
     }
+
 
 
 }

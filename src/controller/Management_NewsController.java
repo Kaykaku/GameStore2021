@@ -375,7 +375,6 @@ public class Management_NewsController implements Initializable {
         btn_PDFNews.setOnAction(evt -> {
             try {
                 ExportPDF.exportPDFNews();
-                Dialog.showMessageDialog(null, "File save successfully!");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
