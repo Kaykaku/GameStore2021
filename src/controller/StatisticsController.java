@@ -587,7 +587,7 @@ public class StatisticsController implements Initializable {
             if (i >= list.size()) {
                 break;
             }
-            String name =list.get(i).getYear()+""+list.get(i).getMonth();
+            String name =list.get(i).getYear()+"-"+list.get(i).getMonth();
             series1.getData().add(new XYChart.Data(name, list.get(i).getApps()));
             series2.getData().add(new XYChart.Data(name, list.get(i).getProcessingApps()));
             series3.getData().add(new XYChart.Data(name, list.get(i).getAcceptedApp()));
