@@ -236,4 +236,7 @@ public class Row_WishlistController implements Initializable {
 
         pnl_Row.setStyle(color);
     }
+    public void setOpacity(){
+        pane3.setOpacity(0);
+    }
 }
