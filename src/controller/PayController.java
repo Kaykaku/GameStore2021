@@ -5,12 +5,15 @@
  */
 package controller;
 
+import Animation.RoundedImageView;
 import DAO.ApplicationDAO;
 import DAO.OrderDAO;
 import DAO.OrderDetailDAO;
 import DAO.WishlistDAO;
+import animatefx.animation.SlideInDown;
 import animatefx.animation.SlideInUp;
 import animatefx.animation.SlideOutLeft;
+import animatefx.animation.SlideOutRight;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -47,11 +50,11 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import javafx.scene.layout.VBox;
 import model.Account;
 import model.Application;
@@ -60,10 +63,13 @@ import model.OrderDetail;
 import model.Wishlist;
 import until.Auth;
 import until.ProcessDate;
+import until.ProcessImage;
 import until.Validation;
 import until.Value;
+import static until.Value.FORM_HOME_GAMES;
 import static until.Value.FORM_LIBRARY;
 import static until.Value.FORM_PRODUCT_LIST;
+import until.Variable;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -83,8 +89,6 @@ public class PayController implements Initializable {
     private Button btn_reset;
     @FXML
     private TextField txt_CodeSale;
-    @FXML
-    private Button btn_momo;
     @FXML
     private Button btn_paypay;
     @FXML
@@ -143,7 +147,6 @@ public class PayController implements Initializable {
         setEvent();
         setInformation(new ApplicationDAO().selectByID(1));
         setInformations();
-        pnl_Code.setOpacity(0);
         lbl_Code.setAlignment(Pos.CENTER);
         lbl_Code.setStyle("-fx-background-color: #616161");
     }
@@ -160,10 +163,15 @@ public class PayController implements Initializable {
 
     private void setEvent() {
         btn_continueShopping.setOnAction(event -> {
-            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FORM_PRODUCT_LIST));
+            Node node;
+            try {
+                node = (Node) loader.load();
+                PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
-        hpl_orderlink.setText("View in Library");
-        hpl_orderlink.setPrefWidth(USE_COMPUTED_SIZE);
         hpl_orderlink.setOnMouseClicked((evt) -> {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(FORM_LIBRARY));
             Node node;
@@ -185,25 +193,45 @@ public class PayController implements Initializable {
         });
 
         btn_reach.setOnAction(event -> {
-            VoiceManager freeVM;
-            Voice voice;
-            System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
-            voice = VoiceManager.getInstance().getVoice("kevin");
-            if (voice != null) {
-                voice.allocate();
-                try {
-                    voice.setRate(100);
-                    voice.setPitch(125);
-                    voice.setVolume(3);
-                    voice.speak(capcha);
 
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        StringBuilder result = new StringBuilder();
+                        for (int i = 0; i < capcha.length(); i++) {
+                            result = result.append(capcha.charAt(i));
+                            if (i == capcha.length() - 1) {
+                                break;
+                            }
+                            result = result.append(' ');
+                        }
+
+                        VoiceManager freeVM;
+                        Voice voice;
+                        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+                        voice = VoiceManager.getInstance().getVoice("kevin");
+                        if (voice != null) {
+                            voice.allocate();
+                            try {
+
+                                voice.setRate(100);
+                                voice.setPitch(125);
+                                voice.setVolume(3);
+                                voice.speak(result.toString());
+
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+
+                        } else {
+                            throw new IllegalStateException("Cannot find voice: kevin16");
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
-
-            } else {
-                throw new IllegalStateException("Cannot find voice: kevin16");
-            }
+            }).start();
         });
 
         List<Wishlist> wishlists = new WishlistDAO().selectByAccountID(user.getAccountId());
@@ -235,39 +263,12 @@ public class PayController implements Initializable {
                 lbl_Message.setText("Code reCapcha can't empty!");
             }
         });
-        btn_momo.setOnAction(event -> {
-            String code = txt_code.getText();
-            if (!code.isEmpty()) {
-                if (cbo_agree.isSelected()) {
-                    if (code.equalsIgnoreCase(capcha)) {
-                        new SlideInUp(pnl_Code).play();
-                        clock();
-                        if (app.getApplicationID() == 1) {
-                            flag = true;
-                            loadWishList();
-                        } else {
-                            Order(app);
-                        }                        
-                        lbl_Message.setText("");
-                        Clear();
-                    } else {
-                        lbl_Message.setText("Code reCapcha incorrect!");
-
-                        System.out.println("Ok " + capcha);
-                    }
-                } else {
-                    lbl_Message.setText("You not agree with the payment!");
-                }
-            } else {
-                lbl_Message.setText("Code reCapcha can't empty!");
-            }
-        });
 
     }
 
     boolean flag = false;
 
-    public List<Wishlist> loadWishList() {
+    public void loadWishList() {
         total = Validation.price;
         List<Wishlist> wishlists = new WishlistDAO().selectByAccountID(user.getAccountId());
         try {
@@ -285,6 +286,7 @@ public class PayController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.ROW_WISHLIST));
                 nodes[h] = (Pane) loader.load();
                 controllers[h] = loader.getController();
+                controllers[h].setOpacity();
                 Application app = new ApplicationDAO().selectByID(wishlists.get(h).getApplicatonId());
                 controllers[h].setInfo(app);
 
@@ -295,7 +297,7 @@ public class PayController implements Initializable {
                     public void handle(MouseEvent mouseEvent) {
                         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                             nodes[h].getChildren().remove(0);
-                            wishlists.remove(h);
+                           
                             if (mouseEvent.getClickCount() == 2) {
                                 minus = controllers[h].getPrice();
                                 quantity -= 1;
@@ -311,6 +313,7 @@ public class PayController implements Initializable {
                                 double height = (paneP.getPrefHeight() + vbox_ListProduct.getSpacing()) * (wishlists.size() - 1);
                                 pnl_List.setPrefHeight(height);
                                 vbox_ListProduct.setPrefSize(paneP.getPrefWidth(), height);
+                                 wishlists.remove(h);
                             }
 
                         }
@@ -333,7 +336,6 @@ public class PayController implements Initializable {
         lbl_quantity.setText(Integer.toString(quantity));
         QRcode(String.valueOf(total));
 
-        return wishlists;
     }
 
     void loadBasic() {
@@ -343,7 +345,7 @@ public class PayController implements Initializable {
             Node node = (Node) loader.load();
             Row_WishlistController controller = loader.getController();
             controller.setInfo(app);
-
+            controller.setOpacity();
             vbox_ListProduct.getChildren().add(node);
         } catch (IOException ex) {
             Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
@@ -356,8 +358,8 @@ public class PayController implements Initializable {
     public void QRcode(String content) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 //        String title = "";
-        int width = 250;
-        int height = 250;
+        int width = 350;
+        int height = 350;
         BufferedImage bufferedImage = null;
         try {
             BitMatrix byteMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, width, height);
@@ -453,27 +455,27 @@ public class PayController implements Initializable {
         lbl_Code.setText(capcha);
     }
 
-    private void clock() {
-        count = 30;
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if (count == -1) {
-                        timer.cancel();
-                        lbl_message_pnlCode.setText("Scane QR code");
-                        pnl_Code.setOpacity(0);
-                        new SlideOutLeft(pnl_main).playOnFinished(new SlideInUp(pnl_finis)).play();
-                    } else {
-                        lbl_message_pnlCode.setText("Scane QR code (" + count + ")");
-                        count--;
-                        pnl_Code.setOpacity(1);
-                    }
-                });
-            }
-        }, 1000, 1000);
-
-    }
+//    private void clock() {
+//        count = 30;
+//        Timer timer = new Timer();
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                Platform.runLater(() -> {
+//                    if (count == -1) {
+//                        timer.cancel();
+//                        lbl_message_pnlCode.setText("Scane QR code");
+//                        pnl_Code.setOpacity(0);
+//                        new SlideOutLeft(pnl_main).playOnFinished(new SlideInUp(pnl_finis)).play();
+//                    } else {
+//                        lbl_message_pnlCode.setText("Scane QR code (" + count + ")");
+//                        count--;
+//                        pnl_Code.setOpacity(1);
+//                    }
+//                });
+//            }
+//        }, 1000, 1000);
+//
+//    }
 
 }
