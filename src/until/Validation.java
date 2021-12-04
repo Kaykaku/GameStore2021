@@ -13,6 +13,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.Period;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -353,5 +354,17 @@ public class Validation {
         } else if (node instanceof ImageView) {
             node.setStyle("-fx-effect : dropshadow( three-pass-box  , transparent , 0 , 1 , 0 , 0 )");
         }
+    }
+
+    public static void Messages(Label label, String string) {
+        label.setText(string);
+    }
+
+    public static void Incorrect(TextField name) {
+        name.setStyle("-fx-border-color: red");
+    }
+
+    public static void Correct(TextField name) {
+        name.setStyle("-fx-border-color: #fff");
     }
 }

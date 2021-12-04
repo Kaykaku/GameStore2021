@@ -126,7 +126,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btn_LoginQRcode" focusTraversable="false" layoutX="164.0" layoutY="560.0"  prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in with QRcode">
+            <JFXButton fx:id="btn_LoginQRcode" focusTraversable="false" layoutX="164.0" layoutY="560.0" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in with QRcode">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -200,7 +200,7 @@
                   </PasswordField>
                </children>
             </VBox>
-            <Label alignment="CENTER" layoutY="631.0" prefHeight="55.0" prefWidth="623.0" text="\@2021 #GAMESTORE" textFill="#dddddd">
+            <Label alignment="CENTER" layoutX="5.0" layoutY="631.0" prefHeight="55.0" prefWidth="623.0" text="\@2021 #GAMESTORE" textFill="#dddddd">
                <font>
                   <Font size="18.0" />
                </font>
