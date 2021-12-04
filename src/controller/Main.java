@@ -25,7 +25,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Auth.USER = new AccountDAO().selectByID(1);
+//        Auth.USER = new AccountDAO().selectByID(1);
 //        Parent root = FXMLLoader.load(getClass().getResource(Value.ROW_NEWS));
 //         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_USER_INFORMATION));
         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
