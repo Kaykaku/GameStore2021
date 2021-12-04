@@ -28,7 +28,7 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String select_By_User_sql = "select * from Accounts where UserName = ?";
     private final String select_By_KeyWord = "select * from Accounts where (AccountId like ? or Name like ? or UserName like ? ) and Role like ? and Active like ? and Comment like ?";
     private final String update_Register = "update Accounts set Password = ? where Username = ?";
-    private final String select_By_Email = "select * from Accounts where Email = ?";
+    private final String select_By_Email = "select * from Accounts where Email like ?";
     private final String insert_Register = "INSERT Accounts (Username, Email, [Password], creationDate, Role, Active) VALUES (?, ?, ?, ?, ?, ?)";
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
     private final String select_Email = "select Email from Accounts ";
@@ -100,8 +100,9 @@ public class AccountDAO extends DAO<Account, Integer> {
     public List<Account> selectComment(String keys) {
         return this.selectBySql(select_Cmt,keys);
     }
-    public List<Account> selectActRole(String keys,String key2,String keys3) {
-        return this.selectBySql(select_ActRoleCmt,keys,key2,keys3);
+     public List<Account> selectMailList(String keys) {
+        keys = "%" + keys + "%";
+        return selectMail(select_By_Email, keys);
     }
     public List<Account> selectByKeyWord(String keys,int role,int active,int comment) {
         keys = "%" + keys + "%";
@@ -120,7 +121,7 @@ public class AccountDAO extends DAO<Account, Integer> {
         
         return this.selectBySql(select_By_KeyWord, keys, keys, keys,roleString,activeString,commentString);
     }
-    
+   
     public List<Account> selectEmail() {
         List<Account> list = new ArrayList<>();
         try {
@@ -149,6 +150,7 @@ public class AccountDAO extends DAO<Account, Integer> {
         }
         return list;
     }
+    
     public List<Account> selectBySql(String sql, Object... args) {
         List<Account> list = new ArrayList<>();
         try {
@@ -178,10 +180,10 @@ public class AccountDAO extends DAO<Account, Integer> {
         }
         return list;
     }
-    public List<Account> selectMail() {
+    public List<Account> selectMail(String sql, Object... args) {
         List<Account> list = new ArrayList<>();
         try {
-            ResultSet resultSet = Connect_Jdbc.query(select_TableSendMail);
+            ResultSet resultSet = Connect_Jdbc.query(sql,args);
             while (resultSet.next()) {
                 int AccountId = resultSet.getInt("AccountId");
                 String Name = resultSet.getString("Name");

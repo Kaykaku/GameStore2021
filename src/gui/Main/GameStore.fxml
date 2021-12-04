@@ -111,7 +111,7 @@
                   <Image url="@../../icons/user_avatar50.png" />
                </image>
             </ImageView>
-            <HBox fx:id="pnl_ProgressBar" layoutX="210.0" layoutY="23.0" prefHeight="17.0" prefWidth="253.0" />
+            <HBox fx:id="pnl_ProgressBar" layoutX="210.0" layoutY="13.0" prefHeight="25.0" prefWidth="253.0" />
          </children></Pane>
    </children>
 </AnchorPane>
