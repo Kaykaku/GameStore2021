@@ -387,7 +387,6 @@ public class User_InformationController implements Initializable {
     Account getForm() {
         err += Validation.validationEmail(txt_Email);
         err += Validation.validationBirthDay(datePicker_Birthday);
-        System.out.println(datePicker_Birthday.getValue());
         if (err.isEmpty()) {
             Account entity = new Account();
             entity.setAccountId(Auth.USER.getAccountId());

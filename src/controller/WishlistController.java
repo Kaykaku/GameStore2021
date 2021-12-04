@@ -91,7 +91,7 @@ public class WishlistController implements Initializable {
                 controller.setInformations();
                 PNL_VIEW.getChildren().add(node);
             } catch (IOException ex) {
-                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         btn_Back.setOnMouseClicked((event) -> {
@@ -127,7 +127,7 @@ public class WishlistController implements Initializable {
                 
                 vbox_ListProduct.getChildren().add(nodes[h]);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
         }
         Validation.price = total;
         lbl_Total_Price.setText(total+"$");

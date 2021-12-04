@@ -243,7 +243,7 @@ public class MainController implements Initializable {
             RoundedImageView.RoundedImage(img_User_Icon_Medium, img_User_Icon_Medium.getFitWidth());
         }
         lbl_UserName.setText(Auth.USER.getUsername());
-        lbl_UserName_Hide.setText(Auth.USER.getName());
+        lbl_UserName_Hide.setText(Auth.USER.getName()==null?Auth.USER.getUsername():Auth.USER.getName());
         lbl_Email_Hide.setText(Auth.USER.getEmail());
     }
 

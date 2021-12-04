@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-radius: 10px;" styleClass="view_background" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewsListController">
+   <children>
+      <ScrollPane fx:id="pnl_ScrollList" prefHeight="830.0" prefWidth="1300.0">
+         <content>
+            <Pane fx:id="pane" prefHeight="830.0" prefWidth="1285.0" styleClass="view_background">
+               <children>
+                  <Pane fx:id="pnl_Title_In" layoutY="540.0" prefHeight="50.0" prefWidth="1285.0">
+                     <children>
+                        <Label fx:id="lbl_ListName" layoutX="20.0" layoutY="10.0" text="List News" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txt_SreachApp" focusTraversable="false" layoutX="957.0" layoutY="5.0" prefHeight="40.0" prefWidth="310.0" promptText="Sreach ..." style="-fx-background-color: #3a3a3a;" styleClass="text_input">
+                           <font>
+                              <Font name="Arial" size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label fx:id="lbl_filter" layoutX="1200.0" prefHeight="49.0" prefWidth="49.0" />
+                        <HBox layoutX="721.0" layoutY="10.0" opacity="0.0" spacing="10.0">
+                           <children>
+                              <Label fx:id="lbl_ListName111" layoutX="20.0" layoutY="50.0" prefHeight="31.0" prefWidth="59.0" text="Sort by" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="cbx_sort" layoutX="110.0" layoutY="45.0" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pnl_Header" prefHeight="520.0">
+                     <children>
+                        <ImageView fx:id="img_Header" fitHeight="520.0" fitWidth="1295.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../../icons/gamenews.png" />
+                           </image>
+                        </ImageView>
+                        <Pane layoutY="261.0" prefHeight="259.0" prefWidth="1295.0" styleClass="img_gradient" stylesheets="@../../css/main.css">
+                           <children>
+                              <Label fx:id="lbl_Title" layoutX="50.0" text="NEWS" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial Bold" size="29.0" />
+                                 </font>
+                              </Label>
+                              <Text fx:id="lbl_Decription" fill="WHITE" layoutX="50.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enjoy this collection of much-have games for time tested classics to the hottest new titles" wrappingWidth="442.0849609375">
+                                 <font>
+                                    <Font name="Arial" size="19.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pnl_List" layoutY="600.0" prefHeight="240.0" prefWidth="1285.0">
+                     <children>
+                        <TilePane fx:id="tile_List" alignment="CENTER_LEFT" layoutY="10.0" prefHeight="162.0" prefWidth="200.0" tileAlignment="BOTTOM_LEFT">
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding>
+                        </TilePane>
+                        <Label fx:id="lbl_Loading" layoutX="539.0" layoutY="120.0" text="Loading applications...." textFill="#b5b2b2">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </Pane>
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+      <JFXButton fx:id="btn_Back" layoutX="30.0" layoutY="30.0" prefHeight="40.0" styleClass="button_type5">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/arrrowleft40px.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</Pane>
