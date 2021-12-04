@@ -214,7 +214,7 @@ public class PayController implements Initializable {
                             voice.allocate();
                             try {
 
-                                voice.setRate(100);
+                                voice.setRate(80);
                                 voice.setPitch(125);
                                 voice.setVolume(3);
                                 voice.speak(result.toString());
@@ -308,7 +308,7 @@ public class PayController implements Initializable {
 
                                 System.out.println("Minus 1: " + minus);
 
-                                QRcode(String.valueOf(total));
+                                QRcode(String.format("%.2f", total) + "$");
 
                                 double height = (paneP.getPrefHeight() + vbox_ListProduct.getSpacing()) * (wishlists.size() - 1);
                                 pnl_List.setPrefHeight(height);
@@ -332,13 +332,13 @@ public class PayController implements Initializable {
         }
         System.out.println("quantity: " + quantity);
 
-        lbl_Total_Price.setText(total + "$");
+        lbl_Total_Price.setText(String.format("%.2f", total) + "$");
         lbl_quantity.setText(Integer.toString(quantity));
-        QRcode(String.valueOf(total));
+        QRcode(String.format("%.2f", total) + "$");
 
     }
 
-    void loadBasic() {
+    private void loadBasic() {
         try {
             vbox_ListProduct.getChildren().clear();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.ROW_WISHLIST));
@@ -350,12 +350,12 @@ public class PayController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        lbl_Total_Price.setText(app.getPrice() + "$");
+        lbl_Total_Price.setText(String.format("%.2f", app.getPrice()) + "$");
         lbl_quantity.setText("1");
-        QRcode(String.valueOf(app.getPrice()));
+        QRcode(String.valueOf(String.format("%.2f", app.getPrice())));
     }
 
-    public void QRcode(String content) {
+    private void QRcode(String content) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 //        String title = "";
         int width = 350;

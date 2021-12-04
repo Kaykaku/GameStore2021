@@ -39,7 +39,7 @@
       </Pane>
       <Pane id="AnchorPane" fx:id="pnl_main" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-color: #272727; -fx-border-radius: 10;" stylesheets="@../../css/main.css">
          <children>
-            <Label fx:id="lbl_Code" contentDisplay="CENTER" layoutX="600.0" layoutY="542.0" prefHeight="50.0" prefWidth="498.0" styleClass="lbl_Code_reCapcha" text="Label" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+            <Label fx:id="lbl_Code" contentDisplay="CENTER" layoutX="600.0" layoutY="542.0" prefHeight="50.0" prefWidth="525.0" styleClass="lbl_Code_reCapcha" text="Label" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="Herculanum" size="18.0" />
                </font>
