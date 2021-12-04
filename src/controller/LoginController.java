@@ -173,6 +173,12 @@ public class LoginController implements Initializable {
     }
 
     private void setEvent() {
+        btn_Minimize.setOnMouseClicked((event) -> {
+            Stage obj = (Stage) pnl_Login.getScene().getWindow();
+            obj.setIconified(true);
+        });
+        
+        
         btn_Change.setOnMouseClicked((evt) -> {
             if (!isRegisterForm) {
                 if (isChangePassForm) {

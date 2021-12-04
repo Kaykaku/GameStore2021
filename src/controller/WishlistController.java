@@ -29,7 +29,7 @@ import model.Wishlist;
 import until.Auth;
 import until.Validation;
 import until.Value;
-import static until.Value.Pay;
+import static until.Value.PAY;
 import until.Variable;
 import static until.Variable.PNL_VIEW;
 
@@ -83,7 +83,7 @@ public class WishlistController implements Initializable {
     }  
     void setEvent(){
         btn_Payment.setOnMouseClicked(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Pay));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(PAY));
             Node node;
             try {
                 node = (Node) loader.load();

@@ -34,6 +34,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import until.Auth;
+import until.Value;
 
 /**
  * FXML Controller class
@@ -87,7 +88,7 @@ public class Dialog_CreateQRcodeController implements Initializable {
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("PNG", "*.png"));
             fileChooser.setInitialFileName("QRcode.png");
-            fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
 
             File file = fileChooser.showSaveDialog(null);
             if (file != null) {
@@ -119,10 +120,7 @@ public class Dialog_CreateQRcodeController implements Initializable {
             MatrixToImageWriter.writeToPath(matrix, "PNG", path);
             img_QRcode.setImage(new Image(new File("photo/QRcode.png").toURI().toString()));
             RoundedImageView.RoundedImage(img_QRcode, 32);
-        } catch (IOException ex) {
-            Logger.getLogger(Dialog_CreateQRcodeController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (WriterException ex) {
-            Logger.getLogger(Dialog_CreateQRcodeController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | WriterException ex) {
         }
     }
 
@@ -131,7 +129,7 @@ public class Dialog_CreateQRcodeController implements Initializable {
         new Random().nextBytes(array);
 
         String randomString = new String(array, Charset.forName("UTF-8"));
-        StringBuffer r = new StringBuffer();
+        StringBuilder r = new StringBuilder();
         for (int k = 0; k < randomString.length(); k++) {
 
             char ch = randomString.charAt(k);

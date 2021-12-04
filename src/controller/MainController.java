@@ -81,6 +81,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Pane pnl_menu;
+    
+    @FXML
+    private Pane pnl_HeaderBar;
 
     @FXML
     private JFXButton btn_AccountSettings;
@@ -93,13 +96,21 @@ public class MainController implements Initializable {
     boolean isShowManageAccount = false;
     private boolean[] isSelected;
     int menu = 7;
+    double x, y;
     ArrayList<String> ListView;
     ArrayList<Object[]> ListItems;
     MenuItemController[] controller;
     private boolean isUser = false;
+    public static ImageView static_User_Icon_Small;
+    public static ImageView static_Icon_Medium;
+    public static Label static_UserName;
+    public static Label static_UserName_Hide;
+    public static Label static_Email_Hide;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        //Variable.MAIN_STAGE =(Stage) pnl_View.getScene().getWindow();
         pnl_ManageAccount.setTranslateY(-pnl_ManageAccount.getPrefHeight());
         Variable.PNL_VIEW = pnl_View;
         Variable.WIDTH_VIEW = pnl_View.getPrefWidth();
@@ -108,51 +119,75 @@ public class MainController implements Initializable {
         loadRoleItems();
         drawMenuItems();
         loadUserInfo();
+        setEvent();
 
         controller[0].setStyle("-fx-background-color: #454545;");
         controller[0].setItemInfo("", ListItems.get(0)[1].toString() + "selected.png");
-        drawPanelView(ListView.get(0),true);
+        drawPanelView(ListView.get(0), true);
 
+    }
+
+    void setEvent() {
+        
+        pnl_HeaderBar.setOnMousePressed(evt -> {
+            Stage stage = (Stage) pnl_View.getScene().getWindow();
+            x = evt.getScreenX() - stage.getX();
+            y = evt.getScreenY() - stage.getY();
+        });
+        pnl_HeaderBar.setOnMouseDragged(evt -> {
+            Stage stage = (Stage) pnl_View.getScene().getWindow();
+            stage.setX(evt.getScreenX() - x);
+            stage.setY(evt.getScreenY() - y);
+        });
+        
         img_User_Icon_Small.setOnMouseClicked(evt -> {
             showManageAccount();
         });
         btn_AccountSettings.setOnMouseClicked(evt -> {
-            if(!Variable.IS_ACCOUNT_INFORMATION_OPEN)drawPanelView(FORM_USER_INFORMATION,false);
-            Variable.IS_ACCOUNT_INFORMATION_OPEN=true;        
+            if (!Variable.IS_ACCOUNT_INFORMATION_OPEN) {
+                drawPanelView(FORM_USER_INFORMATION, false);
+            }
+            Variable.IS_ACCOUNT_INFORMATION_OPEN = true;
             showManageAccount();
         });
         btn_WishLish.setOnMouseClicked(evt -> {
-            if(!Variable.IS_WISHLIST_OPEN)drawPanelView(FORM_WISHLISH,false);
-            Variable.IS_WISHLIST_OPEN=true;
+            if (!Variable.IS_WISHLIST_OPEN) {
+                drawPanelView(FORM_WISHLISH, false);
+            }
+            Variable.IS_WISHLIST_OPEN = true;
             showManageAccount();
         });
-        btn_Exit.setOnMouseClicked(evt ->{
+        btn_Exit.setOnMouseClicked(evt -> {
             System.exit(0);
         });
-        btn_Minimize.setOnMouseClicked(evt ->{
-            
+        btn_Minimize.setOnMouseClicked(evt -> {
+            Stage stage = (Stage) pnl_View.getScene().getWindow();
+            stage.setIconified(true);
         });
-        lbl_SignOut.setOnMouseClicked(evt ->{
+        lbl_SignOut.setOnMouseClicked(evt -> {
             signOut(evt);
         });
+        setStatic();
         static_ProgressBar = pnl_ProgressBar;
     }
-    void signOut(MouseEvent evt){
-                try {
-                    ((Node) (evt.getSource())).getScene().getWindow().hide();
-                    Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
-                    Stage stage = new Stage();
-                    stage.initStyle(StageStyle.UNDECORATED);
-                    stage.setScene(new Scene(root));
-                    stage.show();
 
-                } catch (IOException ex) {
-                    Logger.getLogger(LoginController.class
-                            .getName()).log(Level.SEVERE, null, ex);
-                }
+    void signOut(MouseEvent evt) {
+        try {
+            ((Node) (evt.getSource())).getScene().getWindow().hide();
+            Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(root));
+            stage.show();
 
-                Auth.USER = null;
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Auth.USER = null;
     }
+
     void loadRoleItems() {
         pnl_ManageAccount.setTranslateX(0);
         ListView = new ArrayList<>();
@@ -160,39 +195,50 @@ public class MainController implements Initializable {
 
         ListView.add(FORM_HOME);
         ListItems.add(new Object[]{"Home", "home40"});
-        
-        if (!Auth.isManager()) {            
+
+        if (!Auth.isManager()) {
             ListView.add(FORM_HOME_GAMES);
             ListView.add(FORM_HOME_APPS);
             ListView.add(FORM_LIBRARY);
-            
+
             ListItems.add(new Object[]{"Games", "games40"});
             ListItems.add(new Object[]{"Apps", "apps40"});
             ListItems.add(new Object[]{"Library", "library40"});
-            
+
         }
-        if (Auth.isAdmin()) {
-            ListView.add(FORM_ACCOUNT);         
+        if (Auth.isManager()) {
+            ListView.add(FORM_ACCOUNT);
             ListView.add(FORM_CATEGORY);
             ListView.add(FORM_PRODUCT);
             ListView.add(FORM_ORDER);
             ListView.add(FORM_NEWS);
-            ListView.add(FORM_STATISTICS);
+
             ListItems.add(new Object[]{"Accounts", "accounts40"});
             ListItems.add(new Object[]{"Category", "categories40"});
             ListItems.add(new Object[]{"Products", "products40"});
             ListItems.add(new Object[]{"Orders", "orders40"});
             ListItems.add(new Object[]{"News", "news40"});
-            ListItems.add(new Object[]{"Statistics", "statistics40"});
-            vbox_menuHide.getChildren().remove(vbox_menuHide.getChildren().size()-1);
-            pnl_ManageAccount.setPrefHeight(pnl_ManageAccount.getPrefHeight()-btn_WishLish.getPrefHeight()-10);
+            if (Auth.isAdmin()) {
+                ListView.add(FORM_STATISTICS);
+                ListItems.add(new Object[]{"Statistics", "statistics40"});
+            }
+            vbox_menuHide.getChildren().remove(vbox_menuHide.getChildren().size() - 1);
+            pnl_ManageAccount.setPrefHeight(pnl_ManageAccount.getPrefHeight() - btn_WishLish.getPrefHeight() - 10);
         }
+    }
+
+    void setStatic() {
+        static_User_Icon_Small = img_User_Icon_Small;
+        static_Icon_Medium = img_User_Icon_Medium;
+        static_UserName = lbl_UserName;
+        static_UserName_Hide = lbl_UserName_Hide;
+        static_Email_Hide = lbl_Email_Hide;
     }
 
     void loadUserInfo() {
         if (Auth.USER.getImage() != null) {
-            img_User_Icon_Small.setImage( new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
-            img_User_Icon_Medium.setImage( new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
+            img_User_Icon_Small.setImage(new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
+            img_User_Icon_Medium.setImage(new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
             RoundedImageView.RoundedImage(img_User_Icon_Small, 35);
             RoundedImageView.RoundedImage(img_User_Icon_Medium, img_User_Icon_Medium.getFitWidth());
         }
@@ -231,8 +277,8 @@ public class MainController implements Initializable {
                     }
                 });
                 menuItems[i].setOnMouseReleased(evt -> {
-                    Variable.IS_ACCOUNT_INFORMATION_OPEN=false;
-                    Variable.IS_WISHLIST_OPEN=false;
+                    Variable.IS_ACCOUNT_INFORMATION_OPEN = false;
+                    Variable.IS_WISHLIST_OPEN = false;
                     Arrays.fill(isSelected, Boolean.FALSE);
                     isSelected[h] = true;
                     for (MenuItemController ct : controller) {
@@ -249,34 +295,36 @@ public class MainController implements Initializable {
                         controller[h].setItemInfo("", ItemsIcon + "selected.png");
                         new BounceIn(menuItems[h]).play();
                         //showManagement();
-                        drawPanelView(ListView.get(h),true);
+                        drawPanelView(ListView.get(h), true);
                         controller[h].setStyle("-fx-background-color: #454545;");
                     }
 
                 });
             }
         } catch (IOException ex) {
-
+            
         }
     }
 
-    void drawPanelView(String formView,boolean clear) {
-        if(clear)pnl_View.getChildren().clear();
+    void drawPanelView(String formView, boolean clear) {
+        if (clear) {
+            pnl_View.getChildren().clear();
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(formView));
-            
-            if(formView.equals(Value.FORM_HOME)){               
-                Variable.HOME_PAGE=0;
-            }else if(formView.equals(Value.FORM_HOME_GAMES)){
+
+            if (formView.equals(Value.FORM_HOME)) {
+                Variable.HOME_PAGE = 0;
+            } else if (formView.equals(Value.FORM_HOME_GAMES)) {
                 loader = new FXMLLoader(getClass().getResource(FORM_HOME));
-                Variable.HOME_PAGE=1;
-            }else if(formView.equals(Value.FORM_HOME_APPS)){
+                Variable.HOME_PAGE = 1;
+            } else if (formView.equals(Value.FORM_HOME_APPS)) {
                 loader = new FXMLLoader(getClass().getResource(FORM_HOME));
-                Variable.HOME_PAGE=2;
+                Variable.HOME_PAGE = 2;
             }
             Node node = (Node) loader.load();
             pnl_View.getChildren().add(node);
-            
+
         } catch (IOException ex) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }

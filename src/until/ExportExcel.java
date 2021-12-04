@@ -1,8 +1,5 @@
 package until;
 
-import java.awt.Component;
-import java.awt.Desktop;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.BuiltinFormats;
@@ -27,6 +23,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 public class ExportExcel {
 
@@ -114,11 +111,8 @@ public class ExportExcel {
     private static void writeHeader(Sheet sheet, int rowIndex) {
         CellStyle cellStyle = createStyleForHeader(sheet);
         Row row = sheet.createRow(rowIndex);
-        Cell stt = row.createCell(0);
-        stt.setCellValue("St");
-        stt.setCellStyle(cellStyle);
         for (int i = 0; i < col.length; i++) {
-            Cell cell = row.createCell(i + 1);
+            Cell cell = row.createCell(i);
             cell.setCellStyle(cellStyle);
             cell.setCellValue(col[i]);
         }
@@ -137,8 +131,9 @@ public class ExportExcel {
         stt.setCellValue(String.valueOf(index));
         for (int i = 0; i < objs.length; i++) {
             Object obj = objs[i];
-            Cell cell = row.createCell(i + 1);
-            cell.setCellValue(obj.toString());
+            Cell cell = row.createCell(i);
+            
+            cell.setCellValue(obj==null?"":obj.toString());
         }
     }
 
@@ -188,24 +183,20 @@ public class ExportExcel {
         }
     }
 
-    public static void exportFile(Component parent, String[] header, List<Object[]> row, String fileName, String title) throws IOException {
+    public static void exportFile(Stage parent, String[] header, List<Object[]> row, String fileName, String title) throws IOException {
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".xlsx"));
+        fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fc.setInitialFileName(fileName);
         fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        File path = fc.showSaveDialog(parent);
         if (path != null) {
             ExportExcel.clear();
             ExportExcel.setHeader(header);
             ExportExcel.setTitle(title);
             ExportExcel.setObjects(row);
-            ExportExcel.create(path + "");
-            boolean flag =Dialog.showComfirmDialog(null, "Save successfully! You want to open it?");
-            if(flag){
-                Desktop desktop = Desktop.getDesktop();  
-                desktop.open(path);
-            }
-        }else{
-            Dialog.showMessageDialog(null, "Save failded!");
+            ExportExcel.create(path.getAbsolutePath());
+            Dialog.showMessageDialog(null, "Save successfully!");
         }
 
     }

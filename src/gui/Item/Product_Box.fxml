@@ -14,9 +14,9 @@
 
 <Pane fx:id="pnl_ProductBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="240.0" styleClass="product_box" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductBoxController">
    <children>
-      <ImageView fx:id="img_App" fitHeight="210.0" fitWidth="210.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" styleClass="product_box_Icon">
+      <ImageView fx:id="img_App" fitHeight="210.0" fitWidth="210.0" layoutX="15.0" layoutY="15.0" pickOnBounds="true" styleClass="product_box_Icon">
          <image>
-            <Image url="@../../icons/Untitled-1.png" />
+            <Image url="@../../icons/refresh120.png" />
          </image>
       </ImageView>
       <Label fx:id="lbl_Name" layoutX="15.0" layoutY="235.0" prefHeight="20.0" prefWidth="208.0" text="Minecraft" textFill="WHITE">

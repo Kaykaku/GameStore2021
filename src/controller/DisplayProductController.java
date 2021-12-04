@@ -7,14 +7,11 @@ package controller;
 
 import Animation.PulseShort;
 import Animation.RoundedImageView;
-import DAO.AccountDAO;
 import DAO.AppTypeDAO;
 import DAO.ApplicationDAO;
 import DAO.ApplicationViewDAO;
 import DAO.CategoryDAO;
 import DAO.CommentDAO;
-import DAO.OrderDAO;
-import DAO.OrderDetailDAO;
 import DAO.StatisticsDAO;
 import DAO.WishlistDAO;
 import animatefx.animation.*;
@@ -54,8 +51,6 @@ import model.Application;
 import model.ApplicationView;
 import model.Category;
 import model.Comment;
-import model.Order;
-import model.OrderDetail;
 import model.Wishlist;
 import until.Auth;
 import until.Dialog;
@@ -63,7 +58,7 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.Validation;
 import until.Value;
-import static until.Value.Pay;
+import static until.Value.PAY;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -123,6 +118,12 @@ public class DisplayProductController implements Initializable {
 
     @FXML
     private ImageView img_3Star;
+    
+    @FXML
+    private Pane pnl_Bg;
+    
+    @FXML
+    private ImageView img_Bg;
 
     @FXML
     private Label lbl_AppDeveloper;
@@ -276,6 +277,7 @@ public class DisplayProductController implements Initializable {
     }
 
     void loadBasicInfo() {
+        pnl_Bg.setOpacity(0);
         lbl_AppName.setText(app.getName());
         lbl_AppDeveloper.setText(app.getDeveloper());
         double number = (double) Math.round(app.getPrice()*100)/100;
@@ -287,6 +289,7 @@ public class DisplayProductController implements Initializable {
 
         if (app.getAppImage() != null) {
             img_AppImage.setImage(new Image(ProcessImage.toFile(app.getAppImage(), "appImage.png").toURI().toString()));
+            img_Bg.setImage(new Image(ProcessImage.toFile(app.getAppImage(), "appImage.png").toURI().toString()));
         }
         RoundedImageView.RoundedImage(img_AppIcon, 32);
         RoundedImageView.RoundedImage(img_AppImage, 32);
@@ -305,6 +308,7 @@ public class DisplayProductController implements Initializable {
 
     void setEvent() {
         btn_Back.setOnMouseClicked((evt) -> {
+            img_Bg.setImage(null);
             disappearFormAnimation();
             new Thread() {
                 @Override
@@ -350,7 +354,7 @@ public class DisplayProductController implements Initializable {
 //            orde.setSale(app.getSale());
 //            new OrderDetailDAO().insert(orde);
 //            loadStatus();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Pay));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(PAY));
             Node node;
             try {
                 node = (Node) loader.load();
@@ -642,12 +646,14 @@ public class DisplayProductController implements Initializable {
     }
 
     void displayFormAnimation() {
+        new FadeIn(pnl_Bg).play();
         new ZoomIn(pnl_App_Basic_Info).play();
         new ZoomInRight(pnl_MainScroll).play();
 //        new ZoomIn(pnl_Description).play();
     }
 
     void disappearFormAnimation() {
+        pnl_Bg.setOpacity(0);
         AnimationFX ani = new ZoomOut(pnl_App_Basic_Info);
         ani.setSpeed(2);
         ani.play();

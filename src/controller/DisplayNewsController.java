@@ -8,6 +8,8 @@ package controller;
 import Animation.RoundedImageView;
 import DAO.AccountDAO;
 import DAO.NewsDAO;
+import animatefx.animation.ZoomInDown;
+import animatefx.animation.ZoomOutDown;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.util.Random;
@@ -52,6 +54,9 @@ public class DisplayNewsController implements Initializable {
 
     @FXML
     private Pane pnl_BackGround;
+    
+    @FXML
+    private Pane pnl;
 
     @FXML
     private Label lbl_Author;
@@ -68,18 +73,18 @@ public class DisplayNewsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pnl_MainScroll.setPrefHeight(830);
+        new ZoomInDown(pnl).play();
         btn_Back.setOnMouseClicked((evt) -> {
+            new ZoomOutDown(pnl).play();
             new Thread() {
+                @Override
                 public void run() {
                     try {
                         Thread.sleep(800);
                     } catch (InterruptedException ex) {
                     }
-                    Platform.runLater(new Runnable() {
-                        public void run() {
-                            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
-
-                        }
+                    Platform.runLater(() -> {
+                        PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
                     });
                 }
             }.start();
@@ -90,7 +95,7 @@ public class DisplayNewsController implements Initializable {
     public void setInfo(News entity) {
         randomBg();
         entity.setViews(entity.getViews() + 1);
-        new NewsDAO().update(entity);
+        new NewsDAO().updateViews(entity);
         lbl_Title.setText(entity.getTitle());
         lbl_Description.setText(entity.getDescription());
         lbl_Content.setText(entity.getContents());

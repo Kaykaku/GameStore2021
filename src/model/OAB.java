@@ -94,6 +94,15 @@ public class OAB {
     public void setRefundedApps(int refundedApps) {
         this.refundedApps = refundedApps;
     }
-    
+    public Object[] toObjectOAY(){
+        return new Object[]{
+            year,orders,processingOrders,acceptedOrders,refundedOrders,apps,processingApps,acceptedApp,refundedApps
+        };
+    }
+    public Object[] toObjectOAM(){
+        return new Object[]{
+            month+"/"+year,orders,processingOrders,acceptedOrders,refundedOrders,apps,processingApps,acceptedApp,refundedApps
+        };
+    }
     
 }

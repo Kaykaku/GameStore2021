@@ -129,7 +129,7 @@ public class HomeController implements Initializable {
     List<Application> listApps;
     ApplicationDAO appDAO = new ApplicationDAO();
     Product_Box_HeaderController[] controllers;
-    int step = 0;
+    int step = 0,see2,box1,box2;
     Timeline timeline;
 
     @Override
@@ -160,10 +160,13 @@ public class HomeController implements Initializable {
             case 0:
                 listApps = appDAO.selectActiveAll(1);
                 fillListApps(getRandomApps(listApps, 6), hbox_RandomApps, -1);
+                
+                box1=16;
                 listApps = appDAO.selectByCategory(16, "");
                 fillListApps(getRandomApps(listApps, 4), hbox_MusicApps, 16);
                 listApps = appDAO.selectByType(0, "");
                 fillListApps(getRandomApps(listApps, 6), hbox_BestSellerGame, -1);
+                box2=2;
                 listApps = appDAO.selectByCategory(2, "");
                 fillListApps(getRandomApps(listApps, 4), hbox_OnlineGames, 2);
                 fillListNews();
@@ -177,7 +180,7 @@ public class HomeController implements Initializable {
                 listApps = appDAO.selectActiveAll(1,0);
                 fillListApps(getRandomApps(listApps, 6), hbox_RandomApps, -1);
                 
-                
+                box1=8;
                 lbl_Title_Box1.setText("Racing & Flying");
                 lbl_Description_Random1.setText("Become a bird flying in the sky or become a professional car driver ?");
                 pnl_Container1.getStyleClass().add("container1");
@@ -187,6 +190,7 @@ public class HomeController implements Initializable {
                 listApps = appDAO.selectByType(0, "");
                 fillListApps(getRandomApps(listApps, 6), hbox_BestSellerGame, -1);       
                 
+                box2=6;
                 lbl_Title_Box2.setText("Adventure");
                 lbl_Description_Random2.setText("Make your adventure behind your screen");
                 pnl_Container2.getStyleClass().add("container1");   
@@ -205,6 +209,7 @@ public class HomeController implements Initializable {
                 listApps = appDAO.selectActiveAll(1,1);
                 fillListApps(getRandomApps(listApps, 6), hbox_RandomApps, -1);
                 
+                box1=25;
                 lbl_Title_Box1.setText("LifeStyle");
                 lbl_Description_Random1.setText("Make your style , enjoy your life!");
                 pnl_Container1.getStyleClass().add("container");
@@ -214,6 +219,7 @@ public class HomeController implements Initializable {
                 listApps = appDAO.selectByType(0, "");
                 fillListApps(getRandomApps(listApps, 6), hbox_BestSellerGame, -1);
                 
+                box2=19;
                 lbl_Title_Box2.setText("Productivity");
                 lbl_Description_Random2.setText("Make all things on the PC , your product your creative!");
                 pnl_Container2.getStyleClass().add("container");
@@ -230,11 +236,44 @@ public class HomeController implements Initializable {
 
     void setEvent() {
         lbl_SeeAll_Random1.setOnMouseClicked((event) -> {
-            Variable.PNL_VIEW.getChildren().clear();
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.FORM_PRODUCT_LIST));
                 Node node = (Node) loader.load();
-
+                ProductListController controller=loader.getController();
+                controller.setFilter(1, 1);
+                Variable.PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        lbl_SeeAll_Random2.setOnMouseClicked((event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.FORM_PRODUCT_LIST));
+                Node node = (Node) loader.load();
+                ProductListController controller=loader.getController();
+                controller.setFilter(1, 5);
+                Variable.PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        btn_SeeAll_Random1.setOnMouseClicked((event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.FORM_PRODUCT_LIST));
+                Node node = (Node) loader.load();
+                ProductListController controller=loader.getController();
+                controller.setFilter(box1, 0);
+                Variable.PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        btn_SeeAll_Random2.setOnMouseClicked((event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.FORM_PRODUCT_LIST));
+                Node node = (Node) loader.load();
+                ProductListController controller=loader.getController();
+                controller.setFilter(box2, 0);
                 Variable.PNL_VIEW.getChildren().add(node);
             } catch (IOException ex) {
                 //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -246,6 +285,15 @@ public class HomeController implements Initializable {
                 Node node = (Node) loader.load();
                 DisplayProductController controller = loader.getController();
                 controller.setInformation(listApps.get(step - 1));
+                Variable.PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        btn_SeeAll_New.setOnMouseClicked((event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.FORM_NEWS_LIST));
+                Node node = (Node) loader.load();
                 Variable.PNL_VIEW.getChildren().add(node);
             } catch (IOException ex) {
                 //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -291,7 +339,7 @@ public class HomeController implements Initializable {
                 controllers[h].setCategory(cate);
 
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

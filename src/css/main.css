@@ -177,6 +177,9 @@
 .main_background{
     -fx-background-color:  #202020;
 }
+.main_background_blur{
+    -fx-background-color:  #202020ee;
+}
 .main_background2{
     -fx-background-color: #2f2f2f;
 }
@@ -269,6 +272,10 @@
 }
 .pnl_view{
     -fx-background-color: #272727;
+    -fx-background-radius: 10px;
+}
+.pnl_view1{
+    -fx-background-color: #272727fa;
     -fx-background-radius: 10px;
 }
 .pnl_box{

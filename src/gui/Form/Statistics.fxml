@@ -31,33 +31,16 @@
       </BarChart>
       <Pane fx:id="pnl_Table" layoutX="564.0" layoutY="15.0" prefHeight="410.0" prefWidth="725.0" styleClass="pnl_view">
          <children>
-            <HBox layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="480.0" spacing="1.0" styleClass="pnl_view">
+            <HBox layoutX="340.0" layoutY="14.0" prefHeight="31.0" prefWidth="371.0" spacing="1.0" styleClass="pnl_view">
                <children>
-                  <JFXButton focusTraversable="false" prefHeight="400.0" prefWidth="150.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
-                  <JFXButton focusTraversable="false" prefHeight="400.0" prefWidth="150.0" styleClass="button_type" text="PDF" />
-                  <JFXButton focusTraversable="false" prefHeight="400.0" prefWidth="150.0" styleClass="button_type" text="Excel" />
-                  <JFXButton focusTraversable="false" prefHeight="400.0" prefWidth="150.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
+                  <JFXButton fx:id="btn_OP1" focusTraversable="false" prefHeight="400.0" prefWidth="150.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="button_type" text="Plus" />
+                  <JFXButton fx:id="btn_OP2" focusTraversable="false" prefHeight="400.0" prefWidth="150.0" styleClass="button_type" text="PDF" />
+                  <JFXButton fx:id="btn_OP3" focusTraversable="false" prefHeight="400.0" prefWidth="150.0" styleClass="button_type" text="Excel" />
+                  <JFXButton fx:id="btn_OP4" focusTraversable="false" prefHeight="400.0" prefWidth="150.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="button_type" text="Print" />
                </children>
             </HBox>
             <StackPane layoutX="10.0" layoutY="50.0">
                <children>
-                  <TableView fx:id="TableView_RBY" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
-                     <columns>
-                        <TableColumn fx:id="col_RBY_Year" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
-                        <TableColumn prefWidth="320.0" styleClass="category_table" text="ETIMATE">
-                           <columns>
-                              <TableColumn fx:id="col_RBY_Orders1" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total Orders" />
-                              <TableColumn fx:id="col_RBY_Total1" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
-                           </columns>
-                        </TableColumn>
-                        <TableColumn prefWidth="320.0" styleClass="category_table" text="REALITY">
-                           <columns>
-                              <TableColumn fx:id="col_RBY_Orders2" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total Orders" />
-                              <TableColumn fx:id="col_RBY_Total2" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
-                           </columns>
-                        </TableColumn>
-                     </columns>
-                  </TableView>
                   <TableView fx:id="TableView_OBY" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
                      <columns>
                         <TableColumn fx:id="col_OBY1" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
@@ -86,6 +69,55 @@
                         <TableColumn fx:id="col_ABM6" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="REFUNDED" />
                      </columns>
                   </TableView>
+                  <TableView fx:id="TableView_RBY" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                     <columns>
+                        <TableColumn fx:id="col_RBY_Year" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
+                        <TableColumn prefWidth="320.0" styleClass="category_table" text="ETIMATE">
+                           <columns>
+                              <TableColumn fx:id="col_RBY_Orders1" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total amount sold" />
+                              <TableColumn fx:id="col_RBY_Total1" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
+                           </columns>
+                        </TableColumn>
+                        <TableColumn prefWidth="320.0" styleClass="category_table" text="REALITY">
+                           <columns>
+                              <TableColumn fx:id="col_RBY_Orders2" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total amount sold" />
+                              <TableColumn fx:id="col_RBY_Total2" prefWidth="160.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
+                           </columns>
+                        </TableColumn>
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="TableView_AS" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                     <columns>
+                        <TableColumn fx:id="col_AS1" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="ID" />
+                        <TableColumn fx:id="col_AS2" prefWidth="130.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NAME" />
+                        <TableColumn fx:id="col_AS3" prefWidth="70.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="PRICE" />
+                        <TableColumn fx:id="col_AS4" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="SOLD" />
+                        <TableColumn fx:id="col_AS5" prefWidth="70.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="REFUND" />
+                        <TableColumn fx:id="col_OBM51" minWidth="0.0" prefWidth="0.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="AMOUNT REFUND" />
+                        <TableColumn fx:id="col_AS6" prefWidth="85.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="PROCEEDS" />
+                        <TableColumn fx:id="col_AS7" prefWidth="60.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="VIEWS" />
+                        <TableColumn fx:id="col_AS8" style="-fx-alignment: CENTER;" styleClass="category_table" text="RATINGS" />
+                        <TableColumn fx:id="col_AS9" prefWidth="95.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="COMMENTS" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="TableView_RBM" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                     <columns>
+                        <TableColumn fx:id="col_RBM_Year" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
+                        <TableColumn fx:id="col_RBM_Month" style="-fx-alignment: CENTER;" styleClass="category_table" text="MONTH" />
+                        <TableColumn prefWidth="320.0" styleClass="category_table" text="ETIMATE">
+                           <columns>
+                              <TableColumn fx:id="col_RBM_Orders1" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total amount sold" />
+                              <TableColumn fx:id="col_RBM_Total1" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
+                           </columns>
+                        </TableColumn>
+                        <TableColumn prefWidth="320.0" styleClass="category_table" text="REALITY">
+                           <columns>
+                              <TableColumn fx:id="col_RBM_Orders2" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total amount sold" />
+                              <TableColumn fx:id="col_RBM_Total2" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
+                           </columns>
+                        </TableColumn>
+                     </columns>
+                  </TableView>
                   <TableView fx:id="TableView_OBM" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
                      <columns>
                         <TableColumn fx:id="col_OBM1" prefWidth="69.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
@@ -96,26 +128,24 @@
                         <TableColumn fx:id="col_OBM6" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="REFUNDED" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_RBM" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_NP" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
                      <columns>
-                        <TableColumn fx:id="col_RBM_Year" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
-                        <TableColumn fx:id="col_RBM_Month" style="-fx-alignment: CENTER;" styleClass="category_table" text="MONTH" />
-                        <TableColumn prefWidth="320.0" styleClass="category_table" text="ETIMATE">
-                           <columns>
-                              <TableColumn fx:id="col_RBM_Orders1" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total Orders" />
-                              <TableColumn fx:id="col_RBM_Total1" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
-                           </columns>
-                        </TableColumn>
-                        <TableColumn prefWidth="320.0" styleClass="category_table" text="REALITY">
-                           <columns>
-                              <TableColumn fx:id="col_RBM_Orders2" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total Orders" />
-                              <TableColumn fx:id="col_RBM_Total2" prefWidth="140.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="Total revenue" />
-                           </columns>
-                        </TableColumn>
+                        <TableColumn fx:id="col_NP1" prefWidth="70.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
+                        <TableColumn fx:id="col_NP2" prefWidth="70.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="MONTH" />
+                        <TableColumn fx:id="col_NP3" prefWidth="130.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NEW ACCOUNTS" />
+                        <TableColumn fx:id="col_NP4" prefWidth="100.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NEW VIEWS" />
+                        <TableColumn fx:id="col_NP5" prefWidth="120.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NEW RATINGS" />
+                        <TableColumn fx:id="col_NP6" prefWidth="100.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NEW CMTS" />
+                        <TableColumn fx:id="col_NP7" prefWidth="100.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NEW APS" />
                      </columns>
                   </TableView>
                </children>
             </StackPane>
+            <Label fx:id="lbl_TableName" layoutX="14.0" layoutY="19.0" prefHeight="21.0" prefWidth="317.0" text="List" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <Pane fx:id="pnl_Controller" layoutX="10.0" layoutY="60.0" prefHeight="370.0" prefWidth="540.0" styleClass="pnl_view">
@@ -181,12 +211,12 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="500.0" spacing="20.0">
                      <children>
-                        <JFXButton fx:id="btn_NewAccounts" layoutX="20.0" layoutY="9.0" prefHeight="100.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="New accounts">
+                        <JFXButton fx:id="btn_NewProgress" layoutX="20.0" layoutY="9.0" prefHeight="100.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="New progress">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="btn_TopView" layoutX="280.0" layoutY="9.0" prefHeight="100.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="Top view">
+                        <JFXButton fx:id="btn_TopViews" layoutX="280.0" layoutY="9.0" prefHeight="100.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="Top view">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -195,12 +225,12 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="500.0" spacing="20.0">
                      <children>
-                        <JFXButton fx:id="btn_Comment" layoutX="20.0" layoutY="9.0" prefHeight="100.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="Top comment">
+                        <JFXButton fx:id="btn_TopComments" layoutX="20.0" layoutY="9.0" prefHeight="100.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="Top comments">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="Top_Rating" layoutX="280.0" layoutY="9.0" prefHeight="31.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="Top rating">
+                        <JFXButton fx:id="btn_TopRatings" layoutX="280.0" layoutY="9.0" prefHeight="31.0" prefWidth="240.0" styleClass="ipad-dark-grey" text="Top rating">
                            <font>
                               <Font size="24.0" />
                            </font>

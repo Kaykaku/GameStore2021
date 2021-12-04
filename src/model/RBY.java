@@ -53,7 +53,7 @@ public class RBY {
     }
 
     public void setRevenue1(double revenue1) {
-        this.revenue1 = revenue1;
+        this.revenue1 = (double) Math.round(revenue1*100)/100;
     }
 
     public double getRevenue2() {
@@ -61,8 +61,16 @@ public class RBY {
     }
 
     public void setRevenue2(double revenue2) {
-        this.revenue2 = revenue2;
+        this.revenue2 =(double) Math.round(revenue2*100)/100;
     }
-    
-    
+    public Object[] toObjectRBY(){
+        return new Object[]{
+            year,total1,revenue1,total2,revenue2
+        };
+    }
+    public Object[] toObjectRBM(){
+        return new Object[]{
+            month+"/"+year,total1,revenue1,total2,revenue2
+        };
+    }
 }

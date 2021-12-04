@@ -6,7 +6,6 @@
 package controller;
 
 import Animation.RoundedImageView;
-import DAO.AccountDAO;
 import com.github.sarxos.webcam.Webcam;
 import com.jfoenix.controls.JFXButton;
 import java.awt.image.BufferedImage;
@@ -27,6 +26,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import until.QRDecoder;
+import until.Variable;
 
 /**
  * FXML Controller class
@@ -34,6 +34,7 @@ import until.QRDecoder;
  * @author Admin
  */
 public class Dialog_TakePictureController implements Initializable {
+
     @FXML
     private ImageView img_WebcamView;
 
@@ -53,18 +54,21 @@ public class Dialog_TakePictureController implements Initializable {
      */
     private final ObjectProperty<Image> imageProperty = new SimpleObjectProperty<>();
     private final QRDecoder qrDecoder = new QRDecoder();
+    boolean isTake = false;
 
     private Webcam webcam;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         startCameraInput();
-
+        setEvent();
         btn_Exit.setOnMouseClicked((event) -> {
             webcam.close();
             Stage stage = (Stage) btn_Exit.getScene().getWindow();
             stage.close();
         });
-    }  
+    }
+
     private void startCameraInput() {
         Task<Void> webCamTask = new Task<Void>() {
             @Override
@@ -81,8 +85,9 @@ public class Dialog_TakePictureController implements Initializable {
         webCamThread.setDaemon(true);
         webCamThread.start();
     }
+    boolean stopCamera = false;
+
     private void startWebCamStream() {
-        boolean stopCamera = false;
 
         Task<Void> task = new Task<Void>() {
 
@@ -115,4 +120,24 @@ public class Dialog_TakePictureController implements Initializable {
         img_WebcamView.imageProperty().bind(imageProperty);
         RoundedImageView.RoundedImage(img_WebcamView, 32);
     }
+
+    private void setEvent() {
+        btn_Take.setOnMouseClicked(event -> {
+            stopCamera = true;
+            btn_Take.setText("SAVE PHOTO");
+            if (isTake) {
+                Variable.AVATAR = img_WebcamView.getImage();
+                webcam.close();
+                Stage stage = (Stage) btn_Exit.getScene().getWindow();
+                stage.close();
+            }
+            isTake = true;
+        });
+        btn_Again.setOnMouseClicked(event -> {
+            isTake = false;
+            stopCamera = false;
+            startWebCamStream();
+        });
+    }
+
 }

@@ -11,6 +11,7 @@ import DAO.OrderDetailDAO;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -70,35 +71,15 @@ public class Row_OrderController implements Initializable {
         });
     }
 
-    void setInfo(Order entity,List<Account> listAccount) {
-        
-        Platform.runLater(() -> {
-            double total = 0;         
-            List<OrderDetail> list = new OrderDetailDAO().selectByOrderID(entity.getOrderID());
-             String name ="";
-            for (Account account : listAccount) {
-                if(account.getAccountId()==entity.getAccountId()){
-                    name =account.getName()==null? account.getUsername():account.getName();
-                    break;
-                }
-            }
-            for (OrderDetail orderDetail : list) {
-                total += orderDetail.getPrice() * (100 - orderDetail.getSale());
-            }
-            total = (double) Math.round(total) / 100;
-
-            lbl_ID.setText(entity.getOrderID() + "");
-            lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));
-            lbl_NameCustomer.setText(entity.getAccountId() + "-" + name);
-            lbl_Quantity.setText(list.size() + " Apps");
-            lbl_Total.setText(total + "$");
-            String status = entity.getStatus() == 0 ? "Processing" : entity.getStatus() == 1 ? "Accepted" : "Refunded";
+    void setInfo(Object[] objs) {                   
+            lbl_ID.setText(objs[0].toString());
+            lbl_CreationDate.setText(ProcessDate.toString((Date)objs[2]));
+            lbl_NameCustomer.setText(objs[3].toString());
+            lbl_Quantity.setText(objs[4].toString());
+            double number =objs[5]==null?0: (double) Math.round((double)objs[5] *100)/100;
+            lbl_Total.setText(number + "$");
+            String status = (int) objs[6] == 0 ? "Processing" :(int) objs[6] == 1 ? "Accepted" : "Refunded";
             lblStatus.setText(status);
-
-            Variable.END = Instant.now();
-            Variable.TIMEELAPSED = Duration.between(Variable.START, Variable.END);
-            System.out.println(Variable.TIMEELAPSED.toMillis());
-        });
     }
 
     void setSelected(boolean isSelected) {

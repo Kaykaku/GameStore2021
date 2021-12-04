@@ -9,11 +9,15 @@ import Animation.GrowUp;
 import Animation.MoveLeft;
 import Animation.MoveRight;
 import Animation.RoundedImageView;
+import com.jfoenix.controls.JFXButton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
@@ -27,6 +31,9 @@ import model.News;
 import until.ProcessDate;
 import until.ProcessImage;
 import until.ProcessString;
+import until.Value;
+import static until.Value.FORM_DISPLAY_PRODUCT;
+import static until.Variable.PNL_VIEW;
 
 /**
  * FXML Controller class
@@ -39,7 +46,22 @@ public class Row_NewsController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
+    private Pane pnl_RowContent;
+
+    @FXML
+    private Pane pnl_MenuShow;
+    
+    @FXML
+    private Pane pnl_Row;
+
+    @FXML
     private Label lbl_CreationDate;
+
+    @FXML
+    private Pane pnl_MenuHide;
+
+    @FXML
+    private JFXButton btn_View;
 
     @FXML
     private ImageView img_Icon;
@@ -48,44 +70,59 @@ public class Row_NewsController implements Initializable {
     private Text lbl_Content;
 
     @FXML
+    private Label lbl_NewsID;
+
+    @FXML
     private Label lbl_Views;
 
     @FXML
     private Text lbl_Title;
 
-    @FXML
-    private Label lbl_NewsID;
-    @FXML
-    private Pane pane1;
-    @FXML
-    private Pane pane2;
-    @FXML
-    private Pane pane3;
-
     private boolean isShowOption = false;
+    News news;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         RoundedImageView.RoundedImage(img_Icon, 10);
         img_Icon.setEffect(new DropShadow(5, Color.BLACK));
-        pane1.setOnMouseEntered(evt -> {
-            new GrowUp(pane1, 1.02).play();
+        pnl_RowContent.setOnMouseEntered(evt -> {
+            new GrowUp(pnl_Row, 1.02).play();
         });
-        pane1.setOnMouseExited(evt -> {
-            pane1.setScaleX(1);
-            pane1.setScaleY(1);
+        pnl_RowContent.setOnMouseExited(evt -> {
+            pnl_Row.setScaleX(1);
+            pnl_Row.setScaleY(1);
         });
-        pane3.setOnMouseClicked(evt -> {
+        pnl_MenuShow.setOnMouseClicked(evt -> {
             if (!isShowOption) {
-                new MoveLeft(pane1, pane2.getPrefWidth() - 10).play();
+                new MoveLeft(pnl_RowContent, pnl_MenuHide.getPrefWidth() - 10).play();
             } else {
-                new MoveRight(pane1, pane2.getPrefWidth() - 10).play();
+                new MoveRight(pnl_RowContent, pnl_MenuHide.getPrefWidth() - 10).play();
             }
             isShowOption = !isShowOption;
+        });
+        pnl_Row.setOnMouseExited(evt -> {
+            if (isShowOption) {
+                new MoveRight(pnl_RowContent, pnl_MenuHide.getPrefWidth() - 10).play();
+                isShowOption = !isShowOption;
+            }
+            
+        });
+        btn_View.setOnMouseClicked((event) -> {
+            //PNL_VIEW.getChildren().clear();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.FORM_DISPLAY_NEWS));
+                Node node = (Node) loader.load();
+                DisplayNewsController controller = loader.getController();
+                controller.setInfo(news);
+                PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
     void setNewsInfor(News entity) {
+        news=entity;
         Platform.runLater(() -> {
             lbl_Title.setText(ProcessString.cutString(entity.getTitle(), 100));
             lbl_Content.setText(ProcessString.cutString(entity.getDescription(), 130));

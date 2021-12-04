@@ -59,6 +59,7 @@ import until.ProcessImage;
 import until.ProcessString;
 import until.Validation;
 import until.Value;
+import until.Variable;
 
 /**
  * FXML Controller class
@@ -70,6 +71,15 @@ public class Management_CategoryController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    private JFXButton btn_ExportTextApp;
+
+    @FXML
+    private JFXButton btn_ExportPDFApp;
+
+    @FXML
+    private JFXButton btn_ExportExcelApp;
+
     @FXML
     private Label lbl_CategoryID;
 
@@ -199,6 +209,8 @@ public class Management_CategoryController implements Initializable {
         fillDataOnBackground();
         displayFormAnimation();
         setEvent();
+        setEventExport();
+        setEventAppExport();
         updateStatus();
 
     }
@@ -214,7 +226,7 @@ public class Management_CategoryController implements Initializable {
                 }
                 Platform.runLater(() -> {
                     fillCboCategory();
-                    
+
                     fillListApp();
                 });
             }
@@ -379,7 +391,7 @@ public class Management_CategoryController implements Initializable {
 
             return entity;
         }
-        ProcessString.showMessage(lbl_Message,"An error occurred on the form!");
+        ProcessString.showMessage(lbl_Message, "An error occurred on the form!");
         Dialog.showMessageDialog("Wrong data", err);
         return null;
     }
@@ -455,7 +467,7 @@ public class Management_CategoryController implements Initializable {
         if (entity == null) {
             return;
         }
-        if(entity.getCategoryId()==1){
+        if (entity.getCategoryId() == 1) {
             ProcessString.showMessage(lbl_Message, "Cannot update default ID-1 ALL !");
             return;
         }
@@ -471,7 +483,7 @@ public class Management_CategoryController implements Initializable {
 
     void delete() {
         int id = Integer.parseInt(lbl_CategoryID.getText());
-        if(id==1){
+        if (id == 1) {
             ProcessString.showMessage(lbl_Message, "Cannot delete default ID-1 ALL !");
             return;
         }
@@ -508,41 +520,69 @@ public class Management_CategoryController implements Initializable {
         edit();
     }
 
-    private void ExportPDFCaategory() {
+    private void setEventExport() {
+        String[] header = new String[]{"ID", "Name", "Color"};
+        List<Category> list = categoryDAO.selectAll();
+        List<Object[]> listObjs = new ArrayList<>();
+        list.forEach((News) -> {
+            listObjs.add(News.toObjects());
+        });
+        String fileName = "Categories";
+        String title = "Category List";
         btn_PDFCategory.setOnAction(evt -> {
             try {
-                ExportPDF.exportPDFCategory();
-                Dialog.showMessageDialog(null, "File save successfully!");
+                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName + ".pdf", title);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
-    }
 
-    private void ExportExcelCategory() {
         btn_ExcelCategory.setOnAction(evt -> {
-            String[] header = new String[]{"ID", "Name", "Color"};
-            List<Category> list = categoryDAO.selectAll();
-            List<Object[]> listObjs = new ArrayList<>();
-            list.forEach((News) -> {
-                listObjs.add(News.toObjects());
-            });
-            String fileName = "Category";
-            String title = "Category List";
+
             try {
-                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName + ".xlsx", title);
             } catch (IOException ex) {
                 Logger.getLogger(Management_CategoryController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-    }
 
-    private void ExportTextCategory() {
         btn_TextCategory.setOnAction(evt -> {
             ExportText.ExportFileCategory();
         });
     }
 
+    private void setEventAppExport() {
+        String[] header = new String[]{"ID", "Name", "Price($)", "Size(MB)", "Developer", "Publisher", "ReleaseDay",
+            "CreationDate", "Languages", "Sale", "Active", "EnableBuy"};
+        List<Application> list = applicationDAO.selectAll();
+        List<Object[]> listObjs = new ArrayList<>();
+        list.forEach((Application) -> {
+            listObjs.add(Application.toObjects());
+        });
+        String fileName = "Applications";
+        String title = "Application List";
+        btn_ExportExcelApp.setOnAction(evt -> {
+
+            try {
+                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName+".xlsx" + ".xlsx", title);
+            } catch (IOException ex) {
+
+            }
+        });
+
+        btn_ExportTextApp.setOnAction(evt -> {
+            ExportText.ExportFileProduct();
+        });
+
+        btn_ExportPDFApp.setOnAction(evt -> {
+            try {
+                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName + ".pdf", title);
+            } catch (Exception ex) {
+
+            }
+
+        });
+    }
 
     void setEvent() {
         tbl_Categories.setOnMouseClicked((event) -> {
@@ -592,7 +632,7 @@ public class Management_CategoryController implements Initializable {
 
         btn_AddCategory.setOnMouseClicked((evt) -> {
             if (cbo_Category.getSelectionModel().getSelectedIndex() == -1) {
-                ProcessString.showMessage(lbl_Message1,"Please choose categories");
+                ProcessString.showMessage(lbl_Message1, "Please choose categories");
                 return;
             }
             AppType appType = new AppType();

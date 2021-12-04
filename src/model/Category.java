@@ -56,6 +56,10 @@ public class Category {
     }
     @Override
     public String toString() {
+        return  name;
+    }
+    
+    public String toString1() {
         return  "ID:" + categoryId + ", Name:" + name + ", Color:" + color;
     }
     

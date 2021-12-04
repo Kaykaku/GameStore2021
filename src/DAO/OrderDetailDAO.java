@@ -79,6 +79,11 @@ public class OrderDetailDAO extends DAO<OrderDetail,Integer>{
         String sql= "SELECT * FROM OrderDetails WHERE OrderId=?";
         return selectBySql(sql,keys);
     }
+    public OrderDetail SelectByPrimaryKey(OrderDetail entity) {
+        String sql= "Select * FROM OrderDetails WHERE OrderId=? and ApplicationId=?";
+        List<OrderDetail> list= selectBySql(sql,entity.getOrderID(),entity.getApplicationId());       
+        return list.isEmpty()?null:list.get(0);
+    }
     
     public void deleteByPrimaryKey(Integer orderId,Integer applicationId) {
         String sql= "DELETE FROM OrderDetails WHERE OrderId=? and ApplicationId=?";

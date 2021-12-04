@@ -36,28 +36,17 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="18.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../icons/decription18.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="20.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/news18.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="45.0" layoutY="60.0" text="To" textFill="#b9b8b8">
+            <Label layoutX="39.0" layoutY="66.0" text="Title" textFill="#b9b8b8">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="43.0" layoutY="175.0" text="Title" textFill="#b9b8b8">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <JFXTextField id="tex" fx:id="txt_Title" layoutX="20.0" layoutY="187.0" prefHeight="64.0" prefWidth="450.0" promptText="Enter Title..." styleClass="text_input" stylesheets="@../../css/main.css" />
-            <JFXTextArea fx:id="txt_To" layoutX="20.0" layoutY="83.0" prefHeight="57.0" prefWidth="450.0" promptText="Enter Gmail..." styleClass="text_input" />
+            <JFXTextField id="tex" fx:id="txt_Title" alignment="TOP_LEFT" layoutX="16.0" layoutY="104.0" prefHeight="149.0" prefWidth="450.0" promptText="Enter Title..." styleClass="text_input" stylesheets="@../../css/main.css" />
          </children>
       </Pane>
       <Pane fx:id="pnl_Content" layoutX="14.0" layoutY="340.0" prefHeight="292.0" prefWidth="544.0" styleClass="pnl_view">
@@ -93,9 +82,9 @@
          <columns>
             <TableColumn fx:id="col_ID" editable="false" prefWidth="72.0" resizable="false" styleClass="category_table" text="ID" />
             <TableColumn fx:id="col_Name" editable="false" minWidth="0.0" prefWidth="112.0" resizable="false" styleClass="category_table" text="NAME" />
-            <TableColumn fx:id="col_UserName" editable="false" prefWidth="110.0" resizable="false" styleClass="category_table" text="USERNAME" />
-            <TableColumn fx:id="col_Email" editable="false" prefWidth="173.0" resizable="false" styleClass="category_table" text="EMAIL" />
-            <TableColumn fx:id="col_Select" minWidth="2.0" prefWidth="2.0" resizable="false" styleClass="category_table" />
+            <TableColumn fx:id="col_UserName" editable="false" resizable="false" styleClass="category_table" text="USERNAME" />
+            <TableColumn fx:id="col_Email" editable="false" prefWidth="134.0" resizable="false" styleClass="category_table" text="EMAIL" />
+            <TableColumn fx:id="col_Select" minWidth="0.0" prefWidth="75.0" resizable="false" styleClass="category_table" text="SELECT" />
          </columns>
       </TableView>
    </children>

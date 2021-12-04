@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.image.*?>
@@ -10,20 +11,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="405.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Row_NewsController">
+<Pane fx:id="pnl_Row" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="405.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Row_NewsController">
    <children>
-      <Pane fx:id="pane2" layoutX="335.0" prefHeight="180.0" prefWidth="60.0" styleClass="row_news2" stylesheets="@../../css/main.css">
+      <Pane fx:id="pnl_MenuHide" layoutX="335.0" prefHeight="180.0" prefWidth="60.0" styleClass="row_news2" stylesheets="@../../css/main.css">
          <children>
-            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="20.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/trash50.png" />
-               </image>
-            </ImageView>
+            <JFXButton fx:id="btn_View" focusTraversable="false" layoutX="5.0" layoutY="70.0" prefHeight="42.0" prefWidth="51.0">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/eye50.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
          </children>
       </Pane>
-      <Pane fx:id="pane1" layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="380.0" styleClass="row_news" stylesheets="@../../css/main.css">
+      <Pane fx:id="pnl_RowContent" layoutX="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="380.0" styleClass="row_news" stylesheets="@../../css/main.css">
          <children>
-            <Pane fx:id="pane3" layoutX="370.0" prefHeight="180.0" prefWidth="10.0" styleClass="row_news2" />
+            <Pane fx:id="pnl_MenuShow" layoutX="370.0" prefHeight="180.0" prefWidth="10.0" styleClass="row_news2" />
             <ImageView fx:id="img_Icon" fitHeight="70.0" fitWidth="90.0" layoutX="20.0" layoutY="10.0" pickOnBounds="true">
                <image>
                   <Image url="@../../icons/image120.png" />

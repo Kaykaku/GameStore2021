@@ -23,8 +23,14 @@
       </Button>
       <HBox layoutX="60.0" layoutY="470.0" spacing="40.0">
          <children>
-            <JFXButton fx:id="btn_Take" layoutX="86.0" layoutY="473.0" prefHeight="40.0" prefWidth="200.0" styleClass="dark-blue" text="Take picture" />
-            <JFXButton fx:id="btn_Again" layoutX="317.0" layoutY="473.0" prefHeight="40.0" prefWidth="200.0" styleClass="dark-blue" text="Again" />
+            <JFXButton fx:id="btn_Take" layoutX="86.0" layoutY="473.0" prefHeight="40.0" prefWidth="200.0" styleClass="dark-blue" text="Take picture">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></JFXButton>
+            <JFXButton fx:id="btn_Again" layoutX="317.0" layoutY="473.0" prefHeight="40.0" prefWidth="200.0" styleClass="dark-blue" text="Again">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></JFXButton>
          </children>
       </HBox>
    </children>

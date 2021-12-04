@@ -7,7 +7,9 @@ package until;
 
 import java.time.Duration;
 import java.time.Instant;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -23,6 +25,8 @@ public class Variable {
     public static int HOME_PAGE=0;
     public static boolean IS_ACCOUNT_INFORMATION_OPEN=false;
     public static boolean IS_WISHLIST_OPEN=false;
+    public static Stage MAIN_STAGE=null;
+    public static Image AVATAR = null;
     
     public static Instant END;
     public static Instant START;

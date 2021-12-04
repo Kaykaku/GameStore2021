@@ -26,10 +26,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Auth.USER = new AccountDAO().selectByID(1);
-//        Parent root = FXMLLoader.load(getClass().getResource("/gui/Form/Factory.fxml"));
-//         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_STATISTICS));
-//        Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource(Value.ROW_NEWS));
+//         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_USER_INFORMATION));
+        Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
+//        Parent root = FXMLLoader.load(getClass().getResource(Value.MAIN));
 
         Scene scene = new Scene(root);
 
@@ -37,14 +37,14 @@ public class Main extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
 
-//        root.setOnMousePressed(evt -> {
-//            x = evt.getScreenX() - stage.getX();
-//            y = evt.getScreenY() - stage.getY();
-//        });
-//        root.setOnMouseDragged(evt -> {
-//            stage.setX(evt.getScreenX() - x);
-//            stage.setY(evt.getScreenY() - y);
-//        });
+        root.setOnMousePressed(evt -> {
+            x = evt.getScreenX() - stage.getX();
+            y = evt.getScreenY() - stage.getY();
+        });
+        root.setOnMouseDragged(evt -> {
+            stage.setX(evt.getScreenX() - x);
+            stage.setY(evt.getScreenY() - y);
+        });
                
     }
 

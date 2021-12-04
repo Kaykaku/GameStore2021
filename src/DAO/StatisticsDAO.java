@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.ApplicationStatistic;
 import model.OAB;
+import model.ProgressStatistic;
 import model.RBY;
 import until.Connect_Jdbc;
 
@@ -133,6 +135,61 @@ public class StatisticsDAO {
                 entity.setProcessingApps(resultSet.getInt(col[7]));
                 entity.setAcceptedApp(resultSet.getInt(col[8]));
                 entity.setRefundedApps(resultSet.getInt(col[9]));         
+                list.add(entity);
+            }
+            resultSet.getStatement().getConnection().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Object[]> getOderAndDetails(String keyword){
+        String sql="{CALL sp_OrderAndDetail(?)}";
+        String[] col ={"OrderID","AccountId","CreationDate","User","Appcount","Price","Status"};    
+        keyword= "%"+keyword+"%";
+        return this.getListOfArray(sql, col, keyword);
+    }
+    public List<ApplicationStatistic> getStatisticApplications(){
+        String sql="{CALL sp_Statistic_Applications}";
+        String[] col ={"Id","Name","Price","Sale","Amount sold","Amount refund","Total proceeds","Views","Ratings","Comments"};    
+        List<ApplicationStatistic> list = new ArrayList<>();
+        try {
+            ResultSet resultSet = Connect_Jdbc.query(sql);
+            while (resultSet.next()) {
+                ApplicationStatistic entity = new ApplicationStatistic();
+                entity.setId(resultSet.getInt(col[0]));
+                entity.setName(resultSet.getString(col[1]));
+                entity.setPrice(resultSet.getDouble(col[2]));
+                entity.setSale(resultSet.getDouble(col[3]));
+                entity.setSold(resultSet.getInt(col[4]));
+                entity.setRefund(resultSet.getInt(col[5]));
+                entity.setTotal(resultSet.getDouble(col[6]));
+                entity.setViews(resultSet.getInt(col[7]));
+                entity.setRatings(resultSet.getDouble(col[8]));
+                entity.setComments(resultSet.getInt(col[9]));         
+                list.add(entity);
+            }
+            resultSet.getStatement().getConnection().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<ProgressStatistic> getNewProgress(){
+        String sql="{CALL sp_Progress_Month}";
+        String[] col ={"Year","Month","New accounts","New views","New ratings","New comments","New applications"};    
+        List<ProgressStatistic> list = new ArrayList<>();
+        try {
+            ResultSet resultSet = Connect_Jdbc.query(sql);
+            while (resultSet.next()) {
+                ProgressStatistic entity = new ProgressStatistic();
+                entity.setYear(resultSet.getInt(col[0]));
+                entity.setMonth(resultSet.getInt(col[1]));
+                entity.setAccount(resultSet.getInt(col[2]));
+                entity.setViews(resultSet.getInt(col[3]));
+                entity.setRatings(resultSet.getInt(col[4]));
+                entity.setComments(resultSet.getInt(col[5]));
+                entity.setApplications(resultSet.getInt(col[6]));        
                 list.add(entity);
             }
             resultSet.getStatement().getConnection().close();

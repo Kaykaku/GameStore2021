@@ -29,19 +29,50 @@
          <content>
             <Pane fx:id="pane" prefHeight="830.0" prefWidth="1285.0" styleClass="view_background">
                <children>
-                  <Pane fx:id="pnl_Title_In" layoutY="540.0" prefHeight="50.0" prefWidth="1285.0">
+                  <Pane fx:id="pnl_Title_In" layoutY="540.0" prefHeight="100.0" prefWidth="1285.0">
                      <children>
                         <Label fx:id="lbl_ListName" layoutX="20.0" layoutY="10.0" text="Top all game and application" textFill="WHITE">
                            <font>
                               <Font name="Arial Bold" size="24.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txt_SreachApp" focusTraversable="false" layoutX="820.0" layoutY="10.0" prefHeight="30.0" prefWidth="250.0" promptText="Sreach games...." style="-fx-background-color: #3a3a3a;" styleClass="text_input">
+                        <TextField fx:id="txt_SreachApp" focusTraversable="false" layoutX="957.0" layoutY="10.0" prefHeight="40.0" prefWidth="310.0" promptText="Sreach games...." style="-fx-background-color: #3a3a3a;" styleClass="text_input">
                            <font>
                               <Font name="Arial" size="15.0" />
                            </font>
                         </TextField>
                         <Label fx:id="lbl_filter" layoutX="1200.0" prefHeight="49.0" prefWidth="49.0" />
+                        <HBox layoutX="20.0" layoutY="50.0" spacing="10.0">
+                           <children>
+                              <Label fx:id="lbl_ListName1" layoutX="20.0" layoutY="50.0" prefHeight="31.0" prefWidth="74.0" text="Category" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="cbx_category" layoutX="110.0" layoutY="45.0" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                        <HBox layoutX="281.0" layoutY="50.0" spacing="10.0">
+                           <children>
+                              <Label fx:id="lbl_ListName11" layoutX="20.0" layoutY="50.0" prefHeight="31.0" prefWidth="93.0" text="Advanced" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="cbx_advanced" layoutX="110.0" layoutY="45.0" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                        <HBox layoutX="555.0" layoutY="50.0" spacing="10.0">
+                           <children>
+                              <Label fx:id="lbl_ListName111" layoutX="20.0" layoutY="50.0" prefHeight="31.0" prefWidth="59.0" text="Sort by" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="cbx_sort" layoutX="110.0" layoutY="45.0" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                        <JFXButton fx:id="btn_Filter" layoutX="797.0" layoutY="47.0" prefHeight="30.0" prefWidth="105.0" styleClass="dark-blue" text="Filter" />
                      </children>
                   </Pane>
                   <Pane fx:id="pnl_Header" prefHeight="520.0">
@@ -58,7 +89,7 @@
                                     <Font name="Arial Bold" size="29.0" />
                                  </font>
                               </Label>
-                              <Text fx:id="lbl_Decription" fill="WHITE" layoutX="50.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enjoy this collection of much-have games for time tested classics to the hottest new titles" wrappingWidth="442.0849609375">
+                              <Text fx:id="lbl_Decription" fill="WHITE" layoutX="50.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Discover the hottest and latest news about the app and related information. Continuously updated for you" wrappingWidth="442.0849609375">
                                  <font>
                                     <Font name="Arial" size="19.0" />
                                  </font>
@@ -67,19 +98,37 @@
                         </Pane>
                      </children>
                   </Pane>
-                  <Pane fx:id="pnl_List" layoutY="600.0" prefHeight="240.0" prefWidth="1285.0">
+                  <Pane fx:id="pnl_List" layoutY="650.0" prefHeight="240.0" prefWidth="1285.0">
                      <children>
-                        <TilePane fx:id="tile_List" alignment="CENTER_LEFT" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" tileAlignment="BOTTOM_LEFT" />
+                        <TilePane fx:id="tile_List" alignment="CENTER_LEFT" layoutY="10.0" prefHeight="162.0" prefWidth="200.0" tileAlignment="BOTTOM_LEFT">
+                           <padding>
+                              <Insets bottom="10.0" />
+                           </padding></TilePane>
                         <Label fx:id="lbl_Loading" layoutX="539.0" layoutY="120.0" text="Loading applications...." textFill="#b5b2b2">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
                         </Label>
                      </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
                   </Pane>
                </children>
             </Pane>
          </content>
       </ScrollPane>
+      <JFXButton fx:id="btn_Back" layoutX="30.0" layoutY="30.0" prefHeight="40.0" styleClass="button_type5">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/arrrowleft40px.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
    </children>
 </Pane>

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
@@ -116,22 +117,22 @@ public class ProductBoxController implements Initializable {
     }
 
     public void setAppInfo(Application entity) {
+        Platform.runLater(() -> {
+            application = entity;
+            List<AppType> listAppTypes = new AppTypeDAO().selectByApplicationId(entity.getApplicationID());
+            lbl_Categories.setText(listAppTypes.size() > 1 ? new CategoryDAO().selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
+            lbl_Categories.setText(lbl_Categories.getText() + " " + (listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : ""));
+            lbl_Name.setText(entity.getName());
+            double number = (double) Math.round(entity.getPrice() * 100) / 100;
+            lbl_Price.setText(number == 0 ? "Free" : number + "$");
 
-        application = entity;
-        List<AppType> listAppTypes = new AppTypeDAO().selectByApplicationId(entity.getApplicationID());
-        lbl_Categories.setText(listAppTypes.size() > 1 ? new CategoryDAO().selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
-        lbl_Categories.setText(lbl_Categories.getText() + " " + (listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : ""));
-        lbl_Name.setText(entity.getName());
-        double number = (double) Math.round(entity.getPrice() * 100) / 100;
-        lbl_Price.setText(number == 0 ? "Free" : number + "$");
-
-        if (entity.getAppIcon() != null) {
-            img_App.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
-            RoundedImageView.RoundedImage(img_App, 32);
-            img_App.setEffect(new DropShadow(5, Color.BLACK));
-        }
-        calculateAverageRating();
-
+            if (entity.getAppIcon() != null) {
+                img_App.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+                RoundedImageView.RoundedImage(img_App, 32);
+                img_App.setEffect(new DropShadow(5, Color.BLACK));
+            }
+            calculateAverageRating();
+        });
     }
 
     void calculateAverageRating() {
@@ -150,10 +151,6 @@ public class ProductBoxController implements Initializable {
         loadStar(ratings);
         averageRating = (double) Math.round(averageRating / ratings * 10) / 10;
         loadStar(averageRating);
-
-        Variable.END = Instant.now();
-        Variable.TIMEELAPSED = Duration.between(Variable.START, Variable.END);
-        System.out.println(Variable.TIMEELAPSED.toMillis());
     }
 
     void loadStar(double rate) {

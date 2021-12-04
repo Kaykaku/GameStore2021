@@ -17,18 +17,19 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 
 /**
  *
- * @author Admin 
+ * @author Admin
  */
 public class ProcessImage {
 
     public static File toFile(byte[] data, String namePhoto) {
         try {
-            File file=new File("photo/" + namePhoto);
+            File file = new File("photo/" + namePhoto);
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(data);
             return file;
@@ -46,19 +47,21 @@ public class ProcessImage {
             byte[] bytes = Files.readAllBytes(file.toPath());
             return bytes;
         } catch (IOException ex) {
-            
+
         }
         return null;
     }
+
     public static FileInputStream toFileInputStream(File file) {
         try {
-            FileInputStream fis = new FileInputStream ( file );
+            FileInputStream fis = new FileInputStream(file);
             return fis;
         } catch (IOException ex) {
-            
+
         }
         return null;
     }
+
     public static Image toImage(Blob blob) {
         InputStream in = null;
         try {
@@ -72,19 +75,32 @@ public class ProcessImage {
             try {
                 in.close();
             } catch (IOException ex) {
-                
+
             }
         }
         return null;
     }
-    public BufferedImage toImage(byte[] bytes ){
+
+    public BufferedImage toImage(byte[] bytes) {
         try {
             InputStream is = new ByteArrayInputStream(bytes);
             BufferedImage bi = ImageIO.read(is);
             return bi;
         } catch (IOException ex) {
-            
+
         }
-        return  null;
+        return null;
+    }
+
+    public static File toFile(Image img) {
+        BufferedImage bi = SwingFXUtils.fromFXImage(img, null);
+        File f = new File("photo/avt.png");
+        try {
+
+            ImageIO.write(bi, "png", f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return f;
     }
 }

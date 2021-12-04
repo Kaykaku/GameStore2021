@@ -107,9 +107,19 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         return selectBySql(sql, keys, keys);
     }
 
-    public List<Application> selectByKeyWord(String keys, int cate) {
+    public List<Application> selectByKeyWord(String keys, int cate,int active) {
         String sql = "SELECT * FROM Applications a  where (Name like ? or ApplicationId like ?) and ApplicationId in (select ApplicationId from App_Type where CategoryId = ?)";
         keys = "%" + keys + "%";
+        if(active!=-1){
+            sql+= " and Active=?";
+            return selectBySql(sql, keys, keys, cate,active);
+        }
+        return selectBySql(sql, keys, keys, cate);
+    }
+    
+    public List<Application> selectByKeyWord(String keys, int cate) {
+        String sql = "SELECT * FROM Applications a  where (Name like ? or ApplicationId like ?) and ApplicationId in (select ApplicationId from App_Type where CategoryId = ?)";
+        keys = "%" + keys + "%";      
         return selectBySql(sql, keys, keys, cate);
     }
 

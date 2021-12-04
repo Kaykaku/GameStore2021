@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -62,6 +61,7 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.ProcessString;
 import until.Validation;
+import until.Variable;
 
 /**
  * FXML Controller class
@@ -244,9 +244,7 @@ public class Management_AccountController implements Initializable {
         drawDatePicker();
         setGroupButton();
         setEvent();
-        ExportPDFAccount();
-        ExportExcelAccount();
-        ExportTextAccount();
+        SetEventExportFile();
         setAvatar();
         updateStatus();
         fillDataOnBackground();
@@ -367,8 +365,7 @@ public class Management_AccountController implements Initializable {
         col_CreationDate.setCellValueFactory(new PropertyValueFactory<>("creationDate"));
         col_CreationDate.setCellFactory(callbackDate);
         col_Email.setCellValueFactory(new PropertyValueFactory<>("email"));
-        col_Username.setCellValueFactory(new PropertyValueFactory<>("userName"));
-
+        col_Username.setCellValueFactory(new PropertyValueFactory<>("username"));
         tbl_Accounts.getItems().removeAll();
         tbl_Accounts.setItems(list);
     }
@@ -381,11 +378,44 @@ public class Management_AccountController implements Initializable {
         rdo_Male.setToggleGroup(grbutton);
     }
 
+    Account getModel() {
+        String err = "";
+        err += Validation.validationName(txt_UserName);
+        err += Validation.validationConfirmPassword(txt_NewPassword, txt_ConfirmPassword);
+        err += Validation.validationNew_ConfirmPassword(txt_NewPassword, txt_ConfirmPassword);
+        if (err.isEmpty()) {
+            Account entity = new Account();
+            entity.setUsername(txt_UserName.getText());
+            entity.setPassword(txt_NewPassword.getText());
+            return entity;
+        }
+        Dialog.showMessageDialog("Wrong data", err);
+        return null;
+
+    }
+
+    void Clear() {
+        txt_NewPassword.setText("");
+        txt_ConfirmPassword.setText("");
+    }
+
+    void updatePass() {
+        Account acc = getModel();
+        if (acc == null) {
+            return;
+        }
+        accountDAO.updatePass2(acc);
+        if (txt_UserName.getText().equals(Auth.USER.getUsername())) {
+            Auth.USER.setPassword(txt_NewPassword.getText());
+        }
+        this.Clear();
+        Dialog.showMessageDialog("Done", "Updated Password!");
+    }
+
     void setAvatar() {
         if (avatarFile != null) {
             img_Avatar.setImage(new Image(avatarFile.toURI().toString()));
         } else {
-
             img_Avatar.setImage(new Image(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png").toURI().toString()));
         }
         RoundedImageView.RoundedImage(img_Avatar, 200);
@@ -552,50 +582,36 @@ public class Management_AccountController implements Initializable {
         ProcessString.showMessage(lbl_Message, "Deleted successfully ID-" + id + " !");
     }
 
-    private void ExportPDFAccount() {
+    private void SetEventExportFile() {
+        String[] header = new String[]{"ID", "Name", "BirthDay", "Gender",
+            "Email", "Address", "Country", "Creation Date", "Username",
+             "Active", "Role", "Comment"};
+        List<Account> list = accountDAO.selectAll();
+        List<Object[]> listObjs = new ArrayList<>();
+        list.forEach((News) -> {
+            listObjs.add(News.toObjects());
+        });
+        String fileName = "Account";
+        String title = "Account List";
+        
         btn_PDFAccount.setOnAction(evt -> {
             try {
-                ExportPDF.exportPDFAccount();
-                Dialog.showMessageDialog(null, "File save successfully!");
+                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName+".pdf", title);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
-    }
 
-    private void ExportExcelAccount() {
         btn_ExcelAccount.setOnAction(evt -> {
-            String[] header = new String[]{"ID", "Name", "BirthDay", "Gender", "Image",
-                "Email", "Address", "Country", "Creation Date", "Username",
-                "Password", "Active", "Role", "Comment"};
-            List<Account> list = accountDAO.selectAll();
-            List<Object[]> listObjs = new ArrayList<>();
-            list.forEach((News) -> {
-                listObjs.add(News.toObjects());
-            });
-            String fileName = "Account";
-            String title = "Account List";
+
             try {
-                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName+".xlsx", title);
             } catch (IOException ex) {
                 Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-    }
 
-    private void ExportTextAccount() {
         btn_TextAccount.setOnAction(evt -> {
-//           try {
-//               List<Account> list = accountDAO.selectAll();
-//               List<Object[]> listObjs = new ArrayList<>();
-//               list.forEach((News) -> {
-//                   listObjs.add(News.toObjects());
-//               });
-//               String fileName = "Account";
-//               ExportText.exportText(null, listObjs, fileName);
-//           } catch (IOException ex) {
-//              ex.printStackTrace();
-//           }
             ExportText.ExportFileAccount();
         });
     }
@@ -646,6 +662,12 @@ public class Management_AccountController implements Initializable {
         });
         btn_Delete.setOnMouseClicked((event) -> {
             delete();
+        });
+        btn_ChangePass.setOnMouseClicked((event) -> {
+            try {
+                this.updatePass();
+            } catch (Exception e) {
+            }
         });
         btn_SendMail.setOnMouseClicked((MouseEvent event) -> {
             try {

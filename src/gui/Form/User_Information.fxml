@@ -332,7 +332,7 @@
                   <Font size="24.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btn_AboutUs" focusTraversable="false" layoutX="831.0" layoutY="700.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="About Us">
+            <JFXButton fx:id="btn_Logout" focusTraversable="false" layoutX="831.0" layoutY="700.0" prefHeight="60.0" prefWidth="450.0" styleClass="ipad-dark-grey" text="Sign out">
                <font>
                   <Font size="24.0" />
                </font>

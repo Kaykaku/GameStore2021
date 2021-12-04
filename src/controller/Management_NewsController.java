@@ -51,6 +51,7 @@ import until.ExportPDF;
 import until.ExportText;
 import until.ProcessImage;
 import until.ProcessDate;
+import until.Variable;
 
 /**
  * FXML Controller class
@@ -153,9 +154,7 @@ public class Management_NewsController implements Initializable {
         datePicker();
         fillDataOnBackground();
         search();
-        ExportPDFNews();
-        ExportExcelNews();
-        ExportTextNew();
+        setEventExport();
         updateStatus();
 
     }
@@ -371,36 +370,32 @@ public class Management_NewsController implements Initializable {
         });
     }
 
-    private void ExportPDFNews() {
+    private void setEventExport() {
+        String[] header = new String[]{"ID", "CreationDate", "Title", "Description", "Contents", "Image", "AccountId", "Views"};
+        List<News> list = newsDao.selectAll();
+        List<Object[]> listObjs = new ArrayList<>();
+        list.forEach((News) -> {
+            listObjs.add(News.toObjects());
+        });
+        String fileName = "News";
+        String title = "News List";
         btn_PDFNews.setOnAction(evt -> {
             try {
-                ExportPDF.exportPDFNews();
-                Dialog.showMessageDialog(null, "File save successfully!");
+                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName+".pdf", title);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
-    }
 
-    private void ExportExcelNews() {
         btn_ExcelNew.setOnAction(evt -> {
-            String[] header = new String[]{"ID", "CreationDate", "Title", "Description", "Contents", "Image", "AccountId", "Views"};
-            List<News> list = newsDao.selectAll();
-            List<Object[]> listObjs = new ArrayList<>();
-            list.forEach((News) -> {
-                listObjs.add(News.toObjects());
-            });
-            String fileName = "News";
-            String title = "News List";
+
             try {
-                ExportExcel.exportFile(null, header, listObjs, fileName, title);
+                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName+".xlsx", title);
             } catch (IOException ex) {
                 Logger.getLogger(Management_NewsController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-    }
 
-    private void ExportTextNew() {
         btn_TextNew.setOnAction(evt -> {
 //            try {          
 //                List<News> list = newsDao.selectAll();
@@ -464,7 +459,7 @@ public class Management_NewsController implements Initializable {
     private void handleImgAction(MouseEvent event) {
 //        this.ChooseImage();
         FileChooser fileChooser = new FileChooser();
-        
+
         avatarImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
         if (avatarImage != null) {
             setAvatarImage();

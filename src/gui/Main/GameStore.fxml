@@ -25,7 +25,7 @@
       </Pane>
       <Pane fx:id="pnl_ManageAccount" layoutX="900.0" layoutY="55.0" prefHeight="230.0" prefWidth="400.0" styleClass="container3" stylesheets="@../../css/main.css">
          <children>
-            <ImageView fx:id="img_User_Icon_Medium" fitHeight="70.0" fitWidth="70.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_User_Icon_Medium" fitHeight="70.0" fitWidth="70.0" layoutX="20.0" layoutY="20.0" pickOnBounds="true">
                <image>
                   <Image url="@../../icons/avatar120.png" />
                </image>
@@ -71,7 +71,7 @@
             <InnerShadow choke="0.21" color="#0000002b" height="100.0" radius="49.5" width="100.0" />
          </effect>
       </Pane>
-      <Pane prefHeight="50.0" prefWidth="1400.0" styleClass="main_title" stylesheets="@../../css/main.css">
+      <Pane fx:id="pnl_HeaderBar" prefHeight="50.0" prefWidth="1400.0" styleClass="main_title" stylesheets="@../../css/main.css">
          <children>
             <Button fx:id="btn_Minimize" focusTraversable="false" layoutX="1300.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_minimize" stylesheets="@../../css/main.css">
                <graphic>
@@ -106,7 +106,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <ImageView fx:id="img_User_Icon_Small" fitHeight="35.0" fitWidth="35.0" layoutX="942.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img_User_Icon_Small" fitHeight="35.0" fitWidth="35.0" layoutX="942.0" layoutY="8.0" pickOnBounds="true">
                <image>
                   <Image url="@../../icons/user_avatar50.png" />
                </image>

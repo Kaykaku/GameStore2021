@@ -6,6 +6,7 @@
 package model;
 
 import java.util.Date;
+import until.ProcessDate;
 
 /**
  *
@@ -176,13 +177,15 @@ public class Application {
     }
     @Override
     public String toString() {
-        return "ID:" + applicationID + ", Name:" + name + ", Price:" + price + ", Size:" + size + ", Type:" + type + ", Image:" + appImage + ",Icon:" + appIcon + ", Developer:" + developer + ", Publisher:" + publisher + ", ReleaseDay:" + releaseDay + ", CreationDate:" + creationDate + ", Languages:" + languages + ", Sale:" + sale+ ", Active:" + active + ", EnableBuy:" + enableBuy + ", Description:" + description;
+        return "ID:" + applicationID + ", Name:" + name + ", Price:" + price + ", Size:" + size + ", Type:" + type  + ", Developer:" 
+                + developer + ", Publisher:" + publisher + ", ReleaseDay:" + ProcessDate.toString(releaseDay) + ", CreationDate:" 
+                + ProcessDate.toString(creationDate) + ", Languages:" + languages + ", Sale:" + sale+ ", Active:" + (active?"Active":"Inactive") + ", EnableBuy:" + (enableBuy?"Buy":"Block" ) ;
     }
 
 
     public Object[] toObjects() { 
-        return new Object[]{applicationID,name,price, size,appImage,appIcon,developer, publisher,releaseDay,creationDate,
-            languages,sale,active,enableBuy,description };
+        return new Object[]{applicationID,name,price, size,developer, publisher,ProcessDate.toString(releaseDay),ProcessDate.toString(creationDate),
+            languages,sale+"%",active?"Active":"Inactive",enableBuy?"Buy":"Block" };
     
     }
 

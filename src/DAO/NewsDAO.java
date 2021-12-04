@@ -26,10 +26,13 @@ public class NewsDAO extends DAO<News, String> {
 
     private final String insert_sql = "insert into News(CreationDate,Title, Description, Contents,Image,EnableView,AccountId) values (?,?,?,?,?,?,?)";
     private final String update_sql = "update News set CreationDate = ?, Title = ?, Description = ?, Contents = ?, Image = ?,EnableView =?, AccountId = ? where NewsId = ?";
+    private final String update_view_sql = "update News set views=? where NewsId = ?";
     private final String delete_sql = "delete from News where NewsId = ?";
     private final String select_all_sql = "select * from News";
+    private final String select_active_sql = "select * from News where EnableView=1";
     private final String select_By_ID_sql = "select * from News where NewsId = ?";
     private final String select_By_Name = "select * from News where Title like ?";
+    private final String select_By_KeyWord = "select * from News where (Title like ? or Description like ?) and EnableView=1";
     private final String select_By_Date = "select * from News where EnableView=1 order by CreationDate desc";
 
     @Override
@@ -57,6 +60,11 @@ public class NewsDAO extends DAO<News, String> {
                  entity.getNewsID());
     }
 
+    public void updateViews(News entity) {
+        Connect_Jdbc.update(update_view_sql,
+                 entity.getViews(),entity.getNewsID());
+    }
+    
     @Override
     public void delete(String key) {
         Connect_Jdbc.update(delete_sql, key);
@@ -67,6 +75,9 @@ public class NewsDAO extends DAO<News, String> {
         return this.selectBySql(select_all_sql);
     }
  
+    public List<News> selectActiveAll() {
+        return this.selectBySql(select_active_sql);
+    }
     @Override
     public News selectByID(String keys) {
         List<News> list = this.selectBySql(select_By_ID_sql, keys);
@@ -81,6 +92,9 @@ public class NewsDAO extends DAO<News, String> {
         return this.selectBySql(select_By_Name, "%" + keys + "%");
     }
     
+    public List<News> selectActiveByKeyWord(String keys) {
+        return this.selectBySql(select_By_KeyWord, "%" + keys + "%","%" + keys + "%");
+    }
 
     @Override
     public List<News> selectBySql(String sql, Object... args) {

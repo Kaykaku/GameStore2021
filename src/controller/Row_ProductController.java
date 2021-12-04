@@ -10,12 +10,14 @@ import Animation.MoveLeft;
 import Animation.MoveRight;
 import Animation.RoundedImageView;
 import com.jfoenix.controls.JFXButton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -25,6 +27,8 @@ import javafx.scene.paint.Color;
 import model.Application;
 import until.ProcessDate;
 import until.ProcessImage;
+import static until.Value.FORM_DISPLAY_PRODUCT;
+import static until.Variable.PNL_VIEW;
 
 /**
  * FXML Controller class
@@ -35,6 +39,9 @@ public class Row_ProductController implements Initializable {
 
     @FXML
     private Pane pnl_Row;
+    
+    @FXML
+    private Pane pnl_RowContent;
 
     @FXML
     private Pane pnl_MenuHide;
@@ -62,34 +69,57 @@ public class Row_ProductController implements Initializable {
 
     @FXML
     private Label lbl_RealeaseDate;
+    
+    @FXML
+    private JFXButton btn_View;
     /**
      * Initializes the controller class.
      */
     private boolean isShowOption = false;
+    Application application;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         RoundedImageView.RoundedImage(img_IconApp, 10);
         img_IconApp.setEffect(new DropShadow(5, Color.BLACK));
-        pnl_Row.setOnMouseEntered(evt -> {
-            new GrowUp(pnl_Row, 1.02).play();
+        pnl_RowContent.setOnMouseEntered(evt -> {
+            new GrowUp(pnl_RowContent, 1.02).play();
         });
-        pnl_Row.setOnMouseExited(evt -> {
-            pnl_Row.setScaleX(1);
-            pnl_Row.setScaleY(1);
+        pnl_RowContent.setOnMouseExited(evt -> {
+            pnl_RowContent.setScaleX(1);
+            pnl_RowContent.setScaleY(1);
         });
-        pnl_MenuShow.setOnMouseClicked(evt -> {
+        pnl_MenuHide.setOnMouseClicked(evt -> {
             if (!isShowOption) {
-                new MoveLeft(pnl_Row, pnl_MenuShow.getPrefWidth() - 10).play();
+                new MoveLeft(pnl_RowContent, pnl_MenuShow.getPrefWidth() - 10).play();
             } else {
-                new MoveRight(pnl_Row, pnl_MenuShow.getPrefWidth() - 10).play();
+                new MoveRight(pnl_RowContent, pnl_MenuShow.getPrefWidth() - 10).play();
             }
             isShowOption = !isShowOption;
+        });
+        pnl_Row.setOnMouseExited(evt -> {
+            if (isShowOption) {
+                new MoveRight(pnl_RowContent, pnl_MenuShow.getPrefWidth() - 10).play();
+                isShowOption = !isShowOption;
+            }
+            
+        });
+        btn_View.setOnMouseClicked((event) -> {
+            //PNL_VIEW.getChildren().clear();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(FORM_DISPLAY_PRODUCT));
+                Node node = (Node) loader.load();
+                DisplayProductController controller = loader.getController();
+                controller.setInformation(application);
+                PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
     void setAppInfo(Application entity) {
-
+        application=entity;
         Platform.runLater(() -> {
             lbl_Id.setText(entity.getApplicationID() + "");
             lbl_Name.setText(entity.getName());
@@ -109,10 +139,9 @@ public class Row_ProductController implements Initializable {
 
     void setSelected(boolean isSelected) {
         if (isSelected) {
-            pnl_Row.setStyle("-fx-background-color: #185FEE ;");
+            pnl_RowContent.setStyle("-fx-background-color: #185FEE ;");
         } else {
-            pnl_Row.setStyle("-fx-background-color: #2f2f2f ;");
+            pnl_RowContent.setStyle("-fx-background-color: #2f2f2f ;");
         }
     }
-
 }

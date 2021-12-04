@@ -10,7 +10,6 @@ import DAO.ApplicationDAO;
 import DAO.CategoryDAO;
 import DAO.NewsDAO;
 import DAO.OrderDAO;
-import java.awt.Component;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,14 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Account;
 import model.Application;
 import model.Category;
 import model.News;
 import model.Order;
-import static until.ExportPDF.fc;
 
 /**
  *
@@ -61,23 +57,17 @@ public class ExportText {
         return listObj;
     }
 
-    public static void exportText(Component parent, List<Object[]> Object, String fileName) throws IOException {
-        JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter Fintxt = new FileNameExtensionFilter("Text(.txt)", "txt", "txt");
-        fileChooser.setFileFilter(Fintxt);
-        fileChooser.setMultiSelectionEnabled(false);
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        fileChooser.setCurrentDirectory(new File("C:\\Users\\Admin\\Documents"));
-        fileChooser.setDialogTitle("Select folder");
-        fileChooser.setSelectedFile(new File(fileName));
-        int x = fileChooser.showDialog(parent, "Yes");
-        if (x == JFileChooser.APPROVE_OPTION) {
+    public static void exportText(Stage parent, List<Object[]> Object, String fileName) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
+        fileChooser.setInitialFileName(fileName);
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(parent);
+        if (path != null) {
             try {
-                String path = fileChooser.getSelectedFile().getAbsolutePath();
-                if (!path.endsWith("txt")) {
-                    path += ".txt";
-                }
-                ExportText.create(path);
+
+                ExportText.create(path.getAbsolutePath());
                 Dialog.showMessageDialog(null, "Save successfully!");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,14 +75,15 @@ public class ExportText {
 
         }
     }
-    static FileChooser fc = new FileChooser();
+    static FileChooser fileChooser = new FileChooser();
 
     public static void ExportFileProduct() {
         ApplicationDAO applicationDAO = new ApplicationDAO();
         List<Application> list = applicationDAO.selectAll();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
+        fileChooser.setInitialFileName("product");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             try {
                 PrintStream pr = new PrintStream(path);
@@ -113,14 +104,16 @@ public class ExportText {
     public static void ExportFileCategory() {
         CategoryDAO categoryDAO = new CategoryDAO();
         List<Category> list = categoryDAO.selectAll();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
+        fileChooser.setInitialFileName("Category");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             try {
                 PrintStream pr = new PrintStream(path);
                 for (int i = 0; i < list.size(); i++) {
-                    String temp = list.get(i).toString();
+                    String temp = list.get(i).toString1();
                     pr.println(temp + "\n");
                 }
                 Dialog.showMessageDialog(null, "Save successfully!");
@@ -136,9 +129,11 @@ public class ExportText {
     public static void ExportFileNews() {
         NewsDAO newsDAO = new NewsDAO();
         List<News> list = newsDAO.selectAll();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
+        fileChooser.setInitialFileName("News");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             try {
                 PrintStream pr = new PrintStream(path);
@@ -159,9 +154,11 @@ public class ExportText {
     public static void ExportFileAccount() {
         AccountDAO accDAO = new AccountDAO();
         List<Account> list = accDAO.selectAll();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
+        fileChooser.setInitialFileName("Account");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             try {
                 PrintStream pr = new PrintStream(path);
@@ -182,9 +179,11 @@ public class ExportText {
     public static void ExportFileOrder() {
         OrderDAO orDAO = new OrderDAO();
         List<Order> list = orDAO.selectAll();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
-        fc.setTitle("Select folder");
-        File path = fc.showSaveDialog(new Stage());
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
+        fileChooser.setInitialFileName("Order");
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(new Stage());
         if (path != null) {
             try {
                 PrintStream pr = new PrintStream(path);

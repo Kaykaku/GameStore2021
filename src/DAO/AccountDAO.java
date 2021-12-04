@@ -33,11 +33,16 @@ public class AccountDAO extends DAO<Account, Integer> {
     private final String select_By_AppView = "select * from Accounts where AccountId = (select Top 1 AccountId from ApplicationViews where ApplicationViewId =?)";
     private final String select_Email = "select Email from Accounts ";
     private final String select_UserEmail = "select Email from Accounts where Role = 2";
+    private final String select_TableSendMail = "select AccountId, Name,UserName,Email from Accounts ";
     private final String select_Role = "select * from Accounts where role=?";
     private final String select_Active = "select * from Accounts where Active=?";
     private final String select_Cmt = "select * from Accounts where Comment=?";
     private final String select_ActRoleCmt = "select * from Accounts where Active=? and Role =? and Comment = ?";
     private final String update_QRcode = "update Accounts set QRcode=? where AccountId = ?";
+    private final String update_infor = "update Accounts set Name = ?, BirthDay = ?, Gender = ?,Image = ?,  Email = ?, Address = ?,"
+            + "Country = ? where AccountId = ?";
+    private final String update_Password = "update Accounts set Password=? where AccountId = ?";
+    private final String update_Password2 = "update Accounts set Password=? where UserName = ?";
     
     @Override
     public void insert(Account entity) {
@@ -51,6 +56,16 @@ public class AccountDAO extends DAO<Account, Integer> {
         Connect_Jdbc.update(update_sql, entity.getName(), entity.getBirthDay(), entity.isGender(), entity.getImage(),
                 entity.getEmail(), entity.getAddress(), entity.getCountry(), entity.getCreationDate(), entity.getUsername(), entity.getPassword(),
                 entity.isActive(), entity.getRole(), entity.isComment(), entity.getAccountId());
+    }
+     public void updateInfor(Account entity) {
+        Connect_Jdbc.update(update_infor, entity.getName(), entity.getBirthDay(), entity.isGender(), entity.getImage(),
+                entity.getEmail(), entity.getAddress(), entity.getCountry(), entity.getAccountId());
+    }
+      public void updatePass(Account entity) {
+        Connect_Jdbc.update(update_Password, entity.getPassword(), entity.getAccountId());
+    }
+     public void updatePass2(Account entity) {
+        Connect_Jdbc.update(update_Password2, entity.getPassword(), entity.getUsername());
     }
 
     @Override
@@ -134,7 +149,6 @@ public class AccountDAO extends DAO<Account, Integer> {
         }
         return list;
     }
-    @Override
     public List<Account> selectBySql(String sql, Object... args) {
         List<Account> list = new ArrayList<>();
         try {
@@ -156,6 +170,24 @@ public class AccountDAO extends DAO<Account, Integer> {
                 entity.setRole(resultSet.getInt("Role"));
                 entity.setComment(resultSet.getBoolean("Comment"));
                 entity.setQRcode(resultSet.getString("QRcode"));
+                list.add(entity);
+            }
+            resultSet.getStatement().getConnection().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Account> selectMail() {
+        List<Account> list = new ArrayList<>();
+        try {
+            ResultSet resultSet = Connect_Jdbc.query(select_TableSendMail);
+            while (resultSet.next()) {
+                int AccountId = resultSet.getInt("AccountId");
+                String Name = resultSet.getString("Name");
+                String Email = resultSet.getString("Email");
+                String UserName = resultSet.getString("UserName");
+                Account entity = new Account(AccountId,Name,Email,UserName);
                 list.add(entity);
             }
             resultSet.getStatement().getConnection().close();
