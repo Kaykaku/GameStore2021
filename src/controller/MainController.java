@@ -109,7 +109,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        Variable.IS_ACCOUNT_INFORMATION_OPEN=false;
         //Variable.MAIN_STAGE =(Stage) pnl_View.getScene().getWindow();
         pnl_ManageAccount.setTranslateY(-pnl_ManageAccount.getPrefHeight());
         Variable.PNL_VIEW = pnl_View;

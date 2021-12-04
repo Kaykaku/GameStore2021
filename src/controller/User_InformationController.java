@@ -13,7 +13,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import com.sun.jndi.toolkit.url.Uri;
 import static controller.MainController.static_Email_Hide;
 import static controller.MainController.static_Icon_Medium;
 import static controller.MainController.static_UserName;
@@ -53,7 +52,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javax.imageio.ImageIO;
 import model.Account;
 import until.Auth;
 import until.Dialog;
@@ -389,6 +387,7 @@ public class User_InformationController implements Initializable {
     Account getForm() {
         err += Validation.validationEmail(txt_Email);
         err += Validation.validationBirthDay(datePicker_Birthday);
+        System.out.println(datePicker_Birthday.getValue());
         if (err.isEmpty()) {
             Account entity = new Account();
             entity.setAccountId(Auth.USER.getAccountId());
@@ -399,9 +398,9 @@ public class User_InformationController implements Initializable {
             entity.setEmail(txt_Email.getText().trim());
             entity.setAddress(txt_Address.getText() != null ? txt_Address.getText().trim() : "");
             entity.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png")));
-
-            entity.setImage(ProcessImage.toBytes(avataImage));
-
+            if(avataImage!=null){
+                entity.setImage(ProcessImage.toBytes(avataImage));
+            }
             return entity;
         }
         Dialog.showMessageDialog("Wrong data", err);

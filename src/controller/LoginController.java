@@ -57,6 +57,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import until.Dialog;
+import until.ProcessDate;
 import until.Value;
 import until.Validation;
 
@@ -636,6 +637,7 @@ public class LoginController implements Initializable {
                             account.setCreationDate(creationDate);
                             account.setRole(2);
                             account.setActive(true);
+                            account.setBirthDay(ProcessDate.toDate("01/01/2000"));
                             dao.insert_Register(account);
 
                             System.out.println("Register success!");
