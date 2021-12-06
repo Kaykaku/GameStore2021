@@ -31,19 +31,18 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javax.mail.BodyPart;
@@ -78,7 +77,11 @@ public class Mail_SendingController implements Initializable {
     @FXML
     private Pane pnl_Add_Info;
     @FXML
+    private JFXTextField txt_Title;
+    @FXML
     private Pane pnl_Content;
+    @FXML
+    private JFXTextArea txt_Content;
     @FXML
     private JFXButton btn_Send;
     @FXML
@@ -91,11 +94,8 @@ public class Mail_SendingController implements Initializable {
     private Label lbl_Image;
     @FXML
     private CheckBox sendAll_ChBox;
-
     @FXML
     private TableView<Account> tbl_Email;
-    @FXML
-    private ImageView icon_Attachment;
     @FXML
     private TableColumn<Account, String> col_Email;
     @FXML
@@ -110,13 +110,6 @@ public class Mail_SendingController implements Initializable {
     private JFXTextArea txt_SelectedFiles;
     @FXML
     private Label lbl_Exit;
-    @FXML
-    private JFXTextField txt_SearchBar;
-    @FXML
-    private JFXTextField txt_TitleField;
-
-    @FXML
-    private JFXTextArea txt_ContentField;
 
     List<File> Attachment = new ArrayList<>();
     public static List<Account> Emails = new ArrayList<>();
@@ -131,7 +124,6 @@ public class Mail_SendingController implements Initializable {
     public static JFXButton btn_Cancel = new JFXButton();
     static Boolean cancelTask = false;
     static int i;
-    String txt ="";
 
     /**
      * Initializes the controller class.
@@ -144,10 +136,57 @@ public class Mail_SendingController implements Initializable {
         displayFormAnimation();
         setThings();
         fillTable();
+
     }
 
+    void Clear() {
+        txt_Title.setText("");
+        txt_SelectedFiles.setText("");
+        txt_Content.setText("");
+        Attachment.clear();
+        sendAll_ChBox.setSelected(false);
+        for (Account acc : tbl_Email.getItems()) {
+               acc.getCheckbox().setSelected(false);
+                }
+    }
+
+    void setThings() {
+//        txt_To.setDisable(true);
+//        txt_SelectedFiles.setEditable(false);
+//        txt_To.setText(static_Mail.getText());
+//        tbl_Email.setOnMouseClicked((event) -> {
+//            if (event.getClickCount() == 2) {
+//                this.fillFieldTo();
+//            }
+//        });
+        sendAll_ChBox.setOnMouseClicked((event) -> {
+            for (Account acc : tbl_Email.getItems()) {
+                if (sendAll_ChBox.isSelected()) {
+                    acc.getCheckbox().setSelected(true);
+                } else {
+                    acc.getCheckbox().setSelected(false);
+                }
+            }
+        });
+        btn_Back.setOnMouseClicked((event) -> {
+                Clear();
+        });
+        btn_Cancel.setOnMouseClicked(event -> {
+            cancelTask = true;
+            System.out.println("Task Stopped!");
+        });
+        btn_Back.setOnMouseClicked(event -> {
+            this.Clear();
+        });
+        lbl_Exit.setOnMouseClicked(event -> {
+            static_Stage.close();
+        });
+    }
+    
+
     void fillTable() {
-        Emails = AccDAO.selectMailList(txt_SearchBar.getText().trim());
+        String keys = "";
+        Emails = AccDAO.selectMail();
         ObservableList<Account> list = FXCollections.observableArrayList(Emails);
         col_ID.setCellValueFactory(new PropertyValueFactory<>("AccountId"));
         col_Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -158,60 +197,15 @@ public class Mail_SendingController implements Initializable {
         tbl_Email.setItems(list);
     }
 
-    void Clear() {
-        txt_TitleField.setText("");
-        txt_SelectedFiles.setText("");
-        txt_ContentField.setText("");
-        Attachment.clear();
-        sendAll_ChBox.setSelected(false);
-        tbl_Email.getItems().forEach((acc) -> {
-            acc.getCheckbox().setSelected(false);
-        });
-    }
-
-    Multipart handleMultipart() throws IOException, MessagingException {
-        BodyPart messageBodyPart = new MimeBodyPart();
-        messageBodyPart.setText(txt);
-        Multipart multipart = new MimeMultipart();
-        multipart.addBodyPart(messageBodyPart);
-        for (File f : Attachment) {
-            if (Attachment != null) {
-                MimeBodyPart part = new MimeBodyPart();
-                part.attachFile(f);
-                multipart.addBodyPart(part);
-            }
-        }
-        return multipart;
-    }
-
-    static void removeProgress() {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(800);
-                } catch (InterruptedException ex) {
-                }
-                Platform.runLater(()
-                        -> {
-                    static_ProgressBar.getChildren().removeAll(progress, btn_Cancel);
-                });
-            }
-        }.start();
-    }
-
     static void setStyleProgressBar() {
-        static_ProgressBar.setStyle("-fx-alignment: CENTER;");
-        progress.setStyle("-fx-accent: #ed6f15;");
+        progress.setStyle("-fx-accent: #ed6f15; ");
         progress.setPrefWidth(180);
         progress.setPrefHeight(3);
-        btn_Cancel.setText("Cancel");
-        btn_Cancel.setAlignment(Pos.TOP_CENTER);
-        btn_Cancel.setStyle("-fx-background-color: #272727;"
-                + "-fx-text-fill: orange;"
-                + "-fx-font-size:10pt;");
+        btn_Cancel.setText("X");
+        btn_Cancel.setStyle("-fx-background-color: #202020;-fx-text-fill: #ffffff; -fx-padding: 5px; -fx-border-insets: 5px; -fx-background-insets: 5px;");
         static_ProgressBar.getChildren().addAll(progress, btn_Cancel);
     }
+
 
     public static Message SendMailContent(Session session, String send, String Subject, String Text
     ) throws MessagingException, IOException {
@@ -240,7 +234,6 @@ public class Mail_SendingController implements Initializable {
         prop.put("mail.smtp.starttls.enable", "true"); //TLS
         Session session = Session.getInstance(prop,
                 new javax.mail.Authenticator() {
-            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
@@ -248,104 +241,83 @@ public class Mail_SendingController implements Initializable {
         return session;
     }
 
-    void setThings() {
-        
-        sendAll_ChBox.setOnMouseClicked((event) -> {
-            tbl_Email.getItems().forEach((acc) -> {
-                if (sendAll_ChBox.isSelected()) {
-                    acc.getCheckbox().setSelected(true);
-                } else {
-                    acc.getCheckbox().setSelected(false);
-                }
-            });
-        });
-        btn_Back.setOnMouseClicked((event) -> {
-            Clear();
-        });
-        btn_Cancel.setOnMouseClicked(event -> {
-            cancelTask = true;
-            System.out.println("Task Stopped!");
-        });
-        btn_Back.setOnMouseClicked(event -> {
-            this.Clear();
-        });
-        lbl_Exit.setOnMouseClicked(event -> {
-            static_Stage.close();
-        });
-        btn_Send.setOnMouseClicked(event -> {
-            tbl_Email.getItems().stream().filter((acc)
-                    -> (acc.getCheckbox().isSelected())).forEachOrdered((acc) -> {
-                listEmails.add(acc.getEmail());
-            });
-            if(!listEmails.isEmpty()){
-                startProcess();
-                static_Stage.close();
-               // this.Clear();
+//    void fillFieldTo() {
+//        int index = 0;
+//        index = tbl_Email.getSelectionModel().getSelectedIndex();
+//        String Email = col_Email.getCellObservableValue(index).getValue();
+//        if (!txt_To.getText().contains(Email)) {
+//            if (txt_To.getText().isEmpty()) {
+//                txt_To.appendText(Email);
+//                listEmails.add(Email);
+//            } else {
+//                txt_To.appendText(", " + Email);
+//                listEmails.add(Email);
+//            }
+//        } else {
+//            Dialog.showMessageDialog("Notice", "You have already chosen this one!");
+//        }
+//    }
+
+    Multipart handleMultipart() throws IOException, MessagingException {
+        BodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setText(" ");
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        for (File f : Attachment) {
+            if (Attachment != null) {
+                MimeBodyPart part = new MimeBodyPart();
+                part.attachFile(f);
+                multipart.addBodyPart(part);
             }
-            else{
-                Dialog.showMessageDialog("Notice", "Please Choose at least a Recipient!");
-            }
-        });
-        icon_Attachment.setOnMouseClicked(event -> {
-            FileChooser fileChooser = new FileChooser();
-            List<File> file = fileChooser.showOpenMultipleDialog(((Node) (event.getSource())).getScene().getWindow());
-            if (file != null) {
-                file.forEach((f) -> {
-                    try {
-                        Path path = f.toPath();
-                        long bytes = Files.size(path);
-                        System.out.println(String.format("%,d bytes", bytes));
-                        if (bytes / 1024 <= 25000) {
-                            if (!f.isDirectory() && !Attachment.contains(f)) {
-                                Attachment.add(f);
-                                txt_SelectedFiles.appendText("" + ProcessString.cutString(f.getName(), 20) + " ");
-                            }
-                        } else {
-                            Dialog.showMessageDialog("Error", "Please Choose file that is smaller or equals with 25MB!");
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-            } else {
-                System.out.println("You didn't choose file !");
-            }
-        });
-        txt_SearchBar.setOnKeyReleased(event -> {
-            fillTable();
-        });
+        }
+        return multipart;
     }
 
-    private void startProcess() {
+    static void removeProgress() {
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException ex) {
+                }
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        static_ProgressBar.getChildren().removeAll(progress, btn_Cancel);
+
+                    }
+                });
+            }
+        }.start();
+    }
+
+    private void startProcessSendAll() {
         cancelTask = false;
         setStyleProgressBar();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 try {
-                    Message message;
-                    for (i = 0; i < listEmails.size() && cancelTask == false; i++) {
+                    Multipart multipart = handleMultipart();
+                    Emails = AccDAO.selectEmail();
+                    for (i = 0; i < Emails.size() && cancelTask == false; i++) {
                         try {
-                            Multipart multipart = handleMultipart();
                             Session session = SendMail();
-                            String send = String.valueOf(listEmails.get(i));
-                            String Subject = String.valueOf(txt_ContentField.getText().toUpperCase());
-                            txt = txt_ContentField.getText() + "\n\n Thank you for choosing us!" + "\n" + ProcessDate.now();
-                            message = SendMailContent(session, send, Subject, txt);
+                            String send = String.valueOf(Emails.get(i));
+                            String Subject = txt_Title.getText().toUpperCase();
+                            String Text = txt_Content.getText() + "\n\n Thank you for choosing us!" + "\n" + ProcessDate.now();
+                            Message message = SendMailContent(session, send, Subject, Text);
                             message.setContent(multipart);
                             Transport.send(message);
-                            updateProgress(i, listEmails.size());
+                            updateProgress(i, Emails.size());
                             System.out.println("Sent Successfully!");
-
                         } catch (AddressException ex) {
-                            Logger.getLogger(Mail_SendingController.class.getName())
-                                    .log(Level.SEVERE, null, ex);
-                        } catch (MessagingException ex) {
+                            Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (MessagingException | IOException ex) {
                             Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
 
                         }
                     }
-                } catch (IOException ex) {
+                } catch (IOException | MessagingException ex) {
                     Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
@@ -355,15 +327,66 @@ public class Mail_SendingController implements Initializable {
 
         task.setOnFailed(wse -> {
             System.out.println("Task stopped, got some error");
-            cancelTask = true;
-            removeProgress();
         });
 
         task.setOnSucceeded(wse -> {
             progress.progressProperty().unbind();
-            progress.setProgress(listEmails.size());
+            progress.setProgress(Emails.size());
             System.out.println("Done!");
             removeProgress();
+        });
+        progress.progressProperty().bind(task.progressProperty());
+        new Thread(task).start();
+    }
+
+    private void startProcess() {
+        cancelTask = false;
+        setStyleProgressBar();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Multipart multipart = handleMultipart();
+                    Emails = AccDAO.selectEmail();
+                    for (i = 0; i < listEmails.size() && cancelTask == false; i++) {
+                        try {
+                            updateProgress(i, listEmails.size());
+                            Session session = SendMail();
+                            String send = String.valueOf(listEmails.get(i));
+                            String Subject = txt_Title.getText().toUpperCase();
+                            String Text = txt_Content.getText() + "\n\n Thank you for choosing us!" + "\n" + ProcessDate.now();
+                            Message message = SendMailContent(session, send, Subject, Text);
+                            message.setContent(multipart);
+                            Transport.send(message);
+                            System.out.println("Sent Successfully!");
+
+                        } catch (AddressException ex) {
+                            Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (MessagingException | IOException ex) {
+                            Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+
+                        }
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(Mail_SendingController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+            }
+
+        };
+
+        task.setOnFailed(wse -> {
+            System.out.println("Task stopped, got some error");
+        });
+
+        task.setOnSucceeded(wse -> {
+            progress.progressProperty().unbind();
+            progress.setProgress(Emails.size());
+            System.out.println("Done!");
+            removeProgress();
+            // static_ProgressBar.getChildren().remove(progress);
 
         });
         progress.progressProperty().bind(task.progressProperty());
@@ -409,8 +432,6 @@ public class Mail_SendingController implements Initializable {
 
         task.setOnFailed(wse -> {
             System.out.println("Task stopped, got some error");
-            cancelTask = true;
-            removeProgress();
         });
 
         task.setOnSucceeded(wse -> {
@@ -421,6 +442,52 @@ public class Mail_SendingController implements Initializable {
         });
         progress.progressProperty().bind(task.progressProperty());
         new Thread(task).start();
+    }
+
+    @FXML
+    private void handleButtonSend(ActionEvent event) throws InterruptedException, IOException, MessagingException {
+        if (sendAll_ChBox.isSelected()) {
+            startProcessSendAll();
+            static_Stage.close();
+            this.Clear();
+        } else {     
+                for (Account acc : tbl_Email.getItems()) {
+                if (acc.getCheckbox().isSelected()) {
+                    listEmails.add(acc.getEmail());
+                    System.out.println("Sending.......");
+                    startProcess();
+                    static_Stage.close();    
+                    this.Clear();
+                } else {
+                    listEmails.remove(acc.getEmail());
+                    this.Clear();
+                }
+            }
+        }
+        
+    }
+
+    @FXML
+    private void handleAttachment(MouseEvent event) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        List<File> file = fileChooser.showOpenMultipleDialog(((Node) (event.getSource())).getScene().getWindow());
+        if (file != null) {
+            for (File f : file) {
+                Path path = f.toPath();
+                long bytes = Files.size(path);
+                System.out.println(String.format("%,d bytes", bytes));
+                if (bytes / 1024 <= 25000) {
+                    if (!f.isDirectory() && !Attachment.contains(f)) {
+                        Attachment.add(f);
+                        txt_SelectedFiles.appendText("" + ProcessString.cutString(f.getName(), 20) + " ");
+                    }
+                } else {
+                    Dialog.showMessageDialog("Error", "Please Choose file that is smaller or equals with 25MB!");
+                }
+            }
+        } else {
+            System.out.println("You didn't choose file !");
+        }
     }
 
     void displayFormAnimation() {
