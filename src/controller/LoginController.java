@@ -14,7 +14,6 @@ import com.jfoenix.controls.JFXCheckBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +59,7 @@ import until.Dialog;
 import until.ProcessDate;
 import until.Value;
 import until.Validation;
+import until.processMail;
 
 /**
  * FXML Controller class
@@ -180,8 +180,7 @@ public class LoginController implements Initializable {
             Stage obj = (Stage) pnl_Login.getScene().getWindow();
             obj.setIconified(true);
         });
-        
-        
+
         btn_Change.setOnMouseClicked((evt) -> {
             if (!isRegisterForm) {
                 if (isChangePassForm) {
@@ -422,7 +421,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void LoginAction(ActionEvent event) {
+    private void LOGINACTION(ActionEvent event) {
         String usename = txt_Username_Login.getText();
         String password = txt_Password_Login.getText();
 
@@ -492,22 +491,22 @@ public class LoginController implements Initializable {
             String send = account.getEmail();
             System.out.println(send);
             if (send != null) {
+                processMail.SENDMAIL_OTP(send, "GameStore verification code", otp, account.getUsername());
 
-                Session session = SendMail();
-
-                new Thread(new Runnable() {
-                    public void run() {
-                        Message message;
-                        try {
-                            message = SendMailContent(session, send);
-                            Transport.send(message);
-                        } catch (MessagingException ex) {
-                            ex.printStackTrace();
-                        }
-
-                    }
-                }).start();
-
+//                Session session = SendMail();
+//
+//                new Thread(new Runnable() {
+//                    public void run() {
+//                        Message message;
+//                        try {
+//                            message = SendMailContent(session, send);
+//                            Transport.send(message);
+//                        } catch (MessagingException ex) {
+//                            ex.printStackTrace();
+//                        }
+//
+//                    }
+//                }).start();
                 check = true;
                 clock();
                 txt_Username_ChangePass.setDisable(check);
@@ -518,7 +517,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void ChangePasswordAction(ActionEvent event) {
+    private void CHANGEPASSWORDACTION(ActionEvent event) {
         String username = txt_Username_ChangePass.getText();
         String otpCode = txt_OTP_ChangePass.getText();
         String password = txt_NewPass_ChangePass.getText();
@@ -581,8 +580,8 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void RegisterAction(ActionEvent event) {
-
+    private void REGISTERACTION(ActionEvent event) {
+        
         String username = txt_Username_Register.getText();
         String email = txt_Email_Register.getText();
         String password = txt_Password_Register.getText();
@@ -643,6 +642,8 @@ public class LoginController implements Initializable {
                             System.out.println("Register success!");
                             SetEmpty();
                             Dialog.showMessageDialog("Information", "Register success!");
+                            processMail.SENDMAIL_WELCOME(account.getEmail(), "Welcome you to GameStore");
+
                             MoveRight ani = new MoveRight(img_bg1, pnl_Login.getPrefWidth());
                             ani.play();
                             btn_Change.setText("Register now");
@@ -670,35 +671,33 @@ public class LoginController implements Initializable {
 
     }
 
-    private Message SendMailContent(Session session, String send) throws MessagingException {
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("thanhlmps18795@fpt.edu.vn "));
-        message.setRecipients(
-                Message.RecipientType.TO,
-                InternetAddress.parse(send)
-        );
-        message.setSubject("Mail đổi mật khẩu");
-        message.setText("Mã xác minh thay đổi mật khẩu của bạn là: " + otp);
-        return message;
-    }
-
-    private Session SendMail() {
-        final String username = "GamexStore.ST@gmail.com";
-        final String password = "GamexStore.ST123";
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true"); //TLS
-        Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-        return session;
-    }
-
+//    private Message SendMailContent(Session session, String send) throws MessagingException {
+//        Message message = new MimeMessage(session);
+//        message.setFrom(new InternetAddress("thanhlmps18795@fpt.edu.vn "));
+//        message.setRecipients(
+//                Message.RecipientType.TO,
+//                InternetAddress.parse(send)
+//        );
+//        message.setSubject("Mail đổi mật khẩu");
+//        message.setText("Mã xác minh thay đổi mật khẩu của bạn là: " + otp);
+//        return message;
+//    }
+//    private Session SendMail() {
+//        final String username = "GamexStore.ST@gmail.com";
+//        final String password = "GamexStore.ST123";
+//        Properties prop = new Properties();
+//        prop.put("mail.smtp.host", "smtp.gmail.com");
+//        prop.put("mail.smtp.port", "587");
+//        prop.put("mail.smtp.auth", "true");
+//        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+//        Session session = Session.getInstance(prop,
+//                new javax.mail.Authenticator() {
+//            protected PasswordAuthentication getPasswordAuthentication() {
+//                return new PasswordAuthentication(username, password);
+//            }
+//        });
+//        return session;
+//    }
     private void clock() {
         count = 59;
         Timer timer = new Timer();
@@ -746,5 +745,16 @@ public class LoginController implements Initializable {
         txt_Email_Register.setText("");
         txt_ComfirmPassword_Register.setText("");
         txt_Password_Register.setText("");
+        Validation.Correct(txt_Username_Login);
+        Validation.Correct(txt_Password_Login);
+        Validation.Correct(txt_Username_ChangePass);
+        Validation.Correct(txt_OTP_ChangePass);
+        Validation.Correct(txt_ComfirmPass_ChangePass);
+        Validation.Correct(txt_NewPass_ChangePass);
+        Validation.Correct(txt_Username_Register);
+        Validation.Correct(txt_Email_Register);
+        Validation.Correct(txt_ComfirmPassword_Register);
+        Validation.Correct(txt_Password_Register);
     }
+
 }

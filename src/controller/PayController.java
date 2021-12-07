@@ -61,6 +61,8 @@ import model.Application;
 import model.Order;
 import model.OrderDetail;
 import model.Wishlist;
+import nl.captcha.Captcha;
+import nl.captcha.backgrounds.GradiatedBackgroundProducer;
 import until.Auth;
 import until.ProcessDate;
 import until.ProcessImage;
@@ -80,8 +82,6 @@ import static until.Variable.PNL_VIEW;
 public class PayController implements Initializable {
 
     @FXML
-    private Label lbl_Code;
-    @FXML
     private TextField txt_code;
     @FXML
     private Button btn_reach;
@@ -98,7 +98,7 @@ public class PayController implements Initializable {
     @FXML
     private Button btn_Back;
 
-    String capcha;
+    String answerCaptcha;
     double total = 0;
     double minus = 0;
     int quantity = 0;
@@ -135,20 +135,20 @@ public class PayController implements Initializable {
     private Hyperlink hpl_orderlink;
     @FXML
     private Pane pnl_main;
+    @FXML
+    private ImageView img_jcaptCha;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        capcha = captchaValue();
-        lbl_Code.setText(capcha);
+        encodeCaptcha();
 
         setEvent();
         setInformation(new ApplicationDAO().selectByID(1));
         setInformations();
-        lbl_Code.setAlignment(Pos.CENTER);
-        lbl_Code.setStyle("-fx-background-color: #616161");
+        
     }
 
     public void setInformation(Application entity) {
@@ -188,8 +188,7 @@ public class PayController implements Initializable {
         });
 
         btn_reset.setOnAction(event -> {
-            capcha = captchaValue();
-            lbl_Code.setText(capcha);
+            encodeCaptcha();
         });
 
         btn_reach.setOnAction(event -> {
@@ -198,9 +197,9 @@ public class PayController implements Initializable {
                 public void run() {
                     try {
                         StringBuilder result = new StringBuilder();
-                        for (int i = 0; i < capcha.length(); i++) {
-                            result = result.append(capcha.charAt(i));
-                            if (i == capcha.length() - 1) {
+                        for (int i = 0; i < answerCaptcha.length(); i++) {
+                            result = result.append(answerCaptcha.charAt(i));
+                            if (i == answerCaptcha.length() - 1) {
                                 break;
                             }
                             result = result.append(' ');
@@ -215,7 +214,7 @@ public class PayController implements Initializable {
                             try {
 
                                 voice.setRate(80);
-                                voice.setPitch(125);
+                                voice.setPitch(100);
                                 voice.setVolume(3);
                                 voice.speak(result.toString());
 
@@ -241,7 +240,7 @@ public class PayController implements Initializable {
             if (!code.isEmpty()) {
                 if (cbo_agree.isSelected()) {
 
-                    if (code.equalsIgnoreCase(capcha)) {
+                    if (code.equalsIgnoreCase(answerCaptcha)) {
                         if (app.getApplicationID() == 1) {
                             flag = true;
                             loadWishList();
@@ -254,7 +253,7 @@ public class PayController implements Initializable {
                         Clear();
                     } else {
                         lbl_Message.setText("Code reCapcha incorrect!");
-                        System.out.println("Ok " + capcha);
+                        System.out.println("Ok " + answerCaptcha);
                     }
                 } else {
                     lbl_Message.setText("You not agree with the payment!");
@@ -379,7 +378,7 @@ public class PayController implements Initializable {
                 }
             }
 
-            System.out.println("Success...");
+//            System.out.println("Success...");
 
         } catch (WriterException ex) {
             ex.printStackTrace();
@@ -389,24 +388,18 @@ public class PayController implements Initializable {
 
     }
 
-    private String captchaValue() {
-        Random random = new Random();
-        int length = 6;
-        StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < length; i++) {
-            int baseCharacterNumber = Math.abs(random.nextInt()) % 62;
-            int Characternumber = 0;
-            if (baseCharacterNumber < 26) {
-                Characternumber = 65 + baseCharacterNumber;
-            } else if (baseCharacterNumber < 52) {
-                Characternumber = 97 + (baseCharacterNumber - 26);
-            } else {
-                Characternumber = 48 + (baseCharacterNumber - 52);
-            }
-            buffer.append((char) Characternumber);
-
-        }
-        return buffer.toString();
+    public void encodeCaptcha() {
+        Captcha captcha = new Captcha.Builder(250, 60)
+                .addText()
+                .addBackground(new GradiatedBackgroundProducer())
+                .addNoise()
+                .gimp()
+                .addBorder()
+                .build();
+        BufferedImage bufferedImage = captcha.getImage();
+        Image images = SwingFXUtils.toFXImage(bufferedImage, null);
+        img_jcaptCha.setImage(images);
+        answerCaptcha = captcha.getAnswer();
     }
 
     private void openWebpage(String url) {
@@ -451,8 +444,7 @@ public class PayController implements Initializable {
     private void Clear() {
         txt_CodeSale.setText("");
         txt_code.setText("");
-        capcha = captchaValue();
-        lbl_Code.setText(capcha);
+        encodeCaptcha();
     }
 
 //    private void clock() {
