@@ -11,6 +11,7 @@ import DAO.AccountDAO;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -48,6 +49,8 @@ import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -180,8 +183,7 @@ public class LoginController implements Initializable {
             Stage obj = (Stage) pnl_Login.getScene().getWindow();
             obj.setIconified(true);
         });
-        
-        
+
         btn_Change.setOnMouseClicked((evt) -> {
             if (!isRegisterForm) {
                 if (isChangePassForm) {
@@ -262,6 +264,7 @@ public class LoginController implements Initializable {
                         Stage stagez = new Stage();
                         stagez.initStyle(StageStyle.UNDECORATED);
                         stagez.setScene(new Scene(parent));
+                        stagez.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
                         stagez.show();
 
                     } catch (IOException ex) {
@@ -457,10 +460,13 @@ public class LoginController implements Initializable {
                         Auth.USER = account;
                         try {
                             ((Node) (event.getSource())).getScene().getWindow().hide();
-                            Parent root = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
+                            Parent root = FXMLLoader.load(getClass().getResource(Value.MAIN));
                             Stage stage = new Stage();
-                            stage.initStyle(StageStyle.UNDECORATED);
-                            stage.setScene(new Scene(root));
+                            Scene scene = new Scene(root);
+                            scene.setFill(Color.TRANSPARENT);
+                            stage.initStyle(StageStyle.TRANSPARENT);
+                            stage.setScene(scene);
+                            stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
                             stage.show();
 
                         } catch (IOException ex) {

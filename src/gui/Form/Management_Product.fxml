@@ -323,7 +323,6 @@
             <JFXToggleButton fx:id="tog_Type" layoutX="140.0" layoutY="48.0" prefHeight="30.0" prefWidth="80.0" text=" " toggleColor="#4a84f8" toggleLineColor="#8baff2" />
          </children>
       </Pane>
-      <Pane fx:id="pnl_Controller" layoutX="440.0" layoutY="790.0" />
       <HBox fx:id="hbox_Controller" layoutX="440.0" layoutY="790.0" spacing="10.0">
          <children>
             <JFXButton fx:id="btn_Clear" focusTraversable="false" layoutX="440.0" layoutY="740.0" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Clear" />
@@ -334,9 +333,71 @@
       </HBox>
       <HBox fx:id="hbox_Controller1" layoutX="13.0" layoutY="788.0" spacing="10.0">
          <children>
-            <JFXButton fx:id="btn_sendGames" layoutX="440.0" layoutY="740.0" onAction="#handleButtonSendGames" prefHeight="31.0" prefWidth="150.0" styleClass="dark-blue" text="Send this game" />
-            <JFXButton fx:id="btn_sendSale" layoutX="550.0" layoutY="740.0" onAction="#handleButtonSendSales" prefHeight="31.0" prefWidth="150.0" styleClass="dark-blue" text="Send Sale Email" />
+            <JFXButton fx:id="btn_sendGames" layoutX="440.0" layoutY="740.0" prefHeight="35.0" prefWidth="150.0" styleClass="dark-blue" text="Notice of release" />
+            <JFXButton fx:id="btn_sendSale" layoutX="550.0" layoutY="740.0" prefHeight="31.0" prefWidth="150.0" styleClass="dark-blue" text="Notice of discount" />
          </children>
       </HBox>
+      <Pane fx:id="pnl_FillBg" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-color: #000000dd; -fx-background-radius: 10px; -fx-scale-x: 0; -fx-scale-y: 0;">
+         <children>
+            <VBox layoutX="475.0" layoutY="280.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btn_AllActiveCustomer" layoutX="496.0" layoutY="306.0" prefHeight="40.0" prefWidth="350.0" styleClass="dark-blue" text="Only Customer ( Active )">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_AllCustomer" layoutX="500.0" layoutY="363.0" prefHeight="40.0" prefWidth="350.0" styleClass="dark-blue" text="Only Customer ( All )">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_AllManager" layoutX="509.0" layoutY="415.0" prefHeight="40.0" prefWidth="350.0" styleClass="dark-blue" text="Only role Manager or higher">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_AllActiveAccount" layoutX="516.0" layoutY="472.0" prefHeight="40.0" prefWidth="350.0" styleClass="dark-blue" text="All Account (Active)">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_AllAccount" layoutX="509.0" layoutY="533.0" prefHeight="40.0" prefWidth="350.0" styleClass="dark-blue" text="All Account ( Active and Inactive )">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_YourCustomize" layoutX="500.0" layoutY="584.0" prefHeight="40.0" prefWidth="350.0" styleClass="dark-blue" text="Your customize">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_Back" prefHeight="40.0" prefWidth="350.0" styleClass="dark-blue" text="Back">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </VBox>
+            <VBox layoutX="425.0" layoutY="155.0">
+               <children>
+                  <Label fx:id="lbl_HideMenu" alignment="CENTER" layoutX="432.0" layoutY="115.0" prefHeight="35.0" prefWidth="450.0" text="This app launch announcement for" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="lbl_HideMenu1" fill="#0984c6" layoutX="420.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name game" textAlignment="CENTER" wrappingWidth="450.0">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <Label fx:id="lbl_HideMenu2" alignment="CENTER" prefHeight="35.0" prefWidth="450.0" text="For" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
    </children>
 </Pane>

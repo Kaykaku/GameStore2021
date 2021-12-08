@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -16,23 +17,42 @@
             <Image url="@../../icons/gamehubvn-watch-dogs-2-7.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="lbl_AppName" layoutX="20.0" layoutY="315.0" prefHeight="27.0" prefWidth="265.0" styleClass="box_library_text" text="Watch Dogs 2">
+      <Label fx:id="lbl_AppName" layoutX="20.0" layoutY="315.0" prefHeight="27.0" prefWidth="230.0" styleClass="box_library_text" text="Watch Dogs 2">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Pane prefHeight="300.0" prefWidth="300.0" styleClass="box_library1">
          <children>
-            <JFXButton fx:id="btn_ViewDetails" layoutX="75.0" layoutY="150.0" prefHeight="40.0" prefWidth="150.0" styleClass="button_type8" stylesheets="@../../css/main.css" text="View details">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </JFXButton>
+            <VBox fx:id="vbox_btn" layoutX="75.0" layoutY="110.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btn_ViewDetails" layoutX="75.0" layoutY="150.0" prefHeight="40.0" prefWidth="150.0" styleClass="button_type8" stylesheets="@../../css/main.css" text="View details">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btn_Refund" layoutX="85.0" layoutY="160.0" prefHeight="40.0" prefWidth="150.0" styleClass="button_type6" stylesheets="@../../css/main.css" text="Refund">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </VBox>
             <Label fx:id="lbl_DatePurchased" alignment="CENTER" layoutY="200.0" prefHeight="30.0" prefWidth="300.0" text="Purchased since 01/01/2021" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="255.0" layoutY="305.0">
+         <children>
+            <Circle fill="#09dbb5" layoutX="20.0" layoutY="20.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <ImageView fx:id="img_download" fitHeight="28.0" fitWidth="34.0" layoutX="3.0" layoutY="6.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../icons/down50.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

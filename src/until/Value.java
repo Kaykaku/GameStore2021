@@ -31,11 +31,13 @@ public class Value {
     public static final String FORM_LIBRARY  ="/gui/Form/Library.fxml";
     public static final String FORM_USER_INFORMATION  ="/gui/Form/User_Information.fxml";
     public static final String FORM_LOGIN  ="/gui/Form/Login.fxml";
+    public static final String FORM_MAIL  ="/gui/Form/Mail_Sending.fxml";
     public static final String PAY  ="/gui/Form/Pay.fxml";
     
     public static final String DIALOG_SCANQRCODE  ="/gui/Form/Dialog_ScanQRcode.fxml";
     public static final String DIALOG_CREATEQRCODE  ="/gui/Form/Dialog_CreateQRcode.fxml";
     public static final String DIALOG_TAKEPICTURE  ="/gui/Form/Dialog_TakePicture.fxml";
+    public static final String DIALOG_MESSAGE  ="/gui/Form/Dialog_Message.fxml";
     
     public static final String ROW_ORDER  ="/gui/Item/Row_Order.fxml";
     public static final String ROW_PRODUCT  ="/gui/Item/Row_Product.fxml";
@@ -56,5 +58,11 @@ public class Value {
     public static final String WSTAR_REGULAR  ="src/icons/starWhiteRegular50.png";
     public static final String WSTAR_HALF  ="src/icons/starWhiteHalfFill50.png";
     
+    public static final String ICON_APP  ="src/icons/icon_app.png";
     public static final String DEFAULT_FOLDER  ="C:\\Users\\Admin\\Downloads";
+    public static final String EXAMPLE_LINK="https://axcelavietnam.com/wp-content/uploads/2020/04/the-big-picture-la-tu-vung-duoc-su-dung-pho-bien-trong-tieng-anh-thuong-mai.jpg";
+    
+    public static final String DEFAULT_EMAIL ="duongtanluc3565@gmail.com";
+    public static final String DEFAULT_PASSWORD ="John@cena2019";
+    
 }

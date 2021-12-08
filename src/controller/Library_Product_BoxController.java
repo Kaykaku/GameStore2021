@@ -7,6 +7,7 @@ package controller;
 
 import DAO.OrderDAO;
 import com.jfoenix.controls.JFXButton;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,13 +18,22 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.Application;
 import model.Order;
 import until.Auth;
+import until.Dialog;
+import until.DownloadTask;
+import until.MailSender;
+import until.MailTemplate;
 import until.ProcessDate;
 import until.ProcessImage;
 import until.ProcessString;
+import until.Value;
 import static until.Value.FORM_DISPLAY_PRODUCT;
+import until.Variable;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -37,7 +47,7 @@ public class Library_Product_BoxController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    private ImageView img_AppImage;
+    private JFXButton btn_Refund;
 
     @FXML
     private Label lbl_AppName;
@@ -46,22 +56,36 @@ public class Library_Product_BoxController implements Initializable {
     private Label lbl_DatePurchased;
 
     @FXML
+    private ImageView img_AppImage;
+
+    @FXML
+    private ImageView img_download;
+
+    @FXML
     private JFXButton btn_ViewDetails;
-    
-    
+
+    @FXML
+    private VBox vbox_btn;
+
+    LibraryController controller;
+    Application application;
+    OrderDAO dao = new OrderDAO();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    void setInfo(Application application){
-        if(application.getAppIcon()!=null){
+
+    }
+
+    void setInfo(Application application) {
+        this.application = application;
+        if (application.getAppIcon() != null) {
             img_AppImage.setImage(new Image(ProcessImage.toFile(application.getAppIcon(), "largeIcon.png").toURI().toString()));
-            
+
         }
         lbl_AppName.setText(application.getName());
-        Order order = new OrderDAO().selectByAccountAppID(Auth.USER.getAccountId(), application.getApplicationID());
-        lbl_DatePurchased.setText("Purchased since "+ProcessDate.toString(order.getCreationDate()));
-        
+        Order order = dao.selectByAccountAppID(Auth.USER.getAccountId(), application.getApplicationID());
+        lbl_DatePurchased.setText("Purchased since " + ProcessDate.toString(order.getCreationDate()));
+
         btn_ViewDetails.setOnMouseClicked(evt -> {
             //PNL_VIEW.getChildren().clear();
             try {
@@ -74,5 +98,43 @@ public class Library_Product_BoxController implements Initializable {
                 //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        btn_Refund.setOnMouseClicked((event) -> {
+            if (Dialog.showComfirmDialog("", "Refund this app will also refund any app in the same bill. Money will be automatically transferred to the purchased account. Do you have a refund confirmation?") != 1) {
+                return;
+            }
+            order.setStatus(2);
+            dao.update(order);;
+            new MailSender().startProgress(Auth.USER, MailTemplate.getOrderTitleEmail(order), MailTemplate.getOrderEmail(order));
+            controller.fillLibraryBox();
+        });
+        img_download.setOnMouseClicked((event) -> {
+            if(Variable.IS_DOWNLOADING==true){
+                int i =Dialog.showComfirmDialog("", "Another game is downloaing ! \n Do you want cancel old download and start download this game?");
+                if(i!=1){
+                    return;
+                }
+            }
+            Variable.IS_DOWNLOADING=false;
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
+            fc.setTitle("Select folder");
+            fc.setInitialFileName("Examle.jpg");
+            File path = fc.showSaveDialog((Stage) img_download.getScene().getWindow());
+            if (path != null) {
+                new DownloadTask(path, Value.EXAMPLE_LINK, ProcessString.cutString(application.getName(), 15)).start();
+            }
+
+        });
+    }
+
+    void setController(LibraryController controller) {
+        this.controller = controller;
+    }
+
+    void setRefund(boolean flag) {
+        if (!flag) {
+            vbox_btn.getChildren().remove(1);
+            vbox_btn.setLayoutY(vbox_btn.getLayoutY() + 50);
+        }
     }
 }

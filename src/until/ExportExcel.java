@@ -1,5 +1,6 @@
 package until;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +24,6 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 
 public class ExportExcel {
 
@@ -132,8 +132,8 @@ public class ExportExcel {
         for (int i = 0; i < objs.length; i++) {
             Object obj = objs[i];
             Cell cell = row.createCell(i);
-            
-            cell.setCellValue(obj==null?"":obj.toString());
+
+            cell.setCellValue(obj == null ? "" : obj.toString());
         }
     }
 
@@ -196,8 +196,17 @@ public class ExportExcel {
             ExportExcel.setTitle(title);
             ExportExcel.setObjects(row);
             ExportExcel.create(path.getAbsolutePath());
-            Dialog.showMessageDialog(null, "Save successfully!");
-        }
+            if (Dialog.showComfirmDialog(null, "Save successfully! \n Do you want to open it?") == 1) {
+                if (!Desktop.isDesktopSupported()) {
+                    System.out.println("not supported");
+                    return;
+                }
+                Desktop desktop = Desktop.getDesktop();
+                if (path.exists()) {
+                    desktop.open(path);
+                }
+            }
 
+        }
     }
 }

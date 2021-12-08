@@ -262,9 +262,9 @@
             </VBox>
          </children>
       </Pane>
-      <Pane fx:id="pnl_Table" layoutX="10.0" layoutY="530.0" prefHeight="290.0" prefWidth="965.0" styleClass="pnl_view">
+      <Pane fx:id="pnl_Table" layoutX="10.0" layoutY="530.0" prefHeight="290.0" prefWidth="965.0" style="-fx-background-radius: 10px;" styleClass="container7">
          <children>
-            <TableView fx:id="tbl_Accounts" layoutX="15.0" layoutY="15.0" prefHeight="265.0" prefWidth="935.0" styleClass="pnl_view">
+            <TableView fx:id="tbl_Accounts" layoutX="15.0" layoutY="15.0" prefHeight="265.0" prefWidth="935.0" styleClass="container7">
               <columns>
                 <TableColumn fx:id="col_ID" editable="false" prefWidth="50.0" resizable="false" styleClass="category_table" text="ID" />
                 <TableColumn fx:id="col_Name" editable="false" maxWidth="169.0" prefWidth="169.0" resizable="false" styleClass="category_table" text="NAME" />
@@ -303,5 +303,6 @@
             </VBox>
          </children>
       </Pane>
+      <Pane fx:id="pnl_FillBg" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-color: #00000088; -fx-scale-x: 0; -fx-scale-y: 0;" />
    </children>
 </Pane>

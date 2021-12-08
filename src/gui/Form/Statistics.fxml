@@ -29,7 +29,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </BarChart>
-      <Pane fx:id="pnl_Table" layoutX="564.0" layoutY="15.0" prefHeight="410.0" prefWidth="725.0" styleClass="pnl_view">
+      <Pane fx:id="pnl_Table" layoutX="564.0" layoutY="15.0" prefHeight="410.0" prefWidth="725.0" style="-fx-background-radius: 10px;" styleClass="container7">
          <children>
             <HBox layoutX="340.0" layoutY="14.0" prefHeight="31.0" prefWidth="371.0" spacing="1.0" styleClass="pnl_view">
                <children>
@@ -41,7 +41,7 @@
             </HBox>
             <StackPane layoutX="10.0" layoutY="50.0">
                <children>
-                  <TableView fx:id="TableView_OBY" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_OBY" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_OBY1" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
                         <TableColumn fx:id="col_OBY2" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="TOTAL ORDERS" />
@@ -50,7 +50,7 @@
                         <TableColumn fx:id="col_OBY5" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="REFUNDED" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_ABY" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_ABY" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_ABY1" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
                         <TableColumn fx:id="col_ABY2" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="TOTAL APPS" />
@@ -59,7 +59,7 @@
                         <TableColumn fx:id="col_ABY5" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="REFUNDED" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_ABM" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_ABM" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_ABM1" prefWidth="69.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
                         <TableColumn fx:id="col_ABM2" prefWidth="69.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="MONTH" />
@@ -69,7 +69,7 @@
                         <TableColumn fx:id="col_ABM6" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="REFUNDED" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_RBY" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_RBY" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_RBY_Year" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
                         <TableColumn prefWidth="320.0" styleClass="category_table" text="ETIMATE">
@@ -86,7 +86,7 @@
                         </TableColumn>
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_AS" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_AS" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_AS1" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="ID" />
                         <TableColumn fx:id="col_AS2" prefWidth="130.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="NAME" />
@@ -100,7 +100,7 @@
                         <TableColumn fx:id="col_AS9" prefWidth="95.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="COMMENTS" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_RBM" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_RBM" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_RBM_Year" prefWidth="50.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
                         <TableColumn fx:id="col_RBM_Month" style="-fx-alignment: CENTER;" styleClass="category_table" text="MONTH" />
@@ -118,7 +118,7 @@
                         </TableColumn>
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_OBM" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_OBM" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_OBM1" prefWidth="69.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
                         <TableColumn fx:id="col_OBM2" prefWidth="69.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="MONTH" />
@@ -128,7 +128,7 @@
                         <TableColumn fx:id="col_OBM6" prefWidth="138.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="REFUNDED" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="TableView_NP" prefHeight="350.0" prefWidth="705.0" styleClass="pnl_view">
+                  <TableView fx:id="TableView_NP" prefHeight="350.0" prefWidth="705.0" styleClass="container7">
                      <columns>
                         <TableColumn fx:id="col_NP1" prefWidth="70.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="YEAR" />
                         <TableColumn fx:id="col_NP2" prefWidth="70.0" style="-fx-alignment: CENTER;" styleClass="category_table" text="MONTH" />

@@ -954,6 +954,7 @@ public class StatisticsController implements Initializable {
         });
         btn_OrdersByMonth.setOnAction((event) -> {
             TableView_OBM.toFront();
+            fillTableOBM();
             selectedIndex=3;
             setEventExport();
         });
@@ -1033,7 +1034,11 @@ public class StatisticsController implements Initializable {
             }
         });
         btn_OP1.setOnAction(evt -> {
-            ExportText.ExportFileOrder();
+            try {
+                ExportText.exportText(Variable.MAIN_STAGE,header, listObjs, fileName + ".txt");
+            } catch (IOException ex) {
+                //Logger.getLogger(StatisticsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
     

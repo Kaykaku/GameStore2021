@@ -318,9 +318,9 @@ public class Validation {
 
     private static void changeColor(ImageView imageView, Circle circle) {
         if (circle != null) {
-            circle.setStroke(Color.RED);
+            circle.setStroke(Color.valueOf("#F38064"));
         }
-        imageView.setStyle("-fx-effect : dropshadow( three-pass-box  , red , 0 , 1 , 3 , 3 )");
+        imageView.setStyle("-fx-effect : dropshadow( three-pass-box  , #F38064 , 0 , 1 , 3 , 3 )");
         imageView.setOnMouseReleased((evt) -> {
             clearColor(circle);
             clearColor(imageView);
@@ -329,15 +329,15 @@ public class Validation {
 
     private static void changeColor(Node node) {
         if (node instanceof JFXTextField) {
-            ((JFXTextField) node).setUnFocusColor(Color.RED);
+            ((JFXTextField) node).setUnFocusColor(Color.valueOf("#F38064"));
         } else if (node instanceof JFXTextArea) {
-            ((JFXTextArea) node).setUnFocusColor(Color.RED);
+            ((JFXTextArea) node).setUnFocusColor(Color.valueOf("#F38064"));
         } else if (node instanceof JFXDatePicker) {
             ((JFXDatePicker) node).getStyleClass().add("jfx-date-picker-error");
         } else if (node instanceof TextField || node instanceof TextArea) {
-            node.setStyle("-fx-border-color : " + "red");
+            node.setStyle("-fx-border-color : " + "#F38064");
         } else if (node instanceof ImageView) {
-            node.setStyle("-fx-effect : dropshadow( three-pass-box  , red , 0 , 1 , 3 , 3 )");
+            node.setStyle("-fx-effect : dropshadow( three-pass-box  , #F38064 , 0 , 1 , 3 , 3 )");
         }
         node.focusedProperty().addListener((evt) -> {
             clearColor(node);
@@ -369,7 +369,7 @@ public class Validation {
     }
 
     public static void Incorrect(TextField name) {
-        name.setStyle("-fx-border-color: red");
+        name.setStyle("-fx-border-color: #F38064");
     }
 
     public static void Correct(TextField name) {

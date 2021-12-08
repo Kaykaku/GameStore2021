@@ -27,13 +27,13 @@ public class WishlistDAO extends DAO<Wishlist, Integer> {
 
     @Override
     public void insert(Wishlist entity) {
-        Connect_Jdbc.update(insert_sql,  entity.getApplicatonId(),entity.getAccountId());
+        Connect_Jdbc.update(insert_sql,  entity.getApplicationId(),entity.getAccountId());
 
     }
 
     @Override
     public void update(Wishlist entity) {
-        Connect_Jdbc.update(update_sql, entity.getApplicatonId(), entity.getAccountId());
+        Connect_Jdbc.update(update_sql, entity.getApplicationId(), entity.getAccountId());
     }
 
     @Override

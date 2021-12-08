@@ -88,7 +88,7 @@ public class WishlistController implements Initializable {
             try {
                 node = (Node) loader.load();
                 PayController controller = loader.getController();
-                controller.setInformations();
+                controller.setInformations(this);
                 PNL_VIEW.getChildren().add(node);
             } catch (IOException ex) {
 //                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,7 +116,7 @@ public class WishlistController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.ROW_WISHLIST));
                 nodes[h] = (Pane) loader.load();
                 controllers[h]=loader.getController();
-                Application app =new ApplicationDAO().selectByID(list.get(h).getApplicatonId());
+                Application app =new ApplicationDAO().selectByID(list.get(h).getApplicationId());
                 controllers[h].setInfo(app);
                 total+=controllers[h].getPrice();
                 Button btn_delete =controllers[h].getBtnDelete();

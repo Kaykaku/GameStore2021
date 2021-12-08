@@ -48,6 +48,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -61,6 +62,7 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.ProcessString;
 import until.Validation;
+import until.Value;
 import until.Variable;
 
 /**
@@ -178,6 +180,9 @@ public class Management_AccountController implements Initializable {
     private Pane pnl_CreationDate;
 
     @FXML
+    private Pane pnl_FillBg;
+
+    @FXML
     private TableColumn<Account, String> col_Email;
 
     @FXML
@@ -220,9 +225,6 @@ public class Management_AccountController implements Initializable {
     private JFXButton btn_ExcelAccount;
     @FXML
     private JFXButton btn_TextAccount;
-    public static JFXTextField static_Mail;
-    public static Stage static_Stage;
-    public static Pane static_PnlProgressBar;
     private JFXDatePicker datePicker_CreationDate;
     private JFXDatePicker datePicker_Birthday;
     AccountDAO accountDAO = new AccountDAO();
@@ -264,8 +266,6 @@ public class Management_AccountController implements Initializable {
                     fillTable();
 
                     listAccounts = accountDAO.selectByKeyWord(txt_Search.getText().trim());
-                    static_Mail = txt_Email;
-                    static_PnlProgressBar = pnl_ProgressBar;
                 });
             }
         }.start();
@@ -525,13 +525,14 @@ public class Management_AccountController implements Initializable {
         index = tbl_Accounts.getSelectionModel().getSelectedIndex();
         if (index == -1) {
             return;
-        }
+        }       
         isEdit = true;
         avatarFile = null;
         clearColor();
 
         int id = (int) col_ID.getCellObservableValue(index).getValue();
         Account entity = accountDAO.selectByID(id);
+        Variable.DEFAULT_MAIL = accountDAO.selectByID(id);
         setForm(entity);
         updateStatus();
     }
@@ -585,7 +586,7 @@ public class Management_AccountController implements Initializable {
     private void SetEventExportFile() {
         String[] header = new String[]{"ID", "Name", "BirthDay", "Gender",
             "Email", "Address", "Country", "Creation Date", "Username",
-             "Active", "Role", "Comment"};
+            "Active", "Role", "Comment"};
         List<Account> list = accountDAO.selectAll();
         List<Object[]> listObjs = new ArrayList<>();
         list.forEach((News) -> {
@@ -593,10 +594,10 @@ public class Management_AccountController implements Initializable {
         });
         String fileName = "Account";
         String title = "Account List";
-        
+
         btn_PDFAccount.setOnAction(evt -> {
             try {
-                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName+".pdf", title);
+                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName + ".pdf", title);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -605,7 +606,7 @@ public class Management_AccountController implements Initializable {
         btn_ExcelAccount.setOnAction(evt -> {
 
             try {
-                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName+".xlsx", title);
+                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName + ".xlsx", title);
             } catch (IOException ex) {
                 Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -671,15 +672,25 @@ public class Management_AccountController implements Initializable {
         });
         btn_SendMail.setOnMouseClicked((MouseEvent event) -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/Form/Mail_Sending.fxml"));
+                
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Value.FORM_MAIL));
                 Parent root1 = (Parent) fxmlLoader.load();
+                
                 Stage stage = new Stage();
-                static_Stage = stage;
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(new Scene(root1));
-                stage.show();
+                stage.initStyle(StageStyle.TRANSPARENT);
+                Scene scene = new Scene(root1);
+                scene.setFill(Color.TRANSPARENT);
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                pnl_FillBg.setScaleX(1);
+                pnl_FillBg.setScaleY(1);
+                
+                stage.showAndWait();
+                stage.close();
+                pnl_FillBg.setScaleX(0);
+                pnl_FillBg.setScaleY(0);
             } catch (IOException ex) {
-                Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 

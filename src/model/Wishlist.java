@@ -10,22 +10,22 @@ package model;
  * @author leminhthanh
  */
 public class Wishlist {
-    int ApplicatonId, AccountId;
+    int ApplicationId, AccountId;
 
     public Wishlist() {
     }
 
-    public Wishlist( int AccountId,int ApplicatonId) {
-        this.ApplicatonId = ApplicatonId;
+    public Wishlist( int AccountId,int ApplicationId) {
+        this.ApplicationId = ApplicationId;
         this.AccountId = AccountId;
     }
 
-    public int getApplicatonId() {
-        return ApplicatonId;
+    public int getApplicationId() {
+        return ApplicationId;
     }
 
-    public void setApplicatonId(int ApplicatonId) {
-        this.ApplicatonId = ApplicatonId;
+    public void setApplicatonId(int ApplicationId) {
+        this.ApplicationId = ApplicationId;
     }
 
     public int getAccountId() {

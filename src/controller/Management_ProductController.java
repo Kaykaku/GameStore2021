@@ -21,22 +21,23 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
-import static controller.Mail_SendingController.btn_Cancel;
-import static controller.Mail_SendingController.cancelTask;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -50,10 +51,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Account;
 import model.AppType;
 import model.Application;
@@ -62,6 +64,8 @@ import until.Dialog;
 import until.ExportExcel;
 import until.ExportPDF;
 import until.ExportText;
+import until.MailSender;
+import until.MailTemplate;
 import until.ProcessDate;
 import until.ProcessImage;
 import until.ProcessString;
@@ -138,7 +142,7 @@ public class Management_ProductController implements Initializable {
 
     @FXML
     private HBox hbox_Controller;
-    
+
     @FXML
     private HBox hbox_Controller1;
 
@@ -214,16 +218,51 @@ public class Management_ProductController implements Initializable {
     @FXML
     private Pane pnl_ReleaseDate;
 
+    @FXML
+    private JFXButton btn_sendSale;
+
+    @FXML
+    private JFXButton btn_AllCustomer;
+
+    @FXML
+    private JFXButton btn_YourCustomize;
+
+    @FXML
+    private JFXButton btn_sendGames;
+
+    @FXML
+    private Pane pnl_FillBg;
+
+    @FXML
+    private JFXButton btn_AllAccount;
+
+    @FXML
+    private Text lbl_HideMenu1;
+    @FXML
+    private Label lbl_HideMenu;
+
+    @FXML
+    private JFXButton btn_AllManager;
+
+    @FXML
+    private JFXButton btn_AllActiveCustomer;
+
+    @FXML
+    private JFXButton btn_AllActiveAccount;
+
+    @FXML
+    private JFXButton btn_Back;
+
+    Application app = null;
     ApplicationDAO applicationDAO = new ApplicationDAO();
     List<Application> listApplications = new ArrayList<>();
-    List<Account> Emails = new ArrayList<>();
-    AccountDAO AccDAO = new AccountDAO();
-    ApplicationDAO appDAO = new ApplicationDAO();
+    List<Account> emails = new ArrayList<>();
+    AccountDAO accDAO = new AccountDAO();
     CategoryDAO categoryDao = new CategoryDAO();
     AppTypeDAO appTypeDAO = new AppTypeDAO();
     JFXDatePicker datePicker_CreationDate = new JFXDatePicker();
     JFXDatePicker datePicker_ReleaseDay = new JFXDatePicker();
-    boolean isEdit = false;
+    boolean isEdit = false, isSendRelease = true;
     File avatarIcon;
     File avatarImage;
     File avtImg;
@@ -253,10 +292,6 @@ public class Management_ProductController implements Initializable {
                 });
             }
         }.start();
-        Emails = AccDAO.selectUserEmail();
-        btn_Cancel.setOnMouseClicked(event -> {
-            cancelTask = true;
-        });
     }
 
     private void fillListApplication() {
@@ -284,7 +319,7 @@ public class Management_ProductController implements Initializable {
 
                 nodes[h].setOnMouseClicked(evt -> {
                     isEdit = true;
-                    edit();
+                    edit(listApplications.get(h));
                     for (Row_ProductController controller : controllers) {
                         controller.setSelected(false);
                     }
@@ -487,6 +522,7 @@ public class Management_ProductController implements Initializable {
         isEdit = false;
         avatarIcon = null;
         avatarImage = null;
+        app = null;
         setFormApp(new Application());
         txt_SreachApp.setText("");
         fillListApplication();
@@ -504,42 +540,11 @@ public class Management_ProductController implements Initializable {
         Validation.clearColor(txt_Description);
     }
 
-    void edit() {
+    void edit(Application entity) {
+        app = entity;
         isEdit = true;
         clearColor();
         updateStatus();
-    }
-
-    private void sendMailAbtSale() throws IOException, MessagingException, InterruptedException {
-        avtImg = null;
-        cancelTask = false;
-        Mail_SendingController msd = new Mail_SendingController();
-        Multipart multipart = msd.handleMultipart();
-        Session session = Mail_SendingController.SendMail();
-        listApplications = appDAO.selectSale();
-        String Subject = "GAMESTORE IS NOW HAVING A REALLY BIG DISCOUNT";
-        int x = listApplications.size();
-        String Text = "Hi, How are you doing, we are now having " + x + " games are on sale"
-                + "  \nwhich are gonna blow your mind, open GameXStore and check it out!"
-                + "\n\n Thank you for choosing us!" + "\n" + ProcessDate.now();
-
-        Mail_SendingController.sendMailsabtDiscount(multipart, Emails, session, listApplications, Subject, Text, avtImg);
-    }
-
-    private void sendMailAbtGame() throws IOException, InterruptedException, MessagingException {
-        cancelTask = false;
-        Mail_SendingController msd = new Mail_SendingController();
-        Multipart multipart = msd.handleMultipart();
-        Session session = Mail_SendingController.SendMail();
-        listApplications = appDAO.selectLastApp();
-        String Subject = "GAMESTORE JUST HAVE GOT A NEW GAME - GO CHECK IT OUT";
-        int x = listApplications.size();
-        String Text = "Hi, How are you doing again?, A new Game just went on sale,It is " + listApplications.get(0).getName()
-                + ", \nDeveloped by " + listApplications.get(0).getDeveloper() + " which is gonna blow your mind, open GameXStore and check it out!"
-                + "\n\n Thank you for choosing us!" + "\n" + ProcessDate.now();;
-        avtImg = ProcessImage.toFile(listApplications.get(0).getAppImage(), "avatar.png");
-        Mail_SendingController.sendMailsabtDiscount(multipart, Emails, session, listApplications, Subject, Text, avtImg);
-
     }
 
     private void insert() {
@@ -598,6 +603,8 @@ public class Management_ProductController implements Initializable {
         txt_SreachApp.setOnKeyReleased((event) -> {
             fillListApplication();
             if (listApplications.size() > 0) {
+                isEdit = true;
+                edit(listApplications.get(0));
                 setFormApp(listApplications.get(0));
             }
         });
@@ -641,6 +648,84 @@ public class Management_ProductController implements Initializable {
             }
             setFormApp(applicationDAO.selectByID(appType.getApplicationID()));
         });
+        btn_sendGames.setOnMouseClicked((event) -> {
+            if (app == null) {
+                Dialog.showMessageDialog("", "You must select an app to perform this action");
+                return;
+            }
+            isSendRelease = true;
+            pnl_FillBg.setScaleX(1);
+            pnl_FillBg.setScaleY(1);
+            new ZoomIn(pnl_FillBg).play();
+            lbl_HideMenu.setText("Notice of release");
+            lbl_HideMenu1.setText(app.getName().toUpperCase());
+        });
+        btn_sendSale.setOnMouseClicked((event) -> {
+            if (app == null) {
+                Dialog.showMessageDialog("", "You must select an app to perform this action");
+                return;
+            }
+            isSendRelease = false;
+            pnl_FillBg.setScaleX(1);
+            pnl_FillBg.setScaleY(1);
+            new ZoomIn(pnl_FillBg).play();
+            lbl_HideMenu.setText("Notice of sale off");
+            lbl_HideMenu1.setText(app.getName().toUpperCase());
+        });
+        btn_AllAccount.setOnMouseClicked((event) -> {
+            emails = accDAO.selectByKeyWord("", -1, -1, -1);
+            startSendMailProgress();
+        });
+        btn_AllActiveAccount.setOnMouseClicked((event) -> {
+            emails = accDAO.selectByKeyWord("", -1, 1, -1);
+            startSendMailProgress();
+        });
+        btn_AllActiveCustomer.setOnMouseClicked((event) -> {
+            emails = accDAO.selectByKeyWord("", 2, 1, -1);
+            startSendMailProgress();
+        });
+        btn_AllCustomer.setOnMouseClicked((event) -> {
+            emails = accDAO.selectByKeyWord("", 2, -1, -1);
+            startSendMailProgress();
+        });
+        btn_AllManager.setOnMouseClicked((event) -> {
+            emails = accDAO.selectByKeyWord("", 1, -1, -1);
+            List<Account> listad = accDAO.selectByKeyWord("", 0, -1, -1);
+            emails.addAll(listad);
+            startSendMailProgress();
+        });
+        btn_YourCustomize.setOnMouseClicked((event) -> {
+            try {
+                if (isSendRelease) {
+                    Variable.DEFAULT_MAILTEMPLATE = MailTemplate.getReleaseApplicationEmail(app);
+                    Variable.DEFAULT_MAILTITLETEMPLATE = MailTemplate.getReleaseApplicationTitleEmail(app);
+                } else {
+                    Variable.DEFAULT_MAILTEMPLATE = MailTemplate.getDiscountApplicationEmail(app);
+                    Variable.DEFAULT_MAILTITLETEMPLATE = MailTemplate.getDiscountApplicationTitleEmail(app);
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Value.FORM_MAIL));
+                Parent root1 = (Parent) fxmlLoader.load();
+
+                Stage stage = new Stage();
+                stage.initStyle(StageStyle.TRANSPARENT);
+                Scene scene = new Scene(root1);
+                scene.setFill(Color.TRANSPARENT);
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+                stage.close();
+                pnl_FillBg.setScaleX(0);
+                pnl_FillBg.setScaleY(0);
+                new ZoomOut(pnl_FillBg).play();
+            } catch (IOException ex) {
+                Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        btn_Back.setOnMouseClicked((event) -> {
+            pnl_FillBg.setScaleX(0);
+            pnl_FillBg.setScaleY(0);
+            new ZoomOut(pnl_FillBg).play();
+        });
     }
 
     private void setEventExport() {
@@ -656,7 +741,7 @@ public class Management_ProductController implements Initializable {
         btn_ExcelProduct.setOnAction(evt -> {
 
             try {
-                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName+".xlsx", title);
+                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName + ".xlsx", title);
             } catch (IOException ex) {
 
             }
@@ -668,7 +753,7 @@ public class Management_ProductController implements Initializable {
 
         btn_DPFProduct.setOnAction(evt -> {
             try {
-                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName+".pdf", title);
+                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName + ".pdf", title);
             } catch (Exception ex) {
 
             }
@@ -676,14 +761,19 @@ public class Management_ProductController implements Initializable {
         });
     }
 
-    @FXML
-    private void handleButtonSendSales(ActionEvent event) throws IOException, MessagingException, InterruptedException {
-        this.sendMailAbtSale();
-    }
+    void startSendMailProgress() {
+        if (!Variable.IS_SENDING) {
+            Dialog.showMessageDialog("", "Your sending progress is running!");
+        }
+        if (isSendRelease) {
+            new MailSender().startProgress(emails, MailTemplate.getReleaseApplicationTitleEmail(app), MailTemplate.getReleaseApplicationEmail(app));
+        } else {
+            new MailSender().startProgress(emails, MailTemplate.getDiscountApplicationTitleEmail(app), MailTemplate.getDiscountApplicationEmail(app));
+        }
 
-    @FXML
-    private void handleButtonSendGames(ActionEvent event) throws IOException, MessagingException, InterruptedException {
-        this.sendMailAbtGame();
+        pnl_FillBg.setScaleX(0);
+        pnl_FillBg.setScaleY(0);
+        new ZoomOut(pnl_FillBg).play();
     }
 
     private void displayFormAnimation() {

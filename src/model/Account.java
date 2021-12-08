@@ -5,6 +5,7 @@
  */
 package model;
 
+import com.jfoenix.controls.JFXCheckBox;
 import java.util.Date;
 import javafx.scene.control.CheckBox;
 /**
@@ -27,8 +28,9 @@ public class Account {
     private int role=-1;
     private boolean comment;
     private String QRcode;
-    private CheckBox checkbox;
+    private JFXCheckBox checkbox =new JFXCheckBox();
     public Account() {
+        //checkbox.setSelected(false);
     }
     
     public int getAccountId() {
@@ -44,7 +46,7 @@ public class Account {
         this.name = name;
         this.email = email;
         this.username = username;
-        this.checkbox =  new CheckBox();
+        this.checkbox =  new JFXCheckBox();
     }
     
     
@@ -167,7 +169,7 @@ public class Account {
         return checkbox;
     }
  
-    public void setCheckBox(CheckBox checkbox) {
+    public void setCheckBox(JFXCheckBox checkbox) {
         this.checkbox = checkbox;
     }
     

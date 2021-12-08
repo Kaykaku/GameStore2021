@@ -53,6 +53,8 @@ import until.Dialog;
 import until.ExportExcel;
 import until.ExportPDF;
 import until.ExportText;
+import until.MailSender;
+import until.MailTemplate;
 import until.ProcessDate;
 import until.ProcessString;
 import until.Validation;
@@ -240,6 +242,11 @@ public class Management_OrderController implements Initializable {
     private JFXButton btn_ExcelOrder;
     
     @FXML
+    private JFXButton btn_SendOrder;
+    @FXML
+    private JFXButton btn_ExportOrder;
+    
+    @FXML
     private JFXButton btn_TextOrder;
     @FXML
     private TableView<Account> tbl_Accounts;
@@ -392,8 +399,7 @@ public class Management_OrderController implements Initializable {
                                     Thread.sleep(1000);
                                 } catch (InterruptedException ex) {
                                 }
-                                Platform.runLater(() -> {
-                                    
+                                Platform.runLater(() -> {                                    
                                     fillListOrderDetails();
                                     fillListApp();
                                 });
@@ -840,9 +846,6 @@ public class Management_OrderController implements Initializable {
             }
         });
         
-        cbx_Apps.setOnAction((evt) -> {
-            
-        });
         
         btn_Order_Clear.setOnMouseClicked((evt) -> {
             clearOrderForm();
@@ -886,6 +889,24 @@ public class Management_OrderController implements Initializable {
         });
         cbx_Status.setOnAction((event) -> {
             fillListOrders();
+        });
+        btn_SendOrder.setOnMouseClicked((event) -> {
+            Account acc = accountDAO.selectByID(Integer.parseInt(txt_OderCustomerID.getText()));
+            Order order = orderDAO.selectByID(Integer.parseInt(lbl_OderID.getText()));
+            if(order.getStatus()==0){
+                Dialog.showMessageDialog("", "This order still progressing!");
+                return;
+            }
+            new MailSender().startProgress(acc, MailTemplate.getOrderTitleEmail(order), MailTemplate.getOrderEmail(order));
+        });
+        btn_ExportOrder.setOnMouseClicked((event) -> {
+            Order order = orderDAO.selectByID(Integer.parseInt(lbl_OderID.getText()));
+            if(order.getStatus()==0){
+                Dialog.showMessageDialog("", "This order still progressing!");
+                return;
+            }
+            String htmlText =  MailTemplate.getOrderEmail(order);
+            ExportText.exportHTML(Variable.MAIN_STAGE,htmlText, "Order-"+order.getOrderID()+".html");
         });
     }
     

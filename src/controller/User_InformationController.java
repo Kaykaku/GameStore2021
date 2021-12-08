@@ -183,7 +183,7 @@ public class User_InformationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         RoundedImageView.RoundedImage(img_Avatar, img_Avatar.getFitWidth());
-        txt_Name.setEditable(false);
+        txt_Name.setEditable(true);
         drawDatePicker();
         fillCboCountry();
         setGroupButton();
@@ -256,6 +256,7 @@ public class User_InformationController implements Initializable {
                 Stage stage = new Stage();
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(new Scene(root));
+                stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
                 stage.show();
 
             } catch (IOException ex) {
@@ -288,7 +289,7 @@ public class User_InformationController implements Initializable {
             RoundedImageView.RoundedImage(static_Icon_Medium, static_Icon_Medium.getFitWidth());
         }
         static_UserName.setText(Auth.USER.getUsername());
-        static_UserName_Hide.setText(Auth.USER.getName());
+        static_UserName_Hide.setText(Auth.USER.getName().isEmpty()?Auth.USER.getUsername():Auth.USER.getName());
         static_Email_Hide.setText(Auth.USER.getEmail());
     }
 
@@ -344,13 +345,13 @@ public class User_InformationController implements Initializable {
         txt_Username.setText(account.getUsername() + "");
         txt_Username.setEditable(false);
         lbl_Accountid.setText(account.getAccountId() + "");
-        txt_Name.setText(account.getName() + "");
+        txt_Name.setText(account.getName()==null?"":account.getName());
         datePicker_Birthday.setValue(account.getBirthDay() != null ? ProcessDate.toLocalDate(account.getBirthDay()) : null);
         rdo_Female.setSelected(account.isGender());
         rdo_Male.setSelected(!account.isGender());
         cbo_Country.getSelectionModel().select(account.getCountry());
         txt_Email.setText(account.getEmail() + "");
-        txt_Address.setText(account.getAddress() + "");
+        txt_Address.setText(account.getAddress()==null?"":account.getAddress());
         lbl_CreationDate.setText(ProcessDate.toString(account.getCreationDate()));
 
         Object[] accStatics = new StatisticsDAO().getAccountStatistics(account.getAccountId());
@@ -385,6 +386,7 @@ public class User_InformationController implements Initializable {
     }
 
     Account getForm() {
+        err="";
         err += Validation.validationEmail(txt_Email);
         err += Validation.validationBirthDay(datePicker_Birthday);
         if (err.isEmpty()) {

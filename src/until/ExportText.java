@@ -10,6 +10,7 @@ import DAO.ApplicationDAO;
 import DAO.CategoryDAO;
 import DAO.NewsDAO;
 import DAO.OrderDAO;
+import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -32,6 +33,7 @@ import model.Order;
 public class ExportText {
 
     private static List<Object[]> listObj = new ArrayList<>();
+    public static String[] header;
 
     public static void create(String path) throws IOException {
         final List<Object[]> objects = getListObjects();
@@ -42,9 +44,18 @@ public class ExportText {
         try {
             FileWriter fr = new FileWriter(path);
             BufferedWriter bw = new BufferedWriter(fr);
-            for (Object[] obj : object) {
-                String tamp = obj.toString();
+            for (Object object1 : header) {
+                String tamp = object1.toString() + "\t \t \t";
                 bw.write(tamp);
+            }
+            bw.write("\n");
+            for (Object[] obj : object) {
+                for (Object object1 : obj) {
+                    String tamp = object1.toString() + "\t";
+                    bw.write(tamp);
+                }
+                bw.write("\n");
+
             }
             bw.flush();
             bw.close();
@@ -57,18 +68,61 @@ public class ExportText {
         return listObj;
     }
 
-    public static void exportText(Stage parent, List<Object[]> Object, String fileName) throws IOException {
+    public static void exportHTML(Stage parent, String text, String fileName) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".pdf"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".html"));
         fileChooser.setInitialFileName(fileName);
         fileChooser.setTitle("Select folder");
         File path = fileChooser.showSaveDialog(parent);
         if (path != null) {
             try {
+                FileWriter fr = new FileWriter(path);
+                BufferedWriter bw = new BufferedWriter(fr);
+                String tamp = text;
+                bw.write(tamp);
+                bw.flush();
+                bw.close();
 
+                if (Dialog.showComfirmDialog(null, "Save successfully! \nDo you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static void exportText(Stage parent, String[] header, List<Object[]> listObjects, String fileName) throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".txt"));
+        fileChooser.setInitialFileName(fileName);
+        fileChooser.setTitle("Select folder");
+        File path = fileChooser.showSaveDialog(parent);
+        if (path != null) {
+            try {
+                listObj = listObjects;
+                ExportText.header = header;
                 ExportText.create(path.getAbsolutePath());
-                Dialog.showMessageDialog(null, "Save successfully!");
+                if (Dialog.showComfirmDialog(null, "Save successfully! \nDo you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -91,7 +145,16 @@ public class ExportText {
                     String temp = list.get(i).toString();
                     pr.println(temp + "\n");
                 }
-                Dialog.showMessageDialog(null, "Save successfully!");
+                if (Dialog.showComfirmDialog(null, "Save successfully! \nDo you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
                 pr.flush();
                 pr.close();
             } catch (Exception e) {
@@ -116,7 +179,16 @@ public class ExportText {
                     String temp = list.get(i).toString1();
                     pr.println(temp + "\n");
                 }
-                Dialog.showMessageDialog(null, "Save successfully!");
+                if (Dialog.showComfirmDialog(null, "Save successfully! \nDo you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
                 pr.flush();
                 pr.close();
             } catch (Exception e) {
@@ -141,7 +213,16 @@ public class ExportText {
                     String temp = list.get(i).toString();
                     pr.println(temp + "\n");
                 }
-                Dialog.showMessageDialog(null, "Save successfully!");
+                if (Dialog.showComfirmDialog(null, "Save successfully! \nDo you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
                 pr.flush();
                 pr.close();
             } catch (Exception e) {
@@ -166,7 +247,16 @@ public class ExportText {
                     String temp = list.get(i).toStrings();
                     pr.println(temp + "\n");
                 }
-                Dialog.showMessageDialog(null, "Save successfully!");
+                if (Dialog.showComfirmDialog(null, "Save successfully! \nDo you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
                 pr.flush();
                 pr.close();
             } catch (Exception e) {
@@ -191,7 +281,16 @@ public class ExportText {
                     String temp = list.get(i).toString();
                     pr.println(temp + "\n");
                 }
-                Dialog.showMessageDialog(null, "Save successfully!");
+                if (Dialog.showComfirmDialog(null, "Save successfully! \nDo you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
                 pr.flush();
                 pr.close();
             } catch (Exception e) {

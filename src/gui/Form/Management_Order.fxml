@@ -232,7 +232,7 @@
       </Pane>
       <Pane fx:id="pnl_OrderDetails" layoutY="420.0" opacity="0.0">
          <children>
-            <Pane fx:id="pnl_Order_Total" layoutX="10.0" layoutY="360.0" prefHeight="40.0" prefWidth="840.0" style="-fx-background-color: #393939; -fx-background-radius: 10px;">
+            <Pane fx:id="pnl_Order_Total" layoutX="10.0" layoutY="360.0" prefHeight="40.0" prefWidth="840.0" style="-fx-background-radius: 10px;" styleClass="user_info">
                <children>
                   <HBox layoutX="660.0" layoutY="5.0">
                      <children>
@@ -248,11 +248,17 @@
                         </Label>
                      </children>
                   </HBox>
+                  <HBox prefHeight="40.0" prefWidth="380.0" spacing="10.0">
+                     <children>
+                        <JFXButton fx:id="btn_ExportOrder" prefHeight="40.0" prefWidth="200.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="dark-blue" text="Export Order" />
+                        <JFXButton fx:id="btn_SendOrder" prefHeight="40.0" prefWidth="212.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="dark-blue" text="Send order for Customer" />
+                     </children>
+                  </HBox>
                </children>
             </Pane>
             <ScrollPane fx:id="pnl_ScrollOrderDetails" prefHeight="350.0" prefWidth="860.0" styleClass="main_background3" stylesheets="@../../css/main.css">
                <content>
-                  <Pane id="tex" fx:id="pnl_ListOrderDetails" prefHeight="350.0" prefWidth="845.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+                  <Pane id="tex" fx:id="pnl_ListOrderDetails" prefHeight="350.0" prefWidth="845.0" styleClass="container7" stylesheets="@../../css/main.css">
                      <children>
                         <TilePane fx:id="tile_ListOrderDetails" hgap="20.0" layoutX="30.0" layoutY="20.0" prefHeight="200.0" prefWidth="800.0" vgap="15.0" />
                      </children>
@@ -272,9 +278,9 @@
       </Pane>
       <ScrollPane fx:id="pnl_ScrollOrders" layoutY="420.0" prefHeight="400.0" prefWidth="880.0" styleClass="main_background3" stylesheets="@../../css/main.css">
          <content>
-            <Pane id="tex" fx:id="pnl_ListOrders" prefHeight="400.0" prefWidth="865.0" styleClass="main_background3" stylesheets="@../../css/main.css">
+            <Pane id="tex" fx:id="pnl_ListOrders" prefHeight="400.0" prefWidth="865.0" styleClass="container7" stylesheets="@../../css/main.css">
                <children>
-                  <VBox fx:id="vbox_Orders" layoutY="5.0" prefHeight="200.0" prefWidth="865.0" spacing="10.0" styleClass="main_background3" />
+                  <VBox fx:id="vbox_Orders" layoutY="5.0" prefHeight="200.0" prefWidth="865.0" spacing="10.0" />
                </children>
             </Pane>
          </content>
@@ -290,7 +296,7 @@
                <content>
                   <Pane id="tex" fx:id="pnl_ListApplications" prefHeight="360.0" prefWidth="405.0" styleClass="main_background" stylesheets="@../../css/main.css">
                      <children>
-                        <VBox fx:id="vbox_ListApplications" prefHeight="200.0" prefWidth="405.0" spacing="10.0" styleClass="main_background">
+                        <VBox fx:id="vbox_ListApplications" layoutY="5.0" prefHeight="200.0" prefWidth="405.0" spacing="10.0" styleClass="main_background">
                            <padding>
                               <Insets left="10.0" right="10.0" />
                            </padding>

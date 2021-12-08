@@ -10,82 +10,122 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1065.0" style="-fx-background-radius: 10px;" styleClass="main_background" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Mail_SendingController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1100.0" style="-fx-background-radius: 12px; -fx-border-color: white; -fx-border-radius: 12px; -fx-border-width: 1px;" styleClass="container5" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Mail_SendingController">
    <children>
-      <Pane fx:id="pnl_Title" prefHeight="50.0" prefWidth="1050.0">
+      <Pane fx:id="pnl_Title" prefHeight="50.0" prefWidth="1100.0">
          <children>
-            <Label alignment="CENTER" layoutX="20.0" layoutY="10.0" prefHeight="27.0" prefWidth="1029.0" text="MAIL SENDING FORM" textFill="WHITE">
+            <Label alignment="CENTER" prefHeight="50.0" prefWidth="1100.0" text="MAIL SENDING" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="24.0" />
-               </font>
-            </Label>
-            <CheckBox fx:id="sendAll_ChBox" layoutX="960.0" layoutY="21.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="83.0" text="Send All" textFill="#e8e8e8" />
-            <Label fx:id="lbl_Exit" alignment="TOP_RIGHT" layoutX="1001.0" layoutY="-2.0" prefHeight="32.0" prefWidth="38.0" text="X" textFill="#fff9f9">
-               <font>
-                  <Font size="22.0" />
                </font>
             </Label>
          </children>
       </Pane>
       <Pane fx:id="pnl_List_News" layoutX="880.0" layoutY="5.0" />
-      <Pane fx:id="pnl_Add_Info" layoutX="14.0" layoutY="57.0" prefHeight="271.0" prefWidth="544.0" styleClass="pnl_view">
+      <Pane fx:id="pnl_Add_Info" layoutX="15.0" layoutY="170.0" prefHeight="170.0" prefWidth="550.0" styleClass="user_info">
          <children>
-            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="500.0" />
-            <Label layoutX="20.0" layoutY="10.0" text="GMAIL INFORMTION" textFill="WHITE">
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="550.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Title" textFill="#b9b8b8">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="14.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/decription18.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="39.0" layoutY="66.0" text="Title" textFill="#b9b8b8">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <JFXTextField id="tex" fx:id="txt_Title" alignment="TOP_LEFT" layoutX="16.0" layoutY="104.0" prefHeight="149.0" prefWidth="450.0" promptText="Enter Title..." styleClass="text_input" stylesheets="@../../css/main.css" />
+            <JFXTextField id="tex" fx:id="txt_Title" alignment="TOP_LEFT" layoutX="15.0" layoutY="60.0" prefHeight="100.0" prefWidth="520.0" promptText="Enter Title..." styleClass="text_input" stylesheets="@../../css/main.css" />
          </children>
       </Pane>
-      <Pane fx:id="pnl_Content" layoutX="14.0" layoutY="340.0" prefHeight="292.0" prefWidth="544.0" styleClass="pnl_view">
+      <Pane fx:id="pnl_Content" layoutX="14.0" layoutY="350.0" prefHeight="292.0" prefWidth="550.0" styleClass="user_info">
          <children>
-            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="474.0" />
-            <Label layoutX="20.0" layoutY="10.0" text="Content" textFill="WHITE">
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="550.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Content" textFill="#b9b8b8">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <JFXTextArea fx:id="txt_Content" layoutX="20.0" layoutY="56.0" prefHeight="165.0" prefWidth="450.0" promptText="Enter content here...." styleClass="text_input" />
-            <HBox fx:id="hbox_Controller" layoutX="11.0" layoutY="238.0" prefHeight="57.0" prefWidth="522.0" spacing="10.0">
+            <JFXTextArea fx:id="txt_Content" layoutX="15.0" layoutY="64.0" prefHeight="165.0" prefWidth="520.0" promptText="Enter content here...." style="-fx-text-fill: white;" styleClass="text-area-no-fill" />
+            <HBox layoutX="15.0" layoutY="240.0" prefHeight="40.0" prefWidth="520.0" spacing="10.0">
                <children>
-                  <JFXButton fx:id="btn_Send" layoutX="440.0" layoutY="740.0" onAction="#handleButtonSend" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="SEND" />
-                  <JFXButton fx:id="btn_Back" layoutX="10.0" layoutY="20.0" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Clear" />
-                  <ImageView fx:id="icon_Attachment" fitHeight="43.0" fitWidth="30.0" onMouseClicked="#handleAttachment" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Img_File" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../icons/attachment.png" />
+                        <Image url="@../../icons/pin50.png" />
                      </image>
                   </ImageView>
-                  <JFXTextArea fx:id="txt_SelectedFiles" editable="false" focusColor="#272727" prefHeight="47.0" prefWidth="193.0" style="-fx-text-fill: #FFFFFF;" unFocusColor="#272727">
+                  <Label fx:id="lbl_FileName" prefHeight="40.0" prefWidth="360.0" textFill="#0fbbdd">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btn_Clear" focusTraversable="false" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Clear">
                      <HBox.margin>
+                        <Insets top="5.0" />
                      </HBox.margin>
-                  </JFXTextArea>
+                  </JFXButton>
                </children>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
             </HBox>
          </children>
       </Pane>
-      <TableView fx:id="tbl_Email" layoutX="579.0" layoutY="59.0" prefHeight="574.0" prefWidth="474.0" styleClass="pnl_view">
+      <TableView fx:id="tbl_Email" layoutX="580.0" layoutY="140.0" prefHeight="500.0" prefWidth="505.0" styleClass="user_info">
          <columns>
-            <TableColumn fx:id="col_ID" editable="false" prefWidth="72.0" resizable="false" styleClass="category_table" text="ID" />
-            <TableColumn fx:id="col_Name" editable="false" minWidth="0.0" prefWidth="112.0" resizable="false" styleClass="category_table" text="NAME" />
-            <TableColumn fx:id="col_UserName" editable="false" resizable="false" styleClass="category_table" text="USERNAME" />
-            <TableColumn fx:id="col_Email" editable="false" prefWidth="134.0" resizable="false" styleClass="category_table" text="EMAIL" />
-            <TableColumn fx:id="col_Select" minWidth="0.0" prefWidth="75.0" resizable="false" styleClass="category_table" text="SELECT" />
+            <TableColumn fx:id="col_ID" editable="false" prefWidth="60.0" resizable="false" style="-fx-alignment: CENTER;" styleClass="category_table" text="ID" />
+            <TableColumn fx:id="col_Name" editable="false" minWidth="0.0" prefWidth="130.0" resizable="false" style="-fx-alignment: CENTER;" styleClass="category_table" text="NAME" />
+            <TableColumn fx:id="col_UserName" editable="false" prefWidth="90.0" resizable="false" style="-fx-alignment: CENTER;" styleClass="category_table" text="USERNAME" />
+            <TableColumn fx:id="col_Email" editable="false" prefWidth="150.0" resizable="false" style="-fx-alignment: CENTER;" styleClass="category_table" text="EMAIL" />
+            <TableColumn fx:id="col_Select" editable="false" minWidth="0.0" prefWidth="60.0" resizable="false" style="-fx-alignment: CENTER;" styleClass="category_table" text="SELECT" />
          </columns>
       </TableView>
+      <Pane fx:id="pnl_Receiver" layoutX="15.0" layoutY="60.0" prefHeight="100.0" prefWidth="550.0" styleClass="user_info">
+         <children>
+            <Separator blendMode="DIFFERENCE" layoutY="50.0" prefHeight="3.0" prefWidth="550.0" />
+            <Label layoutX="20.0" layoutY="10.0" text="Reciever" textFill="#b9b8b8">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_Reciever" alignment="BOTTOM_LEFT" layoutX="20.0" layoutY="59.0" prefHeight="30.0" prefWidth="510.0" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button fx:id="btn_Exit" focusTraversable="false" layoutX="1049.0" layoutY="1.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button_close" stylesheets="@../../css/main.css">
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/multiply24.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <VBox fx:id="vbox_Flter" layoutX="580.0" layoutY="60.0" spacing="7.0">
+         <children>
+            <TextField fx:id="txt_Search" focusTraversable="false" layoutX="580.0" layoutY="60.0" prefHeight="35.0" prefWidth="500.0" promptText="Sreach...." style="-fx-background-radius: 10px; -fx-text-fill: white;" styleClass="user_info">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </TextField>
+            <HBox layoutX="580.0" layoutY="102.0" spacing="10.0">
+               <children>
+                  <ChoiceBox fx:id="cbx_Role" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="160.0" styleClass="user_info" />
+                  <ChoiceBox fx:id="cbx_Active" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="160.0" styleClass="user_info" />
+                  <ChoiceBox fx:id="cbx_Comment" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="160.0" styleClass="user_info" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox fx:id="hbox_Checkbox" layoutX="580.0" layoutY="650.0" spacing="10.0">
+         <children>
+            <JFXCheckBox fx:id="cbo_All_In" checkedColor="#2467ed" focusTraversable="false" layoutX="580.0" layoutY="650.0" text="All Mail" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXCheckBox>
+            <JFXCheckBox fx:id="cbo_All_In_Table" checkedColor="#2467ed" focusTraversable="false" text="All in table" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXCheckBox>
+         </children>
+      </HBox>
+      <JFXButton fx:id="btn_Send" focusTraversable="false" layoutX="15.0" layoutY="650.0" prefHeight="35.0" prefWidth="550.0" styleClass="dark-blue" text="SEND" />
    </children>
 </Pane>

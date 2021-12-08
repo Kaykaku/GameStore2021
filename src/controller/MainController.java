@@ -8,6 +8,7 @@ package controller;
 import Animation.RoundedImageView;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import until.Auth;
+import until.Dialog;
 import until.ProcessImage;
 import until.Value;
 import static until.Value.*;
@@ -47,6 +50,28 @@ public class MainController implements Initializable {
     private ImageView img_User_Icon_Small;
 
     @FXML
+    private ImageView img_cancelDownload;
+
+    @FXML
+    private ProgressBar bar_Download;
+
+    @FXML
+    private Label lbl_ProgressDownload;
+    
+
+    @FXML
+    private Pane pnl_SendMailBar;
+    
+    @FXML
+    private ImageView img_cancelSending;
+
+    @FXML
+    private ProgressBar bar_Sending;
+
+    @FXML
+    private Label lbl_ProgressSending;
+
+    @FXML
     private Label lbl_UserName_Hide;
 
     @FXML
@@ -54,6 +79,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Pane pnl_View;
+
+    @FXML
+    private Pane pnl_DownloadBar;
 
     @FXML
     private Label lbl_UserName;
@@ -81,9 +109,12 @@ public class MainController implements Initializable {
 
     @FXML
     private Pane pnl_menu;
-    
+
     @FXML
     private Pane pnl_HeaderBar;
+    
+    @FXML
+    private HBox hbox_Progress;
 
     @FXML
     private JFXButton btn_AccountSettings;
@@ -109,12 +140,17 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Variable.IS_ACCOUNT_INFORMATION_OPEN=false;
+        Variable.IS_ACCOUNT_INFORMATION_OPEN = false;
+        Variable.MAIN_CONTROLLER = this;
         //Variable.MAIN_STAGE =(Stage) pnl_View.getScene().getWindow();
         pnl_ManageAccount.setTranslateY(-pnl_ManageAccount.getPrefHeight());
         Variable.PNL_VIEW = pnl_View;
         Variable.WIDTH_VIEW = pnl_View.getPrefWidth();
         Variable.HEIGHT_VIEW = pnl_View.getPrefHeight();
+        Variable.DOWNLOAD_PROGRESSBAR = bar_Download;
+        Variable.DOWNLOAD_LABEL=lbl_ProgressDownload; 
+        Variable.SENDING_LABEL=lbl_ProgressSending;
+        Variable.SENDING_PROGRESSBAR = bar_Sending;
 
         loadRoleItems();
         drawMenuItems();
@@ -128,7 +164,7 @@ public class MainController implements Initializable {
     }
 
     void setEvent() {
-        
+
         pnl_HeaderBar.setOnMousePressed(evt -> {
             Stage stage = (Stage) pnl_View.getScene().getWindow();
             x = evt.getScreenX() - stage.getX();
@@ -139,7 +175,7 @@ public class MainController implements Initializable {
             stage.setX(evt.getScreenX() - x);
             stage.setY(evt.getScreenY() - y);
         });
-        
+
         img_User_Icon_Small.setOnMouseClicked(evt -> {
             showManageAccount();
         });
@@ -167,6 +203,14 @@ public class MainController implements Initializable {
         lbl_SignOut.setOnMouseClicked(evt -> {
             signOut(evt);
         });
+        img_cancelDownload.setOnMouseClicked((event) -> {
+            Variable.IS_DOWNLOADING=false;
+            Dialog.showMessageDialog("", "Your download cancelled");
+        });
+        img_cancelSending.setOnMouseClicked((event) -> {
+            Variable.IS_SENDING=false;
+            Dialog.showMessageDialog("", "You have canceled the email sending progress!");
+        });
         setStatic();
         static_ProgressBar = pnl_ProgressBar;
     }
@@ -178,6 +222,7 @@ public class MainController implements Initializable {
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
+            stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
             stage.show();
 
         } catch (IOException ex) {
@@ -243,7 +288,8 @@ public class MainController implements Initializable {
             RoundedImageView.RoundedImage(img_User_Icon_Medium, img_User_Icon_Medium.getFitWidth());
         }
         lbl_UserName.setText(Auth.USER.getUsername());
-        lbl_UserName_Hide.setText(Auth.USER.getName()==null?Auth.USER.getUsername():Auth.USER.getName());
+        String name = Auth.USER.getName() == null || Auth.USER.getName().isEmpty() ? Auth.USER.getUsername() : Auth.USER.getName();
+        lbl_UserName_Hide.setText(name);
         lbl_Email_Hide.setText(Auth.USER.getEmail());
     }
 
@@ -302,7 +348,7 @@ public class MainController implements Initializable {
                 });
             }
         } catch (IOException ex) {
-            
+
         }
     }
 
@@ -332,12 +378,32 @@ public class MainController implements Initializable {
 
     void showManageAccount() {
         if (!isShowManageAccount) {
+            
             pnl_ManageAccount.setOpacity(1);
             new SlideInDown(pnl_ManageAccount).play();
         } else {
             new FadeOutUp(pnl_ManageAccount).play();
         }
         isShowManageAccount = !isShowManageAccount;
+        
     }
 
+    public void showDownloadProgress(boolean isShow) {
+        if (isShow) {
+            pnl_DownloadBar.setOpacity(1);
+            pnl_DownloadBar.setTranslateY(0);
+            new FadeInRightBig(pnl_DownloadBar).play();
+        }else{
+            new FadeOutDown(pnl_DownloadBar).play();
+        }
+    }
+    public void showSendingProgress(boolean isShow) {
+        if (isShow) {
+            pnl_SendMailBar.setOpacity(1);
+            pnl_SendMailBar.setTranslateY(0);
+            new FadeInRightBig(pnl_SendMailBar).play();
+        }else{
+            new FadeOutDown(pnl_SendMailBar).play();
+        }
+    }
 }

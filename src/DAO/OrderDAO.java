@@ -80,7 +80,7 @@ public class OrderDAO extends DAO<Order,Integer>{
     }
 
     public Order selectByAccountAppID(Integer acccountID,Integer AppID) {
-        String sql= "SELECT * FROM Orders a inner join OrderDetails b on a.OrderID = b.OrderID WHERE a.AccountId=? and ApplicationId =?";
+        String sql= "SELECT * FROM Orders a inner join OrderDetails b on a.OrderID = b.OrderID WHERE a.AccountId=? and ApplicationId =? order by a.OrderID desc";
         return selectBySql(sql,acccountID,AppID).isEmpty() ? null:selectBySql(sql,acccountID,AppID).get(0);
     }
     public Order selectByLastOrder(Integer acccountID) {

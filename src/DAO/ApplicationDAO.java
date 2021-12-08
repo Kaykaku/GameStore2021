@@ -178,6 +178,16 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         keyword = "%" + keyword + "%";
         return selectBySql(sql, accountID, keyword, keyword);
     }
+    public List<Application> selectEnableRufundApplications(Integer accountID, String keyword) {
+        String sql = "select * from Applications " 
+                        +"where (ApplicationId in (" 
+                        +"select ApplicationId "
+                        +"from Orders a join OrderDetails b on a.OrderID =b.OrderID "
+                        +"where a.AccountId=? and Status = 1  and DATEADD(DAY,7,CreationDate) >=GETDATE())) " 
+                        +"and (ApplicationId like ? or Name like ?)";
+        keyword = "%" + keyword + "%";
+        return selectBySql(sql, accountID, keyword, keyword);
+    }
 
     public boolean isPurchaseApplication(Integer accountID, Integer applicationId) {
         for (Application application : selectPurchaseApplications(accountID, "")) {
@@ -202,96 +212,6 @@ public class ApplicationDAO extends DAO<Application, Integer> {
         return selectBySql(sql, type, keyword, keyword);
     }
 
-    public List<Integer> selectYears() {
-        List<Integer> list = new ArrayList<>();
-        try {
-            ResultSet rs = null;
-            try {
-                rs = Connect_Jdbc.query("select distinct year(ReleaseDay) from Applications order by year(ReleaseDay) desc");
-                while (rs.next()) {
-                    int year = rs.getInt(1);
-                    list.add(year);
-                }
-            } finally {
-                rs.getStatement().getConnection().close();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return list;
-    }
 
-    public List<Application> getReleaseDay_SearchByYear(int year) {
-        List<Application> list = new ArrayList<>();
-        ResultSet rs = null;
-        try {
-            String sql = "{call sp_ReleaseDay_SearchByYear (?)}";
-            rs = Connect_Jdbc.query(sql, year);
-
-            While(rs, list);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
-    }
-
-    public List<Application> getReleaseDay_ThisWeek() {
-        List<Application> list = new ArrayList<>();
-        ResultSet rs = null;
-        try {
-            String sql = "{call sp_ReleaseDay_ThisWeek}";
-            rs = Connect_Jdbc.query(sql);
-
-            While(rs, list);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
-    }
-
-    public List<Application> getReleaseDay_ThisMonth() {
-        List<Application> list = new ArrayList<>();
-        ResultSet rs = null;
-        try {
-            String sql = "{call sp_ReleaseDay_ThisMonth}";
-            rs = Connect_Jdbc.query(sql);
-
-            While(rs, list);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
-    }
-
-    public List<Application> getReleaseDay_ThisYear() {
-        List<Application> list = new ArrayList<>();
-        ResultSet rs = null;
-        try {
-            String sql = "{call sp_ReleaseDay_ThisYear}";
-            rs = Connect_Jdbc.query(sql);
-
-            While(rs, list);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return list;
-    }
-
-    private void While(ResultSet rs, List<Application> list) throws SQLException {
-        while (rs.next()) {
-            Application entity = new Application();
-
-            entity.setName(rs.getString("Name"));
-            entity.setPrice(rs.getFloat("Price"));
-            entity.setAppIcon(rs.getBytes("AppIcon"));
-            entity.setPublisher(rs.getString("Publisher"));
-
-            list.add(entity);
-        }
-    }
-
+    
 }

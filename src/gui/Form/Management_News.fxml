@@ -176,10 +176,10 @@
       </Pane>
       <HBox fx:id="hbox_Controller" layoutX="245.0" layoutY="785.0" spacing="10.0">
          <children>
-            <JFXButton layoutX="440.0" layoutY="740.0" onAction="#handleButtonClearAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Clear" />
-            <JFXButton fx:id="btn_Add" onAction="#handleButtonAddAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Add" />
-            <JFXButton fx:id="btn_Update" layoutX="660.0" layoutY="740.0" onAction="#handleButtonUpdateAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type1" text="Update" />
-            <JFXButton fx:id="btn_Delete" layoutX="770.0" layoutY="740.0" onAction="#handleButtonDeleteAction" prefHeight="30.0" prefWidth="100.0" styleClass="button_type2" text="Delete" />
+            <JFXButton layoutX="440.0" layoutY="740.0" onAction="#handleButtonClearAction" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Clear" />
+            <JFXButton fx:id="btn_Add" onAction="#handleButtonAddAction" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Add" />
+            <JFXButton fx:id="btn_Update" layoutX="660.0" layoutY="740.0" onAction="#handleButtonUpdateAction" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Update" />
+            <JFXButton fx:id="btn_Delete" layoutX="770.0" layoutY="740.0" onAction="#handleButtonDeleteAction" prefHeight="30.0" prefWidth="100.0" styleClass="glass-grey" text="Delete" />
          </children>
       </HBox>
    </children>

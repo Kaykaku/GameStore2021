@@ -13,6 +13,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.jfoenix.controls.JFXButton;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +35,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import until.Auth;
+import until.Dialog;
 import until.Value;
 
 /**
@@ -95,10 +97,19 @@ public class Dialog_CreateQRcodeController implements Initializable {
                 String outputFile = "photo/QRcode.png";
                 File f = new File(outputFile);
                 Files.copy(f.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
+                if (Dialog.showComfirmDialog(null, "Save successfully! \n Do you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (file.exists()) {
+                        desktop.open(file);
+                    }
+                }
             }
         } catch (IOException e) {
-            
+
         }
     }
 

@@ -5,15 +5,12 @@
  */
 package controller;
 
-import Animation.RoundedImageView;
 import DAO.ApplicationDAO;
 import DAO.OrderDAO;
 import DAO.OrderDetailDAO;
 import DAO.WishlistDAO;
-import animatefx.animation.SlideInDown;
 import animatefx.animation.SlideInUp;
 import animatefx.animation.SlideOutLeft;
-import animatefx.animation.SlideOutRight;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -26,18 +23,17 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -50,7 +46,6 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -62,11 +57,12 @@ import model.Order;
 import model.OrderDetail;
 import model.Wishlist;
 import until.Auth;
+import until.Dialog;
+import until.MailSender;
+import until.MailTemplate;
 import until.ProcessDate;
-import until.ProcessImage;
 import until.Validation;
 import until.Value;
-import static until.Value.FORM_HOME_GAMES;
 import static until.Value.FORM_LIBRARY;
 import static until.Value.FORM_PRODUCT_LIST;
 import until.Variable;
@@ -97,14 +93,6 @@ public class PayController implements Initializable {
     private Pane pnl_Code;
     @FXML
     private Button btn_Back;
-
-    String capcha;
-    double total = 0;
-    double minus = 0;
-    int quantity = 0;
-    int count = 0;
-    Application app;
-    Account user = Auth.USER;
 
     @FXML
     private Pane pnl_Price_Info;
@@ -139,37 +127,50 @@ public class PayController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    String capcha;
+    double total = 0;
+    double minus = 0;
+    int quantity = 0;
+    int count = 0;
+    List<Application> apps = new ArrayList<>();
+    Application app ;
+    Account user = Auth.USER;
+    ApplicationDAO dao = new ApplicationDAO();
+    WishlistController controllerW=null;
+    DisplayProductController controllerD=null;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         capcha = captchaValue();
         lbl_Code.setText(capcha);
-
         setEvent();
-        setInformation(new ApplicationDAO().selectByID(1));
-        setInformations();
         lbl_Code.setAlignment(Pos.CENTER);
         lbl_Code.setStyle("-fx-background-color: #616161");
     }
 
-    public void setInformation(Application entity) {
-        this.app = entity;
-        loadBasic();
-
+    public void setInformation(Application entity, DisplayProductController controller) {
+        controllerD=controller;
+        apps.add(entity);
+        app=entity;
+        loadList();
     }
 
-    public void setInformations() {
-        loadWishList();
+    public void setInformations(WishlistController controller) {
+        controllerW=controller;
+        List<Wishlist> wishlists = new WishlistDAO().selectByAccountID(user.getAccountId());
+        for (Wishlist wishlist : wishlists) {
+            apps.add(dao.selectByID(wishlist.getApplicationId()));
+        }
+        loadList();
     }
 
     private void setEvent() {
         btn_continueShopping.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(FORM_PRODUCT_LIST));
-            Node node;
-            try {
-                node = (Node) loader.load();
-                PNL_VIEW.getChildren().add(node);
-            } catch (IOException ex) {
-                Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
+            PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
+            if(controllerD!=null){
+                controllerD.setInformation(app);
+            }else{
+                controllerW.loadWishList();
             }
         });
         hpl_orderlink.setOnMouseClicked((evt) -> {
@@ -197,15 +198,6 @@ public class PayController implements Initializable {
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        StringBuilder result = new StringBuilder();
-                        for (int i = 0; i < capcha.length(); i++) {
-                            result = result.append(capcha.charAt(i));
-                            if (i == capcha.length() - 1) {
-                                break;
-                            }
-                            result = result.append(' ');
-                        }
-
                         VoiceManager freeVM;
                         Voice voice;
                         System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
@@ -217,7 +209,10 @@ public class PayController implements Initializable {
                                 voice.setRate(80);
                                 voice.setPitch(125);
                                 voice.setVolume(3);
-                                voice.speak(result.toString());
+                                for (char c : capcha.toString().toCharArray()) {
+                                    voice.speak(c + "");
+                                    Thread.sleep(400);
+                                }
 
                             } catch (Exception e1) {
                                 e1.printStackTrace();
@@ -226,7 +221,7 @@ public class PayController implements Initializable {
                         } else {
                             throw new IllegalStateException("Cannot find voice: kevin16");
                         }
-                    } catch (Exception ex) {
+                    } catch (IllegalStateException ex) {
                         ex.printStackTrace();
                     }
 
@@ -234,33 +229,25 @@ public class PayController implements Initializable {
             }).start();
         });
 
-        List<Wishlist> wishlists = new WishlistDAO().selectByAccountID(user.getAccountId());
-
-        btn_paypay.setOnAction(event -> {
+        btn_paypay.setOnMouseClicked(event -> {
             String code = txt_code.getText();
-            if (!code.isEmpty()) {
-                if (cbo_agree.isSelected()) {
-
-                    if (code.equalsIgnoreCase(capcha)) {
-                        if (app.getApplicationID() == 1) {
-                            flag = true;
-                            loadWishList();
-                        } else {
-                            Order(app);
-                        }
-                        new SlideOutLeft(pnl_main).playOnFinished(new SlideInUp(pnl_finis)).play();
-                        openWebpage("https://www.paypal.com");
-                        lbl_Message.setText("");
-                        Clear();
-                    } else {
-                        lbl_Message.setText("Code reCapcha incorrect!");
-                        System.out.println("Ok " + capcha);
-                    }
-                } else {
-                    lbl_Message.setText("You not agree with the payment!");
-                }
-            } else {
+            if (apps.size() == 0) {
+                Dialog.showMessageDialog("", "Empty List!");
+                return;
+            }
+            if (code.isEmpty()) {
                 lbl_Message.setText("Code reCapcha can't empty!");
+            } else if (!cbo_agree.isSelected()) {
+                lbl_Message.setText("You not agree with the payment!");
+            } else if (code.equalsIgnoreCase(capcha)) {
+                insertOrder(apps);
+                new SlideOutLeft(pnl_main).playOnFinished(new SlideInUp(pnl_finis)).play();
+                openWebpage("https://www.paypal.com");
+                lbl_Message.setText("");
+                Clear();
+            } else {
+                lbl_Message.setText("Code reCapcha incorrect!");
+                System.out.println("Ok " + capcha);
             }
         });
 
@@ -268,27 +255,27 @@ public class PayController implements Initializable {
 
     boolean flag = false;
 
-    public void loadWishList() {
-        total = Validation.price;
-        List<Wishlist> wishlists = new WishlistDAO().selectByAccountID(user.getAccountId());
+    public void loadList() {
+        total = 0;
+
         try {
             Pane paneP = (Pane) FXMLLoader.load(getClass().getResource(Value.ROW_WISHLIST));
-            double height = (paneP.getPrefHeight() + vbox_ListProduct.getSpacing()) * wishlists.size();
+            double height = (paneP.getPrefHeight() + vbox_ListProduct.getSpacing()) * apps.size();
             pnl_List.setPrefHeight(height);
+            pnl_List.setStyle("-fx-background-color : transparent");
             vbox_ListProduct.setPrefSize(paneP.getPrefWidth(), height);
 
             vbox_ListProduct.getChildren().clear();
-            Pane[] nodes = new Pane[wishlists.size()];
-            Row_WishlistController[] controllers = new Row_WishlistController[wishlists.size()];
-            for (int i = 0; i < wishlists.size(); i++) {
+            Pane[] nodes = new Pane[apps.size()];
+            Row_WishlistController[] controllers = new Row_WishlistController[apps.size()];
+            for (int i = 0; i < apps.size(); i++) {
                 final int h = i;
-
+                total += apps.get(h).getPrice() * (100 - apps.get(h).getSale()) / 100;
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.ROW_WISHLIST));
                 nodes[h] = (Pane) loader.load();
                 controllers[h] = loader.getController();
                 controllers[h].setOpacity();
-                Application app = new ApplicationDAO().selectByID(wishlists.get(h).getApplicatonId());
-                controllers[h].setInfo(app);
+                controllers[h].setInfo(apps.get(h));
 
                 quantity = h + 1;
                 Button btn_delete = controllers[h].getBtnDelete();
@@ -296,63 +283,19 @@ public class PayController implements Initializable {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
                         if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                            nodes[h].getChildren().remove(0);
-                           
-                            if (mouseEvent.getClickCount() == 2) {
-                                minus = controllers[h].getPrice();
-                                quantity -= 1;
-                                total = total - minus;
-
-                                lbl_Total_Price.setText(String.format("%.2f", total) + "$");
-                                lbl_quantity.setText(Integer.toString(quantity));
-
-                                System.out.println("Minus 1: " + minus);
-
-                                QRcode(String.format("%.2f", total) + "$");
-
-                                double height = (paneP.getPrefHeight() + vbox_ListProduct.getSpacing()) * (wishlists.size() - 1);
-                                pnl_List.setPrefHeight(height);
-                                vbox_ListProduct.setPrefSize(paneP.getPrefWidth(), height);
-                                 wishlists.remove(h);
-                            }
-
+                            apps.remove(h);
+                            loadList();
                         }
                     }
 
                 });
-
-                if (flag == true) {
-                    System.out.println("...");
-                    Order(app);
-
-                }
                 vbox_ListProduct.getChildren().add(nodes[h]);
             }
         } catch (Exception e) {
         }
-        System.out.println("quantity: " + quantity);
-
         lbl_Total_Price.setText(String.format("%.2f", total) + "$");
-        lbl_quantity.setText(Integer.toString(quantity));
+        lbl_quantity.setText(apps.size() + "");
         QRcode(String.format("%.2f", total) + "$");
-
-    }
-
-    private void loadBasic() {
-        try {
-            vbox_ListProduct.getChildren().clear();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.ROW_WISHLIST));
-            Node node = (Node) loader.load();
-            Row_WishlistController controller = loader.getController();
-            controller.setInfo(app);
-            controller.setOpacity();
-            vbox_ListProduct.getChildren().add(node);
-        } catch (IOException ex) {
-            Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        lbl_Total_Price.setText(String.format("%.2f", app.getPrice()) + "$");
-        lbl_quantity.setText("1");
-        QRcode(String.valueOf(String.format("%.2f", app.getPrice())));
     }
 
     private void QRcode(String content) {
@@ -378,9 +321,6 @@ public class PayController implements Initializable {
                     }
                 }
             }
-
-            System.out.println("Success...");
-
         } catch (WriterException ex) {
             ex.printStackTrace();
         }
@@ -411,17 +351,15 @@ public class PayController implements Initializable {
 
     private void openWebpage(String url) {
         try {
-            try {
-                Desktop.getDesktop().browse(new URL(url).toURI());
-            } catch (URISyntaxException ex) {
-                ex.printStackTrace();
-            }
+            Desktop.getDesktop().browse(new URL(url).toURI());
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    private void Order(Application app) {
+    private void insertOrder(List<Application> list) {
 
         Order order = new Order();
         Date date = new Date();
@@ -432,14 +370,18 @@ public class PayController implements Initializable {
         order.setCreationDate(date);
         order.setStatus(1);
         new OrderDAO().insert(order);
-        order = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
-        OrderDetail orde = new OrderDetail();
-        orde.setOrderID(order.getOrderID());
-        orde.setApplicationId(app.getApplicationID());
-        orde.setPrice(app.getPrice());
-        orde.setSale(app.getSale());
-        new OrderDetailDAO().insert(orde);
-        new WishlistDAO().delete(user.getAccountId(), app.getApplicationID());
+        Order lastOrder = new OrderDAO().selectByLastOrder(Auth.USER.getAccountId());
+        for (Application app : list) {
+            OrderDetail orde = new OrderDetail();
+            orde.setOrderID(lastOrder.getOrderID());
+            orde.setApplicationId(app.getApplicationID());
+            orde.setPrice(app.getPrice());
+            orde.setSale(app.getSale());
+            new OrderDetailDAO().insert(orde);
+            new WishlistDAO().delete(user.getAccountId(), app.getApplicationID());
+        }
+        new MailSender().startProgress(Auth.USER, MailTemplate.getOrderTitleEmail(lastOrder), MailTemplate.getOrderEmail(lastOrder));
+
 //        try {
 //            DisplayProductController controller = new DisplayProductController();
 //            controller.loadStatusAll(app);
@@ -477,5 +419,4 @@ public class PayController implements Initializable {
 //        }, 1000, 1000);
 //
 //    }
-
 }

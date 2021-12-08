@@ -206,7 +206,7 @@ public class Management_CategoryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fillDataOnBackground();
+        fillDataOnBackground(1000);
         displayFormAnimation();
         setEvent();
         setEventExport();
@@ -215,13 +215,13 @@ public class Management_CategoryController implements Initializable {
 
     }
 
-    void fillDataOnBackground() {
+    void fillDataOnBackground(int delay) {
         fillTableCategories();
         new Thread() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(delay);
                 } catch (InterruptedException ex) {
                 }
                 Platform.runLater(() -> {
@@ -272,7 +272,7 @@ public class Management_CategoryController implements Initializable {
     }
 
     void fillListApp() {
-        listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim(), index > 1 ? Integer.parseInt(lbl_CategoryID.getText()) : 1);
+        listApplications = applicationDAO.selectByKeyWord(txt_SreachApp.getText().trim(), index > 0 ? Integer.parseInt(lbl_CategoryID.getText()) : 1);
         btn_AddCategory.setDisable(true);
 
         try {
@@ -432,7 +432,7 @@ public class Management_CategoryController implements Initializable {
         int id = (int) col_ID.getCellObservableValue(index).getValue();
         Category entity = categoryDAO.selectByID(id);
         setFormCate(entity);
-        fillListApp();
+        fillDataOnBackground(500);
         updateStatus();
     }
 

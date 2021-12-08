@@ -133,7 +133,7 @@ public class ProductListController implements Initializable {
                 break;
             }
         }
-        
+        txt_SreachApp.setText("");
         cbx_advanced.getSelectionModel().select(advanced);
         fillDataOnBackground();
     }

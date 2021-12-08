@@ -12,6 +12,7 @@ import com.pdfjet.Font;
 import com.pdfjet.PDF;
 import com.pdfjet.Page;
 import com.pdfjet.Table;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -46,7 +47,7 @@ public class ExportPDF {
         tableData.add(tableRow);
 
         for (Object[] objs : list) {
-            tableRow=new ArrayList<>();
+            tableRow = new ArrayList<>();
             for (Object obj : objs) {
                 Cell cell = new Cell(dataTable, String.valueOf(obj));
                 tableRow.add(cell);
@@ -80,9 +81,20 @@ public class ExportPDF {
         if (path != null) {
             try {
                 writeTable(rows, header, path);
+                if (Dialog.showComfirmDialog(null, "Save successfully! \n Do you want to open it?") == 1) {
+                    if (!Desktop.isDesktopSupported()) {
+                        System.out.println("not supported");
+                        return;
+                    }
+                    Desktop desktop = Desktop.getDesktop();
+                    if (path.exists()) {
+                        desktop.open(path);
+                    }
+                }
             } catch (Exception ex) {
-                
+
             }
         }
+
     }
 }
