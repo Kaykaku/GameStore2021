@@ -6,13 +6,17 @@
 package controller;
 
 import DAO.AccountDAO;
+import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import until.Auth;
+import until.ProcessImage;
 import until.Value;
 
 /**
@@ -25,16 +29,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        Auth.USER = new AccountDAO().selectByID(1);
-//        Parent root = FXMLLoader.load(getClass().getResource(Value.ROW_NEWS));
-//         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_USER_INFORMATION));
+//        Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_MESSAGE));
+//         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_CATEGORY));
         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
 //        Parent root = FXMLLoader.load(getClass().getResource(Value.MAIN));
 
         Scene scene = new Scene(root);
-
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
         stage.show();
 
         root.setOnMousePressed(evt -> {

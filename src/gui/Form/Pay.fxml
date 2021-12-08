@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-color: #272727;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PayController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-color: #272727;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PayController">
    <children>
       <Pane fx:id="pnl_finis" layoutX="300.0" layoutY="250.0" prefHeight="344.0" prefWidth="715.0" style="-fx-background-color: #fff; -fx-background-radius: 20px;">
          <children>
@@ -39,47 +39,18 @@
       </Pane>
       <Pane id="AnchorPane" fx:id="pnl_main" prefHeight="830.0" prefWidth="1300.0" style="-fx-background-color: #272727; -fx-border-radius: 10;" stylesheets="@../../css/main.css">
          <children>
-            <Label fx:id="lbl_Code" contentDisplay="CENTER" layoutX="600.0" layoutY="542.0" prefHeight="50.0" prefWidth="525.0" styleClass="lbl_Code_reCapcha" text="Label" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
-               <font>
-                  <Font name="Herculanum" size="18.0" />
-               </font>
-            </Label>
-            <HBox layoutX="600.0" layoutY="610.0" prefHeight="56.0" prefWidth="536.0">
-               <children>
-                  <TextField id="tex" fx:id="txt_code" prefHeight="50.0" prefWidth="341.0" promptText="Type the text" styleClass="text_input4" stylesheets="@../../css/main.css" />
-                  <Label prefHeight="56.0" prefWidth="51.0" />
-                  <Button fx:id="btn_reach" mnemonicParsing="false" prefHeight="43.0" prefWidth="58.0" styleClass="button_type1">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/icons8-speaker.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Label layoutX="181.0" layoutY="10.0" prefHeight="56.0" prefWidth="16.0" />
-                  <Button fx:id="btn_reset" mnemonicParsing="false" prefHeight="41.0" prefWidth="57.0" styleClass="button_type1">
-                     <graphic>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/icons8-recurring_appointment.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
-            <TextField id="tex" fx:id="txt_CodeSale" layoutX="600.0" layoutY="472.0" prefHeight="50.0" prefWidth="538.0" promptText="Code voucher" styleClass="text_input4" />
-            <Button fx:id="btn_paypay" layoutX="600.0" layoutY="720.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="566.0" style="-fx-background-radius: 20;" text="Pay with Paypay">
+            <Button fx:id="btn_paypay" layoutX="585.0" layoutY="723.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="569.0" style="-fx-background-radius: 20;" text="Pay with Paypay">
                <font>
                   <Font size="18.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="43.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/icons/icons8-paypal_2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Label fx:id="lbl_Message" layoutX="600.0" layoutY="692.0" prefHeight="18.0" prefWidth="525.0" textFill="#fc0000">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
             <Pane fx:id="pnl_Code" layoutX="180.0" layoutY="462.0" prefHeight="314.0" prefWidth="293.0" style="-fx-background-color: black;">
                <children>
                   <Label fx:id="lbl_message_pnlCode" layoutX="113.0" layoutY="283.0" text="Scane QR code" textFill="WHITE" />
@@ -124,11 +95,6 @@
                   </Pane>
                </content>
             </ScrollPane>
-            <JFXCheckBox fx:id="cbo_agree" checkedColor="#2467ed" focusTraversable="false" layoutX="600.0" layoutY="666.0" prefHeight="27.0" prefWidth="305.0" text="I agree with the payment  #GameStore" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXCheckBox>
             <JFXButton fx:id="btn_Back" focusTraversable="false" layoutX="10.0" layoutY="415.0" prefHeight="40.0" styleClass="button_type5">
                <font>
                   <Font size="16.0" />
@@ -142,6 +108,56 @@
                </graphic>
             </JFXButton>
             <Separator layoutX="530.0" layoutY="450.0" orientation="VERTICAL" prefHeight="350.0" />
+            <VBox layoutX="585.0" layoutY="424.0" prefHeight="287.0" prefWidth="576.0">
+               <children>
+                  <TextField id="tex" fx:id="txt_CodeSale" prefHeight="50.0" prefWidth="538.0" promptText="Code voucher" styleClass="text_input4" />
+                  <Label />
+                  <HBox prefHeight="62.0" prefWidth="576.0">
+                     <children>
+                        <Label prefHeight="62.0" prefWidth="164.0" />
+                        <ImageView fx:id="img_jcaptCha" fitHeight="60.0" fitWidth="409.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
+                  <Label layoutX="10.0" layoutY="60.0" />
+                  <HBox prefHeight="56.0" prefWidth="536.0">
+                     <children>
+                        <TextField id="tex" fx:id="txt_code" prefHeight="50.0" prefWidth="381.0" promptText="Type the text" styleClass="text_input4" stylesheets="@../../css/main.css" />
+                        <Label prefHeight="53.0" prefWidth="79.0" />
+                        <Button fx:id="btn_reach" mnemonicParsing="false" prefHeight="43.0" prefWidth="58.0" styleClass="button_type1">
+                           <graphic>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/icons8-speaker.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Label layoutX="181.0" layoutY="10.0" prefHeight="56.0" prefWidth="16.0" />
+                        <Button fx:id="btn_reset" mnemonicParsing="false" prefHeight="41.0" prefWidth="57.0" styleClass="button_type1">
+                           <graphic>
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/icons8-recurring_appointment.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Label layoutX="10.0" layoutY="60.0" />
+                  <JFXCheckBox fx:id="cbo_agree" checkedColor="#2467ed" focusTraversable="false" prefHeight="27.0" prefWidth="305.0" text="I agree with the payment  #GameStore" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXCheckBox>
+                  <Label layoutX="10.0" layoutY="60.0" />
+                  <Label fx:id="lbl_Message" prefHeight="18.0" prefWidth="587.0" textFill="#fc0000">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </Pane>
    </children>

@@ -23,14 +23,12 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,13 +37,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -56,16 +54,15 @@ import model.Application;
 import model.Order;
 import model.OrderDetail;
 import model.Wishlist;
+import nl.captcha.Captcha;
+import nl.captcha.backgrounds.GradiatedBackgroundProducer;
 import until.Auth;
 import until.Dialog;
 import until.MailSender;
 import until.MailTemplate;
 import until.ProcessDate;
-import until.Validation;
 import until.Value;
 import static until.Value.FORM_LIBRARY;
-import static until.Value.FORM_PRODUCT_LIST;
-import until.Variable;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -75,8 +72,6 @@ import static until.Variable.PNL_VIEW;
  */
 public class PayController implements Initializable {
 
-    @FXML
-    private Label lbl_Code;
     @FXML
     private TextField txt_code;
     @FXML
@@ -123,40 +118,39 @@ public class PayController implements Initializable {
     private Hyperlink hpl_orderlink;
     @FXML
     private Pane pnl_main;
+    @FXML
+    private ImageView img_jcaptCha;
 
     /**
      * Initializes the controller class.
      */
-    String capcha;
+    String answerCaptcha;
     double total = 0;
     double minus = 0;
     int quantity = 0;
     int count = 0;
     List<Application> apps = new ArrayList<>();
-    Application app ;
+    Application app;
     Account user = Auth.USER;
     ApplicationDAO dao = new ApplicationDAO();
-    WishlistController controllerW=null;
-    DisplayProductController controllerD=null;
+    WishlistController controllerW = null;
+    DisplayProductController controllerD = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        capcha = captchaValue();
-        lbl_Code.setText(capcha);
+        encodeCaptcha();
         setEvent();
-        lbl_Code.setAlignment(Pos.CENTER);
-        lbl_Code.setStyle("-fx-background-color: #616161");
     }
 
     public void setInformation(Application entity, DisplayProductController controller) {
-        controllerD=controller;
+        controllerD = controller;
         apps.add(entity);
-        app=entity;
+        app = entity;
         loadList();
     }
 
     public void setInformations(WishlistController controller) {
-        controllerW=controller;
+        controllerW = controller;
         List<Wishlist> wishlists = new WishlistDAO().selectByAccountID(user.getAccountId());
         for (Wishlist wishlist : wishlists) {
             apps.add(dao.selectByID(wishlist.getApplicationId()));
@@ -167,9 +161,9 @@ public class PayController implements Initializable {
     private void setEvent() {
         btn_continueShopping.setOnAction(event -> {
             PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
-            if(controllerD!=null){
+            if (controllerD != null) {
                 controllerD.setInformation(app);
-            }else{
+            } else {
                 controllerW.loadWishList();
             }
         });
@@ -188,43 +182,31 @@ public class PayController implements Initializable {
             PNL_VIEW.getChildren().remove(PNL_VIEW.getChildren().size() - 1);
         });
 
-        btn_reset.setOnAction(event -> {
-            capcha = captchaValue();
-            lbl_Code.setText(capcha);
+        btn_reset.setOnMouseClicked(event -> {
+            encodeCaptcha();
         });
 
-        btn_reach.setOnAction(event -> {
-
-            new Thread(new Runnable() {
-                public void run() {
-                    try {
-                        VoiceManager freeVM;
-                        Voice voice;
-                        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
-                        voice = VoiceManager.getInstance().getVoice("kevin");
-                        if (voice != null) {
-                            voice.allocate();
-                            try {
-
-                                voice.setRate(80);
-                                voice.setPitch(125);
-                                voice.setVolume(3);
-                                for (char c : capcha.toString().toCharArray()) {
-                                    voice.speak(c + "");
-                                    Thread.sleep(400);
-                                }
-
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-
-                        } else {
-                            throw new IllegalStateException("Cannot find voice: kevin16");
+        btn_reach.setOnMouseClicked(event -> {
+            new Thread(() -> {
+                try {
+                    VoiceManager freeVM;
+                    Voice voice;
+                    System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+                    voice = VoiceManager.getInstance().getVoice("kevin");
+                    if (voice != null) {
+                        voice.allocate();
+                        voice.setRate(80);
+                        voice.setPitch(100);
+                        voice.setVolume(3);
+                        for (char c : answerCaptcha.toString().toCharArray()) {
+                            voice.speak(c + "");
+                            Thread.sleep(400);
                         }
-                    } catch (IllegalStateException ex) {
-                        ex.printStackTrace();
                     }
-
+                } catch (IllegalStateException ex) {
+                    ex.printStackTrace();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(PayController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }).start();
         });
@@ -239,7 +221,7 @@ public class PayController implements Initializable {
                 lbl_Message.setText("Code reCapcha can't empty!");
             } else if (!cbo_agree.isSelected()) {
                 lbl_Message.setText("You not agree with the payment!");
-            } else if (code.equalsIgnoreCase(capcha)) {
+            } else if (code.equalsIgnoreCase(answerCaptcha)) {
                 insertOrder(apps);
                 new SlideOutLeft(pnl_main).playOnFinished(new SlideInUp(pnl_finis)).play();
                 openWebpage("https://www.paypal.com");
@@ -247,13 +229,10 @@ public class PayController implements Initializable {
                 Clear();
             } else {
                 lbl_Message.setText("Code reCapcha incorrect!");
-                System.out.println("Ok " + capcha);
             }
         });
 
     }
-
-    boolean flag = false;
 
     public void loadList() {
         total = 0;
@@ -329,32 +308,24 @@ public class PayController implements Initializable {
 
     }
 
-    private String captchaValue() {
-        Random random = new Random();
-        int length = 6;
-        StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < length; i++) {
-            int baseCharacterNumber = Math.abs(random.nextInt()) % 62;
-            int Characternumber = 0;
-            if (baseCharacterNumber < 26) {
-                Characternumber = 65 + baseCharacterNumber;
-            } else if (baseCharacterNumber < 52) {
-                Characternumber = 97 + (baseCharacterNumber - 26);
-            } else {
-                Characternumber = 48 + (baseCharacterNumber - 52);
-            }
-            buffer.append((char) Characternumber);
-
-        }
-        return buffer.toString();
+    public void encodeCaptcha() {
+        Captcha captcha = new Captcha.Builder(250, 60)
+                .addText()
+                .addBackground(new GradiatedBackgroundProducer())
+                .addNoise()
+                .gimp()
+                .addBorder()
+                .build();
+        BufferedImage bufferedImage = captcha.getImage();
+        Image images = SwingFXUtils.toFXImage(bufferedImage, null);
+        img_jcaptCha.setImage(images);
+        answerCaptcha = captcha.getAnswer();
     }
 
     private void openWebpage(String url) {
         try {
             Desktop.getDesktop().browse(new URL(url).toURI());
-        } catch (URISyntaxException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
+        } catch (URISyntaxException | IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -381,20 +352,12 @@ public class PayController implements Initializable {
             new WishlistDAO().delete(user.getAccountId(), app.getApplicationID());
         }
         new MailSender().startProgress(Auth.USER, MailTemplate.getOrderTitleEmail(lastOrder), MailTemplate.getOrderEmail(lastOrder));
-
-//        try {
-//            DisplayProductController controller = new DisplayProductController();
-//            controller.loadStatusAll(app);
-//        } catch (Exception e) {
-//            Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, e);
-//        }
     }
 
     private void Clear() {
         txt_CodeSale.setText("");
         txt_code.setText("");
-        capcha = captchaValue();
-        lbl_Code.setText(capcha);
+        encodeCaptcha();
     }
 
 //    private void clock() {

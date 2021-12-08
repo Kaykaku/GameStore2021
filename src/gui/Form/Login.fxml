@@ -25,7 +25,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="700.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<Pane prefHeight="700.0" prefWidth="1243.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
    <children>
       <ImageView fx:id="img_bg1" fitHeight="700.0" fitWidth="1247.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -113,7 +113,7 @@
                   <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
                </children>
             </Pane>
-            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="166.0" layoutY="425.0" onAction="#LoginAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
+            <JFXButton fx:id="btn_Login" focusTraversable="false" layoutX="166.0" layoutY="425.0" onAction="#LOGINACTION" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Sign in">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -223,7 +223,7 @@
                   <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
                </children>
             </Pane>
-            <JFXButton fx:id="btn_ChangePass" focusTraversable="false" layoutX="161.0" layoutY="550.0" onAction="#ChangePasswordAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Change Password">
+            <JFXButton fx:id="btn_ChangePass" focusTraversable="false" layoutX="161.0" layoutY="550.0" onAction="#CHANGEPASSWORDACTION" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Change Password">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -314,7 +314,7 @@
                   <Circle fill="#ffffff00" layoutX="65.0" layoutY="65.0" radius="65.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="3.0" />
                </children>
             </Pane>
-            <JFXButton fx:id="btn_Register" focusTraversable="false" layoutX="164.0" layoutY="571.0" onAction="#RegisterAction" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Register">
+            <JFXButton fx:id="btn_Register" focusTraversable="false" layoutX="164.0" layoutY="571.0" onAction="#REGISTERACTION" prefHeight="55.0" prefWidth="300.0" styleClass="button_type10" text="Register">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
