@@ -203,7 +203,8 @@ public class User_InformationController implements Initializable {
                 Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_CREATEQRCODE));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.initStyle(StageStyle.UNDECORATED);
+                scene.setFill(Color.TRANSPARENT);
+                stage.initStyle(StageStyle.TRANSPARENT);
                 stage.showAndWait();
             } catch (IOException ex) {
                 Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -216,7 +217,8 @@ public class User_InformationController implements Initializable {
                 Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_TAKEPICTURE));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.initStyle(StageStyle.UNDECORATED);
+                scene.setFill(Color.TRANSPARENT);
+                stage.initStyle(StageStyle.TRANSPARENT);
                 stage.showAndWait();
             } catch (IOException ex) {
                 ex.printStackTrace();

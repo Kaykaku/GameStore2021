@@ -24,9 +24,6 @@ public class CommentDAO extends DAO<Comment, Integer > {
     String SELECT_BY_ID_APPID ="SELECT * FROM Comments where ApplicationViewId in (select ApplicationViewId from ApplicationViews where ApplicationId =?)";
     String SELECT_BY_NAME ="select * from Account where Name Like?";
     
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
 
     @Override
     public void insert(Comment entity) {

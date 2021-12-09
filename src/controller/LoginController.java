@@ -48,16 +48,10 @@ import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import until.Dialog;
 import until.ProcessDate;
 import until.Value;
@@ -176,6 +170,8 @@ public class LoginController implements Initializable {
         }
 
         setEvent();
+        
+        
     }
 
     private void setEvent() {
@@ -255,22 +251,11 @@ public class LoginController implements Initializable {
                 Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_SCANQRCODE));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.initStyle(StageStyle.UNDECORATED);
+                scene.setFill(Color.TRANSPARENT);
+                stage.initStyle(StageStyle.TRANSPARENT);
                 stage.showAndWait();
                 if (Auth.USER != null) {
-                    try {
-                        ((Node) (event.getSource())).getScene().getWindow().hide();
-                        Parent parent = FXMLLoader.load(getClass().getResource("/gui/Main/GameStore.fxml"));
-                        Stage stagez = new Stage();
-                        stagez.initStyle(StageStyle.UNDECORATED);
-                        stagez.setScene(new Scene(parent));
-                        stagez.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
-                        stagez.show();
-
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginController.class
-                                .getName()).log(Level.SEVERE, null, ex);
-                    }
+                    autoLogin();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -458,21 +443,8 @@ public class LoginController implements Initializable {
 
                         System.out.println("Login success!");
                         Auth.USER = account;
-                        try {
-                            ((Node) (event.getSource())).getScene().getWindow().hide();
-                            Parent root = FXMLLoader.load(getClass().getResource(Value.MAIN));
-                            Stage stage = new Stage();
-                            Scene scene = new Scene(root);
-                            scene.setFill(Color.TRANSPARENT);
-                            stage.initStyle(StageStyle.TRANSPARENT);
-                            stage.setScene(scene);
-                            stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
-                            stage.show();
 
-                        } catch (IOException ex) {
-                            Logger.getLogger(LoginController.class
-                                    .getName()).log(Level.SEVERE, null, ex);
-                        }
+                        autoLogin();
                     } else {
                         preferences.put("username", "");
                         preferences.put("password", "");
@@ -485,6 +457,41 @@ public class LoginController implements Initializable {
             }
         }
 
+    }
+
+    void autoLogin() {
+              
+        txt_Username_Login.getScene().getWindow().hide();
+        try {           
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_WAITING));
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
+            stage.show();
+            System.gc();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+//                                    try {
+//                                        ((Node) (event.getSource())).getScene().getWindow().hide();
+//                                        Parent rootz = FXMLLoader.load(getClass().getResource(Value.DIALOG_WAITING));
+//                                        Stage stagez = new Stage();
+//                                        Scene scenez = new Scene(rootz);
+//                                        scenez.setFill(Color.TRANSPARENT);
+//                                        stagez.initStyle(StageStyle.TRANSPARENT);
+//                                        stagez.initModality(Modality.APPLICATION_MODAL);
+//                                        stagez.setScene(scenez);
+//                                        stagez.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
+//                                        stagez.show();
+//
+//                                    } catch (IOException ex) {
+//                                        Logger.getLogger(LoginController.class
+//                                                .getName()).log(Level.SEVERE, null, ex);
+//                                    }
     }
 
     @FXML
@@ -588,7 +595,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void REGISTERACTION(ActionEvent event) {
-        
+
         String username = txt_Username_Register.getText();
         String email = txt_Email_Register.getText();
         String password = txt_Password_Register.getText();

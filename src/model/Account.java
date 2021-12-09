@@ -30,7 +30,7 @@ public class Account {
     private String QRcode;
     private JFXCheckBox checkbox =new JFXCheckBox();
     public Account() {
-        //checkbox.setSelected(false);
+        checkbox.setDisable(true);
     }
     
     public int getAccountId() {

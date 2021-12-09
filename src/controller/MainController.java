@@ -160,7 +160,6 @@ public class MainController implements Initializable {
         controller[0].setStyle("-fx-background-color: #454545;");
         controller[0].setItemInfo("", ListItems.get(0)[1].toString() + "selected.png");
         drawPanelView(ListView.get(0), true);
-
     }
 
     void setEvent() {
@@ -374,6 +373,8 @@ public class MainController implements Initializable {
         } catch (IOException ex) {
             //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println(Runtime.getRuntime().totalMemory());
+        System.gc();
     }
 
     void showManageAccount() {

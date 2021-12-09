@@ -210,7 +210,7 @@ public class Mail_SendingController implements Initializable {
                     acc.getCheckbox().setSelected(cbo_All_In_Table.isSelected());
                 });
             });
-            total = cbo_All_In.isSelected() ? listAccounts.size() : 0;
+            total = cbo_All_In_Table.isSelected() ? listAccounts.size() : 0;
             lbl_Reciever.setText("Selected " + total + " accounts");
             cbo_All_In.setSelected(false);
         });

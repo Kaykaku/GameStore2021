@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -113,14 +114,17 @@ public class Product_Box_ShortController implements Initializable {
     }
 
     void setInfo(Application entity) {
+//        Task<Void> task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
         Platform.runLater(() -> {
             application = entity;
-            double number ;
+            double number;
             lbl_AppName.setText(ProcessString.cutString(entity.getName(), 30));
             List<AppType> listAppTypes = new AppTypeDAO().selectByApplicationId(entity.getApplicationID());
             lbl_Categories.setText(listAppTypes.size() > 1 ? categoryDAO.selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
             lbl_CategoriesCount.setText(listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : "");
-            number =(double) Math.round(entity.getPrice()*100)/100;
+            number = (double) Math.round(entity.getPrice() * 100) / 100;
             lbl_Price.setText(number == 0 ? "Free" : number + "$");
             if (entity.getAppIcon() != null) {
                 img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "icon.png").toURI().toString()));
@@ -128,7 +132,13 @@ public class Product_Box_ShortController implements Initializable {
             }
             calculateAverageRating();
         });
-        
+//                return null;
+//            }
+//        };
+//        Thread t = new Thread(task);
+//        t.setDaemon(true);
+//        t.start();
+
     }
 
     void setCategory(int cate) {

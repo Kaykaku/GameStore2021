@@ -55,6 +55,7 @@ public class Dialog_ScanQRcodeController implements Initializable {
 
     private Webcam webcam;
     List<Account> list;
+    boolean stopCamera = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,7 +87,7 @@ public class Dialog_ScanQRcodeController implements Initializable {
     }
 
     private void startWebCamStream() {
-        boolean stopCamera = false;
+        
 
         Task<Void> task = new Task<Void>() {
 
@@ -140,8 +141,10 @@ public class Dialog_ScanQRcodeController implements Initializable {
                 lbl_Message.setText("This is not login QR code");
             } else {
                 webcam.close();
+                stopCamera=true;
                 Stage stage = (Stage) btn_Exit.getScene().getWindow();
                 stage.close();
+                
             }
         });
     }
