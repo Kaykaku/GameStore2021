@@ -60,6 +60,7 @@ import until.ProcessImage;
 import until.Validation;
 import until.Value;
 import static until.Value.PAY;
+import until.Variable;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -351,6 +352,17 @@ public class DisplayProductController implements Initializable {
                 //ex.printStackTrace();
             }
         });
+        lbl_SeeMore.setOnMouseClicked((event) -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(Value.FORM_PRODUCT_LIST));
+                Node node = (Node) loader.load();
+                ProductListController controller=loader.getController();
+                controller.setFilter(1, 1);
+                Variable.PNL_VIEW.getChildren().add(node);
+            } catch (IOException ex) {
+                //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
     void calculateAverageRating() {
@@ -456,6 +468,7 @@ public class DisplayProductController implements Initializable {
                 calculateAverageRating();
             });
         }
+        
     }
 
     void loadStar(int rate) {
