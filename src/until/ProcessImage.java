@@ -7,11 +7,13 @@ package until;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -27,16 +29,16 @@ import javax.imageio.ImageIO;
  */
 public class ProcessImage {
 
-    public static File toFile(byte[] data, String namePhoto) {
-        try {
-            File file = new File("photo/" + namePhoto);
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(data);
-            return file;
-        } catch (IOException e) {
-        }
-        return null;
-    }
+//    public static File toFile(byte[] data, String namePhoto) {
+//        try {
+//            File file = new File("/icons/" + namePhoto);
+//            FileOutputStream fos = new FileOutputStream(file);
+//            fos.write(data);
+//            return file;
+//        } catch (IOException e) {
+//        }
+//        return null;
+//    }
 
     public static String getExtensionImg(String ImgName) {
         return ImgName.substring(ImgName.lastIndexOf("."), ImgName.length());
@@ -46,6 +48,19 @@ public class ProcessImage {
         try {
             byte[] bytes = Files.readAllBytes(file.toPath());
             return bytes;
+        } catch (IOException ex) {
+
+        }
+        return null;
+    }
+
+    public static byte[] toBytes(Image image) {
+        try {
+            BufferedImage bf = SwingFXUtils.fromFXImage(image, null);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ImageIO.write(bf, "jpg", bos);
+            byte[] data = bos.toByteArray();
+            return data;
         } catch (IOException ex) {
 
         }
@@ -81,7 +96,7 @@ public class ProcessImage {
         return null;
     }
 
-    public BufferedImage toImage(byte[] bytes) {
+    public static BufferedImage toImage(byte[] bytes) {
         try {
             InputStream is = new ByteArrayInputStream(bytes);
             BufferedImage bi = ImageIO.read(is);
@@ -91,16 +106,28 @@ public class ProcessImage {
         }
         return null;
     }
-
-    public static File toFile(Image img) {
-        BufferedImage bi = SwingFXUtils.fromFXImage(img, null);
-        File f = new File("photo/avt.png");
-        try {
-
-            ImageIO.write(bi, "png", f);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return f;
+    public static Image toImageFX(byte[] bytes) {
+        Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(bytes), null);
+        return image;
     }
+    public Image toImageFX(String soure) {
+        try {
+            Image image = new Image(getClass().getResource(soure).toURI().toString());
+            return image;
+        } catch (URISyntaxException ex) {
+            //Logger.getLogger(ProcessImage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+//    public static File toFile(Image img) {
+//        BufferedImage bi = SwingFXUtils.fromFXImage(img, null);
+//        File f = new File("avt.png");
+//        try {
+//
+//            ImageIO.write(bi, "png", f);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return f;
+//    }
 }

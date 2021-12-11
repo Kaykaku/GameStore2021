@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -43,7 +44,7 @@ public class Validation {
     public static String validationName(TextField textField) {
         String err = "";
         if (textField.getText().trim().isEmpty()) {
-            err = "Username not isEmpty!\n";
+            err = "Username not is empty!\n";
             changeColor(textField);
         }
         return err;
@@ -294,7 +295,7 @@ public class Validation {
         return err;
     }
 
-    public static String validationImage(ImageView imageView, File image, Circle circle, String name) {
+    public static String validationImage(ImageView imageView, Image image, Circle circle, String name) {
         String err = "";
         if (image == null) {
             err += name + " must be chose!\n";
@@ -305,7 +306,7 @@ public class Validation {
         return err;
     }
 
-    public static String validationImage(ImageView imageView, File image, String name) {
+    public static String validationImage(ImageView imageView, Image image, String name) {
         String err = "";
         if (image == null) {
             err += name + " must be chose!\n";

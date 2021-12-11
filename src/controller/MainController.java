@@ -8,14 +8,14 @@ package controller;
 import Animation.RoundedImageView;
 import animatefx.animation.*;
 import com.jfoenix.controls.JFXButton;
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -132,11 +132,6 @@ public class MainController implements Initializable {
     ArrayList<Object[]> ListItems;
     MenuItemController[] controller;
     private boolean isUser = false;
-    public static ImageView static_User_Icon_Small;
-    public static ImageView static_Icon_Medium;
-    public static Label static_UserName;
-    public static Label static_UserName_Hide;
-    public static Label static_Email_Hide;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -210,8 +205,6 @@ public class MainController implements Initializable {
             Variable.IS_SENDING=false;
             Dialog.showMessageDialog("", "You have canceled the email sending progress!");
         });
-        setStatic();
-        static_ProgressBar = pnl_ProgressBar;
     }
 
     void signOut(MouseEvent evt) {
@@ -221,12 +214,13 @@ public class MainController implements Initializable {
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
-            stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
+            stage.getIcons().add(new Image(getClass().getResource(Value.ICON_APP).toURI().toString()));
             stage.show();
 
         } catch (IOException ex) {
-            Logger.getLogger(LoginController.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+            //Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         Auth.USER = null;
@@ -271,18 +265,12 @@ public class MainController implements Initializable {
         }
     }
 
-    void setStatic() {
-        static_User_Icon_Small = img_User_Icon_Small;
-        static_Icon_Medium = img_User_Icon_Medium;
-        static_UserName = lbl_UserName;
-        static_UserName_Hide = lbl_UserName_Hide;
-        static_Email_Hide = lbl_Email_Hide;
-    }
 
-    void loadUserInfo() {
+    public void loadUserInfo() {
         if (Auth.USER.getImage() != null) {
-            img_User_Icon_Small.setImage(new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
-            img_User_Icon_Medium.setImage(new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(Auth.USER.getImage()), null);
+            img_User_Icon_Small.setImage(image);
+            img_User_Icon_Medium.setImage(image);
             RoundedImageView.RoundedImage(img_User_Icon_Small, 35);
             RoundedImageView.RoundedImage(img_User_Icon_Medium, img_User_Icon_Medium.getFitWidth());
         }

@@ -20,8 +20,8 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashSet;
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -284,12 +285,14 @@ public class DisplayProductController implements Initializable {
         btn_Buy.setText("Get " + number + "$");
 
         if (app.getAppIcon() != null) {
-            img_AppIcon.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(app.getAppIcon()), null);
+            img_AppIcon.setImage(image);
         }
 
         if (app.getAppImage() != null) {
-            img_AppImage.setImage(new Image(ProcessImage.toFile(app.getAppImage(), "appImage.png").toURI().toString()));
-            img_Bg.setImage(new Image(ProcessImage.toFile(app.getAppImage(), "appImage.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(app.getAppImage()), null);
+            img_AppImage.setImage(image);
+            img_Bg.setImage(image);
         }
         RoundedImageView.RoundedImage(img_AppIcon, 32);
         RoundedImageView.RoundedImage(img_AppImage, 32);
@@ -345,7 +348,7 @@ public class DisplayProductController implements Initializable {
                 controller.setInformation(app,this);
                 PNL_VIEW.getChildren().add(node);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                //ex.printStackTrace();
             }
         });
     }
@@ -456,24 +459,28 @@ public class DisplayProductController implements Initializable {
     }
 
     void loadStar(int rate) {
-        Image starFill = new Image(new File(Value.STAR_FILL).toURI().toString());
-        Image starNot = new Image(new File(Value.STAR_REGULAR).toURI().toString());
-        img_1Star.setImage(starNot);
-        img_2Star.setImage(starNot);
-        img_3Star.setImage(starNot);
-        img_4Star.setImage(starNot);
-        img_5Star.setImage(starNot);
-        switch (rate) {
-            case 5:
-                img_5Star.setImage(starFill);
-            case 4:
-                img_4Star.setImage(starFill);
-            case 3:
-                img_3Star.setImage(starFill);
-            case 2:
-                img_2Star.setImage(starFill);
-            case 1:
-                img_1Star.setImage(starFill);
+        try {
+            Image starFill = new Image(getClass().getResource(Value.STAR_FILL).toURI().toString());
+            Image starNot = new Image(getClass().getResource(Value.STAR_REGULAR).toURI().toString());
+            img_1Star.setImage(starNot);
+            img_2Star.setImage(starNot);
+            img_3Star.setImage(starNot);
+            img_4Star.setImage(starNot);
+            img_5Star.setImage(starNot);
+            switch (rate) {
+                case 5:
+                    img_5Star.setImage(starFill);
+                case 4:
+                    img_4Star.setImage(starFill);
+                case 3:
+                    img_3Star.setImage(starFill);
+                case 2:
+                    img_2Star.setImage(starFill);
+                case 1:
+                    img_1Star.setImage(starFill);
+            }
+        } catch (URISyntaxException ex) {
+            //Logger.getLogger(DisplayProductController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

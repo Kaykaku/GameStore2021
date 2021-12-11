@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -170,8 +171,7 @@ public class LoginController implements Initializable {
         }
 
         setEvent();
-        
-        
+
     }
 
     private void setEvent() {
@@ -440,15 +440,13 @@ public class LoginController implements Initializable {
                     if (cbo_Remember.isSelected()) {
                         preferences.put("username", usename);
                         preferences.put("password", password);
-
-                        System.out.println("Login success!");
-                        Auth.USER = account;
-
-                        autoLogin();
+                                    
                     } else {
                         preferences.put("username", "");
                         preferences.put("password", "");
                     }
+                    Auth.USER = account;          
+                    autoLogin();
                 } else {
                     Validation.Messages(lbl_Message_Login, "You account is blocked!");
                     Validation.Incorrect(txt_Password_Login);
@@ -460,19 +458,20 @@ public class LoginController implements Initializable {
     }
 
     void autoLogin() {
-              
+
         txt_Username_Login.getScene().getWindow().hide();
-        try {           
+        try {
             Stage stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_WAITING));
             Scene scene = new Scene(root);
             scene.setFill(Color.TRANSPARENT);
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
-            stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
+            stage.getIcons().add(new Image(getClass().getResource(Value.ICON_APP).toURI().toString()));
             stage.show();
-            System.gc();
         } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -503,7 +502,6 @@ public class LoginController implements Initializable {
             Validation.Messages(lbl_Message_ChangePass, "Cannot find username!");
         } else {
             String send = account.getEmail();
-            System.out.println(send);
             if (send != null) {
                 processMail.SENDMAIL_OTP(send, "GameStore verification code", otp, account.getUsername());
 
@@ -524,7 +522,6 @@ public class LoginController implements Initializable {
                 check = true;
                 clock();
                 txt_Username_ChangePass.setDisable(check);
-                System.out.println("Done");
 
             }
         }
@@ -653,7 +650,6 @@ public class LoginController implements Initializable {
                             account.setBirthDay(ProcessDate.toDate("01/01/2000"));
                             dao.insert_Register(account);
 
-                            System.out.println("Register success!");
                             SetEmpty();
                             Dialog.showMessageDialog("Information", "Register success!");
                             processMail.SENDMAIL_WELCOME(account.getEmail(), "Welcome you to GameStore");

@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -435,7 +436,8 @@ public class HomeController implements Initializable {
         }
         if (step != 9) {
             controllers[step - 1].setHover(true);
-            img_Header.setImage(new Image(ProcessImage.toFile(listApps.get(step - 1).getAppImage(), "headerImage.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(listApps.get(step - 1).getAppImage()), null);
+            img_Header.setImage(image);
             lbl_Title_Header.setText(listApps.get(step - 1).getName());
             new FadeInLeft(lbl_Title_Header).play();
             new FadeInUp(btn_SeeDetails).play();

@@ -19,6 +19,7 @@ import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -315,11 +316,15 @@ public class Management_CategoryController implements Initializable {
         lbl_AppID.setText(entity.getApplicationID() + "");
         lbl_AppName.setText(entity.getName());
         if (entity.getAppIcon() != null) {
-            img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+            img_AppIcon.setImage(ProcessImage.toImageFX(entity.getAppIcon()));
             RoundedImageView.RoundedImage(img_AppIcon, 32);
         } else {
-            img_AppIcon.setImage(new Image(new File("src/icons/icons8_picture_200px_1.png").toURI().toString()));
-            RoundedImageView.RoundedImage(img_AppIcon, 32);
+            try {
+                img_AppIcon.setImage(new Image(getClass().getResource("/icons/icons8_picture_200px_1.png").toURI().toString()));
+                RoundedImageView.RoundedImage(img_AppIcon, 32);
+            } catch (URISyntaxException ex) {
+                //Logger.getLogger(Management_CategoryController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         List<AppType> list = appTypeDAO.selectByApplicationId(entity.getApplicationID());

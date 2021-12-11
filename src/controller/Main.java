@@ -5,7 +5,7 @@
  */
 package controller;
 
-import java.io.File;
+import DAO.AccountDAO;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import until.Auth;
 import until.Value;
 
 /**
@@ -27,21 +28,22 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        Auth.USER = new AccountDAO().selectByID(1);
+
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 while (true) {                    
                     Thread.sleep(5000);
                     System.gc();
-                    System.out.println(Runtime.getRuntime().totalMemory());
-                    System.out.println(Thread.activeCount());
+//                    System.out.println(Runtime.getRuntime().totalMemory());
+//                    System.out.println(Thread.activeCount());
                 }
             }
         };
         Thread t = new Thread(task);
         t.setDaemon(true);
         t.start();
+//                Auth.USER = new AccountDAO().selectByID(1);
 //        Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_MESSAGE));
 //         Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_WAITING));
         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
@@ -52,7 +54,8 @@ public class Main extends Application {
         stage.initStyle(StageStyle.TRANSPARENT);
         
         stage.setScene(scene);
-        stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
+        stage.getIcons().clear();
+        stage.getIcons().add(new Image(getClass().getResource(Value.ICON_APP).toURI().toString()));
         stage.show();
 
         root.setOnMousePressed(evt -> {

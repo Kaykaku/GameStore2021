@@ -16,6 +16,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -232,7 +233,7 @@ public class Management_AccountController implements Initializable {
 
     boolean isEdit = false;
     int index = -1, role = -1;
-    File avatarFile = null;
+    Image avatar = null;
 
     /**
      * Initializes the controller class.
@@ -381,6 +382,7 @@ public class Management_AccountController implements Initializable {
     Account getModel() {
         String err = "";
         err += Validation.validationName(txt_UserName);
+        err += Validation.validationPassword(txt_NewPassword);
         err += Validation.validationConfirmPassword(txt_NewPassword, txt_ConfirmPassword);
         err += Validation.validationNew_ConfirmPassword(txt_NewPassword, txt_ConfirmPassword);
         if (err.isEmpty()) {
@@ -394,7 +396,7 @@ public class Management_AccountController implements Initializable {
 
     }
 
-    void Clear() {
+    void clear() {
         txt_NewPassword.setText("");
         txt_ConfirmPassword.setText("");
     }
@@ -404,25 +406,40 @@ public class Management_AccountController implements Initializable {
         if (acc == null) {
             return;
         }
+        if (Auth.USER.getRole() >= accountDAO.selectByUser(acc.getUsername()).getRole()) {
+            ProcessString.showMessage(lbl_Message, "You do not have the authority !");
+            Dialog.showMessageDialog("Error authority account", "You do not have the authority to change the data of this account!");
+            return;
+        }
         accountDAO.updatePass2(acc);
         if (txt_UserName.getText().equals(Auth.USER.getUsername())) {
             Auth.USER.setPassword(txt_NewPassword.getText());
         }
-        this.Clear();
+        this.clear();
         Dialog.showMessageDialog("Done", "Updated Password!");
     }
 
     void setAvatar() {
-        if (avatarFile != null) {
-            img_Avatar.setImage(new Image(avatarFile.toURI().toString()));
+        if (avatar != null) {
+            img_Avatar.setImage(avatar);
         } else {
-            img_Avatar.setImage(new Image(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png").toURI().toString()));
+            try {
+                String path = getClass().getResource(rdo_Female.isSelected() ? Value.FEMALE : Value.MALE).toURI().toString();
+                img_Avatar.setImage(new Image(path));
+            } catch (URISyntaxException ex) {
+                //Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         RoundedImageView.RoundedImage(img_Avatar, 200);
     }
 
     void setForm(Account entity) {
         role = entity.getRole();
+        if(isEdit){
+            role = entity.getRole();
+        }else{
+            role=2;
+        }
         lbl_ID.setText(isEdit ? entity.getAccountId() + "" : "Editing");
         txt_Name.setText(isEdit && entity.getName() != null ? entity.getName() : "");
         datePicker_Birthday.setValue(isEdit && entity.getBirthDay() != null ? ProcessDate.toLocalDate(entity.getBirthDay()) : null);
@@ -445,7 +462,7 @@ public class Management_AccountController implements Initializable {
         }
         tog_Comment.setSelected(isEdit ? entity.isComment() : false);
         if (entity.getImage() != null) {
-            avatarFile = ProcessImage.toFile(entity.getImage(), "avatar.png");
+            avatar = ProcessImage.toImageFX(entity.getImage());
         }
         txt_NewPassword.setText("");
         txt_ConfirmPassword.setText("");
@@ -485,9 +502,15 @@ public class Management_AccountController implements Initializable {
             entity.setUsername(txt_UserName.getText().trim());
             entity.setPassword(isEdit ? accountDAO.selectByID(entity.getAccountId()).getPassword() : txt_NewPassword.getText().trim());
             entity.setAddress(txt_Address.getText() != null ? txt_Address.getText().trim() : "");
-            entity.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png")));
-            if (avatarFile != null) {
-                entity.setImage(ProcessImage.toBytes(avatarFile));
+            String path = "";
+            try {
+                path = getClass().getResource(rdo_Female.isSelected() ? Value.FEMALE : Value.MALE).toURI().toString();
+            } catch (URISyntaxException ex) {
+                //Logger.getLogger(Management_AccountController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            entity.setImage(ProcessImage.toBytes(new Image(path)));
+            if (avatar != null) {
+                entity.setImage(ProcessImage.toBytes(avatar));
             }
             return entity;
         }
@@ -509,7 +532,7 @@ public class Management_AccountController implements Initializable {
     void clearForm() {
         index = -1;
         isEdit = false;
-        avatarFile = null;
+        avatar = null;
         setForm(new Account());
         cbx_Active.getSelectionModel().select(0);
         cbx_Role.getSelectionModel().select(0);
@@ -525,9 +548,9 @@ public class Management_AccountController implements Initializable {
         index = tbl_Accounts.getSelectionModel().getSelectedIndex();
         if (index == -1) {
             return;
-        }       
+        }
         isEdit = true;
-        avatarFile = null;
+        avatar = null;
         clearColor();
 
         int id = (int) col_ID.getCellObservableValue(index).getValue();
@@ -645,10 +668,17 @@ public class Management_AccountController implements Initializable {
         rdo_Female.setOnAction(evt -> {
             setAvatar();
         });
+        tog_Role.setOnMouseClicked((event) -> {
+            role = tog_Role.isSelected()?1:2;
+        });
         img_Avatar.setOnMouseClicked((evt) -> {
-            FileChooser fileChooser = new FileChooser();
-            avatarFile = fileChooser.showOpenDialog(((Node) (evt.getSource())).getScene().getWindow());
-            if (avatarFile != null) {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png","*.jpg"));
+            fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fc.setTitle("Select folder");
+            File path = fc.showOpenDialog(Variable.MAIN_STAGE);
+            if (path != null) {
+                avatar = new Image(path.toURI().toString());
                 setAvatar();
             }
         });
@@ -672,10 +702,10 @@ public class Management_AccountController implements Initializable {
         });
         btn_SendMail.setOnMouseClicked((MouseEvent event) -> {
             try {
-                
+
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Value.FORM_MAIL));
                 Parent root1 = (Parent) fxmlLoader.load();
-                
+
                 Stage stage = new Stage();
                 stage.initStyle(StageStyle.TRANSPARENT);
                 Scene scene = new Scene(root1);
@@ -684,7 +714,7 @@ public class Management_AccountController implements Initializable {
                 stage.initModality(Modality.APPLICATION_MODAL);
                 pnl_FillBg.setScaleX(1);
                 pnl_FillBg.setScaleY(1);
-                
+
                 stage.showAndWait();
                 stage.close();
                 pnl_FillBg.setScaleX(0);

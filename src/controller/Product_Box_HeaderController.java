@@ -15,6 +15,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -100,7 +101,8 @@ public class Product_Box_HeaderController implements Initializable {
         Platform.runLater(() -> {
             application = entity;
             if (entity.getAppImage() != null) {
-                img_Image.setImage(new Image(ProcessImage.toFile(entity.getAppImage(), "headerImage.png").toURI().toString()));
+                Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(entity.getAppImage()), null);
+                img_Image.setImage(image);
                 RoundedImageView.RoundedImage(img_Image, 32);
             }
             lbl_Title.setText(entity.getName());

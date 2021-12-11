@@ -14,6 +14,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.jfoenix.controls.JFXButton;
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -26,6 +27,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -34,8 +36,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import until.Auth;
 import until.Dialog;
+import until.ProcessImage;
 import until.Value;
 
 /**
@@ -94,9 +98,8 @@ public class Dialog_CreateQRcodeController implements Initializable {
 
             File file = fileChooser.showSaveDialog(null);
             if (file != null) {
-                String outputFile = "photo/QRcode.png";
-                File f = new File(outputFile);
-                Files.copy(f.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                BufferedImage img =SwingFXUtils.fromFXImage(img_QRcode.getImage(), null);              
+                ImageIO.write(img, "png", file);
                 if (Dialog.showComfirmDialog(null, "Save successfully! \n Do you want to open it?") == 1) {
                     if (!Desktop.isDesktopSupported()) {
                         System.out.println("not supported");
@@ -125,13 +128,10 @@ public class Dialog_CreateQRcodeController implements Initializable {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix matrix = qrCodeWriter.encode(QRcode, BarcodeFormat.QR_CODE, 400, 400);
 
-            // Write to file image
-            String outputFile = "photo/QRcode.png";
-            Path path = FileSystems.getDefault().getPath(outputFile);
-            MatrixToImageWriter.writeToPath(matrix, "PNG", path);
-            img_QRcode.setImage(new Image(new File("photo/QRcode.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(MatrixToImageWriter.toBufferedImage(matrix), null);
+            img_QRcode.setImage(image);
             RoundedImageView.RoundedImage(img_QRcode, 32);
-        } catch (IOException | WriterException ex) {
+        } catch (WriterException ex) {
         }
     }
 

@@ -11,6 +11,7 @@ import DAO.NewsDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,7 +80,8 @@ public class News_BoxController implements Initializable {
         news = entity;
         
         if (entity.getImage() != null) {
-            img_Image.setImage(new Image(ProcessImage.toFile(entity.getImage(), "newsImage.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(entity.getImage()), null);
+            img_Image.setImage(image);
             RoundedImageView.RoundedImage(img_Image, 20);
         }
         lbl_Title.setText(ProcessString.cutString(entity.getTitle(), 80));

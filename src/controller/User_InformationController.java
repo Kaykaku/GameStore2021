@@ -13,11 +13,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import static controller.MainController.static_Email_Hide;
-import static controller.MainController.static_Icon_Medium;
-import static controller.MainController.static_UserName;
-import static controller.MainController.static_UserName_Hide;
-import static controller.MainController.static_User_Icon_Small;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +26,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -52,6 +48,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.imageio.ImageIO;
 import model.Account;
 import until.Auth;
 import until.Dialog;
@@ -68,7 +65,7 @@ import static until.Variable.PNL_VIEW;
  */
 public class User_InformationController implements Initializable {
 
-     @FXML
+    @FXML
     private JFXButton btnChangepass;
 
     @FXML
@@ -178,7 +175,7 @@ public class User_InformationController implements Initializable {
     private JFXDatePicker datePicker_Birthday;
     AccountDAO accountDAO = new AccountDAO();
     String err = "";
-    File avataImage;
+    Image avataImage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -207,7 +204,7 @@ public class User_InformationController implements Initializable {
                 stage.initStyle(StageStyle.TRANSPARENT);
                 stage.showAndWait();
             } catch (IOException ex) {
-                Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         btn_Camera.setOnMouseClicked((event) -> {
@@ -224,18 +221,22 @@ public class User_InformationController implements Initializable {
                 ex.printStackTrace();
             }
             if (Variable.AVATAR != null) {
-                avataImage = ProcessImage.toFile(Variable.AVATAR);
+                avataImage = Variable.AVATAR;
                 setAvatar();
             }
         });
         btn_Update.setOnMouseClicked(event -> {
             this.UpdateInfor();
-            loadUserInfor();
+            
         });
         btn_ChosePicture.setOnMouseClicked(event -> {
-            FileChooser fileChooser = new FileChooser();
-            avataImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
-            if (avataImage != null) {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png","*.jpg"));
+            fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fc.setTitle("Select folder");
+            File f = fc.showOpenDialog(Variable.MAIN_STAGE);
+            if (f != null) {
+                avataImage = new Image(f.toURI().toString());
                 setAvatar();
             }
         });
@@ -262,8 +263,7 @@ public class User_InformationController implements Initializable {
                 stage.show();
 
             } catch (IOException ex) {
-                Logger.getLogger(LoginController.class
-                        .getName()).log(Level.SEVERE, null, ex);
+
             }
 
             Auth.USER = null;
@@ -278,28 +278,28 @@ public class User_InformationController implements Initializable {
     }
 
     void clearAvata() {
-        img_Avatar.setImage(new Image(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png").toURI().toString()));
-        avataImage = ProcessImage.toFile(img_Avatar.getImage());
-        RoundedImageView.RoundedImage(img_Avatar, img_Avatar.getFitWidth());
+        try {
+            String path = getClass().getResource(rdo_Female.isSelected() ? Value.FEMALE : Value.MALE).toURI().toString();
+            img_Avatar.setImage(new Image(path));
+
+            RoundedImageView.RoundedImage(img_Avatar, img_Avatar.getFitWidth());
+            avataImage = null;
+        } catch (URISyntaxException ex) {
+            //Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    void loadUserInfor() {
-        if (Auth.USER.getImage() != null) {
-            static_User_Icon_Small.setImage(new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
-            static_Icon_Medium.setImage(new Image(ProcessImage.toFile(Auth.USER.getImage(), "smallAvatar.png").toURI().toString()));
-            RoundedImageView.RoundedImage(static_User_Icon_Small, 35);
-            RoundedImageView.RoundedImage(static_Icon_Medium, static_Icon_Medium.getFitWidth());
-        }
-        static_UserName.setText(Auth.USER.getUsername());
-        static_UserName_Hide.setText(Auth.USER.getName().isEmpty()?Auth.USER.getUsername():Auth.USER.getName());
-        static_Email_Hide.setText(Auth.USER.getEmail());
-    }
 
     void setAvatar() {
         if (avataImage != null) {
-            img_Avatar.setImage(new Image(avataImage.toURI().toString()));
+            img_Avatar.setImage(avataImage);
         } else {
-            img_Avatar.setImage(new Image(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png").toURI().toString()));
+            try {
+                String path = getClass().getResource(rdo_Female.isSelected() ? Value.FEMALE : Value.MALE).toURI().toString();
+                img_Avatar.setImage(new Image(path));
+            } catch (URISyntaxException ex) {
+                //Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         RoundedImageView.RoundedImage(img_Avatar, img_Avatar.getFitWidth());
     }
@@ -340,20 +340,20 @@ public class User_InformationController implements Initializable {
 
     void setInformation() {
         if (account.getImage() != null) {
-            avataImage = new File("photo/avatar.png");
-            img_Avatar.setImage(new Image(ProcessImage.toFile(account.getImage(), "avatar.png").toURI().toString()));
+            avataImage = SwingFXUtils.toFXImage(ProcessImage.toImage(account.getImage()), null); 
+            img_Avatar.setImage(avataImage);
             RoundedImageView.RoundedImage(img_Avatar, img_Avatar.getFitWidth());
         }
         txt_Username.setText(account.getUsername() + "");
         txt_Username.setEditable(false);
         lbl_Accountid.setText(account.getAccountId() + "");
-        txt_Name.setText(account.getName()==null?"":account.getName());
+        txt_Name.setText(account.getName() == null ? "" : account.getName());
         datePicker_Birthday.setValue(account.getBirthDay() != null ? ProcessDate.toLocalDate(account.getBirthDay()) : null);
         rdo_Female.setSelected(account.isGender());
         rdo_Male.setSelected(!account.isGender());
         cbo_Country.getSelectionModel().select(account.getCountry());
         txt_Email.setText(account.getEmail() + "");
-        txt_Address.setText(account.getAddress()==null?"":account.getAddress());
+        txt_Address.setText(account.getAddress() == null ? "" : account.getAddress());
         lbl_CreationDate.setText(ProcessDate.toString(account.getCreationDate()));
 
         Object[] accStatics = new StatisticsDAO().getAccountStatistics(account.getAccountId());
@@ -388,49 +388,41 @@ public class User_InformationController implements Initializable {
     }
 
     Account getForm() {
-        err="";
+        err = "";
         err += Validation.validationEmail(txt_Email);
         err += Validation.validationBirthDay(datePicker_Birthday);
         if (err.isEmpty()) {
-            Account entity = new Account();
-            entity.setAccountId(Auth.USER.getAccountId());
-            entity.setName(txt_Name.getText().trim());
-            entity.setBirthDay(ProcessDate.toDate(datePicker_Birthday.getValue()));
-            entity.setGender(rdo_Female.isSelected());
-            entity.setCountry(cbo_Country.getSelectionModel().getSelectedItem());
-            entity.setEmail(txt_Email.getText().trim());
-            entity.setAddress(txt_Address.getText() != null ? txt_Address.getText().trim() : "");
-            entity.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png")));
-            if(avataImage!=null){
-                entity.setImage(ProcessImage.toBytes(avataImage));
+            try {
+                Account entity = new Account();
+                entity.setAccountId(Auth.USER.getAccountId());
+                entity.setName(txt_Name.getText().trim());
+                entity.setBirthDay(ProcessDate.toDate(datePicker_Birthday.getValue()));
+                entity.setGender(rdo_Female.isSelected());
+                entity.setCountry(cbo_Country.getSelectionModel().getSelectedItem());
+                entity.setEmail(txt_Email.getText().trim());
+                entity.setAddress(txt_Address.getText() != null ? txt_Address.getText().trim() : "");
+
+                Image image =new Image(getClass().getResource(rdo_Female.isSelected() ? Value.FEMALE : Value.MALE).toURI().toString());
+                entity.setImage(ProcessImage.toBytes(image));
+                if (avataImage != null) {
+                    entity.setImage(ProcessImage.toBytes(avataImage));
+                }
+                return entity;
+            } catch (URISyntaxException ex) {
+                //Logger.getLogger(User_InformationController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return entity;
         }
         Dialog.showMessageDialog("Wrong data", err);
         return null;
-    }
-
-    void updateAuInfor() {
-        Auth.USER.setName(txt_Name.getText());
-        Auth.USER.setBirthDay(ProcessDate.toDate(datePicker_Birthday.getValue()));
-        Auth.USER.setGender(rdo_Female.isSelected());
-        Auth.USER.setCountry(cbo_Country.getSelectionModel().getSelectedItem());
-        Auth.USER.setEmail(txt_Email.getText().trim());
-        Auth.USER.setAddress(txt_Address.getText() != null ? txt_Address.getText().trim() : "");
-        if (avataImage != null) {
-            Auth.USER.setImage(ProcessImage.toBytes(avataImage));
-
-        } else {
-            Auth.USER.setImage(ProcessImage.toBytes(new File(rdo_Female.isSelected() ? "src/icons/female256.png" : "src/icons/male256.png")));
-        }
     }
 
     private void UpdateInfor() {
         Account acc = getForm();
         if (err.isEmpty()) {
             accountDAO.updateInfor(acc);
-            updateAuInfor();
+            Auth.USER=accountDAO.selectByID(acc.getAccountId());
             Dialog.showMessageDialog("Done", "Information Updated!");
+            Variable.MAIN_CONTROLLER.loadUserInfo();
         }
     }
 
@@ -440,7 +432,7 @@ public class User_InformationController implements Initializable {
         rdo_Female.setSelectedColor(Color.valueOf("#4a84f8"));
         rdo_Female.setToggleGroup(grbutton);
         rdo_Male.setToggleGroup(grbutton);
-
+        rdo_Male.setSelected(true);
     }
 
     public static boolean openWebpage(URI uri) {

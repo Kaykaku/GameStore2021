@@ -263,9 +263,9 @@ public class Management_ProductController implements Initializable {
     JFXDatePicker datePicker_CreationDate = new JFXDatePicker();
     JFXDatePicker datePicker_ReleaseDay = new JFXDatePicker();
     boolean isEdit = false, isSendRelease = true;
-    File avatarIcon;
-    File avatarImage;
-    File avtImg;
+    Image avatarIcon;
+    Image avatarImage;
+    Image avtImg;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -432,18 +432,18 @@ public class Management_ProductController implements Initializable {
 
     private void setAvatarIcon() {
         if (avatarIcon != null) {
-            Img_AppIcon.setImage(new Image(avatarIcon.toURI().toString()));
+            Img_AppIcon.setImage(avatarIcon);
         } else {
-            Img_AppIcon.setImage(new Image(new File("src/icons/refresh120.png").toURI().toString()));
+            Img_AppIcon.setImage(new ProcessImage().toImageFX("/icons/refresh120.png"));
         }
         RoundedImageView.RoundedImage(Img_AppIcon, 200);
     }
 
     private void setAvatarImage() {
         if (avatarImage != null) {
-            Img_AppImage.setImage(new Image(avatarImage.toURI().toString()));
+            Img_AppImage.setImage(avatarImage);
         } else {
-            Img_AppImage.setImage(new Image(new File("src/icons/icons8_picture_200px_1.png").toURI().toString()));
+            Img_AppImage.setImage(new ProcessImage().toImageFX("/icons/icons8_picture_200px_1.png"));
         }
         RoundedImageView.RoundedImage(Img_AppImage, 32);
     }
@@ -457,11 +457,11 @@ public class Management_ProductController implements Initializable {
         number = (double) Math.round(entity.getSize() * 100) / 100;
         txt_Size.setText(isEdit ? number + "" : "");
         if (entity.getAppImage() != null) {
-            avatarImage = ProcessImage.toFile(entity.getAppImage(), "avatar1.png");
+            avatarImage = ProcessImage.toImageFX(entity.getAppImage());
         }
         setAvatarImage();
         if (entity.getAppIcon() != null) {
-            avatarIcon = ProcessImage.toFile(entity.getAppIcon(), "avatar.png");
+            avatarIcon = ProcessImage.toImageFX(entity.getAppIcon());
         }
         setAvatarIcon();
         txt_Developed.setText(entity.getDeveloper());
@@ -609,16 +609,24 @@ public class Management_ProductController implements Initializable {
             }
         });
         Img_AppImage.setOnMouseClicked((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            avatarImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
-            if (avatarImage != null) {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png","*.jpg"));
+            fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fc.setTitle("Select folder");
+            File f = fc.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+            if (f != null) {
+                avatarImage = new Image(f.toURI().toString());
                 setAvatarImage();
             }
         });
         Img_AppIcon.setOnMouseClicked((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            avatarIcon = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
-            if (avatarIcon != null) {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png","*.jpg"));
+            fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fc.setTitle("Select folder");
+            File f = fc.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+            if (f != null) {
+                avatarIcon = new Image(f.toURI().toString());
                 setAvatarIcon();
             }
         });

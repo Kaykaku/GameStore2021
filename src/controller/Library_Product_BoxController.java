@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,7 +80,8 @@ public class Library_Product_BoxController implements Initializable {
     void setInfo(Application application) {
         this.application = application;
         if (application.getAppIcon() != null) {
-            img_AppImage.setImage(new Image(ProcessImage.toFile(application.getAppIcon(), "largeIcon.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(application.getAppIcon()), null);
+            img_AppImage.setImage(image);
 
         }
         lbl_AppName.setText(application.getName());

@@ -131,7 +131,7 @@ public class Row_ProductController implements Initializable {
             number = (double) Math.round(entity.getSize() * 100) / 100;
             lbl_Size.setText(number + "Mb");
             if (entity.getAppIcon() != null) {
-                img_IconApp.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(),"a.png").toURI().toString()));
+                img_IconApp.setImage(ProcessImage.toImageFX(entity.getAppIcon()));
                 RoundedImageView.RoundedImage(img_IconApp, 10);
             }
         });

@@ -62,11 +62,7 @@ public class Dialog_TakePictureController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         startCameraInput();
         setEvent();
-        btn_Exit.setOnMouseClicked((event) -> {
-            webcam.close();
-            Stage stage = (Stage) btn_Exit.getScene().getWindow();
-            stage.close();
-        });
+        
     }
 
     private void startCameraInput() {
@@ -137,6 +133,12 @@ public class Dialog_TakePictureController implements Initializable {
             isTake = false;
             stopCamera = false;
             startWebCamStream();
+        });
+        btn_Exit.setOnMouseClicked((event) -> {
+            webcam.close();
+            Variable.AVATAR = null;
+            Stage stage = (Stage) btn_Exit.getScene().getWindow();
+            stage.close();
         });
     }
 

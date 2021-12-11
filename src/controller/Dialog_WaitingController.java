@@ -9,6 +9,7 @@ import animatefx.animation.Swing;
 import animatefx.animation.Tada;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -46,11 +47,12 @@ public class Dialog_WaitingController implements Initializable {
 
     @FXML
     private ImageView img_bg;
-    
+
     @FXML
     private TilePane tile_text;
 
-    Label label =null;
+    Label label = null;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -67,12 +69,14 @@ public class Dialog_WaitingController implements Initializable {
                         scene.setFill(Color.TRANSPARENT);
                         stage.initStyle(StageStyle.TRANSPARENT);
                         stage.setScene(scene);
-                        stage.getIcons().add(new Image(new File(Value.ICON_APP).toURI().toString()));
-                        stage.show();                        
-                        
+                        stage.getIcons().add(new Image(getClass().getResource(Value.ICON_APP).toURI().toString()));
+                        stage.show();
+
                     } catch (IOException ex) {
                         Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-                    } 
+                    } catch (URISyntaxException ex) {
+                        Logger.getLogger(Dialog_WaitingController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 });
                 return null;
             }
@@ -80,32 +84,32 @@ public class Dialog_WaitingController implements Initializable {
         Thread t = new Thread(task);
         t.setDaemon(true);
         t.start();
-        
-        String hello = "HELLO "+ Auth.USER.getUsername().toUpperCase();
+
+        String hello = "HELLO " + Auth.USER.getUsername().toUpperCase();
         Task<Void> task1 = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 char[] arr = hello.toCharArray();
-                int time = 4000/(arr.length*2);
-                boolean f=true;
-                for (int i =0 ;i<arr.length*2;i++) {
-                    Thread.sleep(time);                  
-                    if(f){
-                         label = new Label(arr[i/2]+"");
-                    }else{
-                         label = new Label(" ");
+                int time = 4000 / (arr.length * 2);
+                boolean f = true;
+                for (int i = 0; i < arr.length * 2; i++) {
+                    Thread.sleep(time);
+                    if (f) {
+                        label = new Label(arr[i / 2] + "");
+                    } else {
+                        label = new Label(" ");
                     }
-                    f=!f;
+                    f = !f;
                     label.setStyle("-fx-background-radius : 10px; -fx-text-fill : white; -fx-font-size: 20px; ");
                     Platform.runLater(() -> {
                         tile_text.getChildren().add(label);
                         new Swing(label).play();
-                    });                    
+                    });
                 }
                 new Tada(tile_text).play();
                 return null;
             }
-            
+
         };
         Thread t1 = new Thread(task1);
         t1.setDaemon(true);

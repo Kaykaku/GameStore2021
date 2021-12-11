@@ -25,11 +25,11 @@ public class test {
         list =new NewsDAO().selectAll();
         int i=0;
         for (News acc : list) {
-            File f= ProcessImage.toFile(acc.getImage(), "a.png");
-            InputStream in = new FileInputStream(f);
-            updateImage(in, acc.getAccountId());
-            i++;
-            System.out.println(i);
+//            File f= ProcessImage.toFile(acc.getImage());
+//            InputStream in = new FileInputStream(f);
+//            updateImage(in, acc.getAccountId());
+//            i++;
+//            System.out.println(i);
         }
     }
     public static void updateImage(InputStream inputStream, Integer id) {

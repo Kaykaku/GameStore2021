@@ -12,11 +12,14 @@ import DAO.CategoryDAO;
 import DAO.StatisticsDAO;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -125,9 +128,10 @@ public class Product_Box_ShortController implements Initializable {
             lbl_Categories.setText(listAppTypes.size() > 1 ? categoryDAO.selectByID(listAppTypes.get(1).getCategoryId()).getName() : "All");
             lbl_CategoriesCount.setText(listAppTypes.size() > 2 ? "+" + (listAppTypes.size() - 1) : "");
             number = (double) Math.round(entity.getPrice() * 100) / 100;
-            lbl_Price.setText(number == 0 ? "Free" : number + "$");
+            lbl_Price.setText("$"+(number == 0 ? "Free" : number ));
             if (entity.getAppIcon() != null) {
-                img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "icon.png").toURI().toString()));
+                Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(entity.getAppIcon()), null);
+                img_AppIcon.setImage(image);
                 RoundedImageView.RoundedImage(img_AppIcon, 32);
             }
             calculateAverageRating();
@@ -168,38 +172,41 @@ public class Product_Box_ShortController implements Initializable {
         loadStar(averageRating);
     }
 
-    void loadStar(double rate
-    ) {
-        Image starFill = new Image(new File(Value.WSTAR_FILL).toURI().toString());
-        Image starNot = new Image(new File(Value.WSTAR_REGULAR).toURI().toString());
-        Image starHalf = new Image(new File(Value.WSTAR_HALF).toURI().toString());
-        img_1star.setImage(starNot);
-        img_2star.setImage(starNot);
-        img_3star.setImage(starNot);
-        img_4star.setImage(starNot);
-        img_5star.setImage(starNot);
-        if (rate >= 4.4) {
-            img_5star.setImage(starHalf);
-        } else if (rate >= 3.4) {
-            img_4star.setImage(starHalf);
-        } else if (rate >= 2.4) {
-            img_3star.setImage(starHalf);
-        } else if (rate >= 1.4) {
-            img_2star.setImage(starHalf);
-        } else if (rate >= 0.4) {
-            img_1star.setImage(starHalf);
-        }
-        switch ((int) rate) {
-            case 5:
-                img_5star.setImage(starFill);
-            case 4:
-                img_4star.setImage(starFill);
-            case 3:
-                img_3star.setImage(starFill);
-            case 2:
-                img_2star.setImage(starFill);
-            case 1:
-                img_1star.setImage(starFill);
+    void loadStar(double rate) {
+        try {
+            Image starFill = new Image(getClass().getResource(Value.WSTAR_FILL).toURI().toString());
+            Image starNot = new Image(getClass().getResource(Value.WSTAR_REGULAR).toURI().toString());
+            Image starHalf = new Image(getClass().getResource(Value.WSTAR_HALF).toURI().toString());
+            img_1star.setImage(starNot);
+            img_2star.setImage(starNot);
+            img_3star.setImage(starNot);
+            img_4star.setImage(starNot);
+            img_5star.setImage(starNot);
+            if (rate >= 4.4) {
+                img_5star.setImage(starHalf);
+            } else if (rate >= 3.4) {
+                img_4star.setImage(starHalf);
+            } else if (rate >= 2.4) {
+                img_3star.setImage(starHalf);
+            } else if (rate >= 1.4) {
+                img_2star.setImage(starHalf);
+            } else if (rate >= 0.4) {
+                img_1star.setImage(starHalf);
+            }
+            switch ((int) rate) {
+                case 5:
+                    img_5star.setImage(starFill);
+                case 4:
+                    img_4star.setImage(starFill);
+                case 3:
+                    img_3star.setImage(starFill);
+                case 2:
+                    img_2star.setImage(starFill);
+                case 1:
+                    img_1star.setImage(starFill);
+            }
+        } catch (URISyntaxException ex) {
+            //Logger.getLogger(Product_Box_ShortController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -19,12 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.News;
@@ -32,7 +29,6 @@ import until.ProcessDate;
 import until.ProcessImage;
 import until.ProcessString;
 import until.Value;
-import static until.Value.FORM_DISPLAY_PRODUCT;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -130,7 +126,7 @@ public class Row_NewsController implements Initializable {
             lbl_Views.setText("" + entity.getViews());
             lbl_CreationDate.setText(ProcessDate.toString(entity.getCreationDate()));
             if (entity.getImage() != null) {
-                img_Icon.setImage(new Image(ProcessImage.toFile(entity.getImage(), "appIcon.png").toURI().toString()));
+                img_Icon.setImage(ProcessImage.toImageFX(entity.getImage()));
                 RoundedImageView.RoundedImage(img_Icon, 10);
             }
         });

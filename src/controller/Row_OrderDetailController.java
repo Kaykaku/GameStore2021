@@ -101,7 +101,7 @@ public class Row_OrderDetailController implements Initializable {
             lbl_Price.setText(price == 0 ? "Free" : "*" + price + "$");
             lbl_Sale.setText(entity.getSale() + "%");
             if (app.getAppIcon() != null) {
-                img_IconApp.setImage(new Image(ProcessImage.toFile(app.getAppIcon(), "appIcon.png").toURI().toString()));
+                img_IconApp.setImage(ProcessImage.toImageFX(app.getAppIcon()));
                 RoundedImageView.RoundedImage(img_IconApp, 10);
             }
             lbl_Code.setText(entity.getDiscountCode());

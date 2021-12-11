@@ -12,6 +12,7 @@ import com.jfoenix.controls.JFXButton;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -83,7 +84,8 @@ public class Row_CommentController implements Initializable {
         Account account = new AccountDAO().selectByAppViewID(entity.getApplicatonViewId());
         lbl_UserName.setText(account.getUsername());
         if (account.getImage()!=null) {
-            img_Avatar.setImage(new Image(ProcessImage.toFile(account.getImage(), "smalavatar.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(account.getImage()), null);
+            img_Avatar.setImage(image);
             RoundedImageView.RoundedImage(img_Avatar, 40);
         }
         

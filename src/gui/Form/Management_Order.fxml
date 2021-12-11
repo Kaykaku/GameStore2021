@@ -248,10 +248,10 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="40.0" prefWidth="380.0" spacing="10.0">
+                  <HBox prefHeight="40.0" prefWidth="380.0" spacing="5.0">
                      <children>
                         <JFXButton fx:id="btn_ExportOrder" prefHeight="40.0" prefWidth="200.0" style="-fx-background-radius: 7px 0 0 7px;" styleClass="dark-blue" text="Export Order" />
-                        <JFXButton fx:id="btn_SendOrder" prefHeight="40.0" prefWidth="212.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="dark-blue" text="Send order for Customer" />
+                        <JFXButton fx:id="btn_SendOrder" prefHeight="40.0" prefWidth="212.0" style="-fx-background-radius: 0 7px 7px 0;" styleClass="dark-blue" text="Send for Customer" />
                      </children>
                   </HBox>
                </children>

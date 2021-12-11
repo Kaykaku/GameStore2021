@@ -19,10 +19,8 @@ import Animation.RoundedImageView;
 import DAO.AppTypeDAO;
 import DAO.CategoryDAO;
 import DAO.StatisticsDAO;
-import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
+import java.net.URISyntaxException;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +33,6 @@ import model.Application;
 import until.ProcessImage;
 import until.Value;
 import static until.Value.*;
-import until.Variable;
 import static until.Variable.PNL_VIEW;
 
 /**
@@ -127,7 +124,7 @@ public class ProductBoxController implements Initializable {
             lbl_Price.setText(number == 0 ? "Free" : number + "$");
 
             if (entity.getAppIcon() != null) {
-                img_App.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+                img_App.setImage(ProcessImage.toImageFX(entity.getAppIcon()));
                 RoundedImageView.RoundedImage(img_App, 32);
                 img_App.setEffect(new DropShadow(5, Color.BLACK));
             }
@@ -154,36 +151,40 @@ public class ProductBoxController implements Initializable {
     }
 
     void loadStar(double rate) {
-        Image starFill = new Image(new File(Value.WSTAR_FILL).toURI().toString());
-        Image starNot = new Image(new File(Value.WSTAR_REGULAR).toURI().toString());
-        Image starHalf = new Image(new File(Value.WSTAR_HALF).toURI().toString());
-        img_1star.setImage(starNot);
-        img_2star.setImage(starNot);
-        img_3star.setImage(starNot);
-        img_4star.setImage(starNot);
-        img_5star.setImage(starNot);
-        if (rate >= 4.4) {
-            img_5star.setImage(starHalf);
-        } else if (rate >= 3.4) {
-            img_4star.setImage(starHalf);
-        } else if (rate >= 2.4) {
-            img_3star.setImage(starHalf);
-        } else if (rate >= 1.4) {
-            img_2star.setImage(starHalf);
-        } else if (rate >= 0.4) {
-            img_1star.setImage(starHalf);
-        }
-        switch ((int) Math.floor(rate)) {
-            case 5:
-                img_5star.setImage(starFill);
-            case 4:
-                img_4star.setImage(starFill);
-            case 3:
-                img_3star.setImage(starFill);
-            case 2:
-                img_2star.setImage(starFill);
-            case 1:
-                img_1star.setImage(starFill);
+        try {
+            Image starFill = new Image(getClass().getResource(Value.WSTAR_FILL).toURI().toString());
+            Image starNot = new Image(getClass().getResource(Value.WSTAR_REGULAR).toURI().toString());
+            Image starHalf = new Image(getClass().getResource(Value.WSTAR_HALF).toURI().toString());
+            img_1star.setImage(starNot);
+            img_2star.setImage(starNot);
+            img_3star.setImage(starNot);
+            img_4star.setImage(starNot);
+            img_5star.setImage(starNot);
+            if (rate >= 4.4) {
+                img_5star.setImage(starHalf);
+            } else if (rate >= 3.4) {
+                img_4star.setImage(starHalf);
+            } else if (rate >= 2.4) {
+                img_3star.setImage(starHalf);
+            } else if (rate >= 1.4) {
+                img_2star.setImage(starHalf);
+            } else if (rate >= 0.4) {
+                img_1star.setImage(starHalf);
+            }
+            switch ((int) Math.floor(rate)) {
+                case 5:
+                    img_5star.setImage(starFill);
+                case 4:
+                    img_4star.setImage(starFill);
+                case 3:
+                    img_3star.setImage(starFill);
+                case 2:
+                    img_2star.setImage(starFill);
+                case 1:
+                    img_1star.setImage(starFill);
+            }
+        } catch (URISyntaxException ex) {
+            //Logger.getLogger(ProductBoxController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

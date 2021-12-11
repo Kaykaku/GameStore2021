@@ -146,7 +146,7 @@ public class Management_NewsController implements Initializable {
     AccountDAO accountDao = new AccountDAO();
     List<News> list_News = new ArrayList<>();
     Image image = new Image("/icons/add-image (1).png");
-    File avatarImage;
+    Image avatarImage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -227,9 +227,9 @@ public class Management_NewsController implements Initializable {
 
     private void setAvatarImage() {
         if (avatarImage != null) {
-            new_Image.setImage(new Image(avatarImage.toURI().toString()));
+            new_Image.setImage(avatarImage);
         } else {
-            new_Image.setImage(new Image(new File("icons/add-image (1).png").toURI().toString()));
+            new_Image.setImage(new ProcessImage().toImageFX("/icons/add-image (1).png"));
         }
         RoundedImageView.RoundedImage(new_Image, 32);
     }
@@ -245,7 +245,7 @@ public class Management_NewsController implements Initializable {
         txt_Description.setText(entity.getDescription());
         txt_Content.setText(entity.getContents());
         if (entity.getImage() != null) {
-            avatarImage = ProcessImage.toFile(entity.getImage(), "avatar.png");
+            avatarImage = ProcessImage.toImageFX(entity.getImage());
         }
         setAvatarImage();
         if (entity.isToggle_Views()) {
@@ -381,7 +381,7 @@ public class Management_NewsController implements Initializable {
         String title = "News List";
         btn_PDFNews.setOnAction(evt -> {
             try {
-                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName+".pdf", title);
+                ExportPDF.ExportPDF(Variable.MAIN_STAGE, header, listObjs, fileName + ".pdf", title);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -390,7 +390,7 @@ public class Management_NewsController implements Initializable {
         btn_ExcelNew.setOnAction(evt -> {
 
             try {
-                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName+".xlsx", title);
+                ExportExcel.exportFile(Variable.MAIN_STAGE, header, listObjs, fileName + ".xlsx", title);
             } catch (IOException ex) {
                 Logger.getLogger(Management_NewsController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -458,10 +458,13 @@ public class Management_NewsController implements Initializable {
     @FXML
     private void handleImgAction(MouseEvent event) {
 //        this.ChooseImage();
-        FileChooser fileChooser = new FileChooser();
-
-        avatarImage = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
-        if (avatarImage != null) {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png", "*.jpg"));
+        fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fc.setTitle("Select folder");
+        File f = fc.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+        if (f != null) {
+            avatarImage = new Image(f.toURI().toString());
             setAvatarImage();
             updateStatus();
         }

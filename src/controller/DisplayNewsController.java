@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -103,7 +104,8 @@ public class DisplayNewsController implements Initializable {
         lbl_Views.setText(entity.getViews() + "");
         lbl_Author.setText(new AccountDAO().selectByID(entity.getAccountId()).getName());
         if (entity.getImage() != null) {
-            img_Image.setImage(new Image(ProcessImage.toFile(entity.getImage(), "image.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(entity.getImage()), null);
+            img_Image.setImage(image);
             RoundedImageView.RoundedImage(img_Image, 32);
         }
     }

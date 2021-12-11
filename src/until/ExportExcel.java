@@ -185,7 +185,7 @@ public class ExportExcel {
 
     public static void exportFile(Stage parent, String[] header, List<Object[]> row, String fileName, String title) throws IOException {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", ".xlsx"));
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.xlsx"));
         fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
         fc.setInitialFileName(fileName);
         fc.setTitle("Select folder");

@@ -5,17 +5,16 @@
  */
 package controller;
 
-import Animation.BoxHoverAni;
 import Animation.PulseShort;
 import Animation.RoundedImageView;
 import DAO.StatisticsDAO;
 import com.jfoenix.controls.JFXButton;
-import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.animation.Timeline;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -117,7 +116,7 @@ public class Row_WishlistController implements Initializable {
     }
 
     void setEvent() {
-        PulseShort ani =new PulseShort(pnl_Row_Wishlist);
+        PulseShort ani = new PulseShort(pnl_Row_Wishlist);
         ani.setCycleCount(Timeline.INDEFINITE);
         pnl_Row_Wishlist.setOnMouseEntered(evt -> {
             ani.play();
@@ -132,9 +131,11 @@ public class Row_WishlistController implements Initializable {
             btn_Delete.setOpacity(0);
         });
     }
-    Button getBtnDelete(){
+
+    Button getBtnDelete() {
         return btn_Delete;
     }
+
     public void setInfo(Application entity) {
         randomBg();
         application = entity;
@@ -150,7 +151,8 @@ public class Row_WishlistController implements Initializable {
         lbl_Price.setText(price + "$");
 
         if (entity.getAppIcon() != null) {
-            img_AppIcon.setImage(new Image(ProcessImage.toFile(entity.getAppIcon(), "appIcon.png").toURI().toString()));
+            Image image = SwingFXUtils.toFXImage(ProcessImage.toImage(entity.getAppIcon()), null);
+            img_AppIcon.setImage(image);
             RoundedImageView.RoundedImage(img_AppIcon, 32);
             img_AppIcon.setEffect(new DropShadow(5, Color.BLACK));
         }
@@ -177,37 +179,41 @@ public class Row_WishlistController implements Initializable {
     }
 
     void loadStar(double rate) {
-        Image starFill = new Image(new File(Value.WSTAR_FILL).toURI().toString());
-        Image starNot = new Image(new File(Value.WSTAR_REGULAR).toURI().toString());
-        Image starHalf = new Image(new File(Value.WSTAR_HALF).toURI().toString());
-        img_1star.setImage(starNot);
-        img_2star.setImage(starNot);
-        img_3star.setImage(starNot);
-        img_4star.setImage(starNot);
-        img_5star.setImage(starNot);
-        if (rate >= 4.4) {
-            img_5star.setImage(starHalf);
-        } else if (rate >= 3.4) {
-            img_4star.setImage(starHalf);
-        } else if (rate >= 2.4) {
-            img_3star.setImage(starHalf);
-        } else if (rate >= 1.4) {
-            img_2star.setImage(starHalf);
-        } else if (rate >= 0.4) {
-            img_1star.setImage(starHalf);
+        try {
+            Image starFill = new Image(getClass().getResource(Value.WSTAR_FILL).toURI().toString());
+            Image starNot = new Image(getClass().getResource(Value.WSTAR_REGULAR).toURI().toString());
+            Image starHalf = new Image(getClass().getResource(Value.WSTAR_HALF).toURI().toString());
+            img_1star.setImage(starNot);
+            img_2star.setImage(starNot);
+            img_3star.setImage(starNot);
+            img_4star.setImage(starNot);
+            img_5star.setImage(starNot);
+            if (rate >= 4.4) {
+                img_5star.setImage(starHalf);
+            } else if (rate >= 3.4) {
+                img_4star.setImage(starHalf);
+            } else if (rate >= 2.4) {
+                img_3star.setImage(starHalf);
+            } else if (rate >= 1.4) {
+                img_2star.setImage(starHalf);
+            } else if (rate >= 0.4) {
+                img_1star.setImage(starHalf);
+            }
+            switch ((int) Math.floor(rate)) {
+                case 5:
+                    img_5star.setImage(starFill);
+                case 4:
+                    img_4star.setImage(starFill);
+                case 3:
+                    img_3star.setImage(starFill);
+                case 2:
+                    img_2star.setImage(starFill);
+                case 1:
+                    img_1star.setImage(starFill);
+            }
+        } catch (Exception e) {
         }
-        switch ((int) Math.floor(rate)) {
-            case 5:
-                img_5star.setImage(starFill);
-            case 4:
-                img_4star.setImage(starFill);
-            case 3:
-                img_3star.setImage(starFill);
-            case 2:
-                img_2star.setImage(starFill);
-            case 1:
-                img_1star.setImage(starFill);
-        }
+
     }
 
     public void randomBg() {
@@ -236,7 +242,8 @@ public class Row_WishlistController implements Initializable {
 
         pnl_Row.setStyle(color);
     }
-    public void setOpacity(){
+
+    public void setOpacity() {
         pane3.setOpacity(0);
     }
 }

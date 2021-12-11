@@ -5,6 +5,8 @@
  */
 package until;
 
+import java.net.URI;
+import java.net.URL;
 import javafx.scene.layout.Pane;
 
 /**
@@ -51,19 +53,24 @@ public class Value {
     public static final String LIBRARY_BOX  ="/gui/Item/Library_Product_Box.fxml";
     public static final String NEWS_BOX  ="/gui/Item/News_Box.fxml";
     public static final String PRODUCT_BOX_HEADER = "/gui/Item/Product_Box_Header.fxml";
-
-    public static final String STAR_FILL  ="src/icons/star_yellow32.png";
-    public static final String STAR_REGULAR  ="src/icons/starnotfill50.png";
+ 
+    public static final String MALE  ="/icons/male256.png";
+    public static final String FEMALE  ="/icons/female256.png";
+    public static final String STAR_FILL  ="/icons/star_yellow32.png";
+    public static final String STAR_REGULAR  ="/icons/starnotfill50.png";
     
-    public static final String WSTAR_FILL  ="src/icons/starWhiteFill50.png";
-    public static final String WSTAR_REGULAR  ="src/icons/starWhiteRegular50.png";
-    public static final String WSTAR_HALF  ="src/icons/starWhiteHalfFill50.png";
+    public static final String WSTAR_FILL  ="/icons/starWhiteFill50.png";
+    public static final String WSTAR_REGULAR  ="/icons/starWhiteRegular50.png";
+    public static final String WSTAR_HALF  ="/icons/starWhiteHalfFill50.png";
     
-    public static final String ICON_APP  ="src/icons/icon_app.png";
+    public static final String ICON_APP  ="/icons/icon_app.png";
     public static final String DEFAULT_FOLDER  ="C:\\Users\\Admin\\Downloads";
     public static final String EXAMPLE_LINK="https://axcelavietnam.com/wp-content/uploads/2020/04/the-big-picture-la-tu-vung-duoc-su-dung-pho-bien-trong-tieng-anh-thuong-mai.jpg";
     
     public static final String DEFAULT_EMAIL ="duongtanluc3565@gmail.com";
     public static final String DEFAULT_PASSWORD ="John@cena2019";
     
+    public URL getURL(String path){
+        return getClass().getClassLoader().getResource(path);
+    }
 }
