@@ -32,7 +32,7 @@ public class Main extends Application {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                while (true) {                    
+                while (true) {
                     Thread.sleep(5000);
                     System.gc();
 //                    System.out.println(Runtime.getRuntime().totalMemory());
@@ -43,7 +43,7 @@ public class Main extends Application {
         Thread t = new Thread(task);
         t.setDaemon(true);
         t.start();
-//                Auth.USER = new AccountDAO().selectByID(1);
+//                Auth.USER = new AccountDAO().selectByID(107);
 //        Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_MESSAGE));
 //         Parent root = FXMLLoader.load(getClass().getResource(Value.DIALOG_WAITING));
         Parent root = FXMLLoader.load(getClass().getResource(Value.FORM_LOGIN));
@@ -52,7 +52,7 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
-        
+
         stage.setScene(scene);
         stage.getIcons().clear();
         stage.getIcons().add(new Image(getClass().getResource(Value.ICON_APP).toURI().toString()));
@@ -66,7 +66,7 @@ public class Main extends Application {
             stage.setX(evt.getScreenX() - x);
             stage.setY(evt.getScreenY() - y);
         });
-               
+
     }
 
     /**

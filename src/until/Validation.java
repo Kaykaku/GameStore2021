@@ -155,8 +155,9 @@ public class Validation {
 
     public static String validationNew_ConfirmPassword(PasswordField textField, PasswordField textField1) {
         String err = "";
+        System.out.println(textField.getText()+"   "+textField1.getText());
         if (!textField.getText().equals(textField1.getText())) {
-            err = "Incorrect Confirmapassword!\n";
+            err = "Incorrect Confirm password!\n";
         }
         if (!err.isEmpty()) {
             changeColor(textField1);

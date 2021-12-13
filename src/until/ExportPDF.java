@@ -73,7 +73,7 @@ public class ExportPDF {
 
     public static void ExportPDF(Stage parent, String[] header, List<Object[]> rows, String fileName, String title) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.pdf"));
         fileChooser.setInitialFileName(fileName);
         fileChooser.setTitle("Select folder");

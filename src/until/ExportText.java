@@ -70,7 +70,7 @@ public class ExportText {
 
     public static void exportHTML(Stage parent, String text, String fileName) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.html"));
         fileChooser.setInitialFileName(fileName);
         fileChooser.setTitle("Select folder");
@@ -103,7 +103,7 @@ public class ExportText {
 
     public static void exportText(Stage parent, String[] header, List<Object[]> listObjects, String fileName) throws IOException {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.txt"));
         fileChooser.setInitialFileName(fileName);
         fileChooser.setTitle("Select folder");
@@ -134,7 +134,7 @@ public class ExportText {
     public static void ExportFileProduct() {
         ApplicationDAO applicationDAO = new ApplicationDAO();
         List<Application> list = applicationDAO.selectAll();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.txt"));
         fileChooser.setInitialFileName("product");
         File path = fileChooser.showSaveDialog(new Stage());
@@ -167,7 +167,7 @@ public class ExportText {
     public static void ExportFileCategory() {
         CategoryDAO categoryDAO = new CategoryDAO();
         List<Category> list = categoryDAO.selectAll();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.txt"));
         fileChooser.setInitialFileName("Category");
         fileChooser.setTitle("Select folder");
@@ -201,7 +201,7 @@ public class ExportText {
     public static void ExportFileNews() {
         NewsDAO newsDAO = new NewsDAO();
         List<News> list = newsDAO.selectAll();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.txt"));
         fileChooser.setInitialFileName("News");
         fileChooser.setTitle("Select folder");
@@ -235,7 +235,7 @@ public class ExportText {
     public static void ExportFileAccount() {
         AccountDAO accDAO = new AccountDAO();
         List<Account> list = accDAO.selectAll();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.txt"));
         fileChooser.setInitialFileName("Account");
         fileChooser.setTitle("Select folder");
@@ -269,7 +269,7 @@ public class ExportText {
     public static void ExportFileOrder() {
         OrderDAO orDAO = new OrderDAO();
         List<Order> list = orDAO.selectAll();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fileChooser.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Add All", "*.txt"));
         fileChooser.setInitialFileName("Order");
         fileChooser.setTitle("Select folder");

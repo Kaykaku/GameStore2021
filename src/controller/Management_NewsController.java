@@ -51,6 +51,7 @@ import until.ExportPDF;
 import until.ExportText;
 import until.ProcessImage;
 import until.ProcessDate;
+import until.Value;
 import until.Variable;
 
 /**
@@ -460,7 +461,7 @@ public class Management_NewsController implements Initializable {
 //        this.ChooseImage();
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png", "*.jpg"));
-        fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+        fc.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
         fc.setTitle("Select folder");
         File f = fc.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
         if (f != null) {

@@ -674,7 +674,7 @@ public class Management_AccountController implements Initializable {
         img_Avatar.setOnMouseClicked((evt) -> {
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png","*.jpg"));
-            fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fc.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
             fc.setTitle("Select folder");
             File path = fc.showOpenDialog(Variable.MAIN_STAGE);
             if (path != null) {

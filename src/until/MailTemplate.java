@@ -23,6 +23,8 @@ import model.OrderDetail;
 public class MailTemplate {
 
     public static String getDiscountApplicationEmail(Application application) {
+        double number = (double) Math.round(application.getPrice() * 100) / 100;
+        double number1 = (double) Math.round(application.getPrice() * (100-application.getSale())) / 100;
         String mail = "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n"
                 + "<head>\n"
                 + "<!--[if gte mso 9]>\n"
@@ -253,7 +255,7 @@ public class MailTemplate {
                 + "<div class=\"v-text-align\" align=\"center\">\n"
                 + "  <!--[if mso]><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:'Montserrat',sans-serif;\"><tr><td class=\"v-text-align\" style=\"font-family:'Montserrat',sans-serif;\" align=\"center\"><v:roundrect xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" href=\"https://unlayer.com/\" style=\"height:37px; v-text-anchor:middle; width:260px;\" arcsize=\"11%\" stroke=\"f\" fillcolor=\"#eec60e\"><w:anchorlock/><center style=\"color:#FFFFFF;font-family:'Montserrat',sans-serif;\"><![endif]-->\n"
                 + "    <a href=\"https://unlayer.com/\" target=\"_blank\" style=\"box-sizing: border-box;display: inline-block;font-family:'Montserrat',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #eec60e; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;\">\n"
-                + "      <span style=\"display:block;padding:10px 70px;line-height:120%;\"><strong><span style=\"font-size: 14px; line-height: 16.8px;\">Buy Now <del>$" + application.getPrice() + "</del>  $" + (double) (Math.round(application.getPrice() * (100 - application.getSale())) / 100) + "</span></strong></span>\n"
+                + "      <span style=\"display:block;padding:10px 70px;line-height:120%;\"><strong><span style=\"font-size: 14px; line-height: 16.8px;\">Buy Now <del>$" + (number == 0 ? "Free" : number + "$") + "</del>  $" + (number1 == 0 ? "Free" : number1 + "$") + "</span></strong></span>\n"
                 + "    </a>\n"
                 + "  <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->\n"
                 + "</div>\n"
@@ -380,6 +382,8 @@ public class MailTemplate {
     }
 
     public static String getReleaseApplicationEmail(Application application) {
+        double number = (double) Math.round(application.getPrice() * 100) / 100;
+        double number1 = (double) Math.round(application.getPrice() * (100-application.getSale())) / 100;
         String mail = "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n"
                 + "<head>\n"
                 + "<!--[if gte mso 9]>\n"
@@ -611,7 +615,7 @@ public class MailTemplate {
                 + "<div class=\"v-text-align\" align=\"center\">\n"
                 + "  <!--[if mso]><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:'Montserrat',sans-serif;\"><tr><td class=\"v-text-align\" style=\"font-family:'Montserrat',sans-serif;\" align=\"center\"><v:roundrect xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" href=\"https://unlayer.com/\" style=\"height:37px; v-text-anchor:middle; width:260px;\" arcsize=\"11%\" stroke=\"f\" fillcolor=\"#eec60e\"><w:anchorlock/><center style=\"color:#FFFFFF;font-family:'Montserrat',sans-serif;\"><![endif]-->\n"
                 + "    <a href=\"https://unlayer.com/\" target=\"_blank\" style=\"box-sizing: border-box;display: inline-block;font-family:'Montserrat',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #eec60e; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;\">\n"
-                + "      <span style=\"display:block;padding:10px 70px;line-height:120%;\"><strong><span style=\"font-size: 14px; line-height: 16.8px;\">Buy Now $" + application.getPrice() + "</span></strong></span>\n"
+                + "      <span style=\"display:block;padding:10px 70px;line-height:120%;\"><strong><span style=\"font-size: 14px; line-height: 16.8px;\">Buy Now $" + (number == 0 ? "Free" : number + "$") + "</span></strong></span>\n"
                 + "    </a>\n"
                 + "  <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->\n"
                 + "</div>\n"

@@ -141,9 +141,11 @@ public class Row_WishlistController implements Initializable {
         application = entity;
 
         lbl_Name.setText(entity.getName() + "");
-        lbl_Price.setText(entity.getPrice() == 0 ? "Free" : entity.getPrice() + "$");
+        double number = (double) Math.round(entity.getPrice() * (100-entity.getSale())) / 100;
+        lbl_Price.setText(number == 0 ? "Free" : number + "$");
         lbl_Developer.setText(entity.getDeveloper() + "");
-        lbl_OriginPrice.setText(entity.getPrice() + "$");
+         number = (double) Math.round(entity.getPrice() * 100) / 100;
+        lbl_OriginPrice.setText(number == 0 ? "Free" : number + "$");
         lbl_Sale.setText(entity.getSale() + "%");
         lbl_ReleaseDate.setText(ProcessDate.toString(entity.getReleaseDay()) + "");
         lbl_Type.setText(entity.isType() ? "Application" : "Game");

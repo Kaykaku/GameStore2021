@@ -9,6 +9,7 @@ import DAO.ApplicationDAO;
 import DAO.OrderDAO;
 import DAO.OrderDetailDAO;
 import DAO.WishlistDAO;
+import animatefx.animation.FadeInUp;
 import animatefx.animation.SlideInUp;
 import animatefx.animation.SlideOutLeft;
 import com.google.zxing.BarcodeFormat;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -73,53 +75,88 @@ import static until.Variable.PNL_VIEW;
 public class PayController implements Initializable {
 
     @FXML
-    private TextField txt_code;
+    private Pane pnl_main;
+
     @FXML
-    private Button btn_reach;
+    private Label lbl_7days;
+
+    @FXML
+    private Label lbl_Total_Price1;
+
+    @FXML
+    private Hyperlink hpl_orderlink;
+
+    @FXML
+    private Label lbl_UntilDate;
+
+    @FXML
+    private TextField txt_code;
+
+    @FXML
+    private Label lbl_quantity1;
+
     @FXML
     private Button btn_reset;
+
+    @FXML
+    private Pane pnl_finis;
+
     @FXML
     private TextField txt_CodeSale;
+
     @FXML
-    private Button btn_paypay;
+    private JFXButton btn_Back;
+
     @FXML
-    private Label lbl_Message;
+    private Label lbl_Buyer;
+
+    @FXML
+    private Label lbl_message_pnlCode;
+
     @FXML
     private Pane pnl_Code;
+
     @FXML
-    private Button btn_Back;
+    private VBox vbox_ListProduct;
+
+    @FXML
+    private Button btn_reach;
+
+    @FXML
+    private ImageView img_QRCODE;
+
+    @FXML
+    private JFXButton btn_continueShopping;
+
+    @FXML
+    private Label lbl_quantity;
+
+    @FXML
+    private Label lbl_CreationDate;
+
+    @FXML
+    private Pane pnl_List;
+
+    @FXML
+    private Label lbl_Message;
+
+    @FXML
+    private ImageView img_jcaptCha;
 
     @FXML
     private Pane pnl_Price_Info;
+
     @FXML
     private Label lbl_Total_Price;
+
     @FXML
     private ScrollPane pnl_ScrollList;
-    @FXML
-    private Pane pnl_List;
-    @FXML
-    private VBox vbox_ListProduct;
-    @FXML
-    private ImageView img_QRCODE;
-    @FXML
-    private Label lbl_quantity;
-    @FXML
-    private Label lbl_message_pnlCode;
-//    private Pane pnl_finis;
-//    private JFXButton btn_continueShopping;
-//    private Hyperlink hpl_orderlink;
+
     @FXML
     private JFXCheckBox cbo_agree;
+
     @FXML
-    private Pane pnl_finis;
-    @FXML
-    private JFXButton btn_continueShopping;
-    @FXML
-    private Hyperlink hpl_orderlink;
-    @FXML
-    private Pane pnl_main;
-    @FXML
-    private ImageView img_jcaptCha;
+    private Button btn_paypay;
 
     /**
      * Initializes the controller class.
@@ -223,7 +260,7 @@ public class PayController implements Initializable {
                 lbl_Message.setText("You not agree with the payment!");
             } else if (code.equalsIgnoreCase(answerCaptcha)) {
                 insertOrder(apps);
-                new SlideOutLeft(pnl_main).playOnFinished(new SlideInUp(pnl_finis)).play();
+                new SlideOutLeft(pnl_main).playOnFinished(new FadeInUp(pnl_finis)).play();
                 openWebpage("https://www.paypal.com");
                 lbl_Message.setText("");
                 Clear();
@@ -272,8 +309,18 @@ public class PayController implements Initializable {
             }
         } catch (Exception e) {
         }
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 7);
+        dt = c.getTime();
+        lbl_Buyer.setText(Auth.USER.getName().isEmpty() ? Auth.USER.getUsername() : Auth.USER.getName());
+        lbl_CreationDate.setText(ProcessDate.toString(new Date()));
+        lbl_UntilDate.setText(ProcessDate.toString(dt));
         lbl_Total_Price.setText(String.format("%.2f", total) + "$");
         lbl_quantity.setText(apps.size() + "");
+        lbl_Total_Price1.setText(String.format("%.2f", total) + "$");
+        lbl_quantity1.setText(apps.size() + "");
         QRcode(String.format("%.2f", total) + "$");
     }
 
@@ -309,7 +356,7 @@ public class PayController implements Initializable {
     }
 
     public void encodeCaptcha() {
-        Captcha captcha = new Captcha.Builder(250, 60)
+        Captcha captcha = new Captcha.Builder(400, 60)
                 .addText()
                 .addBackground(new GradiatedBackgroundProducer())
                 .addNoise()

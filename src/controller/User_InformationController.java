@@ -321,6 +321,7 @@ public class User_InformationController implements Initializable {
     void update_Password() {
         String errP = "";
         errP += Validation.validationConfirmPassword(txt_NewPassword, txt_ComfirmPassword);
+        errP += Validation.validationNew_ConfirmPassword(txt_NewPassword, txt_ComfirmPassword);
         errP += Validation.validationOld_NewPass(txt_OldPassword, txt_NewPassword);
         if (errP.isEmpty()) {
             if (txt_OldPassword.getText().equals(Auth.USER.getPassword())) {

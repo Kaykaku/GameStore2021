@@ -611,7 +611,7 @@ public class Management_ProductController implements Initializable {
         Img_AppImage.setOnMouseClicked((event) -> {
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png","*.jpg"));
-            fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fc.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
             fc.setTitle("Select folder");
             File f = fc.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
             if (f != null) {
@@ -622,7 +622,7 @@ public class Management_ProductController implements Initializable {
         Img_AppIcon.setOnMouseClicked((event) -> {
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG JPG", "*.png","*.jpg"));
-            fc.setInitialDirectory(new File("C:\\Users\\Admin\\Downloads"));
+            fc.setInitialDirectory(new File(Value.DEFAULT_FOLDER));
             fc.setTitle("Select folder");
             File f = fc.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
             if (f != null) {

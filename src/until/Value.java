@@ -64,7 +64,7 @@ public class Value {
     public static final String WSTAR_HALF  ="/icons/starWhiteHalfFill50.png";
     
     public static final String ICON_APP  ="/icons/icon_app.png";
-    public static final String DEFAULT_FOLDER  ="C:\\Users\\Admin\\Downloads";
+    public static final String DEFAULT_FOLDER  ="C:\\";
     public static final String EXAMPLE_LINK="https://axcelavietnam.com/wp-content/uploads/2020/04/the-big-picture-la-tu-vung-duoc-su-dung-pho-bien-trong-tieng-anh-thuong-mai.jpg";
     
     public static final String DEFAULT_EMAIL ="duongtanluc3565@gmail.com";

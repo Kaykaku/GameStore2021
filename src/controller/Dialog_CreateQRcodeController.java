@@ -19,14 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,7 +33,6 @@ import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 import until.Auth;
 import until.Dialog;
-import until.ProcessImage;
 import until.Value;
 
 /**
