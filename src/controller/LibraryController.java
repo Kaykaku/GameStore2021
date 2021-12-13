@@ -56,7 +56,7 @@ public class LibraryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {       
         fillLibraryBox();
-        txt_Search.setOnMouseClicked((event) -> {
+        txt_Search.setOnKeyPressed((event) -> {
             fillLibraryBox();
         });
     }
