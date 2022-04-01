@@ -1,4 +1,6 @@
-    <h1 style='background-color: gray;border-radius: 7px; width: max-content;padding: 5px;'>#GameStore2021</h1>
+<!DOCTYPE html>
+<html lang="en">
+ <h1 style='background-color: gray;border-radius: 7px; width: max-content;padding: 5px;'>#GameStore2021</h1>
     <hr>
     <h3> Author:</h3>
     <h3>PS17380_DuongTanLuc</h3>
