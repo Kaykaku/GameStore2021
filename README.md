@@ -25,4 +25,5 @@ Follow these steps to install
 	+ password: 123456
 	
 Have a nice day . I hope you like my project. Thank you!
-![GameStore_Login_1](https://user-images.githubusercontent.com/90887094/161197451-d19f2546-5420-44d1-ada5-98ccfc2ec779.jpg)
+<h3>1.Login</h3>
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/90887094/161202302-1dbbfe7d-018d-4a3a-bf20-5159bfebf492.gif)
