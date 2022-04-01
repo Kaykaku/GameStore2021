@@ -1,19 +1,3 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            background-color: #0D1117;
-            color: white;
-        }
-    </style>
-</head>
-
-<body>
     <h1 style='background-color: gray;border-radius: 7px; width: max-content;padding: 5px;'>#GameStore2021</h1>
     <hr>
     <h3> Author:</h3>
@@ -50,6 +34,3 @@
     <p>Have a nice day . I hope you like my project. Thank you!</p>
     <h3>1.Login</h3>
     <img src="https://user-images.githubusercontent.com/90887094/161202302-1dbbfe7d-018d-4a3a-bf20-5159bfebf492.gif">
-</body>
-
-</html>
